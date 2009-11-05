@@ -4,7 +4,7 @@ pro grid_wind
   ;; Input values
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-  ngrid = 30L
+  ngrid = 100L
   box_size = 20.           ; Total box size (kpc)
   dl = box_size / ngrid    ; Cell size (kpc) 
   v_wind  = 200.           ; Wind speed (km/s)

@@ -1,0 +1,29 @@
+In order to run the Monte carlo code, you will have to compile the gsl
+library.  Go into the gsl-1.9 directory and try "./configure" then
+"make".  You can also do a "make install" if you want it somewhere it
+can be seen easily.
+
+For more information go to:
+http://www.gnu.org/software/gsl/
+
+You will also need an mpi compiler (even if do not plan on running things
+in parallel.).  A standard packakge is mpich2, which is often already 
+installed on your machine.  IF not you can download and install at:
+http://www.mcs.anl.gov/research/projects/mpich2/
+
+The meat of the code is in the file outflow.cc.  All the model
+parameters are set at the beginning of that file.  You need to
+recompile the code each time you change a parameter.
+
+The density and velocity structures are set in the functions
+Get_Velocity() and Get_Density() in outflow.cc.  Right now these are
+set as power-laws, but It should be straightforward to change them to
+whatever you want.
+
+The final spectrum is output as "spec.dat"
+
+We can consider dust and other additions later.
+
+Let me know if you have any problems getting it to run.
+
+-dan 

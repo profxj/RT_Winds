@@ -83,13 +83,19 @@ pro grid_wind
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Emissivity
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  msk_corners = intarr(ngrid,ngrid,ngrid,8)
+  gd_corn = where(r_corners LT rg_outer)
+  msk_corners[gd_corn] = 1B
+
+  frac_cell = total(msk_corners,4)
+  emiss = float(frac_cell) / 8.
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Output
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   outfil = 'wind_grid.asc'
   close, /all
-  openw, outfil, 11
+  openw, 11, outfil
   for ii=0L,ngrid-1 do begin
       for jj=0L,ngrid-1 do begin
           writecol, 'bah', rho_grid[ii,jj,*], $
@@ -98,7 +104,11 @@ pro grid_wind
                     vz_grid[ii,jj,*], $
                     emiss[ii,jj,*], $
                     dopp[ii,jj,*], $
-                    FMT='(f6.4,1x,f6.1,1x,f6.1,1x,f6.1,1x,f4.2)'
+                    FMT='(f6.4,1x,f6.1,1x,f6.1,1x,f6.1,1x,f4.2,1x,f4.1)', $
+                    FILNUM=11
+      endfor
+  endfor
+  spawn, 'gzip -f '+outfil
   
   close, /all
   return

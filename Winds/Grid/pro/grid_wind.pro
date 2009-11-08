@@ -65,15 +65,19 @@ pro grid_wind
                               cell_center[*,*,*,1]^2 + $
                               cell_center[*,*,*,2]^2), $
                         ngrid,ngrid,ngrid)
-  speed_cell = v_wind - dv_wind/2. + dv_wind*(r_cell-rw_inner)/(rw_outer-rw_inner) 
+  speed_cell = v_wind - dv_wind/2. + $
+               dv_wind*(r_cell-rw_inner)/(rw_outer-rw_inner) 
   vx_grid = fltarr(ngrid,ngrid,ngrid)
   vy_grid = fltarr(ngrid,ngrid,ngrid)
   vz_grid = fltarr(ngrid,ngrid,ngrid)
-  vx_grid[*] = (speed_cell)[*] * (cell_center[*,*,*,0])[*] / r_cell 
-  vy_grid[*] = (speed_cell)[*] * (cell_center[*,*,*,1])[*] / r_cell 
-  vz_grid[*] = (speed_cell)[*] * (cell_center[*,*,*,2])[*] / r_cell 
+  vx_grid[*] = (speed_cell)[*] * (dl*cell_center[*,*,*,0])[*] / r_cell 
+  vy_grid[*] = (speed_cell)[*] * (dl*cell_center[*,*,*,1])[*] / r_cell 
+  vz_grid[*] = (speed_cell)[*] * (dl*cell_center[*,*,*,2])[*] / r_cell 
 
-  gd_cell = where(rho_grid GT 1e-3, complement=bad_cell, ngd)
+  print, max(vx_grid, min=mn), mn
+
+  gd_cell = where(rho_grid GT 0., $
+                  complement=bad_cell, ngd)
   vx_grid[bad_cell] = 0.
   vy_grid[bad_cell] = 0.
   vz_grid[bad_cell] = 0.
@@ -96,6 +100,7 @@ pro grid_wind
   outfil = 'wind_grid.asc'
   close, /all
   openw, 11, outfil
+  printf, 11, ngrid, dl
   for ii=0L,ngrid-1 do begin
       for jj=0L,ngrid-1 do begin
           writecol, 'bah', rho_grid[ii,jj,*], $
@@ -104,7 +109,7 @@ pro grid_wind
                     vz_grid[ii,jj,*], $
                     emiss[ii,jj,*], $
                     dopp[ii,jj,*], $
-                    FMT='(f6.4,1x,f6.1,1x,f6.1,1x,f6.1,1x,f4.2,1x,f4.1)', $
+                    FMT='(e12.4,1x,f7.1,1x,f7.1,1x,f7.1,1x,f4.2,1x,f4.1)', $
                     FILNUM=11
       endfor
   endfor

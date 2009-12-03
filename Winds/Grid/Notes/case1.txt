@@ -1,0 +1,15 @@
+1.  Why is there a thin shell of emission
+  surrounded by a diffuse 'ring'?
+
+2.  EW of emission is sensitive to slit
+  coverage of the wind.  Even a slit at 50%
+  only shows ~1/2 of the emission.  The 
+  actual luminosity is going to be a complicated
+  function of the wind geometry, kinematics and
+  slit size.  All the more motivation for an IFU.
+  
+3.  What is the emission profile at v=0 km/s in 
+  Kate's object?
+
+4.  The emission can fill in the absorption, 
+  on the red wing.

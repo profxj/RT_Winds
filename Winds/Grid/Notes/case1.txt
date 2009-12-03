@@ -13,3 +13,7 @@
 
 4.  The emission can fill in the absorption, 
   on the red wing.
+
+5. Absorption EW peaks at 0.25 slit width, 
+  probably to get sufficient Dv.  It reaches
+  zero EW at ~0.9 width

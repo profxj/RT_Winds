@@ -49,11 +49,11 @@ pro fig_1dspec, GRIDFIL
       oplot, wave, spec, color=xclr[qq], psym=10
 
       if qq EQ 0 then sv_spec = spec $
-      else oplot, wave, sv_spec, color=clr.black,psym=10
+      else oplot, wave, sv_spec, color=clr.black,psym=10, linesty=1
 
       ;; Label
-      oplot, replicate(2796.352,2), ymnx, color=clr.gray, linest=1
-      oplot, replicate(2803.531,2), ymnx, color=clr.gray, linest=1
+      oplot, replicate(2796.352,2), ymnx, color=clr.gray, linest=2
+      oplot, replicate(2803.531,2), ymnx, color=clr.gray, linest=2
       xyouts, xrng[0]+1., ymnx[1]-0.3, 'Slit='+string(slit[qq],format='(f4.2)'),$
               color=clr.black, charsiz=lsz
 

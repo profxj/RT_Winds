@@ -1,0 +1,7 @@
+v300_300_A.dat
+  double v_max     =  6.0e7;    // velocity at outer boundary (cm/s)
+  double v_law     =    0;      // power law of velocity profile
+  double v_min     =  3.0e7;    // velocity at inner boundary (cm/s)
+  double n_0       =  1e-2;     // number density at inner boundary
+  double n_law     =    0;      // -1*power law exponent of density law
+  double dust_dens   = 0.001;          // density of NH/dust, 1 gives tau=1

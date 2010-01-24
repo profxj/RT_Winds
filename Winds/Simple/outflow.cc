@@ -9,12 +9,12 @@
 #include "spectrum.hh"
 
 // monte carlo parameters
-double n_photons =  1e6;    // number of photons
+double n_photons =  2e6;    // number of photons
 double stepsize  = 0.01;   // maximum size of photon step 
 
 // output spectrum parameters
-double l_start   =  2790;     // beginning wavelength (Angstroms)
-double l_stop    =  2810;     // ending wavelength (Angstroms)
+double l_start   =  2780;     // beginning wavelength (Angstroms)
+double l_stop    =  2820;     // ending wavelength (Angstroms)
 double l_delta   =   0.1;     // wavelength resolution (Angstroms)
 double F_cont    =    1;      // continuum flux level
 int    n_mu      =    1;      // number of theta bins
@@ -24,15 +24,15 @@ int    n_phi     =    1;      // number of phi bins
 double r_inner   =  7.0;      // inner boundary radius, in kpc
 double r_outer   = 10.0;      // outer boundary radius, in kpc
 double r_emit    =  7.0;      // boundary to emit from
-double n_0       =  1e-2;     // number density at inner boundary
+double n_0       =  5e-2;     // number density at inner boundary
 double n_law     =    0;      // -1*power law exponent of density law
 double v_max     =  4.0e7;    // velocity at outer boundary (cm/s)
-double v_min     =  0.1e7;    // velocity at inner boundary (cm/s)
+double v_min     =  1.0e7;    // velocity at inner boundary (cm/s)
 double v_law     =    0;      // power law of velocity profile
 double bipolar   =    0;      // degree of bipolarity
 
-double dust_cs     = 3.33e-22;    // dust cross-section
-double dust_dens   = 0.2;          // density of NH/dust, 1 gives tau=1
+double dust_cs     = 3.33e-24;    // dust cross-section
+double dust_dens   = 0.;          // density of NH/dust, 1 gives tau=1
 double dust_albedo = 0.4;         // ratio of scattering to absorption
 
 

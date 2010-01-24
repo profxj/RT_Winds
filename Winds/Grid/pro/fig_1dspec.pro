@@ -1,6 +1,6 @@
 ;; Plot g(z) versus z
 ; fig_gz
-pro fig_1dspec, GRIDFIL
+pro fig_1dspec, GRIDFIL, TKRS=tkrs
 
   ;; Get structure if necessary
   if not keyword_set( PSFILE )  then psfile = 'fig_1dspec.ps'
@@ -64,7 +64,7 @@ pro fig_1dspec, GRIDFIL
 
       ;; Low-res
       if qq EQ 0 then begin
-          fwhm_pix = 3. / abs(wave[1]-wave[0])
+          fwhm_pix = 2.3 / abs(wave[1]-wave[0])
           nsmooth = fwhm_pix/(2.*sqrt(2*alog(2)))
           kernel = gauss_kernel(nsmooth)
           smth = convol(sv_spec, kernel,/edge_wrap)
@@ -72,6 +72,16 @@ pro fig_1dspec, GRIDFIL
           low_spec = congrid(smth, nlow)
           low_wave = congrid(wave, nlow)
           oplot, low_wave, low_spec, color=clr.orange, psym=10
+          ;; 
+          if keyword_set(TKRS) then begin
+              ztkrs = 0.694
+              tkrs_fx = x_readspec('../Simple/TKRS4389_b_mask_XF_031609.fits', $
+                                   wav=tkrs_wv,inf=2)
+              tkrs_wv = tkrs_wv/(1+ztkrs)
+              conti_tkrs = 0.694  ;; Odd!
+              scale = median(spec[where(wave GT 2808)])
+              oplot, tkrs_wv, tkrs_fx*scale/conti_tkrs, color=clr.cyan, psym=10
+          endif
       endif
 
   endfor

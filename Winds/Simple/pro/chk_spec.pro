@@ -16,7 +16,7 @@ pro chk_spec
 
   xmrg = [8,2]
   ymrg = [4.0,0.5]
-  xrng=[2790., 2808]
+  xrng=[min(wv,max=mwv),mwv]
   yrng=[0., max(fx)*1.05]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, xtitle='Rest Wavelength (Ang)', $

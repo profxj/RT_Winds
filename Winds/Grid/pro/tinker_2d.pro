@@ -48,6 +48,7 @@ if keyword_set(IDEAL) then begin
     spec2d = transpose(total(dat_slit,1))
     xatv, spec2d, /block, max=max(spec2d)*1.1, min=0., /inver
 endif
+stop
 
 ;;;;;;;;;;;;;;;;
 ;; 2D Spectral

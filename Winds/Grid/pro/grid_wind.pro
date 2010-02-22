@@ -7,12 +7,13 @@ pro grid_wind
   ngrid = 100L
   box_size = 20.           ; Total box size (kpc)
   dl = box_size / ngrid    ; Cell size (kpc) 
-  v_wind  = 200.           ; Wind speed (km/s)
+  v_wind  = 200.           ; Wind speed (km/s) at Inner boundary
   dv_wind = 200.           ; Velocity width of wind (km/s)
-  rw_inner = 7.            ; Inner boundary of the wind (kpc)
+  flg_wind = 1             ; Sets velocity law
+  rw_inner = 5.            ; Inner boundary of the wind (kpc)
   rw_outer = 10.           ; Outer boundary of the wind (kpc)
-  rg_outer =  3.           ; Outer boundary of galaxy (kpc)
-  doppler = 20.            ; Doppler parameter (km/s)
+  rg_outer =  2.           ; Outer boundary of galaxy (kpc)
+  doppler =  5.            ; Doppler parameter (km/s)
   density = 1e-2           ; Density within the wind
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -65,8 +66,13 @@ pro grid_wind
                               cell_center[*,*,*,1]^2 + $
                               cell_center[*,*,*,2]^2), $
                         ngrid,ngrid,ngrid)
-  speed_cell = v_wind - dv_wind/2. + $
-               dv_wind*(r_cell-rw_inner)/(rw_outer-rw_inner) 
+  case flg_wind of 
+      1: speed_cell = v_wind * r_cell/rw_inner 
+      2: speed_cell = v_wind + $
+                      dv_wind*(r_cell-rw_inner)/(rw_outer-rw_inner) 
+      else: stop
+  endcase
+
   vx_grid = fltarr(ngrid,ngrid,ngrid)
   vy_grid = fltarr(ngrid,ngrid,ngrid)
   vz_grid = fltarr(ngrid,ngrid,ngrid)

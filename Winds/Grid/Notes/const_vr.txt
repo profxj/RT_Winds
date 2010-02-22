@@ -1,0 +1,15 @@
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Input values
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  ngrid = 100L
+  box_size = 20.           ; Total box size (kpc)
+  dl = box_size / ngrid    ; Cell size (kpc) 
+  v_wind  = 200.           ; Wind speed (km/s) at Inner boundary
+  dv_wind = 200.           ; Velocity width of wind (km/s)
+  flg_wind = 1             ; Sets velocity law
+  rw_inner = 5.            ; Inner boundary of the wind (kpc)
+  rw_outer = 10.           ; Outer boundary of the wind (kpc)
+  rg_outer =  2.           ; Outer boundary of galaxy (kpc)
+  doppler =  5.            ; Doppler parameter (km/s)
+  density = 1e-2           ; Density within the wind

@@ -1,0 +1,5 @@
+Here's what I ended up sending to Dan a while ago, in both pdf and machine-readable form.  It's the table from our paper, but with only the "relevant" transitions.  I think we had initially discussed just trying out the UV1 set of lines, or maybe even just the 2600A resonance line with the 2626A fine structure line.  But then there was the appeal of seeing what happens with the 2382A resonance line (in the UV2 set), since it goes up to J=11/2 and has no fine-structure outlet (and we expect to see a P Cygni).  So I can't remember if we actually settled on anything specific, or if we were just going to do them all!  (Let me know what else I can send...)
+
+Looking forward to seeing your paper progress next week!  :)
+
+Kate

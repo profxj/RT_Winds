@@ -1,0 +1,44 @@
+I. Introduction
+
+II. Methodology
+  A.  Radiative transitions
+  B.  Code
+
+III. A Simple Example
+
+  A. The setup
+    Fig:  Cartoon?
+
+  B. 1D spectra
+    Fig:  Profiles in lambda and velocity space
+    Fig:  Incomplete slit coverage
+
+  C. 2D spectrum?
+
+  D. IFU
+    Fig:  MgII,  FeII*
+
+IV. Complexity
+  A. Vary density+velocity profile
+    i.  Murray
+   ii.  Energy driven?
+
+  B.  Asymmetric wind
+    i.  Note that this may be rare (high covering factor)
+
+  C.  Dust
+  D.  Clumpy wind
+
+V.  Empirical constraints
+  A. Kinematics
+    i. Absorption
+      1. Termination velocity
+      2. FeII profile gives better results?
+   ii. Emission
+      1. Slit size matters
+      2. sigma of emission (MgII and FeII*)
+      3. f_2796/f_2803 
+  B.  Sizes
+    i. FeII* absorption
+   ii. f(FeII*)/f_C
+  iii. EW ratio (emission/absorption)

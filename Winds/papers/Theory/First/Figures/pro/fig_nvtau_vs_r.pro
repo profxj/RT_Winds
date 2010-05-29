@@ -7,8 +7,8 @@ pro fig_nvtau_vs_r, RREAL=rreal
 
   if not keyword_set(dv) then dv = 1.
   if not keyword_set(NPTS) then npts = 100L                  ; Log steps
-  if not keyword_set(v_0) then v_0 = 100.  ; km/s
-  if not keyword_set(n_0) then n_0 = 0.2  ; cm^-3
+  if not keyword_set(v_0) then v_0 = 70.  ; km/s
+  if not keyword_set(n_0) then n_0 = 0.1  ; cm^-3
   if not keyword_set(b_val) then b_val = 15. ; km/s
   if not keyword_set(DUST) then dust = 0.1  ; Depletion
   if not keyword_set(METAL) then metal = 0.  ; [M/H]
@@ -22,7 +22,8 @@ pro fig_nvtau_vs_r, RREAL=rreal
   dr[0] = dr[1] 
 
   ;; Velocity
-  v_r = v_0 * sqrt(rval / r0)
+;  v_r = v_0 * sqrt(rval / r0)
+  v_r = v_0 * rval / r0
 
   ;; Density
   n_r = n_0 * (rval/r0)^(-2)
@@ -35,7 +36,7 @@ pro fig_nvtau_vs_r, RREAL=rreal
   lines.N = alog10(dr * c.kpc * n_r * 10.^(7.53-12.+METAL) * DUST)
   lines.zabs = v_r/3e5
 
-  npix = 500L
+  npix = 2000L
   wav = 10.^(alog10(2795.) + dindgen(npix)*1.449d-6)
   vel = (wav-wrest)/wrest * 3e5
   dvel = median(vel-shift(vel,1))  ; Should be 1 km/s
@@ -51,7 +52,7 @@ pro fig_nvtau_vs_r, RREAL=rreal
   ;; MgII Spectrum 
   xmrg = [8,1]
   ymrg = [4.0,1]
-  yrng=[0.1, 500]
+  yrng=[0.1, 1000.]
   xrng=[1., 10]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, $
@@ -63,7 +64,7 @@ pro fig_nvtau_vs_r, RREAL=rreal
   oplot, rval, n_r*100, color=clr.black
 
   ;; Velocity
-  oplot, rval, v_r, color=clr.blue
+  oplot, rval, v_r, color=clr.blue, linesty=1
 
   ;; Tau
   r_tau = fltarr(npix)
@@ -73,7 +74,7 @@ pro fig_nvtau_vs_r, RREAL=rreal
      mn = min(abs(vel[gd[ii]]-v_r), imn)
      r_tau[gd[ii]] = rval[imn]
   endfor
-  oplot, r_tau[gd], tau[gd], color=clr.red, psym=10
+  oplot, r_tau[gd], tau[gd], color=clr.red, psym=10, linesty=2
 
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]

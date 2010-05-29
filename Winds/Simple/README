@@ -27,3 +27,12 @@ We can consider dust and other additions later.
 Let me know if you have any problems getting it to run.
 
 -dan 
+
+---------------------
+1) Edit outflow.cc
+2) make
+3) mpirun -np 4 ./a.out
+4)  IDL>  chk_spec
+
+
+

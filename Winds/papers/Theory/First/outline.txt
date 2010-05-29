@@ -1,3 +1,6 @@
+Simple Models of Low-ion Absorption and Emisison
+in Galactic-Scale Outflows
+
 I. Introduction
 
 II. Methodology
@@ -8,6 +11,7 @@ III. A Simple Example
 
   A. The setup
     Fig:  Cartoon?
+    Fig:  tau, velocity profiles versus r
 
   B. 1D spectra
     Fig:  Profiles in lambda and velocity space
@@ -26,8 +30,10 @@ IV. Complexity
   B.  Asymmetric wind
     i.  Note that this may be rare (high covering factor)
 
-  C.  Dust
-  D.  Clumpy wind
+  C.  Dust?
+  D.  Clumpy wind (with decreasing covering fraction)
+  E.  Add a v=0 km/s component (and even do a stationary component)
+
 
 V.  Empirical constraints
   A. Kinematics
@@ -42,3 +48,4 @@ V.  Empirical constraints
     i. FeII* absorption
    ii. f(FeII*)/f_C
   iii. EW ratio (emission/absorption)
+   iv. MgII, FeII* emission

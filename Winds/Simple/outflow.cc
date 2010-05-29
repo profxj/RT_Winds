@@ -21,14 +21,14 @@ int    n_mu      =    1;      // number of theta bins
 int    n_phi     =    1;      // number of phi bins
 
 // grid parameters
-double r_inner   =  7.0;      // inner boundary radius, in kpc
+double r_inner   =  1.0;      // inner boundary radius, in kpc
 double r_outer   = 10.0;      // outer boundary radius, in kpc
-double r_emit    =  7.0;      // boundary to emit from
-double n_0       =  5e-2;     // number density at inner boundary
-double n_law     =    0;      // -1*power law exponent of density law
+double r_emit    =  0.1;      // boundary to emit from
+double n_0       =  1e-1;     // number density at inner boundary
+double n_law     =    2.;      // -1*power law exponent of density law
 double v_max     =  4.0e7;    // velocity at outer boundary (cm/s)
-double v_min     =  1.0e7;    // velocity at inner boundary (cm/s)
-double v_law     =    0;      // power law of velocity profile
+double v_min     =  70.*1e5;    // velocity at inner boundary (cm/s)
+double v_law     =    1.0;      // power law of velocity profile
 double bipolar   =    0;      // degree of bipolarity
 
 double dust_cs     = 3.33e-24;    // dust cross-section
@@ -45,9 +45,9 @@ double lambda_0[]   = {2796.352, 2803.531};
 // line oscillator strengths
 double f_lu[]       = {0.6123,     0.3054}; 
 // abundances of element of line
-double abun[]       = {8.5e-5, 8.5e-5};
+double abun[]       = {3.4e-6, 3.4e-6};  // Solar metallicity and 1/10 down for dust
  // lines doppler velocity in cm/s
-double v_doppler    =   1e6;              
+double v_doppler    =   15*1e5;              
 
 // parameters describing voigt profile
 double voigt_a   = 0.1;
@@ -107,7 +107,8 @@ int main(int argc, char **argv)
 double Get_Velocity(double *x, double r)
 {
   //  return v_max*pow(r/r_outer,v_law);
-  return v_min + (r-r_inner)/(r_outer-r_inner) * (v_max-v_min);
+  // return v_min + (r-r_inner)/(r_outer-r_inner) * (v_max-v_min);
+  return v_min * pow(r/r_inner, v_law);
 }
 
 
@@ -118,6 +119,7 @@ double Get_Density(double *x, double r)
 {
   if (r == 0) return 0;
   if (r < r_inner) return 0;
+  //  if (r > r_outer) return 0;
   double mu = x[2]/r;
   return n_0*pow(r_inner/r,n_law)*pow(mu*mu,2*bipolar);
 }

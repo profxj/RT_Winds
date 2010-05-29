@@ -7,7 +7,9 @@ pro chk_spec
 
 
   ;; Read
-  readcol, 'spec.dat', wv, fx
+  file = 'spec.dat'
+  print, 'Reading ', file
+  readcol, file, wv, fx
 
   ;; Plot
   x_psopen, psfile, /maxs

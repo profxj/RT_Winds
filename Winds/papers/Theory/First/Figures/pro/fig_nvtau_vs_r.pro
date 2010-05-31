@@ -1,22 +1,22 @@
 pro fig_nvtau_vs_r, RREAL=rreal
 
   if not keyword_set( PSFILE ) then psfile = 'fig_nvtau_vs_r.ps'
-  if not keyword_set(CSZ) then csz = 1.9
-  if not keyword_set(lSZ) then lsz = 1.5
+  if not keyword_set(CSZ) then csz = 2.0
+  if not keyword_set(lSZ) then lsz = 2.0
   if not keyword_set(XNCOLORS) then xncolors=200L
 
   if not keyword_set(dv) then dv = 1.
   if not keyword_set(NPTS) then npts = 100L                  ; Log steps
-  if not keyword_set(v_0) then v_0 = 70.  ; km/s
+  if not keyword_set(v_0) then v_0 = 50.  ; km/s
   if not keyword_set(n_0) then n_0 = 0.1  ; cm^-3
   if not keyword_set(b_val) then b_val = 15. ; km/s
   if not keyword_set(DUST) then dust = 0.1  ; Depletion
-  if not keyword_set(METAL) then metal = 0.  ; [M/H]
+  if not keyword_set(METAL) then metal = -0.3  ; [M/H]
 
   c = x_constants()
   ;; Radius
   r0 = 1.  ; kpc
-  r1 = 10.
+  r1 = 20. ; kpc
   rval = r0 * exp( alog(r1/r0) * findgen(npts)/float(npts-1) )
   dr = rval - shift(rval,1)  ; kpc
   dr[0] = dr[1] 
@@ -50,13 +50,14 @@ pro fig_nvtau_vs_r, RREAL=rreal
 
 
   ;; MgII Spectrum 
-  xmrg = [8,1]
+  xmrg = [9,1]
   ymrg = [4.0,1]
-  yrng=[0.1, 1000.]
-  xrng=[1., 10]
+  yrng=[0.01, 50.]
+  xrng=[r0, r1]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, $
-        ytitle='n!dH!u!N [x100, cm!u-3!N];   v [km s!u-1!N];  !9t!X!d2796!N', $
+        ytitle='n!dr!u!N [x10!u2!N, cm!u-3!N];   v!dr!N [x10!u-2!N km s!u-1!N];  ' + $
+        '!9t!X!d2796!N', $
         xtitle='Radius (kpc)', yrange=yrng, thick=4, $
         xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /ylog
 
@@ -64,7 +65,7 @@ pro fig_nvtau_vs_r, RREAL=rreal
   oplot, rval, n_r*100, color=clr.black
 
   ;; Velocity
-  oplot, rval, v_r, color=clr.blue, linesty=1
+  oplot, rval, v_r/100., color=clr.blue, linesty=1
 
   ;; Tau
   r_tau = fltarr(npix)
@@ -75,6 +76,12 @@ pro fig_nvtau_vs_r, RREAL=rreal
      r_tau[gd[ii]] = rval[imn]
   endfor
   oplot, r_tau[gd], tau[gd], color=clr.red, psym=10, linesty=2
+
+  ;; Label
+  xlbl = 12.
+  xyouts, xlbl, 12., 'v!dr!N', color=clr.blue, charsiz=lsz
+  xyouts, xlbl, 0.7, '!9t!X!d2796!N', color=clr.red, charsiz=lsz
+  xyouts, xlbl, 0.1, 'n!dr!N', color=clr.black, charsiz=lsz
 
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]

@@ -22,12 +22,12 @@ int    n_phi     =    1;      // number of phi bins
 
 // grid parameters
 double r_inner   =  1.0;      // inner boundary radius, in kpc
-double r_outer   = 10.0;      // outer boundary radius, in kpc
-double r_emit    =  0.1;      // boundary to emit from
+double r_outer   = 20.0;      // outer boundary radius, in kpc
+double r_emit    =  0.2;      // boundary to emit from
 double n_0       =  1e-1;     // number density at inner boundary
 double n_law     =    2.;      // -1*power law exponent of density law
 double v_max     =  4.0e7;    // velocity at outer boundary (cm/s)
-double v_min     =  70.*1e5;    // velocity at inner boundary (cm/s)
+double v_min     =  50.*1e5;    // velocity at inner boundary (cm/s)
 double v_law     =    1.0;      // power law of velocity profile
 double bipolar   =    0;      // degree of bipolarity
 
@@ -46,6 +46,7 @@ double lambda_0[]   = {2796.352, 2803.531};
 double f_lu[]       = {0.6123,     0.3054}; 
 // abundances of element of line
 double abun[]       = {3.4e-6, 3.4e-6};  // Solar metallicity and 1/10 down for dust
+double metallicity       = 0.5;                 // 1 = Solar
  // lines doppler velocity in cm/s
 double v_doppler    =   15*1e5;              
 
@@ -194,7 +195,7 @@ void Run_Monte_Carlo(char *outfile)
 	tau_r     =  -1.0*log(1 - gsl_rng_uniform(rangen));
 	nu_d = (C_LIGHT/lambda_0[l]/ANGS_TO_CM)*(v_doppler/C_LIGHT);
 	cross_sec = CLASSICAL_CS*f_lu[l]*voigt.Profile(xloc)/nu_d;
-	tau_x     = KPARSEC*Get_Density(r,rad)*abun[l]*cross_sec;
+	tau_x     = KPARSEC*Get_Density(r,rad)*abun[l]*metallicity*cross_sec;
 	l_step = tau_r/tau_x;
 	if (tau_x == 0) l_step = VERY_LARGE_NUMBER;
 	if (l_step < step) {step = l_step; scatter = l; }

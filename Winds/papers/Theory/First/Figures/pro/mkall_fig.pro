@@ -27,6 +27,9 @@ pro mkall_fig
            '../Analysis/Outputs/fiducial_grid.fits', 'fig_fiducial_ifu_feii2612.ps', $
            ymnx=[-20,20], xrng=[-600, 500], yrng=[0.9, 1.2]
 
+  fig_spatial_cut, 2796.35, [-200., 0., 125, 300], $
+           '../Analysis/Outputs/fiducial_grid.fits', 'fig_scut_fiducial_mgii.ps', $
+           xrng=[-20,20], yrng=[1e-4, 1e0]
 
 ;;;;;;;;;;;;;;;;
 

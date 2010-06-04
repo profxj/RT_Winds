@@ -15,9 +15,9 @@ III. A Simple Example
 
   B. 1D spectra
     Fig:  Profiles in lambda and velocity space
-    Fig:  Incomplete slit coverage
+    Fig:  Incomplete slit coverage?? [Save for later]
 
-  C. 2D spectrum?
+  C. 2D spectrum?  No.
 
   D. IFU
     Fig:  MgII,  FeII*
@@ -26,6 +26,8 @@ IV. Complexity
   A. Vary density+velocity profile
     i.  Murray
    ii.  Energy driven?
+  iii.  Invert the wind speed (i.e. v_max at r_min)
+   iv.  Asymmetric emissivity
 
   B.  Asymmetric wind
     i.  Note that this may be rare (high covering factor)

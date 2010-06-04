@@ -1,18 +1,18 @@
-pro fig_fiducial_ifu_mgii, RREAL=rreal
+pro fig_ifu, wrest, dv, grid_file, psfile, YMNX=ymnx, XRNG=xrng, YRNG=yrng
 
-  if not keyword_set( PSFILE ) then psfile = 'fig_fiducial_ifu_mgii.ps'
-  if not keyword_set( GRID_FILE ) then $
-    grid_file = '../Analysis/Outputs/fiducial_grid.fits'
   if not keyword_set(PAD_FRAC) then pad_frac = 0.1
   if not keyword_set(CSZ) then csz = 1.1
   if not keyword_set(CSZ2) then csz2 = 1.1
   if not keyword_set(lSZ) then lsz = 1.5
   if not keyword_set(XNCOLORS) then xncolors=200L
-  if not keyword_set(YMNX) then ymnx = [-20,20]  ; kpc (size of box)
+  if not keyword_set(YMNX) then ymnx = [-10,10]  ; kpc (size of box)
+  if not keyword_set(XRNG) then xrng=[-600., 1200]
+  if not keyword_set(YRNG) then yrng=[0., 2.5]
 
   ;; Read in MgII Data
-  raw_data = xmrdfits(grid_file, 2, /silent)
-  raw_wave = xmrdfits(grid_file, 3, /silent)
+  if wrest GT 2700. then idx = [2,3] else idx = [0,1]
+  raw_data = xmrdfits(grid_file, idx[0], /silent)
+  raw_wave = xmrdfits(grid_file, idx[1], /silent)
   dwv = abs(raw_wave[1]-raw_wave[0])
   raw_data = float(raw_data)
   sz_raw = size(raw_data,/dimen)
@@ -21,9 +21,9 @@ pro fig_fiducial_ifu_mgii, RREAL=rreal
   z0 = sz_raw[0]/2 - off 
   z1 = sz_raw[0]/2 + off
 
-  dv = [-1500., 0., 125, 300]
-  img_wave = 2796.35 + dv/3e5 * 2796.35
+  img_wave = wrest + dv/3e5 * wrest
   ncut = n_elements(dv)
+  if ncut GT 4 then stop
 
   ;; Spectrum first
 
@@ -31,21 +31,21 @@ pro fig_fiducial_ifu_mgii, RREAL=rreal
   clr = getcolor(/load)
   xmrg = [8,7]
   ymrg = [4.0,1]
-  yrng=[0., 2.5]
-  xrng=[-600., 1200]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, ytitle='Flux', $
         xtitle='v (km s!u-1!N)', yrange=yrng, thick=4, $
         xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, $
-        pos=[0.15, 0.43, 0.85, 0.57]
+        pos=[0.10, 0.42, 0.90, 0.59]
 
 
   spec = total(total(raw_data,1),1)
-  vel = (raw_wave-2796.35)/2796.35 * 3e5  ;; km/s
+  vel = (raw_wave-wrest)/wrest * 3e5  ;; km/s
   oplot, vel, spec, color=clr.black, psym=10, thick=3
 
   for jj=0L,ncut-1 do $
       oplot, replicate(dv[jj],2), yrng, color=clr.gray, lines=1
+
+  oplot, xrng, [1.,1.], color=clr.red, linest=2, thick=2
 
   ;; IFU shots next
 
@@ -67,15 +67,16 @@ pro fig_fiducial_ifu_mgii, RREAL=rreal
 
   ;; Color bars
   ctload, 0, ncolors=xncolors;, /rever
-  coyote_colorbar, pos=[0.48, 0.66, 0.52, 0.96], /verti, range=alog10(irange1), $
+  coyote_colorbar, pos=[0.50, 0.66, 0.54, 0.96], /verti, range=alog10(irange1), $
                    ncolor=xncolors, /invert, FORMAT='(f4.1)'
 
-  coyote_colorbar, pos=[0.48, 0.03, 0.52, 0.33], /verti, range=alog10(irange2), $
-                   ncolor=xncolors, /invert, FORMAT='(f4.1)'
+  if ncut GT 2 then $
+     coyote_colorbar, pos=[0.50, 0.03, 0.54, 0.33], /verti, range=alog10(irange2), $
+                      ncolor=xncolors, /invert, FORMAT='(f4.1)'
 
   xpos1 = [0.5, 4.7, 0.5, 4.7]
   ypos1 = [6., 6., 0.3, 0.3]
-  for qq=0,3 do begin
+  for qq=0,ncut-1 do begin
 
       if qq LE 1 then irange = irange1 else irange = irange2
 
@@ -122,8 +123,8 @@ pro fig_fiducial_ifu_mgii, RREAL=rreal
       clr = getcolor(/load)
       if round(dv[qq]) LT 0. then pclr = clr.blue else pclr=clr.red
       if abs(round(dv[qq])) LT 10. then pclr = clr.black
-      xyouts, -9., 8., 'v='+strtrim(round(dv[qq]),2),color=pclr, $
-              charsiz=lsz
+      xyouts, ymnx[0]+0.1*(ymnx[1]-ymnx[0]), ymnx[0]+0.8*(ymnx[1]-ymnx[0]),  $
+              'v='+strtrim(round(dv[qq]),2),color=pclr, charsiz=lsz
   endfor
   
   if keyword_set( PSFILE ) then x_psclose

@@ -2,7 +2,7 @@ pro fig_1dspec, RREAL=rreal
 
   if not keyword_set( PSFILE ) then psfile = 'fig_1dspec.ps'
   if not keyword_set( GRIDFIL ) then $
-    gridfil = '/u/xavier/RadTransfer/Winds/Grid/spec_cube.fits'
+    gridfil = '../Analysis/Outputs/fiducial_mgII.fits'
   if not keyword_set(PAD_FRAC) then pad_frac = 0.1
   if not keyword_set(CSZ) then csz = 1.1
   if not keyword_set(CSZ2) then csz2 = 2.0

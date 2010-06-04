@@ -1,0 +1,12 @@
+-----------
+GRIDS
+-----------
+
+1)  Fiducial
+  grid_fiducial.pro
+  v ~ r
+  n ~ r^-2
+  peak tau = 2796  (see fig_nvtau_vs_r.ps)
+
+2) Asymmetric
+  grid_asymmetric.pro

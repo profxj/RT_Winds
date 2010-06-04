@@ -1,19 +1,25 @@
-pro fig_fiducial_1d, RREAL=rreal
+pro fig_noemiss, GRID_FILE, PSFILE
 
-  if not keyword_set( PSFILE ) then psfile = 'fig_fiducial_1d.ps'
+  if not keyword_set( PSFILE ) then psfile = 'fig_noemiss.ps'
   if not keyword_set( GRID_FILE ) then $
     grid_file = '../Analysis/Outputs/fiducial_grid.fits'
-  if not keyword_set(PAD_FRAC) then pad_frac = 0.1
   if not keyword_set(CSZ) then csz = 1.3
   if not keyword_set(CSZ2) then csz2 = 2.3
   if not keyword_set(lSZ) then lsz = 1.5
   if not keyword_set(lSZ2) then lsz2 = 1.3
   if not keyword_set(XNCOLORS) then xncolors=200L
+  if not keyword_set(YRNG) then yrng=[0., 1.5]
 
   if not keyword_set(MGII_REST) then mgii_rest = 2796.35d
 
+  ;;; BEGIN PLOTS
+  x_psopen, psfile, /portrait
+  !p.multi = [0,1,2]
+  clr = getcolor(/load)
+
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Read in MgII Data
+  ;; MgII first
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   mgII_data = xmrdfits(grid_file, 2, /silent)
   mgII_wave = xmrdfits(grid_file, 3, /silent)
   dwv_mgII = abs(mgii_wave[1]-mgii_wave[0])
@@ -22,19 +28,16 @@ pro fig_fiducial_1d, RREAL=rreal
 
   spec_mgii = total(total(mgii_data,1),1)
 
-  ;;; BEGIN PLOTS
-  x_psopen, psfile, /maxs
-  clr = getcolor(/load)
-
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Plot MgII
-  yrng=[0., 2.5]
   xrng=[2786., 2810]
-  pos=[0.08, 0.6, 0.48, 0.95]
+  xmrg = [10, 1]
+  ymrg = [5, 1]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
+        xmarg=xmrg, ymarg=ymrg, $
         ytitle='Normalized Flux', $
         xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
-        xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, $
-        pos=pos
+        xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata
 
   oplot, mgii_wave, spec_mgii, color=clr.black, psym=10, thick=3
 
@@ -45,6 +48,18 @@ pro fig_fiducial_1d, RREAL=rreal
   xyouts, xrng[0]+xlbl*(xrng[1]-xrng[0]), yrng[1]*ylbl, $
           'MgII', color=clr.black, charsiz=lsz
   oplot, xrng, [1., 1.], color=clr.red, linestyle=1, thick=1
+
+  ;; No emission
+  fig_nvtau_vs_r, strct=strct
+  wrest = strct.wrest
+  wave = wrest - wrest * strct.vel / 3e5
+  oplot, wave, exp(-1.*(strct.tau < 10)), color=clr.red, psym=10
+
+  ;; 2803
+  wrest = 2803.531d
+  wave = wrest - wrest * strct.vel / 3e5
+  tau = strct.tau / 2
+  oplot, wave, exp(-1.*(tau < 10)), color=clr.red, psym=10
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Read in FeII Data
@@ -58,14 +73,11 @@ pro fig_fiducial_1d, RREAL=rreal
 
   ;; Plot FeII
   yrng=[0., 1.8]
-  xrng=[2580, 2635]
-  pos[1]=0.17
-  pos[3]=0.52
+  xrng=[2580, 2605]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         ytitle='Normalized Flux', $
         xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
-        xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, $
-        pos=pos, /noeras
+        xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata
 
   oplot, feii_wave, spec_feII, color=clr.black, psym=10, thick=3
 
@@ -75,55 +87,19 @@ pro fig_fiducial_1d, RREAL=rreal
           'FeII', color=clr.black, charsiz=lsz
   oplot, xrng, [1., 1.], color=clr.red, linestyle=1, thick=1
 
+  ;; No emission
+  wrest = 2586.650
+  getfnam, wrest, f, nam
+  wave = wrest - wrest * strct.vel / 3e5
+  tau = strct.tau * wrest / strct.wrest * f / strct.fval
+  oplot, wave, exp(-1.*(tau < 10)), color=clr.red, psym=10
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Velocity plot
-  trans = [2586.650, 2600.1729, 2612.6542d, 2803.531, 2796.352]
-  ntrans = n_elements(trans)
-  !p.multi = [ntrans+1,2,ntrans+1,0,1]
+  wrest = 2600.1729d
+  getfnam, wrest, f, nam
+  wave = wrest - wrest * strct.vel / 3e5
+  tau = strct.tau * wrest / strct.wrest * f / strct.fval
+  oplot, wave, exp(-1.*(tau < 10)), color=clr.red, psym=10
 
-  xmrg = [8,3]
-  ymrg = [0,0]
-  xrng=[-1000, 500]
-  xtit = ''
-
-  for qq=0L,ntrans-1 do begin
-
-     ;; Load up
-     if trans[qq] LT 2700. then begin
-        wave = feii_wave
-        spec = spec_feii
-        if trans[qq] GT 2605 then yrng=[0.91, 1.24] else yrng=[0., 1.8]
-     endif else begin
-        wave = mgii_wave
-        spec = spec_mgii
-        yrng=[0., 2.4]
-     endelse
-
-     if qq EQ (ntrans-1) then delvarx, xspaces $ 
-     else xspaces = replicate(' ',30) 
-     if qq EQ (ntrans-1) then xtit = 'Normalized Velocity (km s!u-1!N)'
-
-     plot, [0], [0], color=clr.black, background=clr.white, charsize=csz2,$
-           xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $
-           xtitle=xtit, yrange=yrng, thick=4, $
-           xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, $
-           xtickn=xspaces
-
-     vel = (wave-trans[qq])/trans[qq] * 3e5  ;; km/s
-     oplot, vel, spec, color=clr.black, psym=10, thick=3
-     ;; Lines and labels
-     oplot, [0., 0.], yrng, color=clr.blue, linestyle=2, thick=1
-;     oplot, xrng, [0., 0.], color=clr.green, linestyle=1, thick=1
-     oplot, xrng, [1., 1.], color=clr.red, linestyle=1, thick=1
-
-     getfnam, trans[qq], fv, nam 
-     nam = strtrim(nam,2)
-     xyouts, 0.70*(xrng[1]-xrng[0])+xrng[0], $
-             yrng[0]+ (yrng[1]-yrng[0])*0.10, $
-             strtrim(nam,2), color=clr.black, charsize=LSZ2
-  endfor
-  
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]
 

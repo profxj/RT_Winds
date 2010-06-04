@@ -1,0 +1,2 @@
+1. Include Dan's calculation of minimum depth
+for line profile  ~ r_wind/r_source

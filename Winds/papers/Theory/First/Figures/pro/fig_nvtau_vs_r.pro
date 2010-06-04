@@ -1,4 +1,4 @@
-pro fig_nvtau_vs_r, RREAL=rreal
+pro fig_nvtau_vs_r, RREAL=rreal, STRCT=strct
 
   if not keyword_set( PSFILE ) then psfile = 'fig_nvtau_vs_r.ps'
   if not keyword_set(CSZ) then csz = 2.0
@@ -42,7 +42,17 @@ pro fig_nvtau_vs_r, RREAL=rreal
   dvel = median(vel-shift(vel,1))  ; Should be 1 km/s
 
   fx = x_voigt(wav, lines, /nosmooth, TAU=tau)
-  
+
+  if arg_present(STRCT) then begin
+     strct = { $
+             wrest: wrest, $
+             wave: wav, $
+             fval: mgii.f, $
+             vel: vel, $
+             tau: tau $
+             }
+     return
+  endif
 
   ;; Plot
   x_psopen, psfile, /maxs

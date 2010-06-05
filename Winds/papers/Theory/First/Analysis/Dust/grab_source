@@ -1,0 +1,9 @@
+##
+cp ../../../../../Simple/voigt.cc .
+cp ../../../../../Simple/voigt.hh .
+cp ../../../../../Simple/locate_array.cc .
+cp ../../../../../Simple/locate_array.hh .
+cp ../../../../../Simple/cdf.cc .
+cp ../../../../../Simple/cdf.hh .
+cp ../../../../../Simple/spectrum.cc .
+cp ../../../../../Simple/spectrum.hh .

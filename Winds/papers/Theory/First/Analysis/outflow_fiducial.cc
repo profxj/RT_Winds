@@ -24,7 +24,7 @@ int    n_phi     =    1;      // number of phi bins
 double r_inner   =  1.0;      // inner boundary radius, in kpc
 double r_outer   = 20.0;      // outer boundary radius, in kpc
 double r_emit    =  0.2;      // boundary to emit from
-double n_0       =  1e-1;     // number density at inner boundary (cm^-3)
+double n_0       =  1e-1;     // number density at inner boundary
 double n_law     =    2.;      // -1*power law exponent of density law
 double v_max     =  4.0e7;    // velocity at outer boundary (cm/s)
 double v_min     =  50.*1e5;    // velocity at inner boundary (cm/s)
@@ -32,11 +32,8 @@ double v_law     =    1.0;      // power law of velocity profile
 double bipolar   =    0;      // degree of bipolarity
 
 double dust_cs     = 3.33e-24;    // dust cross-section
-double dust_tau   = 1.;          // Optical depth of dust through the wind (r=0 to Infinity)
-double omnl = 1-n_law;
-double nH_colm   =  n_0 * pow(r_inner,n_law)  * ( pow(r_outer,omnl)-pow(r_inner,omnl) ) / omnl;
-double dust_norm   =  dust_tau / dust_cs /  nH_colm / KPARSEC ;  // Normalization to give dust_tau
-double dust_albedo = 0.0;         // ratio of scattering to absorption
+double dust_dens   = 0.;          // density of NH/dust, 1 gives tau=1
+double dust_albedo = 0.4;         // ratio of scattering to absorption
 
 
 // line parameters
@@ -68,9 +65,6 @@ int verbose;             // output parameter
 //--------------------------------------------
 int main(int argc, char **argv)
 {
-
-  // Dust info
-    printf("# NH_COLM %.3e, dust_norm %.3e\n", nH_colm,dust_norm);
   void Run_Monte_Carlo(char*);
 
   // initialize MPI for parallelism
@@ -95,7 +89,6 @@ int main(int argc, char **argv)
   if (verbose)
     printf("# Sending %.3e photons on %d procs (%.3e total photons)\n",
 	   n_photons,n_procs,n_photons*n_procs);
-
 
 
   // Do the monte carlo calculation
@@ -147,7 +140,7 @@ void Run_Monte_Carlo(char *outfile)
   double vd_inc, vd_out, l_step, d_step;
   double u0,u1,u2, R10, R11, rad, vel;
   double uvec[3];
-  double nu_d, cross_sec, dens_H;
+  double nu_d, cross_sec;
 
   // functions to call
   void MPI_Average_Array(double *, int);
@@ -189,8 +182,6 @@ void Run_Monte_Carlo(char *outfile)
       lam_loc = lam*(1 + vel*(r[0]*D[0] + r[1]*D[1] + r[2]*D[2])/rad);
       if (rad == 0) lam_loc = lam;
 
-      dens_H = Get_Density(r,rad); 
-
       // default step size
       step = stepsize;
 
@@ -204,8 +195,7 @@ void Run_Monte_Carlo(char *outfile)
 	tau_r     =  -1.0*log(1 - gsl_rng_uniform(rangen));
 	nu_d = (C_LIGHT/lambda_0[l]/ANGS_TO_CM)*(v_doppler/C_LIGHT);
 	cross_sec = CLASSICAL_CS*f_lu[l]*voigt.Profile(xloc)/nu_d;
-	tau_x     = KPARSEC*dens_H*abun[l]*metallicity*cross_sec;
-	// tau_x     = KPARSEC*Get_Density(r,rad)*abun[l]*metallicity*cross_sec;
+	tau_x     = KPARSEC*Get_Density(r,rad)*abun[l]*metallicity*cross_sec;
 	l_step = tau_r/tau_x;
 	if (tau_x == 0) l_step = VERY_LARGE_NUMBER;
 	if (l_step < step) {step = l_step; scatter = l; }
@@ -213,7 +203,7 @@ void Run_Monte_Carlo(char *outfile)
 
       // get distance to dust scatter/absorption
       tau_r = -1.0*log(1 - gsl_rng_uniform(rangen));
-      tau_x = KPARSEC*dens_H*dust_norm*dust_cs;
+      tau_x = KPARSEC*dust_dens*dust_cs;
       d_step = tau_r/tau_x;
       if (tau_x == 0) d_step = VERY_LARGE_NUMBER;
       if (d_step < step) {step = d_step; scatter = -1; dust_scatter = 1; }

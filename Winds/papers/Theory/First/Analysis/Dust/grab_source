@@ -7,3 +7,4 @@ cp ../../../../../Simple/cdf.cc .
 cp ../../../../../Simple/cdf.hh .
 cp ../../../../../Simple/spectrum.cc .
 cp ../../../../../Simple/spectrum.hh .
+cp ../../../../../Simple/physical_constants.hh .

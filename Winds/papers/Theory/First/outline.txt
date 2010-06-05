@@ -35,7 +35,7 @@ IV. Complexity
   C.  Dust?
   D.  Clumpy wind (with decreasing covering fraction)
   E.  Add a v=0 km/s component (and even do a stationary component)
-  F.  Size of emitting region vs inner radius of the wind
+  F.  Size of emitting region 
 
 
 V.  Empirical constraints

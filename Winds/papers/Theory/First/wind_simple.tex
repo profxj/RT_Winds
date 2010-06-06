@@ -4,10 +4,16 @@
 \begin{document}
 
 
-\newcommand{\naid}{\ion{Na}{I}~$\lambda\lambda 5891, 5897$}
+\newcommand{\naid}{\ion{Na}{1}~$\lambda\lambda 5891, 5897$}
 \newcommand{\mgiid}{\ion{Mg}{2}~$\lambda\lambda 2796, 2803$}
 \newcommand{\mgiia}{\ion{Mg}{2}~$\lambda 2796$}
 \newcommand{\mgiib}{\ion{Mg}{2}~$\lambda 2803$}
+\newcommand{\feiia}{\ion{Fe}{2}~$\lambda 2586$}
+\newcommand{\feiib}{\ion{Fe}{2}~$\lambda 2600$}
+\newcommand{\nmg}{$n_{\rm Mg^+}$}
+\newcommand{\mnmg}{n_{\rm Mg^+}}
+\newcommand{\nfe}{$n_{\rm Fe^+}$}
+\newcommand{\mnfe}{n_{\rm Fe^+}}
 \def\hub{h_{72}^{-1}}
 \def\umfp{{\hub \, \rm Mpc}}
 \def\mzq{z_q}
@@ -89,6 +95,7 @@ Blah
 \end{itemize}
 
 \section{Methodology}
+\label{sec:method}
 
 \subsection{The Radiative Transitions}
 
@@ -172,9 +179,83 @@ stellar absorption and \ion{H}{2} region emission, but the reader
 should be aeware that they can complicate the observed spectrum,
 independent of the effects of a galactic outflow.
 In the following, we will simply assume a flat continuum that will
-generally be normalized to unit value.
+generally be normalized to unit value.  The size of the emitting
+region, however, will be allowed to vary. [and also anisotropy? if
+not, then say so]
 
 [What does MgI tell us about winds?  Why no P-Cygni?]
+
+\subsection{Monte Carlo Algorithm}
+
+\section{A Fiducial Wind Model}
+\label{sec:fiducial}
+
+In this section, we explore a simple yet illustrative wind model for
+an outflow tuned in part to yield a \ion{Mg}{2} absorption profile
+simlar to that observed toward $z<1$, star-forming galaxies
+\citep{wcp+09,rubin10b}.  We emphasize, however, that we do not
+consider the properties of this wind to be any more physically
+motivated than any other choice.
+
+We parameterize the wind through a density law
+
+\begin{equation}
+n_{\rm H} (r) = \frac{n^0_{\rm H}}{r^2}
+\end{equation}
+which conserves mass-flux and a velocity law
+
+\begin{equation}
+v_r (r) = v_0 r
+\end{equation}
+which corresponds to a purely radial flow.  Turbulent motions are
+characterized by a Doppler parameter $b_{\rm turb}$.  
+The wind is isotropic, dust-free, and only extends from an inner
+radius $r_{\rm inner}$ to $r_{\rm outer}$.  At the center of the wind
+is a source of continuum photons with size $r_{\rm source}$.  Lastly,
+we convert the hydrogen density $n_{\rm H}$ to the number density of
+Mg$^+$ and Fe$^+$ ions by assuming solar relative abundances with an
+absolute metallicity of 1/2 solar and depletion factors of 1/10 and
+1/20 for Mg and Fe respectively, i.e.\  $\mnmg = 10^{-5.47} n_{\rm H}$ 
+and \nfe=\nmg/2.   
+These parameters and their values are summarized in
+Table~\ref{tab:fiducial}.  
+They were chosen to give a wind with a significant optical depth $\tau
+>> 1$ to \mgiia\ and a radial wind speed varying from $v_r \approx 100
+- 1000\mkms$.  
+
+In Figure~\ref{fig:fiducial_nvt} we plot the density and velocity
+profiles against radius for the fiducial wind model;  
+their single power-law expressions are evident.  The figure also
+shows the optical depth for the \mgiia\ transition ($\tau_{2796}$).
+Although plotted against radius, we calcualted $\tau_{2796}$ by
+summing the opacity as a function of velocity in discrete and small radial intervals
+between $r_{\rm inner}$  and $r_{\rm outer}$.   It was then mapped
+onto radius using the radial velocity profile. 
+The curve agrees well with that derived using the Sobolev approximation.
+We emphasize that the optical depth vs.\ velocity are the primary
+factors that establish the absorption/emission profiles of the
+\ion{Mg}{2} and \ion{Fe}{2} transitions.  In this respect, the 
+parameters that establish the size of the wind (and source) are
+essentially arbitrary.   In contrast, the adopted Doppler paramter
+($b_{\rm turb} = 15 \mkms$) does have a modest impact on the optical
+depth profile, especially at large optical depths.  A larger/smaller
+value would imply ... [FILL IN]
+In turn, this would affect the resulting emission profiles.
+
+The $\tau_{2796}$ profile peaks at $\tau_{2796}^{\rm max} \approx 30$
+at a velocity $v \approx 65 \mkms$ corresponding to $r \approx 1.3
+r_{\rm inner}$.  The optical depth profiles for the \mgiib\ transition
+is identicaly but scaled down by the ratio of $f\lambda$.  Similarly,
+the optcial depth profiles for the \ion{Fe}{2} resonance lines are
+scaled by $f \lambda$ and the \nfe/\nmg\ ratio.  
+
+Using the methodology described in $\S$~\ref{sec:method}, we
+propogated photons from the source and through the outflow to an
+`observer' at $r \gg r_{\rm outer}$ that views the entire wind+source
+complex.  In Figure~\ref{fig:fiducial_1dspec}, we present the spectrum
+that this observer would record with the unattenuated source spectrum
+normalized to unit value.  
+
 
 \acknowledgments
 
@@ -187,7 +268,7 @@ by NSF grant AST-0908910.
 \bibliographystyle{/u/xavier/paper/Bibli/apj}
 \bibliography{/u/xavier/paper/Bibli/allrefs}
 
-%\input{Tables/tab_subqso.tex}
+\input{Tables/tab_fiducial.tex}
 
 \begin{figure}
 \epsscale{0.8}
@@ -205,11 +286,56 @@ are split into multiple energy levels giving rise to a series of
 electric-dipole transitions between these fine-structure levels.   
 The downward (green) arrows show the transitions connected to the
 resonance-line transitions (i.e.\ they share the same upper energy
-levels).  We also show a pair of levels (\ion{Fe}{2}~$\lamabda\lambda
+levels).  We also show a pair of levels (\ion{Fe}{2}~$\lambda\lambda
 2618,2631$) that arise from even higher levels [Should we bother?]
 Based on Figure~7 from \cite{hartagan9X}.
 }
 \label{fig:energy}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{Figures/fig_nvtau_vs_r.ps}
+\caption{
+Density (solid; black), radial velocity (dotted; blue), and
+\mgiia\ optical depth profiles (dashed; red) for the fiducial
+wind model (see Table~\ref{tab:fiducial} for details).
+The density and velocity profiles are simple $r^{-2}$ and $r$
+power-laws.  The optical depth profile was calculated by summing
+the opacity at small and discrete radial intervals.  One notes that
+the wind is optically thick at the inner radius ($r_{\rm inner} =
+1$\,kpc) and becomes optically thin at the outer radius ($r_{\rm
+  outer} = 20$\,kpc).
+Note that the density and velocity curves have been scaled for plotting
+convenience.  
+}
+\label{fig:fiducial_nvt}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{Figures/fig_fiducial_1d.ps}
+\caption{
+{\it Left} -- (upper) \ion{Mg}{2} profiles for the fiducial wind model
+described in Table~\ref{tab:fiducial} and
+Figure~\ref{fig:fiducial_nvt}.  The doublet shows the P-Cygni profiles
+characteritic of an outflow with significant absorption blueward of
+line center (dashed vertical lines) extending to $v = -1000\mkms$
+and signficiant emission redward of line center.  Note
+that even though the peak optical depth of the \ion{Mg}{2} transitions
+is nearly 30 at $v \approx -70 \mkms$, photons scattered off the outflow
+fill in the absorption.
+(lower) \ion{Fe}{2} absorption and emission profiles for the UV1
+multiplet at $\lambda \approx 2600$\AA.  The \feiid\ resonance lines 
+show weaker absorption due to the smaller Fe$^+$ number density and
+lower $f\lambda$ values.  Each also shows a P-Cygni profile, although
+the emission for \feiia\ is significantly weaker than that of the
+\feiib\ and \mgiid\ transitions.  This is because a majority of the
+absorbed \feiia\ photons are converted into
+\ion{Fe}{2}~$\lambda\lambda 2612, 2632$ photons as observed.
+[Mention the emission kinematics?]
+}
+\label{fig:fiducial_nvt}
 \end{figure}
 
 

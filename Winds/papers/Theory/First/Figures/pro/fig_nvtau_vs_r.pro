@@ -66,10 +66,10 @@ pro fig_nvtau_vs_r, RREAL=rreal, STRCT=strct
   xrng=[r0, r1]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, $
-        ytitle='n!dr!u!N [x10!u2!N, cm!u-3!N];   v!dr!N [x10!u-2!N km s!u-1!N];  ' + $
+        ytitle='n!dH!u!N [x10!u2!N, cm!u-3!N];   v!dr!N [x10!u-2!N km s!u-1!N];  ' + $
         '!9t!X!d2796!N', $
         xtitle='Radius (kpc)', yrange=yrng, thick=4, $
-        xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /ylog
+        xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /ylog, /xlog
 
   ;; Density
   oplot, rval, n_r*100, color=clr.black
@@ -91,7 +91,7 @@ pro fig_nvtau_vs_r, RREAL=rreal, STRCT=strct
   xlbl = 12.
   xyouts, xlbl, 12., 'v!dr!N', color=clr.blue, charsiz=lsz
   xyouts, xlbl, 0.7, '!9t!X!d2796!N', color=clr.red, charsiz=lsz
-  xyouts, xlbl, 0.1, 'n!dr!N', color=clr.black, charsiz=lsz
+  xyouts, xlbl, 0.1, 'n!dH!N', color=clr.black, charsiz=lsz
 
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]

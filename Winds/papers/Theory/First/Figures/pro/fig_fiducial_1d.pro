@@ -78,7 +78,7 @@ pro fig_fiducial_1d, RREAL=rreal
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Velocity plot
-  trans = [2586.650, 2600.1729, 2612.6542d, 2803.531, 2796.352]
+  trans = [2796.352, 2803.531,2586.650, 2600.1729, 2612.6542d]
   ntrans = n_elements(trans)
   !p.multi = [ntrans+1,2,ntrans+1,0,1]
 

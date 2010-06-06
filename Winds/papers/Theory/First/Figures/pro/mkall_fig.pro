@@ -33,6 +33,13 @@ pro mkall_fig
            xrng=[-20,20], yrng=[1e-4, 1e0]
 
 ;;;;;;;;;;;;;;;;
+;; Complexity
+
+  ;; Dust
+  fig_dust_spec
+
+;;;;;;;;;;;;;;;;
+;; Observations
 
   fig_slitwidth
 

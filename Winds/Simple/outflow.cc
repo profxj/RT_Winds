@@ -140,7 +140,7 @@ void Run_Monte_Carlo(char *outfile)
   double vd_inc, vd_out, l_step, d_step;
   double u0,u1,u2, R10, R11, rad, vel;
   double uvec[3];
-  double nu_d, cross_sec;
+  double nu_d, cross_sec, dens_H;
 
   // functions to call
   void MPI_Average_Array(double *, int);
@@ -182,6 +182,8 @@ void Run_Monte_Carlo(char *outfile)
       lam_loc = lam*(1 + vel*(r[0]*D[0] + r[1]*D[1] + r[2]*D[2])/rad);
       if (rad == 0) lam_loc = lam;
 
+      dens_H = Get_Density(r,rad); 
+
       // default step size
       step = stepsize;
 
@@ -195,7 +197,8 @@ void Run_Monte_Carlo(char *outfile)
 	tau_r     =  -1.0*log(1 - gsl_rng_uniform(rangen));
 	nu_d = (C_LIGHT/lambda_0[l]/ANGS_TO_CM)*(v_doppler/C_LIGHT);
 	cross_sec = CLASSICAL_CS*f_lu[l]*voigt.Profile(xloc)/nu_d;
-	tau_x     = KPARSEC*Get_Density(r,rad)*abun[l]*metallicity*cross_sec;
+	tau_x     = KPARSEC*dens_H*abun[l]*metallicity*cross_sec;
+	// tau_x     = KPARSEC*Get_Density(r,rad)*abun[l]*metallicity*cross_sec;
 	l_step = tau_r/tau_x;
 	if (tau_x == 0) l_step = VERY_LARGE_NUMBER;
 	if (l_step < step) {step = l_step; scatter = l; }
@@ -203,7 +206,7 @@ void Run_Monte_Carlo(char *outfile)
 
       // get distance to dust scatter/absorption
       tau_r = -1.0*log(1 - gsl_rng_uniform(rangen));
-      tau_x = KPARSEC*dust_dens*dust_cs;
+      tau_x = KPARSEC*dens_H*dust_dens*dust_cs;
       d_step = tau_r/tau_x;
       if (tau_x == 0) d_step = VERY_LARGE_NUMBER;
       if (d_step < step) {step = d_step; scatter = -1; dust_scatter = 1; }

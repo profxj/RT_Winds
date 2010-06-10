@@ -1,0 +1,12 @@
+# MgII
+mpirun -np 8 outflow_doppler_mgii 1.0
+mv spec.dat Output/spec_MgII_tau1.0.dat
+mpirun -np 8 outflow_doppler_mgii 3.0 
+mv spec.dat Output/spec_MgII_tau3.0.dat
+mpirun -np 8 outflow_doppler_mgii 10.0 
+mv spec.dat Output/spec_MgII_tau10.0.dat
+mpirun -np 8 outflow_doppler_mgii 30.0
+mv spec.dat Output/spec_MgII_tau30.0.dat
+mpirun -np 8 outflow_doppler_mgii 100.0
+mv spec.dat Output/spec_MgII_tau100.0.dat
+# FeII

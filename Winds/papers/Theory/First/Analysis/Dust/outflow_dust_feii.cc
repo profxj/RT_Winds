@@ -81,7 +81,7 @@ int main(int argc, char **argv)
   
   // Photons
   if(argc > 2) n_photons = atof(argv[2]);
-  lines.Init('fe_uv1.lines')
+  lines.Init("fe_uv1.lines");
 
   void Run_Monte_Carlo(char*);
 
@@ -151,7 +151,7 @@ double Get_Density(double *x, double r)
 void Run_Monte_Carlo(char *outfile)
 {
   // local variables
-  int i, l, ind, scatter, dust_scatter, count_it;
+  int i,j, l, ind, scatter, dust_scatter, count_it;
   double x, lam_loc, xloc,lam;
   double r[3], D[3];
   double mu,phi,sin_theta;
@@ -215,7 +215,7 @@ void Run_Monte_Carlo(char *outfile)
 	// random optical depth to travel
 	tau_r     =  -1.0*log(1 - gsl_rng_uniform(rangen));
 	nu_d = (C_LIGHT/lines.lambda(l)/ANGS_TO_CM)*(v_doppler/C_LIGHT);
-	cross_sec = CLASSICAL_CS*lines.f_lu(l)*voigt.Profile(xloc)/nu_d;
+	cross_sec = CLASSICAL_CS*lines.fval(l)*voigt.Profile(xloc)/nu_d;
 	tau_x     = KPARSEC*dens_H*abun[l]*metallicity*cross_sec;
 	// tau_x     = KPARSEC*Get_Density(r,rad)*abun[l]*metallicity*cross_sec;
 	l_step = tau_r/tau_x;
@@ -289,7 +289,7 @@ void Run_Monte_Carlo(char *outfile)
 	// now get change in observer frame wavelength
 	rad = sqrt(r[0]*r[0] + r[1]*r[1] + r[2]*r[2]);
 	vel = Get_Velocity(r,rad)/C_LIGHT;
-	vproj = vel*(r[0]*D[0] + r[1]*D[1] + r[2]*D[2])/rad);
+	vproj = vel*(r[0]*D[0] + r[1]*D[1] + r[2]*D[2])/rad;
 	if (rad > 0)
 	  lam = lam_loc/(1 + vproj);
 
@@ -305,9 +305,10 @@ void Run_Monte_Carlo(char *outfile)
 	      sum += lines.bprob(scatter,j);
 	      if (r1 < sum) {
 		lam = lines.blam(scatter,j)*(1 - vproj); 
-		sum = 9e9;  // Kludge to avoid 'break'
+		sum = -9e9;  // Kludge to avoid 'break'
 	      }
 	    }
+	  }
 	}
       }
 

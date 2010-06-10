@@ -3,7 +3,7 @@
 #- ------------------
 #- Created : Mon Feb 11 17:33:35 2008
 #- 
-#- $Header: /home/jonathan/xavier/X_CVS/radtrans/Winds/papers/Theory/First/Analysis/Dust/Makefile,v 1.3 2010-06-10 20:52:35 xavier Exp $
+#- $Header: /home/jonathan/xavier/X_CVS/radtrans/Winds/papers/Theory/First/Analysis/Dust/Makefile,v 1.4 2010-06-10 22:35:13 xavier Exp $
 #- 
 
 # For Dan's Mac
@@ -37,6 +37,6 @@ logclean:
 realclean: clean
 	rm -f core $(TARGET)
 
-feii: 
+feii: $(OBJECTS2) 
 	$(CXX) -o $(TARGET2) $(OBJECTS2) $(CLOPT)
 

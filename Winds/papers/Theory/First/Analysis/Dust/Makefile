@@ -3,7 +3,7 @@
 #- ------------------
 #- Created : Mon Feb 11 17:33:35 2008
 #- 
-#- $Header: /home/jonathan/xavier/X_CVS/radtrans/Winds/papers/Theory/First/Analysis/Dust/Makefile,v 1.2 2010-06-05 14:57:18 xavier Exp $
+#- $Header: /home/jonathan/xavier/X_CVS/radtrans/Winds/papers/Theory/First/Analysis/Dust/Makefile,v 1.3 2010-06-10 20:52:35 xavier Exp $
 #- 
 
 # For Dan's Mac
@@ -13,8 +13,10 @@
 
 
 TARGET = outflow_dust_mgii
+TARGET2 = outflow_dust_feii
 
 OBJECTS = outflow_dust_mgii.o voigt.o locate_array.o cdf.o spectrum.o 
+OBJECTS2 = outflow_dust_feii.o voigt.o locate_array.o cdf.o spectrum.o 
 
 
 $(TARGET): $(OBJECTS)
@@ -34,3 +36,7 @@ logclean:
 
 realclean: clean
 	rm -f core $(TARGET)
+
+feii: 
+	$(CXX) -o $(TARGET2) $(OBJECTS2) $(CLOPT)
+

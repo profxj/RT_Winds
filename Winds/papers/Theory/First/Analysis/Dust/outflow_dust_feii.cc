@@ -157,7 +157,7 @@ void Run_Monte_Carlo(char *outfile)
   double mu,phi,sin_theta;
   double tau_r, tau_x, step, r_sq;
   double vd_inc, vd_out, l_step, d_step;
-  double u0,u1,u2, R10, R11, rad, vel;
+  double u0,u1,u2, R10, R11, rad, vel, vproj;
   double uvec[3];
   double nu_d, cross_sec, dens_H;
 
@@ -245,7 +245,7 @@ void Run_Monte_Carlo(char *outfile)
       // if we line scattered, do it
       if (scatter >= 0)
       {
-	xloc = (lam_loc/lambda_0[scatter] - 1)*C_LIGHT/v_doppler;
+	xloc = (lam_loc/lines.lambda(scatter) - 1)*C_LIGHT/v_doppler;
 
 	// Get three velocity components of scatterer
  	u0 = voigt.Scatter_Velocity(xloc);
@@ -284,15 +284,39 @@ void Run_Monte_Carlo(char *outfile)
  	xloc = xloc - vd_inc + vd_out; 
 
 	// go back to wavelength
-	lam_loc = lambda_0[scatter]*(1 + xloc*v_doppler/C_LIGHT);
+	lam_loc = lines.lambda(scatter)*(1 + xloc*v_doppler/C_LIGHT);
 
 	// now get change in observer frame wavelength
 	rad = sqrt(r[0]*r[0] + r[1]*r[1] + r[2]*r[2]);
 	vel = Get_Velocity(r,rad)/C_LIGHT;
+	vproj = vel*(r[0]*D[0] + r[1]*D[1] + r[2]*D[2])/rad);
 	if (rad > 0)
-	  lam = lam_loc/(1 + vel*(r[0]*D[0] + r[1]*D[1] + r[2]*D[2])/rad);
+	  lam = lam_loc/(1 + vproj);
 
 	// Deal with branching lines
+	//	for (int j=0;j<lines.n_branch(scatter);j++) 
+	//	{
+	//	  lobs = lines.blam(scatter,j)*(1 - vproj); 
+	//	  Pe   = lines.bprob(scatter,j);
+	//	  spectrum.Count(1,lobs,r_rot[0],r_rot[1],p.E_p*Pe); 
+	//	}
+	
+	// see if photon is branched away
+	double r1 = gsl_rng_uniform(rangen);
+	if (r1 > lines.P_scat(scatter)) {
+	  // Count it
+	  count_it = 1;
+	  // Find which branch
+	  double sum = lines.P_scat(scatter)
+	  for (int j=0;j<lines.n_branch(scatter);j++) 
+	    {
+	      sum += lines.bprob(scatter,j);
+	      if (r1 < sum) {
+		lam = lines.blam(scatter,j)*(1 - vproj); 
+		break;
+	      }
+	    }
+	}
       }
 
       if (dust_scatter)

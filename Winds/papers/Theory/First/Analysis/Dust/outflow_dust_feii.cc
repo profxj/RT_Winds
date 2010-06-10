@@ -9,7 +9,7 @@
 #include "spectrum.hh"
 #include "lines.hh"
 
-extern LINES lines;
+LINES lines;
 
 // monte carlo parameters
 double n_photons =  1e7;    // number of photons
@@ -293,19 +293,11 @@ void Run_Monte_Carlo(char *outfile)
 	if (rad > 0)
 	  lam = lam_loc/(1 + vproj);
 
-	// Deal with branching lines
-	//	for (int j=0;j<lines.n_branch(scatter);j++) 
-	//	{
-	//	  lobs = lines.blam(scatter,j)*(1 - vproj); 
-	//	  Pe   = lines.bprob(scatter,j);
-	//	  spectrum.Count(1,lobs,r_rot[0],r_rot[1],p.E_p*Pe); 
-	//	}
-	
 	// see if photon is branched away
 	double r1 = gsl_rng_uniform(rangen);
 	if (r1 > lines.P_scat(scatter)) {
-	  // Count it
-	  count_it = 1;
+	  // Count it  (deal with dust!!)
+	  // count_it = 1;
 	  // Find which branch
 	  double sum = lines.P_scat(scatter)
 	  for (int j=0;j<lines.n_branch(scatter);j++) 
@@ -313,7 +305,7 @@ void Run_Monte_Carlo(char *outfile)
 	      sum += lines.bprob(scatter,j);
 	      if (r1 < sum) {
 		lam = lines.blam(scatter,j)*(1 - vproj); 
-		break;
+		sum = 9e9;  // Kludge to avoid 'break'
 	      }
 	    }
 	}

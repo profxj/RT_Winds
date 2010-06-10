@@ -1,10 +1,12 @@
 \documentclass[12pt,preprint]{aastex}
 \usepackage{natbib,amsmath}
+
 \special{papersize=8.5in,11in}
 \begin{document}
 
-
-\newcommand{\aconfig}{a~$^6$D}
+\newcommand{\maconfig}{2p$^6$3s}
+\newcommand{\mbconfig}{2p$^6$3p}
+\newcommand{\aconfig}{a~$^6$D$^0$}
 \newcommand{\zconfig}{z~$^6$D$^0$}
 \newcommand{\mvr}{v_{\rm r}}
 \newcommand{\naid}{\ion{Na}{1}~$\lambda\lambda 5891, 5897$}
@@ -81,6 +83,7 @@ Others
 \item Emission is a generic feature of (nearly) isotropic winds.  This
   emission fills in absorption at $v \approx 0$, significantly
   complicating the absorption-line analysis. 
+\end{itemize}
 \end{abstract}
 
 
@@ -127,7 +130,7 @@ coupling which produces the line doublet.  These are the only
 with wavelengths near 2800\AA. Also, the transtion connecting
 the $\rm {}^2P_{3/2}$ and $\rm {}^2P_{1/2}$ states is forbidden by several
 selection rules.  Therefore, an absorption from
-2p$^6$^3s~$\to$~2p$^6$3p 
+\maconfig~$\to$~\mbconfig\
 is followed nearly 100$\%$ of the time by a spontaneous decay to the
 ground state and our treatment will ignore any other possibilities
 (e.g.\ absorption of a second photon).
@@ -160,8 +163,7 @@ that the majority of its configurations exhibit fine-structure splitting.
 This includes the ground-state configuration (\aconfig) which is split
 into 5 levels with 
 excitation energies $T_{\rm ex} \equiv \Delta E / k$ ranging from
-$T_{\rm{ex} \approx
-500-1500$\,K.  These levels are usually labelled by the total angular momentum
+$T_{\rm ex} \approx 500-1500$\,K.  These levels are usually labelled by the total angular momentum
 $J$, with the ground-state having $J=9/2$ (Figure~\ref{fig:energy}).  
 Transitions between these fine-structure levels are 
 forbidden (magnetic-dipole) with spontaneous decay times of several hours.  
@@ -277,130 +279,158 @@ All of the parameters are summarized in Table~\ref{tab:fiducial}.
 In Figure~\ref{fig:fiducial_nvt} we plot the density and velocity
 profiles against radius for the fiducial wind model;  
 their single power-law expressions are evident.  The figure also
-shows the optical depth for the \mgiia\ transition ($\tau_{2796}$).
-Although plotted against radius, we calcualted $\tau_{2796}$ by
-summing the opacity as a function of velocity in discrete and small radial intervals
-between $r_{\rm inner}$  and $r_{\rm outer}$.   It was then mapped
-onto radius using the radial velocity profile. 
-The curve agrees well with that derived using the Sobolev approximation.
-We emphasize that the optical depth vs.\ velocity are the primary
-factors that establish the absorption/emission profiles of the
-\ion{Mg}{2} and \ion{Fe}{2} transitions.  In this respect, the 
-parameters that establish the size of the wind (and source) are
-essentially arbitrary.   In contrast, the adopted Doppler paramter
-($b_{\rm turb} = 15 \mkms$) does have a modest impact on the optical
-depth profile, especially at large optical depths.  A larger/smaller
-value would imply ... [FILL IN]
-In turn, this would affect the resulting emission profiles.
-
+shows the optical depth profile for the \mgiia\ transition ($\tau_{2796}$).
+This profile is what determines the observed absorption/emission lines
+for the wind.  
+Although plotted against radius, we first calculated $\tau_{2796}$ 
+as a function of velocity by summing the opacity in a series of
+discrete and small radial intervals
+between $r_{\rm inner}$  and $r_{\rm outer}$.   We then mapped
+$\tau_{2796}$ onto radius using the radial velocity profile and 
+checked that this profile is in good agreement with
+the Sobolev approximation.  
 The $\tau_{2796}$ profile peaks at $\tau_{2796}^{\rm max} \approx 30$
 at a velocity $v \approx 65 \mkms$ corresponding to $r \approx 1.3
-r_{\rm inner}$.  The optical depth profiles for the \mgiib\ transition
-is identicaly but scaled down by the ratio of $f\lambda$.  Similarly,
-the optcial depth profiles for the \ion{Fe}{2} resonance lines are
-scaled by $f \lambda$ and the \nfe/\nmg\ ratio.  
+r_{\rm inner}$.  The optical depth profile for the \mgiib\ transition
+is scaled down by the ratio of $f\lambda$ but otherwise identical.  Similarly,
+the optical depth profiles for the \feiid\ transitions are
+scaled down by $f \lambda$ and the \nfe/\nmg\ ratio.  
+The adopted Doppler parameter
+(here $b_{\rm turb} = 15 \mkms$) also has a modest impact on the results,
+specially at large optical depths.  A larger/smaller
+$b$-value would imply ... [FILL IN]
+In turn, this would affect the resulting emission profiles.
+
+Because the results are dictated by the $\tau_{2796}$ profile and the
+Doppler parameter, the actual dimensions and density of the wind are
+essentially unimportant provided they scale together to give the same
+$\tau_{2796}$ profile.  Therefore, one may consider our choices for
+$r_{\rm inner}, r_{\rm outer}, n_{\rm H}^0$ as arbitrary.
+Nevertheless, we attempted to adopt values for this fiducial model
+that some astrophysical motivation.
+
 
 Using the methodology described in $\S$~\ref{sec:method}, we
 propogated photons from the source and through the outflow to an
 `observer' at $r \gg r_{\rm outer}$ that views the entire wind+source
-complex.  In Figure~\ref{fig:fiducial_1d}, we present the spectrum
-that this observer would record with the unattenuated source spectrum
-normalized to unit value.   Consider first the \ion{Mg}{2} profiles;
-these show the canonical P-Cygni profiles that characterize a 
+complex.  Figure~\ref{fig:fiducial_1d} presents the spectrum
+that this observer would record with the ``unattenuated'' source flux
+normalized to unit value.   The \ion{Mg}{2} profiles
+show the canonical `P-Cygni profile' that characterize a continuum
 source embedded within an outflow.  Strong absorption is evident at
 $v < -50 \mkms$ in both transitions and each shows emission at
 positive velocities.  For this isotropic and dust-free model, the
 total equivalent width of the doublet must be zero
 (Table~\ref{tab:fiducial_EW}), i.e.\ every photon
-absorbed escapes the system at another energy, primarily at lower
-frequency.  The wind simply shuffles photons in frequency space.
+absorbed still escapes the system, primarily at lower
+energies.  The wind simply shuffles photons in frequency space.
 
-Focusing on the \ion{Mg}{2} absorption profiles, one notes they have
-similar and non-zero depth even though their $f\lambda$ values differ
-by a factor of two.  In absorption line analysis, this is generally
-the tell-tale signature of a gas that has a high optical depth (i.e.\
-saturated) but only partially covers the emitting source
-\citep[e.g.][]{hamman10}.  In this fiducial model, however, the wind
-entirely covers the source and the observed behaviour is unrelated to
-any partial covering.  Figure~\ref{fig:noemiss}, which compares the
-absorption profiles as derived and in the limit where photons are not
-re-emitted, shows this explicitly.   One notes that the no-emission
-case has a pair of strong absorption lines that absorb all photons at
-$v \approx -100 \mkms$, i.e.\ these profiles are simply $\exp(-\tau)$
-with $\tau$ given by the curve in Figure~\ref{fig:fiducial_nvt}.  
+Focusing on the \ion{Mg}{2} absorption, one notes the profiles have
+positive intensity yet similar depth even though their $f\lambda$
+values differ by a factor of two.  In standard absorption line
+analysis, this is generally 
+the tell-tale signature of a `cloud' that has a high optical depth (i.e.\
+saturated) which only partially covers the emitting source
+\citep[e.g.][]{hamman10}.  Our fiducial wind model, however, 
+{\it entirely} covers the source; the apparent partial covering must
+be related to a different effect.
+Figure~\ref{fig:noemiss}, which compares the true
+absorption profiles against the case where absorbed photons are not
+re-emitted, further illustrates this issue.   As expected from the
+$\tau_{2796}$ profile (Figure~\ref{fig:fiducial_nvt}, the no-emission
+case predicts a strong \mgiid\ doublet that absorbs all photons at
+$v \approx -100 \mkms$, i.e.\ $I_{2796} = \exp(-\tau_{2796}) \approx 0$.
 The actual profile, meanwhile, has been `filled in' at $v \approx -100
-\mkms$ by photons scattered and re-emitted by the wind.  An
+\mkms$ by photons scattered and re-emitted by the wind (see below).  An
 absorption-line analysis that ignores these effects
 \citep[e.g.][]{sato} would systematically underestimate the true optical
-depth and falsely conclude partial covering.  [MORE?]
-[Dan's analytic calculation here?]
+depth and falsely conclude partial covering.  We will find that this
+behaviour is a generic results for models with a high degree of
+isotropy.
+[Dan's analytic calculation here? or Appendix?]
 
 One also notes that the emission profiles of the \mgiid\ doublet
 are very similar and have comparable equivalent widths.  In fact the
 flux of the \mgiib\ transition even exceeds that for \mgiia.  The
-profiles are similar because the absorption is saturated.
+emission profiles are similar because the absorption is saturated.
 Furthermore, the flux from \mgiib\ is greater than that for
 \mgiia\ because the wind speed exceeds the velocity separation
-of the doublet $|\mvr|_{\rm max} > (\Delta v)_{\rm MgII}$ such
-that the \mgiib\ absorption profile absorbs the red wing of the
-\mgiia\ emission profile.  The relative strengths of these emission
+of the doublet, $|\mvr|_{\rm max} > (\Delta v)_{\rm MgII}$, such
+that the \mgiib\ absorption profile partially absorbs the red wing of the
+\mgiia\ emission profile.  The relative strengths of the emission
 lines, therefore, is sensitive to both the optical depth and velocity
 extent of the wind.
 
+Now consider the \ion{Fe}{2} transitions.
 The bottom left panel of Figure~\ref{fig:fiducial_1d} covers the
-majority of the \ion{Fe}{2} UV1 transitions.  Several of these are
-shown individually in the velocity plot on the right.  The line
-profiles for \feiib\ is very similar to those of the \mgiid\ doublet;
+majority of the \ion{Fe}{2} UV1 transitions and several are
+shown in the velocity plot.  The line
+profile for \feiib\ is very similar to those for the \mgiid\ doublet;
 one observes strong absorption to negative velocities and strong
-emission at $v > 0 \mkms$ producing the P-Cygni profile.  Splitting
+emission at $v > 0 \mkms$ producing a P-Cygni profile.  Splitting
 the profile at $v = -50 \mkms$, we measure an equivalent width
-$W_{2600}^{\rm abs} = 1.19$\AA\ in absorption and $W_{2600}^{\rm em} =
--0.84$\AA\ in emission (Table~\ref{tab:fiducial_EW}) for a total
-equivalent width of $W_{2600}^{\rm TOT} \approx 0.35$\AA.  
+$W_{2600}^{\rm abs} = 1.16$\AA\ in absorption and $W_{2600}^{\rm em} =
+-0.94$\AA\ in emission (Table~\ref{tab:fiducial_EW}) for a total
+equivalent width of $W_{2600}^{\rm TOT} \approx 0.22$\AA.  
 [Point out that if $\tau_{2600}$ were higher, than the photons would
 likely be more trapped and more would come out as 2626.  Also a
 v=0km/s component might make quite a difference.]
 In contrast, the \feiia\ resonance line shows much weaker emission and
-a much higher total equivalent width ($W_{2586}^{\rm TOT} = XX$\AA).
-The differences related directly to Einstein coefficients for the
-transitions connecting the upper levels of \feiid\ to the 
-fine-structure levels of a~$^6$D.  In the case of \feiib, the
-\ion{Fe}{2}~2626 transition that returns to the a~$^6$D$_{7/2}$
-excited level has an $\approx 4\times$ smaller coefficient than the
+a much higher total equivalent width ($W_{2586}^{\rm TOT} = 0.49$\AA)
+even though the line has a $2 \times$ lower $f\lambda$ value.
+The difference comes the extra downward transition from the
+\zconfig$_{7/2}$ level and (more importantly) that the Einstein A
+coefficients  of the non-resonant lines match and even exceed that for
+the resonant line.  In the case of \feiib, the
+\ion{Fe}{2}~2626 transition 
+has an approximately  $4\times$ smaller coefficient than the
 resonance line.  Therefore, the majority of photons absorbed at
 $\lambda 2600$ are re-emitted with the same energy and only scatter 
-in frequency space around the line.  For \feiia, the transitions to
-the a~$^6$D$_{7/2}$ and a~$^6$D$_{5/2}$ levels have comparable and
-even larger A coefficients than that to the ground-state.  Therefore,
-the majority of photons absorbed at $\lambda 2586$ are re-emitted 
+in frequency space around the line.  For \feiia, 
+the majority of photons absorbed are re-emitted 
 as longer wavelength \ion{Fe}{2}~$\lambda 2612$ or $\lambda 2632$
-photons.  [Comment on total EW for 2586?]
+photons.  
+The total equivalent width, however, of the lines connected to the
+\zconfig$_{7/2}$ upper level does vainsh (i.e.\ photons are conserved
+in this fiducial wind).
 
 [Does the FeII 2600 P-Cygni go away if we increase $\tau_{2600}$?]
 
-[Update the EW values with the new FeII data]
 
-
-Our algorithm tracks the spatial emissivity of the source+wind
-complex as a function of frequency.  Therefore, it is straightforward
-to construct surface-brightness maps of the emission yielding a
+Our 3D Monte Carlo algorithm tracks the spatial emissivity of the source+wind
+complex as a function of frequency.  From this output, we
+constructed surface-brightness maps producing a
 dataset analagous to intergral-field-unit (IFU) observations.  In
-Figure~\ref{fig:fig_fiducial_ifu_mgii}, we present the output for our
+Figure~\ref{fig:fiducial_ifu_mgii}, we present the output for our
 fiducial wind model at several velocities relative to the \mgiia\
 transition. At $\mvr \le -200 \mkms$, where the wind has an optical
 depth $\tau_{2796} < 1$ (Figure~\ref{fig:fig_fiducial_nvt}),
 the source contributes significantly to the observed flux.  
 At $\mvr=-100 \mkms$, however, the
 wind absorbs all photons from the source and the observed emission is
-entirely due to photons scattered by the wind.  This
-emission significantly exceeds that for $\mvr = -200\mkms$ which
-explains the fact that the absorption peaks at a velocity offset from
-the peak in the wind's optical depth. [word] At $v_{\rm r} \ge 0
+entirely from photons scattered by the wind.  This scattered emission
+actually exceeds the source+wind emission at 
+$\mvr = -200\mkms$ such
+that the absorption profile reaches peak depth at a velocity that is
+negatively offset from
+the peak in optical depth.  The net result of the scattered photons is
+a weaker \ion{Mg}{2} profile that is offset fromt he true optical
+depth profile.  Clearly, this will complicate efforts to estimate the
+speed, covering fraction, and total column density of the wind.  At $v
+= 0 \, \mkms$, the wind and source have comparable total flux and the
+latter dominates at higher velocities.  
+At $v_{\rm r} \ge 0
 \mkms$,  both the source and wind contribute to the observed emission.
 
-[Spatial cut?]
+[Spatial cut? Yes]
 
-[FeII emission;  2600 and 2612]
+Similar characteristics are observed for the \ion{Fe}{2} resonance
+transitions (Figure~\ref{fig:fiducial_ifu_feii2600}).
+For transitions to fine-structure levels of the \aconfig, the source
+is unattenuated but there is also a significant contribution from the
+wind (Figure~\ref{fig:fiducial_ifu_feii2612}).
+[Show a cut and comment on the fraction of light in 1-3\,kpc, 1-10,
+and 1-20; ignoring the source]
 
 \section{Discussion}
 
@@ -426,20 +456,23 @@ by NSF grant AST-0908910.
 \plotone{Figures/energy_levels.ps}
 \caption{
 Energy level diagrams for the \mgiid\ doublet and the UV1
-multiplet of \ion{Fe}{2} transitions.   Each transition shown is
+multiplet of \ion{Fe}{2} transitions   
+(based on Figure~7 from \cite{hmt+99}).
+Each transition shown is
 labelled by its rest wavelength (\AA) and Einstein A-coefficient
 (s$^{-1}$). Black updward arrows
 indicate the resonance-line transitions connected to the ground
 state of each ion.  The 2p$^6$3p configuration of Mg$^+$ is split into
 two energy levels that give rise to the \mgiid\ doublet.  
 Both the 3d$^6$4s ground state and 3d$^6$4p upper level of Fe$^+$
-are split into multiple energy levels giving rise to a series of
-electric-dipole transitions between these fine-structure levels.   
+exhibit fine-structure splitting that gives rise to a series of
+electric-dipole transitions. 
 The downward (green) arrows show the transitions connected to the
 resonance-line transitions (i.e.\ they share the same upper energy
 levels).  We also show a pair of levels (\ion{Fe}{2}~$\lambda\lambda
-2618,2631$) that arise from even higher levels [Should we bother?]
-Based on Figure~7 from \cite{hartagan9X}.
+2618,2631$) that arise from higher levels in the \zconfig\
+configuration.  These transitions have not yet been observed in
+galactic-scale outflows and are not considerd in our analysis.
 }
 \label{fig:energy}
 \end{figure}
@@ -513,7 +546,7 @@ optical depth and derive a partial covering. [word]
 \caption{
 Surface-brightness emission maps around the \mgiia\ transition for the
 source+wind complex.  The middel panel shows the 1D spectrum with $v=0
-\mkms$ corresponding to $\lambda = 2796.35$ and the dotted vertical
+\mkms$ corresponding to $\lambda = 2796.35$\AA\ and the dotted vertical
 curves indicating the velocity slices for the emission maps.  The
 source has a size $r_{\rm source} = 0.5$\,kpc, traced by a few
 pixels at the center.   At $\mvr=-200 \mkms$, the wind has an optical
@@ -525,6 +558,34 @@ emission exceeds that observed at $\mvr = -200\mkms$. At $\mvr \ge 0
 \mkms$,  both the source and wind contribute to the observed emission.
 }
 \label{fig:fiducial_ifu_mgii}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{Figures/fig_fiducial_ifu_feii2600.ps}
+\caption{
+Surface-brightness emission maps around the \feiib\ transition for the
+source+wind complex.  The middle panel shows the 1D spectrum with $v=0
+\mkms$ corresponding to $\lambda = 2600.173$\AA\ and the dotted vertical
+curves indicating the velocity slices for the emission maps.  
+The results are very similar to those observed for the \mgiid\ doublet
+(Figure~\ref{fig:fiducial_ifu_mgii}).
+}
+\label{fig:fiducial_ifu_feii2600}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{Figures/fig_fiducial_ifu_feii2612.ps}
+\caption{
+Surface-brightness emission maps around the \ion{Fe}{2}~$\lambda 2612$ transition for the
+source+wind complex.  The middle panel shows the 1D spectrum with $v=0
+\mkms$ corresponding to $\lambda = 2612.654$\AA\ and the dotted vertical
+curves indicating the velocity slices for the emission maps.  
+In this case, the source is unattenuated yet scattered photons from
+the wind also have a significant contribution. 
+}
+\label{fig:fiducial_ifu_feii2612}
 \end{figure}
 
 

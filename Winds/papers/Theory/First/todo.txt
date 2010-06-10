@@ -2,3 +2,4 @@
 for line profile  ~ r_wind/r_source
 2. Rerun the fiducial models with the 'proper' r_source value
 3. Label kpc on the other axis of the RHS boxes
+4. Do a range of b-values

@@ -5,12 +5,15 @@ pro fig_noemiss, GRID_FILE, PSFILE
     grid_file = '../Analysis/Outputs/fiducial_grid.fits'
   if not keyword_set(CSZ) then csz = 1.3
   if not keyword_set(CSZ2) then csz2 = 2.3
-  if not keyword_set(lSZ) then lsz = 1.5
+  if not keyword_set(lSZ) then lsz = 1.8
   if not keyword_set(lSZ2) then lsz2 = 1.3
   if not keyword_set(XNCOLORS) then xncolors=200L
   if not keyword_set(YRNG) then yrng=[0., 1.5]
 
   if not keyword_set(MGII_REST) then mgii_rest = 2796.35d
+
+  xlbl = 0.1
+  ylbl = 0.85
 
   ;;; BEGIN PLOTS
   x_psopen, psfile, /portrait
@@ -31,8 +34,8 @@ pro fig_noemiss, GRID_FILE, PSFILE
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Plot MgII
   xrng=[2786., 2810]
-  xmrg = [10, 1]
-  ymrg = [5, 1]
+  xmrg = [10, 2]
+  ymrg = [4.5, 1]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmarg=xmrg, ymarg=ymrg, $
         ytitle='Normalized Flux', $
@@ -43,8 +46,6 @@ pro fig_noemiss, GRID_FILE, PSFILE
 
   oplot, replicate(2796.352,2), yrng, color=clr.gray, linesty=2
   oplot, replicate(2803.531,2), yrng, color=clr.gray, linesty=2
-  xlbl = 0.5
-  ylbl = 0.85
   xyouts, xrng[0]+xlbl*(xrng[1]-xrng[0]), yrng[1]*ylbl, $
           'MgII', color=clr.black, charsiz=lsz
   oplot, xrng, [1., 1.], color=clr.red, linestyle=1, thick=1
@@ -53,13 +54,14 @@ pro fig_noemiss, GRID_FILE, PSFILE
   fig_nvtau_vs_r, strct=strct
   wrest = strct.wrest
   wave = wrest - wrest * strct.vel / 3e5
-  oplot, wave, exp(-1.*(strct.tau < 10)), color=clr.red, psym=10
+  pix = where(strct.vel GT -50 and strct.vel LT 1000)
+  oplot, wave[pix], exp(-1.*(strct.tau[pix] < 10)), color=clr.red, psym=10
 
   ;; 2803
   wrest = 2803.531d
   wave = wrest - wrest * strct.vel / 3e5
   tau = strct.tau / 2
-  oplot, wave, exp(-1.*(tau < 10)), color=clr.red, psym=10
+  oplot, wave[pix], exp(-1.*(tau[pix] < 10)), color=clr.red, psym=10
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Read in FeII Data
@@ -75,6 +77,7 @@ pro fig_noemiss, GRID_FILE, PSFILE
   yrng=[0., 1.8]
   xrng=[2580, 2605]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
+        xmarg=xmrg, ymarg=ymrg, $
         ytitle='Normalized Flux', $
         xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
         xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata
@@ -92,13 +95,13 @@ pro fig_noemiss, GRID_FILE, PSFILE
   getfnam, wrest, f, nam
   wave = wrest - wrest * strct.vel / 3e5
   tau = strct.tau * wrest / strct.wrest * f / strct.fval
-  oplot, wave, exp(-1.*(tau < 10)), color=clr.red, psym=10
+  oplot, wave[pix], exp(-1.*(tau[pix] < 10)), color=clr.red, psym=10
 
   wrest = 2600.1729d
   getfnam, wrest, f, nam
   wave = wrest - wrest * strct.vel / 3e5
   tau = strct.tau * wrest / strct.wrest * f / strct.fval
-  oplot, wave, exp(-1.*(tau < 10)), color=clr.red, psym=10
+  oplot, wave[pix], exp(-1.*(tau[pix] < 10)), color=clr.red, psym=10
 
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]

@@ -2,7 +2,8 @@ pro fig_ifu, wrest, dv, grid_file, psfile, YMNX=ymnx, XRNG=xrng, YRNG=yrng
 
   if not keyword_set(PAD_FRAC) then pad_frac = 0.1
   if not keyword_set(CSZ) then csz = 1.1
-  if not keyword_set(CSZ2) then csz2 = 1.1
+  if not keyword_set(CSZ2) then csz2 = 1.0
+  if not keyword_set(CSZ3) then csz3 = 0.8
   if not keyword_set(lSZ) then lsz = 1.5
   if not keyword_set(XNCOLORS) then xncolors=200L
   if not keyword_set(YMNX) then ymnx = [-10,10]  ; kpc (size of box)
@@ -26,14 +27,16 @@ pro fig_ifu, wrest, dv, grid_file, psfile, YMNX=ymnx, XRNG=xrng, YRNG=yrng
   if ncut GT 4 then stop
 
   ;; Spectrum first
+  getfnam, wrest, f, nam
 
   x_psopen, psfile, /portrait
   clr = getcolor(/load)
   xmrg = [8,7]
   ymrg = [4.0,1]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
-        xmargin=xmrg, ymargin=ymrg, ytitle='Flux', $
-        xtitle='v (km s!u-1!N)', yrange=yrng, thick=4, $
+        xmargin=xmrg, ymargin=ymrg, $
+        ytitle='Normalized Flux', $
+        xtitle='v!dr!N (km s!u-1!N)', yrange=yrng, thick=4, $
         xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, $
         pos=[0.10, 0.42, 0.90, 0.59]
 
@@ -46,6 +49,9 @@ pro fig_ifu, wrest, dv, grid_file, psfile, YMNX=ymnx, XRNG=xrng, YRNG=yrng
       oplot, replicate(dv[jj],2), yrng, color=clr.gray, lines=1
 
   oplot, xrng, [1.,1.], color=clr.red, linest=2, thick=2
+
+  xyouts, xrng[0]+0.05*(xrng[1]-xrng[0]), yrng[1]-0.2*(yrng[1]-yrng[0]), $
+          nam, color=clr.black, charsiz=lsz
 
   ;; IFU shots next
 
@@ -68,11 +74,13 @@ pro fig_ifu, wrest, dv, grid_file, psfile, YMNX=ymnx, XRNG=xrng, YRNG=yrng
   ;; Color bars
   ctload, 0, ncolors=xncolors;, /rever
   coyote_colorbar, pos=[0.50, 0.66, 0.54, 0.96], /verti, range=alog10(irange1), $
-                   ncolor=xncolors, /invert, FORMAT='(f4.1)'
+                   ncolor=xncolors, /invert, FORMAT='(f4.1)', $
+                   title='Log Surface Brightness',charsiz=csz3 
 
   if ncut GT 2 then $
      coyote_colorbar, pos=[0.50, 0.03, 0.54, 0.33], /verti, range=alog10(irange2), $
-                      ncolor=xncolors, /invert, FORMAT='(f4.1)'
+                      ncolor=xncolors, /invert, FORMAT='(f4.1)',$
+                   title='Log Surface Brightness',charsiz=csz3 
 
   xpos1 = [0.5, 4.7, 0.5, 4.7]
   ypos1 = [6., 6., 0.3, 0.3]
@@ -123,8 +131,8 @@ pro fig_ifu, wrest, dv, grid_file, psfile, YMNX=ymnx, XRNG=xrng, YRNG=yrng
       clr = getcolor(/load)
       if round(dv[qq]) LT 0. then pclr = clr.blue else pclr=clr.red
       if abs(round(dv[qq])) LT 10. then pclr = clr.black
-      xyouts, ymnx[0]+0.1*(ymnx[1]-ymnx[0]), ymnx[0]+0.8*(ymnx[1]-ymnx[0]),  $
-              'v='+strtrim(round(dv[qq]),2),color=pclr, charsiz=lsz
+      xyouts, ymnx[0]+0.05*(ymnx[1]-ymnx[0]), ymnx[0]+0.85*(ymnx[1]-ymnx[0]),  $
+              'v!dr!N='+strtrim(round(dv[qq]),2),color=pclr, charsiz=lsz
   endfor
   
   if keyword_set( PSFILE ) then x_psclose

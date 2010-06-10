@@ -61,10 +61,22 @@ pro fig_dust_spec, RREAL=rreal
   Mg_fil = ''
   for kk=0L,nMg-1 do begin
      readf, 1, Mg_fil
+     ;; Parse
+     i1pos = strpos(Mg_fil, 'tau')
+     i2pos = strpos(Mg_fil, '.dat')
+     if i1pos LT 0 then tau = 0. else $
+        tau = float(strmid(Mg_fil, i1pos+3, i2pos-i1pos+2))
      readcol, Mg_fil, wv, fx, /silen
      nrm = median(fx[where(wv GT 2815)])
-     ;;
+     ;; Plot
      oplot, wv, fx/nrm, color=clrs[kk], psym=10, thick=3
+
+     ;; Label
+     xyouts, xrng[0] + 0.1*(xrng[1]-xrng[0]), $
+             yrng[1] - (0.1 + kk*0.1)*(yrng[1]-yrng[0]), $
+             '!9t!X!ddust!N = '+string(tau,format='(f4.1)'), $
+             color=clrs[kk], charsi=lsz
+
   endfor
 
   oplot, replicate(2796.352,2), yrng, color=clr.gray, linesty=2

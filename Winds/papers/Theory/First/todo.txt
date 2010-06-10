@@ -1,3 +1,4 @@
 1. Include Dan's calculation of minimum depth
 for line profile  ~ r_wind/r_source
 2. Rerun the fiducial models with the 'proper' r_source value
+3. Label kpc on the other axis of the RHS boxes

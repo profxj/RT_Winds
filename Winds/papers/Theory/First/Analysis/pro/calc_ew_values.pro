@@ -2,8 +2,8 @@
 pro calc_ew_values, grid_fil, strct, TRANS=trans
 
   if not keyword_set(TRANS) then $
-     trans = [2586.650d, 2600.1729, 2612.6542d, 2626.4511, 2632.1081, $
-              2803.531, 2796.352]
+     trans = [2796.352,2803.531, 2586.650d, 2600.1729, 2612.6542d, $
+              2626.4511, 2632.1081]
   ntrans = n_elements(trans)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

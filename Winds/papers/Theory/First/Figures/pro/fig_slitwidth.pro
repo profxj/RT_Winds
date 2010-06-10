@@ -49,7 +49,7 @@ pro fig_slitwidth, GRIDFIL
 
       ;; Create spectrum
       spec = total(total(dat_slit,1),1)
-      x_splot, wave, spec, /bloc
+;      x_splot, wave, spec, /bloc
 
       EW = median(spec[where(wave GT 2808)])*sz[2] - total(spec)
       EW = EW * abs(wave[1]-wave[0])

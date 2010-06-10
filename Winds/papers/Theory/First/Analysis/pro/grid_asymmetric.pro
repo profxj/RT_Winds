@@ -10,7 +10,7 @@ pro grid_asymmetric
 ;  if not keyword_set(DUST) then dust = 0.1  ; Depletion
 ;  if not keyword_set(METAL) then metal = -0.3  ; [M/H]
 
-  ngrid = 400L
+  ngrid = 300L
   v_wind  = 50.           ; Wind speed (km/s) at Inner boundary
 ;  dv_wind = 200.           ; Velocity width of wind (km/s)
   flg_wind = 1             ; Sets velocity law
@@ -118,7 +118,7 @@ pro grid_asymmetric
   ;; Asymmetric
   ;;;;;;;;;;;;;;
 
-  rho_grid[*,*,200:*] = 0.
+  rho_grid[*,*,ngrid/2:*] = 0.
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Output

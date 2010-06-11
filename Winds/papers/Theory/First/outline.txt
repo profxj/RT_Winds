@@ -27,16 +27,18 @@ IV. Complexity
     i.  Murray
    ii.  Energy driven?
   iii.  Invert the wind speed (i.e. v_max at r_min)
-   iv.  Asymmetric emissivity
+   iv.  Asymmetric emissivity?
 
   B.  Asymmetric wind
     i.  Note that this may be rare (high covering factor)
 
-  C.  Dust?
+  C.  Dust [DONE]
   D.  Clumpy wind (with decreasing covering fraction)
-  E.  Add a v=0 km/s component (and even do a stationary component)
+  E.  Non-wind components
+    i. ISM (v=0 km/s) component (and even do a stationary component)
+   ii. Infall
   F.  Size of emitting region 
-  G.  Vary the b-value
+  G.  Vary the b-value [DONE]
 
 
 V.  Empirical constraints

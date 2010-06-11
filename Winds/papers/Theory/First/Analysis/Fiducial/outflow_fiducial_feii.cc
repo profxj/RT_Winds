@@ -12,12 +12,12 @@
 LINES lines;
 
 // monte carlo parameters
-double n_photons =  1e7;    // number of photons
+double n_photons =  2e7;    // number of photons
 double stepsize  = 0.01;   // maximum size of photon step 
 
 // output spectrum parameters
-double l_start   =  2575;     // beginning wavelength (Angstroms)
-double l_stop    =  2610;     // ending wavelength (Angstroms)
+double l_start   =  2575;     // photon beginning wavelength (Angstroms)
+double l_stop    =  2635;     // photon ending wavelength (Angstroms)
 double l_delta   =   0.1;     // wavelength resolution (Angstroms)
 double F_cont    =    1;      // continuum flux level
 int    n_mu      =    1;      // number of theta bins
@@ -72,15 +72,7 @@ int verbose;             // output parameter
 int main(int argc, char **argv)
 {
 
-  // Dust info
-  // printf("# NH_COLM %.3e, dust_norm %.3e\n", nH_colm,dust_norm);
-  // if(argc < 2) return 0;
-  // dust_tau = atof(argv[1]);
-  // dust_norm   =  dust_tau / dust_cs /  nH_colm / KPARSEC ;  // Normalization to give dust_tau
-  //    printf("# argc %d dust_norm %.3e\n",argc, dust_norm);
-  
-  // Photons
-  // if(argc > 2) n_photons = atof(argv[2]);
+  // Initialize
   lines.Init("fe_uv1.lines");
 
   void Run_Monte_Carlo(char*);
@@ -184,6 +176,9 @@ void Run_Monte_Carlo(char *outfile)
   int n_wave = (l_stop - l_start)/l_delta;
   double E_p = F_cont*n_wave*n_mu*n_phi/n_photons*l_delta;
 
+  // Zero out dust
+  dust_scatter = 0;
+
   // send the photons
   for (i=0;i<n_photons;i++)
   {
@@ -223,14 +218,6 @@ void Run_Monte_Carlo(char *outfile)
 	if (l_step < step) {step = l_step; scatter = l; }
       }
 
-      // get distance to dust scatter/absorption
-      tau_r = -1.0*log(1 - gsl_rng_uniform(rangen));
-      tau_x = KPARSEC*dens_H*dust_norm*dust_cs;
-      d_step = tau_r/tau_x;
-      if (tau_x == 0) d_step = VERY_LARGE_NUMBER;
-      if (d_step < step) {step = d_step; scatter = -1; dust_scatter = 1; }
-      else  dust_scatter = 0;
-      
       // take the step
       r[0] += D[0]*step;
       r[1] += D[1]*step;
@@ -311,20 +298,6 @@ void Run_Monte_Carlo(char *outfile)
 	}
       }
 
-      if (dust_scatter)
-      {
-	double z =  gsl_rng_uniform(rangen);
-	if (z > dust_albedo) {count_it = 0; break; }
-	// choose new isotropic direction
- 	mu  = 1 - 2.0*gsl_rng_uniform(rangen);
- 	phi = 2.0*PI*gsl_rng_uniform(rangen);
- 	sin_theta = sqrt(1 - mu*mu);
- 	D[0] = sin_theta*cos(phi);
- 	D[1] = sin_theta*sin(phi);
- 	D[2] = mu;
-      }
-   }	
- 
     // Count spectrum if needed
     double l_obs,t_obs,E_obs,m_obs,p_obs;
     if (count_it) 

@@ -42,6 +42,7 @@
 #define YEAR_TO_SEC  2.2896e7
 #define KM_TO_CM        1.0e5
 #define ANGS_TO_CM      1.0e-8 
+#define ANGS_TO_NM      1.0e-1 
 #define CM_TO_ANGS      1.0e8 
 
 // helpful stuff

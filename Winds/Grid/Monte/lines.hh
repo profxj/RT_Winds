@@ -22,6 +22,7 @@ public:
 
   int n() { return n_lines; }
   double lambda(int i)   {return  l[i].lam; }
+  double fval(int i)   {return  l[i].f_lu; }
   int    n_branch(int i) {return  l[i].n_branch; }
   double P_scat(int i)   {return  l[i].P_scat;}
   double cs(int i)       { return l[i].fX; }

@@ -175,8 +175,6 @@ void Run_Monte_Carlo(char *outfile)
   // Energy per photon
   int n_wave = (l_stop - l_start)/l_delta;
   double E_p = F_cont*n_wave*n_mu*n_phi/n_photons*l_delta;
-
-  // Zero out dust
   dust_scatter = 0;
 
   // send the photons
@@ -218,6 +216,14 @@ void Run_Monte_Carlo(char *outfile)
 	if (l_step < step) {step = l_step; scatter = l; }
       }
 
+      // get distance to dust scatter/absorption
+//      tau_r = -1.0*log(1 - gsl_rng_uniform(rangen));
+//      tau_x = KPARSEC*dens_H*dust_norm*dust_cs;
+//      d_step = tau_r/tau_x;
+//      if (tau_x == 0) d_step = VERY_LARGE_NUMBER;
+//      if (d_step < step) {step = d_step; scatter = -1; dust_scatter = 1; }
+//      else  dust_scatter = 0;
+      
       // take the step
       r[0] += D[0]*step;
       r[1] += D[1]*step;
@@ -298,6 +304,20 @@ void Run_Monte_Carlo(char *outfile)
 	}
       }
 
+      //      if (dust_scatter)
+            //{
+	      //double z =  gsl_rng_uniform(rangen);
+	      //if (z > dust_albedo) {count_it = 0; break; }
+	      //// choose new isotropic direction
+ 	      //mu  = 1 - 2.0*gsl_rng_uniform(rangen);
+ 	      //      //phi = 2.0*PI*gsl_rng_uniform(rangen);
+ 	      //sin_theta = sqrt(1 - mu*mu);
+ 	      //D[0] = sin_theta*cos(phi);
+ 	      //D[1] = sin_theta*sin(phi);
+ 	      //D[2] = mu;
+            //}
+   }	
+ 
     // Count spectrum if needed
     double l_obs,t_obs,E_obs,m_obs,p_obs;
     if (count_it) 

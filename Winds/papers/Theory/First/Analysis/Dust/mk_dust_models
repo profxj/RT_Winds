@@ -8,3 +8,5 @@ mv spec.dat Output/spec_MgII_tau10.0.dat
 #mpirun -np 4 outflow_dust_mgii 100.0
 #mv spec.dat Output/spec_MgII_tau100.0.dat
 # FeII
+mpirun -np 4 outflow_dust_feii 1.0
+mv spec.dat Output/spec_FeII_tau1.0.dat

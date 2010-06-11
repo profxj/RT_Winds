@@ -9,3 +9,4 @@ cp ../../../../../Simple/spectrum.cc .
 cp ../../../../../Simple/spectrum.hh .
 cp ../../../../../Simple/physical_constants.hh .
 cp ../../../../../Grid/Monte/lines.hh .
+cp ../../../../../Grid/Monte/fe_uv1.lines .

@@ -35,13 +35,19 @@ pro mkall_fig
 ;;;;;;;;;;;;;;;;
 ;; Complexity
 
+  ;; Asymmetry
+  fig_asymm_spec
+
+  ;; Dust
+  fig_doppler_spec
+
   ;; Dust
   fig_dust_spec
 
 ;;;;;;;;;;;;;;;;
 ;; Observations
 
-  fig_slitwidth
+;  fig_slitwidth
 
 
   return

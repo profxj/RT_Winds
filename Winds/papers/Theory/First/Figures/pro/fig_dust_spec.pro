@@ -27,7 +27,7 @@ pro fig_dust_spec, RREAL=rreal
 
   ;; Plot FeII
   yrng=[0., 1.8]
-  xrng=[2580, 2635]
+  xrng=[2580, 2610]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $
         xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
@@ -36,11 +36,24 @@ pro fig_dust_spec, RREAL=rreal
   Fe_fil = ''
   for kk=0L,nFe-1 do begin
      readf, 1, Fe_fil
+     ;; Parse
+     i1pos = strpos(Fe_fil, 'tau')
+     i2pos = strpos(Fe_fil, '.dat')
+     if i1pos LT 0 then tau = 0. else $
+        tau = float(strmid(Fe_fil, i1pos+3, i2pos-i1pos+2))
      readcol, Fe_fil, wv, fx, /silen
-     ;;
-     oplot, wv, fx, color=clrs[kk], psym=10, thick=3
+     nrm = median(fx[where(wv GT 2605)])
+     ;; Plot
+     oplot, wv, fx/nrm, color=clrs[kk], psym=10, thick=3
+
+     ;; Label
+     xyouts, xrng[0] + 0.1*(xrng[1]-xrng[0]), $
+             yrng[1] - (0.1 + kk*0.1)*(yrng[1]-yrng[0]), $
+             '!9t!X!ddust!N = '+string(tau,format='(f4.1)'), $
+             color=clrs[kk], charsi=lsz
+
   endfor
-  
+
   oplot, replicate(2586.650,2), yrng, color=clr.gray, linesty=2
   oplot, replicate(2600.173,2), yrng, color=clr.gray, linesty=2
   xyouts, xrng[0]+xlbl*(xrng[1]-xrng[0]), yrng[1]*ylbl, $

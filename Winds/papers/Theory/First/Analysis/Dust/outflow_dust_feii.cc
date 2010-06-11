@@ -12,14 +12,12 @@
 LINES lines;
 
 // monte carlo parameters
-double n_photons =  1e7;    // number of photons
+double n_photons =  2e7;    // number of photons
 double stepsize  = 0.01;   // maximum size of photon step 
 
 // output spectrum parameters
-double spec_start   =  2575;     // spectrum beginning wavelength (Angstroms)
-double spec_stop    =  2635;     // spectrum ending wavelength (Angstroms)
 double l_start   =  2575;     // photon beginning wavelength (Angstroms)
-double l_stop    =  2610;     // photon ending wavelength (Angstroms)
+double l_stop    =  2635;     // photon ending wavelength (Angstroms)
 double l_delta   =   0.1;     // wavelength resolution (Angstroms)
 double F_cont    =    1;      // continuum flux level
 int    n_mu      =    1;      // number of theta bins
@@ -176,8 +174,8 @@ void Run_Monte_Carlo(char *outfile)
   // define spectrum counter
   SPECTRUM spectrum;
   double lgrid[3];
-  lgrid[0] = spec_start;
-  lgrid[1] = spec_stop;
+  lgrid[0] = l_start;
+  lgrid[1] = l_stop;
   lgrid[2] = l_delta;
   spectrum.Init(lgrid,n_mu,n_phi);
   spectrum.Set_Name(outfile);

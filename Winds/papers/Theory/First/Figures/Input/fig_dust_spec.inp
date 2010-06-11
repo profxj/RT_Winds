@@ -1,6 +1,8 @@
-0
+2
+../Analysis/Dust/Output/spec_FeII_tau1.0.dat
+../Analysis/Dust/Output/spec_FeII_tau1.0.dat
 4
-../Analysis/spec_MgII_fiducial.dat
+../Analysis/Fiducial/Output/spec_MgII_fiducial.dat
 ../Analysis/Dust/Output/spec_MgII_tau1.0.dat
 ../Analysis/Dust/Output/spec_MgII_tau3.0.dat
 ../Analysis/Dust/Output/spec_MgII_tau10.0.dat

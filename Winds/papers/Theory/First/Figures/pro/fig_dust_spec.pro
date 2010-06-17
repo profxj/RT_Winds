@@ -7,6 +7,7 @@ pro fig_dust_spec, RREAL=rreal
   if not keyword_set(lSZ) then lsz = 1.5
   if not keyword_set(lSZ2) then lsz2 = 1.3
   if not keyword_set(XNCOLORS) then xncolors=200L
+  if not keyword_set(YSTP) then ystp = 0.07
   xlbl = 0.5
   ylbl = 0.85
 
@@ -27,7 +28,7 @@ pro fig_dust_spec, RREAL=rreal
 
   ;; Plot FeII
   yrng=[0., 1.8]
-  xrng=[2580, 2610]
+  xrng=[2580, 2635]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $
         xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
@@ -48,7 +49,7 @@ pro fig_dust_spec, RREAL=rreal
 
      ;; Label
      xyouts, xrng[0] + 0.1*(xrng[1]-xrng[0]), $
-             yrng[1] - (0.1 + kk*0.1)*(yrng[1]-yrng[0]), $
+             yrng[1] - (0.1 + kk*ystp)*(yrng[1]-yrng[0]), $
              '!9t!X!ddust!N = '+string(tau,format='(f4.1)'), $
              color=clrs[kk], charsi=lsz
 
@@ -86,7 +87,7 @@ pro fig_dust_spec, RREAL=rreal
 
      ;; Label
      xyouts, xrng[0] + 0.1*(xrng[1]-xrng[0]), $
-             yrng[1] - (0.1 + kk*0.1)*(yrng[1]-yrng[0]), $
+             yrng[1] - (0.1 + kk*ystp)*(yrng[1]-yrng[0]), $
              '!9t!X!ddust!N = '+string(tau,format='(f4.1)'), $
              color=clrs[kk], charsi=lsz
 

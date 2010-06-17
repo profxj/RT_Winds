@@ -8,7 +8,7 @@ pro fig_asymm_spec, RREAL=rreal
   if not keyword_set(lSZ2) then lsz2 = 1.3
   if not keyword_set(XNCOLORS) then xncolors=200L
 
-;  if not keyword_set(FeII_grid) then FeII_grid =  '../Analysis/Asymmetric/FeII_grids.fits'
+  if not keyword_set(FeII_grid) then FeII_grid =  '../Analysis/Asymmetric/feII_grids.fits'
   if not keyword_set(MgII_grid) then MgII_grid = '../Analysis/Asymmetric/mgII_grids.fits'
   if not keyword_set( GRID_FILE ) then $
     grid_file = '../Analysis/Outputs/fiducial_grid.fits'
@@ -29,7 +29,6 @@ pro fig_asymm_spec, RREAL=rreal
   ymrg = [4.5,1]
 
   if keyword_set(FeII_grid) then begin
-     nFe = 6
 
      ;; Plot FeII
      yrng=[0., 1.8]
@@ -39,13 +38,37 @@ pro fig_asymm_spec, RREAL=rreal
            xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
            xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata
      
-     Fe_fil = ''
+     ;; Fiducial
+     feII_data = xmrdfits(grid_file, 2, /silent)
+     feII_wave = xmrdfits(grid_file, 3, /silent)
+     dwv_feII = abs(feii_wave[1]-feii_wave[0])
+     feII_data = float(feII_data)
+     sz_feii = size(feII_data,/dimen)
+     
+     spec_feii = total(total(feii_data,1),1)
+     oplot, feii_wave, spec_feii, color=clr.black, psym=10, thick=3
+     ystp = 0.065
+     xyouts, xrng[0]+xlbl2*(xrng[1]-xrng[0]), yrng[1]-ystp*(yrng[1]-yrng[0]), $
+             'Fiducial', color=clr.black, charsiz=lsz
+
+
+     angles = [0, 120, 150, 180, 30, 60, 90]
+     nFe = n_elements(angles)
+     feII_wave = xmrdfits(FeII_grid, 0, /silent)
+     dwv_feII = abs(feii_wave[1]-feii_wave[0])
      for kk=0L,nFe-1 do begin
-        readf, 1, Fe_fil
-        readcol, Fe_fil, wv, fx, /silen
+        feII_data = xmrdfits(FeII_grid, kk+1, /silent)
+        feII_data = float(feII_data)
+        sz_feii = size(feII_data,/dimen)
+
+        spec_feii = total(total(feii_data,1),1)
         ;;
-        oplot, wv, fx, color=clrs[kk], psym=10, thick=3
+        oplot, feII_wave, spec_feii, color=clrs[kk+1], psym=10, thick=3
+        ;;
+        xyouts, xrng[0]+xlbl2*(xrng[1]-xrng[0]), yrng[1]-(kk+2)*ystp*(yrng[1]-yrng[0]), $
+                'Angle='+strtrim(angles[kk],2), color=clrs[kk+1], charsiz=lsz
      endfor
+
      
      oplot, replicate(2586.650,2), yrng, color=clr.gray, linesty=2
      oplot, replicate(2600.173,2), yrng, color=clr.gray, linesty=2

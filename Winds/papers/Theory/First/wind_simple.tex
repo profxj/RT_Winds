@@ -4,6 +4,8 @@
 \special{papersize=8.5in,11in}
 \begin{document}
 
+\newcommand{\taud}{$\tau_{\rm dust}$}
+\newcommand{\mtaud}{\tau_{\rm dust}}
 \newcommand{\maconfig}{2p$^6$3s}
 \newcommand{\mbconfig}{2p$^6$3p}
 \newcommand{\aconfig}{a~$^6$D$^0$}
@@ -15,6 +17,7 @@
 \newcommand{\mgiib}{\ion{Mg}{2}~$\lambda 2803$}
 \newcommand{\feiia}{\ion{Fe}{2}~$\lambda 2586$}
 \newcommand{\feiib}{\ion{Fe}{2}~$\lambda 2600$}
+\newcommand{\feiic}{\ion{Fe}{2}$^* \; \lambda 2612$}
 \newcommand{\feiid}{\ion{Fe}{2}~$\lambda\lambda 2586, 2600$}
 \newcommand{\nmg}{$n_{\rm Mg^+}$}
 \newcommand{\mnmg}{n_{\rm Mg^+}}
@@ -238,6 +241,18 @@ region $r_{\rm source}$, however, is a variable parameter.
 
 [Put tests in an Appendix?]
 
+\subsection{Dust}
+\label{sec:dust_method}
+
+\begin{itemize}
+\item Define \taud
+\item Dust scales with $n_H$
+\item No wavelength dependence
+\item Conversion to IR photons (not tracked)
+\end{itemize}
+
+
+
 \section{A Fiducial Wind Model}
 \label{sec:fiducial}
 
@@ -432,6 +447,117 @@ wind (Figure~\ref{fig:fiducial_ifu_feii2612}).
 [Show a cut and comment on the fraction of light in 1-3\,kpc, 1-10,
 and 1-20; ignoring the source]
 
+\section{Complexity}
+
+\subsection{Anisotropic Winds}
+\label{sec:anisotropic}
+
+The fiducial model explored in the previous section assumed an
+isotropic wind with variations in velocity and density only
+along the radial dimension.  This is obviously an idealized case, but
+one that is frequently adopted in the literature
+\citep[e.g.][]{steidel+10}.   There are several reasons, however, why
+the wind might not be isotropic.  For example, the sources driving the
+wind (e.g.\ supernovae, an AGN) may be anisotropically distributed
+within the galaxy.  It is also possible that gas within the galactic
+halo preferentially suppresses the wind on one side.  [Any other
+reason?]
+
+With these considerations in mind, we reanalyzed the fiducial model
+with the 3D algorithm after setting the density to zero for $2\pi$ steradians.
+We then rotated our view of this system from $\theta = 0^\circ$ where
+we view the source directly to $\theta = 180^\circ$ where the source
+is covered by this anisotropic wind.  The resulting \ion{Mg}{2} and
+\ion{Fe}{2} profiles are compared against the fiducial model
+(isotropic wind) in Figure~\ref{fig:anisotropic}.  
+
+Examining the \mgiid\ doublet first, 
+there is no attenutation of the source by the wind for $\theta =
+0^\circ$
+but one does observe significant line emission from photons scattered
+off the back side.  These, by definition, have $v \gtrsim 0 \mkms$
+relative to line-center with a modest emission at $v<0 \mkms$ related
+to turbulent motions within the wind ($b_{\rm turb} = 15 \mkms$).
+When viewed from the opposite direction ($\theta = 180^\circ$), the
+absorption lines dominate althrough there is still signficant
+line-emission at $v \approx 0 \mkms$ (at at $v < 0 \mkms$ which fills
+in the absorption) from photons that scatter through the wind.  The
+key difference from the isotropic wind is the absence of photons
+scatterd to $v > 100 \mkms$.  In this respect, the emission lines
+provide a (robust?) diagnostic for wind isotropy.  [Also note the
+greater depth of MgII 2803?]
+For $\theta = 90^\circ$, the wind covers one half of the source and
+one observes half the absorption and also emission at all velocities.
+
+The results are very similar for the \feiid\ resonance lines.  The
+\ion{Fe}{2}$^* \; \lambda 2612$ line, meanwhile, shows clearly the
+separation in velocity for the line-emission.   [Anything else?]
+
+
+[Does the emission extend to +1000\kms?  Is it a good tracer of the of
+the dynamics (unlike \lya)? Good for Obs Section]
+
+\subsection{Dust}
+
+Essentially all astrophysical environments that contain both cool gas
+and metals also show signatures of dust depletion and extinction.  This includes the
+ISM of star-forming and \ion{H}{1}-selected galaxies
+\citep[e.g.][]{ss96,pw01,pcd+07}, strong \ion{Mg}{2} metal-line
+absorption systems \citep{york,menard}, and the galactic winds traced
+by low-ion transitions \citep{cb58,naI}.  Although the galactic winds
+traced by \ion{Mg}{2} and \ion{Fe}{2} transitions have not (yet) been
+demonstrated to contain dust, it is reasonable to include at this
+stage.  
+
+Dust will affect our results for the line profiles in two respects.
+First, it serves as an opacity for the photons
+emitted by the source.  This will suppress the flux at all
+wavelengths by $\approx \exp{-\mtaud}$, but because we are normalizing the profiles to the
+continuum this is essentially ignored.  Second, photons that are
+scattered by the wind (once ore multiple times) into our view will travel a greater
+distance and suffer from greater extinction.  A photon that is
+trapped for many scatterings may have a high probability of absorbed
+by dust and leave the system as IR photons.  Indeed, this process is
+often the explanation given for the weak (or absent) \lya\ emission
+associated with star-forming galaxies \citep[e.g.][]{lya}.
+Section~\ref{sec:dust_method} describes our treatment of dust; we only
+remind the reader here that the opacity is assumed to scale with the
+gas density and that we normalized the extinction by the total optical
+depth $\tau_d$ that a photon would experience if it travelled from the
+source to infinity without scattering. 
+
+In Figure~\ref{fig:dust} we show the \ion{Mg}{2} and \ion{Fe}{2}
+profiles of the fiducial model ($\mtaud = 0$) against a series of
+models with $\mtaud > 0$.  For the \ion{Mg}{2} transitions, the
+dominant effect is the suppression of the line emission at $v \ge 0
+\mkms$.  These `red' photons, of course, were scattered off the
+backside of the wind and must travel a longer path than the other
+photons.  This differnetial reddening with increasing wavelength (and
+velocity relative to line-center) is a natural consequence of dust
+extinction and is most evident in the \ion{Fe}{2}$^* \; \lambda 2612$
+emission profile.   Only for $\tau_d = 10$ does one observe a
+significant difference in the absorption profiles, specifically a
+greater degree of apparent absorption at $v \approx -150 \mkms$.  At
+such high levels of extinction, even the photons off the frontside of the
+wind are preferentially absorbed relative to the unabsorbed photons.
+Such a high dust opacity, however, implies the source itself is
+extinguished by 15\,magnitudes and it would never be observed. 
+Even $\mtaud = 3$ would be much larger than typically inferred for the
+star-forming galaxies that drive outflows \citep[e.g.][]{dust}.
+
+To summarize,  dust is likely to have only a modest effect on
+\ion{Mg}{2} and \ion{Fe}{2} transitions which have themselves only
+modest optical depths.  [How big would $\tau_{\rm MgII}$ have to get?]
+The dominant effect is a reduction in the flux of the emission lines
+with greater extinction at higher velocities relative to line-center.
+In these respects, this roughly mimics the behavior of the anistropic
+wind described in Section~\ref{sec:anisotropic}. [Is there a
+distinguishing factor, e.g. flux of 2612/2600??]
+
+[Do again for fiducial but with a higher $n_H$?  Do for other density
+laws, but maybe not show]
+
+
 \section{Discussion}
 
 [Are MgII and FeII* emission strict predictions of outflows?  People
@@ -586,6 +712,41 @@ In this case, the source is unattenuated yet scattered photons from
 the wind also have a significant contribution. 
 }
 \label{fig:fiducial_ifu_feii2612}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{Figures/fig_asymm_spec.ps}
+\caption{
+Profiles of the \ion{Fe}{2} and \ion{Mg}{2} profiles for the fiducial
+case (black lines) compared against an anisotropic wind blowing into
+only $2\pi$ steradians viewed from $\theta = 0^\circ$ (source
+uncovered) to $\theta = 180^\circ$ (source covered).  One detects
+significant emission for all orientations of this wind with the
+emission shifting from positive to negative velocities as $\theta$
+increases.  
+}
+\label{fig:anisotropic}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{Figures/fig_dust_spec.ps}
+\caption{
+Profiles of the \ion{Fe}{2} and \ion{Mg}{2} profiles for the fiducial
+model (black) against a series of models that include the effects of
+dust extinction.  The primary difference is the suppression of line
+emission relative to the continuum (again, normalized to unit value).
+A more subtle but important effect is that the redder photons in the
+emission lines (corresponding to higher velocity relative to
+line-center) suffer greater extinction.  This is most evident in the
+\feiic\ emission line and is due to the fact that these photons must
+travel further by scattering off the backside of the wind.  Note that
+the absorption lines are nearly unmodified until $\mtaud = 10$, a
+level of extinction that would preclude observing the source
+altogether.
+}
+\label{fig:dust}
 \end{figure}
 
 

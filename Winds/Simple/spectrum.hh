@@ -28,7 +28,7 @@ private:
   LOCATE_ARRAY phi_grid;
   
   // counting arrays
-  double *click,*count; 
+  double *click,*count, *scatt_count; 
   double n_escaped;
 
   // Return total index given index of time,lambda,mu,phi
@@ -49,6 +49,7 @@ public:
   void Set_Data_Directory(string f) {  datadir = f; }
 
   void Count(double, double, double, double, double);
+  void Scatter(double, double, double, double, double);
     
   // MPI functions
   void MPI_Sum_All();

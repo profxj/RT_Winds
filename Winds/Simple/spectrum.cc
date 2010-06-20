@@ -39,6 +39,7 @@ void SPECTRUM::Init(double *t, double *l, int nmu, int nphi)
   // allocate
   click  = new double[n_elements];
   count  = new double[n_elements];
+  scatt_count  = new double[n_elements];
 
   // clear 
   Wipe();
@@ -102,6 +103,23 @@ void SPECTRUM::Count(double t, double l, double mu, double phi, double E)
   click[index]  += 1;
 }
 
+void SPECTRUM::Scatter(double t, double l, double mu, double phi, double E)
+{
+
+  // locate bin number in all dimensions
+  int t_bin = time_grid.Locate(t);
+  int l_bin = lambda_grid.Locate(l);
+  int m_bin = mu_grid.Locate(mu);
+  int p_bin = phi_grid.Locate(phi);
+
+  // if off the grids, just return without counting
+  if ((t_bin < 0)||(l_bin < 0)||(m_bin < 0)||(p_bin < 0)) return;
+  
+  // add to counters
+  int index      = Index(t_bin,l_bin,m_bin,p_bin);
+  scatt_count[index]  += E;
+}
+
 
 //***************************************************************
 //--------------------------------------------------------------
@@ -127,8 +145,8 @@ void SPECTRUM::Print_Spectrum()
 	  if (n_times > 1) fprintf(out,"%15.5e ",time_grid.Center(i));
 	  if (n_mu > 1) fprintf(out,"%15.5e ",mu_grid.Center(m));
 	  if (n_phi > 1) fprintf(out,"%15.5e ",phi_grid.Center(p));
-	  fprintf(out,"%15.5e %15.5e %15.5e\n",
-	    lambda_grid.Center(j),count[id],click[id]);
+	  fprintf(out,"%15.5e %15.5e %15.5e %15.5e\n",
+		  lambda_grid.Center(j),count[id],scatt_count[id],click[id]);
 	}
   
   fclose(out);

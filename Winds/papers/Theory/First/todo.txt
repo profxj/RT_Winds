@@ -3,3 +3,5 @@ for line profile  ~ r_wind/r_source
 2. Rerun the fiducial models with the 'proper' r_source value
 3. Label kpc on the other axis of the RHS boxes
 4. Do a range of b-values
+5. Make sure the inner bounday is not absorbing any photons in the non-ISM models
+6. Discuss the launching radius in the text (1D and 3D are a bit different in that all the 1D come from r_emit whereas the 3D probably comes from a range)

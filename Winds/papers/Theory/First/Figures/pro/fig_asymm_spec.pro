@@ -13,9 +13,13 @@ pro fig_asymm_spec, RREAL=rreal
   if not keyword_set( GRID_FILE ) then $
     grid_file = '../Analysis/Outputs/fiducial_grid.fits'
 
-  xlbl = 0.5
+  if not keyword_set(ALL_ANG) then all_ang = [0, 120, 150, 180, 30, 60, 90]
+  if not keyword_set(ANGLES) then angles = [0, 180, 90, 120]
+  if not keyword_set(FE_ANGLES) then fe_angles = [0, 180, 90]
+
+  xlbl = 0.3
   xlbl2 = 0.06
-  ylbl = 0.85
+  ylbl = 0.90
 
   close, /all
 
@@ -24,106 +28,133 @@ pro fig_asymm_spec, RREAL=rreal
   !p.multi = [0,1,2]
   clr = getcolor(/load)
   clrs = x_setclrs()
+  tmp = clrs[1]
+  clrs[1] = clrs[2]
+  clrs[2] = tmp
 
-  xmrg = [9,1]
-  ymrg = [4.5,1]
+  xmrg = [8,3]
+  ymrg = [4.5,0.5]
 
-  if keyword_set(FeII_grid) then begin
 
+  xrng=[2580, 2618]
+  xcut = 2605.
+  off = 1.
+  
+  for ss=0,1 do begin
      ;; Plot FeII
-     yrng=[0., 1.8]
-     xrng=[2580, 2635]
+     case ss of 
+        0: begin
+           yrng=[0., 1.8] 
+           ysty = 9
+           wvmnx = [xrng[0], xcut-off]
+        end
+        1: begin
+              yrng=[0.95,1.25]
+              ysty = 5
+              wvmnx = [xcut+off,xrng[1]]
+           end
+        else: stop
+     endcase
+     
      plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
            xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $
            xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
-           xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata
+           xrange=xrng, ystyle=ysty, xstyle=1, psym=1, /nodata, /NOERASE
+     if ss EQ 1 then axis, yaxis=1, charsiz=csz, ysty=1, xrang=yrng, ytickint=0.1
      
      ;; Fiducial
-     feII_data = xmrdfits(grid_file, 2, /silent)
-     feII_wave = xmrdfits(grid_file, 3, /silent)
+     feII_data = xmrdfits(grid_file, 0, /silent)
+     feII_wave = xmrdfits(grid_file, 1, /silent)
      dwv_feII = abs(feii_wave[1]-feii_wave[0])
      feII_data = float(feII_data)
      sz_feii = size(feII_data,/dimen)
      
      spec_feii = total(total(feii_data,1),1)
-     oplot, feii_wave, spec_feii, color=clr.black, psym=10, thick=3
+     pix = where(feii_wave GT wvmnx[0] and feii_wave LT wvmnx[1])
+     oplot, feii_wave[pix], spec_feii[pix], color=clr.black, psym=10, thick=3
      ystp = 0.065
-     xyouts, xrng[0]+xlbl2*(xrng[1]-xrng[0]), yrng[1]-ystp*(yrng[1]-yrng[0]), $
-             'Fiducial', color=clr.black, charsiz=lsz
-
-
-     angles = [0, 120, 150, 180, 30, 60, 90]
-     nFe = n_elements(angles)
+     if ss EQ 0 then $
+        xyouts, xrng[0]+xlbl2*(xrng[1]-xrng[0]), yrng[1]-ystp*(yrng[1]-yrng[0]), $
+                'Fiducial', color=clr.black, charsiz=lsz
+     
+     nFe = n_elements(fe_angles)
      feII_wave = xmrdfits(FeII_grid, 0, /silent)
      dwv_feII = abs(feii_wave[1]-feii_wave[0])
+     pix = where(feii_wave GT wvmnx[0] and feii_wave LT wvmnx[1])
      for kk=0L,nFe-1 do begin
-        feII_data = xmrdfits(FeII_grid, kk+1, /silent)
+        jj = where(fe_angles[kk] EQ all_ang)
+        feII_data = xmrdfits(FeII_grid, jj[0]+1, /silent)
         feII_data = float(feII_data)
         sz_feii = size(feII_data,/dimen)
-
+        
         spec_feii = total(total(feii_data,1),1)
         ;;
-        oplot, feII_wave, spec_feii, color=clrs[kk+1], psym=10, thick=3
+        oplot, feII_wave[pix], spec_feii[pix], color=clrs[kk+1], psym=10, thick=3
         ;;
-        xyouts, xrng[0]+xlbl2*(xrng[1]-xrng[0]), yrng[1]-(kk+2)*ystp*(yrng[1]-yrng[0]), $
-                'Angle='+strtrim(angles[kk],2), color=clrs[kk+1], charsiz=lsz
+        if ss EQ 0 then $
+           xyouts, xrng[0]+xlbl2*(xrng[1]-xrng[0]), yrng[1]-(kk+2)*ystp*(yrng[1]-yrng[0]), $
+                   'Angle='+strtrim(fe_angles[kk],2), color=clrs[kk+1], charsiz=lsz
      endfor
-
      
-     oplot, replicate(2586.650,2), yrng, color=clr.gray, linesty=2
-     oplot, replicate(2600.173,2), yrng, color=clr.gray, linesty=2
-     xyouts, xrng[0]+xlbl*(xrng[1]-xrng[0]), yrng[1]*ylbl, $
-             'FeII', color=clr.black, charsiz=lsz
-     oplot, xrng, [1., 1.], color=clr.red, linestyle=1, thick=1
-  endif
+  endfor
+     
+  oplot, replicate(xcut,2), yrng, color=clr.gray, linesty=2
+  oplot, replicate(2586.650,2), yrng, color=clr.gray, linesty=2, thick=1
+  oplot, replicate(2600.173,2), yrng, color=clr.gray, linesty=2, thick=1
+  oplot, replicate(2612.6542,2), yrng, color=clr.gray, linesty=2, thick=1
+  xyouts, xrng[0]+xlbl*(xrng[1]-xrng[0]), yrng[0]+(yrng[1]-yrng[0])*ylbl, $
+          'FeII', color=clr.black, charsiz=lsz
+;  oplot, xrng, [1., 1.], color=clr.red, linestyle=1, thick=1
 
-  if keyword_set(MgII_grid) then begin
+  x_curvefill, [xcut-off,xcut+off], [0., 0.], [10., 10], color=clr.tan
 
-     ;; Plot MgII
-     yrng=[0., 2.5]
-     xrng=[2786., 2810]
-     plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
-           xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $
-           xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
-           xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Plot MgII
+  !p.multi = [1,1,2]
 
-     ;; Fiducial
-     mgII_data = xmrdfits(grid_file, 2, /silent)
-     mgII_wave = xmrdfits(grid_file, 3, /silent)
-     dwv_mgII = abs(mgii_wave[1]-mgii_wave[0])
+  yrng=[0., 2.5]
+  xrng=[2786., 2809.8]
+  plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
+        xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $
+        xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
+        xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata
+  
+  ;; Fiducial
+  mgII_data = xmrdfits(grid_file, 2, /silent)
+  mgII_wave = xmrdfits(grid_file, 3, /silent)
+  dwv_mgII = abs(mgii_wave[1]-mgii_wave[0])
+  mgII_data = float(mgII_data)
+  sz_mgii = size(mgII_data,/dimen)
+  
+  spec_mgii = total(total(mgii_data,1),1)
+  oplot, mgii_wave, spec_mgii, color=clr.black, psym=10, thick=3
+  ystp = 0.065
+  xyouts, xrng[0]+xlbl2*(xrng[1]-xrng[0]), yrng[1]-ystp*(yrng[1]-yrng[0]), $
+          'Fiducial', color=clr.black, charsiz=lsz
+  
+  
+  nMg = n_elements(angles)
+  mgII_wave = xmrdfits(MgII_grid, 0, /silent)
+  dwv_mgII = abs(mgii_wave[1]-mgii_wave[0])
+  for kk=0L,nMg-1 do begin
+     jj = where(angles[kk] EQ all_ang)
+     mgII_data = xmrdfits(MgII_grid, jj[0]+1, /silent)
      mgII_data = float(mgII_data)
      sz_mgii = size(mgII_data,/dimen)
      
      spec_mgii = total(total(mgii_data,1),1)
-     oplot, mgii_wave, spec_mgii, color=clr.black, psym=10, thick=3
-     ystp = 0.065
-     xyouts, xrng[0]+xlbl2*(xrng[1]-xrng[0]), yrng[1]-ystp*(yrng[1]-yrng[0]), $
-             'Fiducial', color=clr.black, charsiz=lsz
-
-
-     angles = [0, 120, 150, 180, 30, 60, 90]
-     nMg = n_elements(angles)
-     mgII_wave = xmrdfits(MgII_grid, 0, /silent)
-     dwv_mgII = abs(mgii_wave[1]-mgii_wave[0])
-     for kk=0L,nMg-1 do begin
-        mgII_data = xmrdfits(MgII_grid, kk+1, /silent)
-        mgII_data = float(mgII_data)
-        sz_mgii = size(mgII_data,/dimen)
-
-        spec_mgii = total(total(mgii_data,1),1)
-        ;;
-        oplot, mgII_wave, spec_mgii, color=clrs[kk+1], psym=10, thick=3
-        ;;
-        xyouts, xrng[0]+xlbl2*(xrng[1]-xrng[0]), yrng[1]-(kk+2)*ystp*(yrng[1]-yrng[0]), $
-                'Angle='+strtrim(angles[kk],2), color=clrs[kk+1], charsiz=lsz
-     endfor
-
-     oplot, replicate(2796.352,2), yrng, color=clr.gray, linesty=2
-     oplot, replicate(2803.531,2), yrng, color=clr.gray, linesty=2
-     xyouts, xrng[0]+xlbl*(xrng[1]-xrng[0]), yrng[1]*ylbl, $
-             'MgII', color=clr.black, charsiz=lsz
-     oplot, xrng, [1., 1.], color=clr.red, linestyle=1, thick=1
-  endif
+     ;;
+     oplot, mgII_wave, spec_mgii, color=clrs[kk+1], psym=10, thick=3
+     ;;
+     xyouts, xrng[0]+xlbl2*(xrng[1]-xrng[0]), yrng[1]-(kk+2)*ystp*(yrng[1]-yrng[0]), $
+             'Angle='+strtrim(angles[kk],2), color=clrs[kk+1], charsiz=lsz
+  endfor
+  
+  oplot, replicate(2796.352,2), yrng, color=clr.gray, linesty=2, thick=1
+  oplot, replicate(2803.531,2), yrng, color=clr.gray, linesty=2, thick=1
+  xyouts, xrng[0]+xlbl*(xrng[1]-xrng[0]), yrng[1]*ylbl, $
+          'MgII', color=clr.black, charsiz=lsz
+  oplot, xrng, [1., 1.], color=clr.red, linestyle=1, thick=1
 
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]

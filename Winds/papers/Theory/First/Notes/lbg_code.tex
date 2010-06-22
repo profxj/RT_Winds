@@ -1,0 +1,173 @@
+\documentclass[12pt,preprint]{aastex}
+\usepackage{natbib,amsmath}
+
+\special{papersize=8.5in,11in}
+\begin{document}
+
+\newcommand{\taud}{$\tau_{\rm dust}$}
+\newcommand{\mtaud}{\tau_{\rm dust}}
+\newcommand{\maconfig}{2p$^6$3s}
+\newcommand{\mbconfig}{2p$^6$3p}
+\newcommand{\aconfig}{a~$^6$D$^0$}
+\newcommand{\zconfig}{z~$^6$D$^0$}
+\newcommand{\mvr}{v_{\rm r}}
+\newcommand{\naid}{\ion{Na}{1}~$\lambda\lambda 5891, 5897$}
+\newcommand{\mgiid}{\ion{Mg}{2}~$\lambda\lambda 2796, 2803$}
+\newcommand{\mgiia}{\ion{Mg}{2}~$\lambda 2796$}
+\newcommand{\mgiib}{\ion{Mg}{2}~$\lambda 2803$}
+\newcommand{\feiia}{\ion{Fe}{2}~$\lambda 2586$}
+\newcommand{\feiib}{\ion{Fe}{2}~$\lambda 2600$}
+\newcommand{\feiic}{\ion{Fe}{2}$^* \; \lambda 2612$}
+\newcommand{\feiid}{\ion{Fe}{2}~$\lambda\lambda 2586, 2600$}
+\newcommand{\nmg}{$n_{\rm Mg^+}$}
+\newcommand{\mnmg}{n_{\rm Mg^+}}
+\newcommand{\nfe}{$n_{\rm Fe^+}$}
+\newcommand{\mnfe}{n_{\rm Fe^+}}
+\def\hub{h_{72}^{-1}}
+\def\umfp{{\hub \, \rm Mpc}}
+\def\mzq{z_q}
+\def\zabs{$z_{\rm abs}$}
+\def\mzabs{z_{\rm abs}}
+\def\intl{\int\limits}
+\def\cmma{\;\;\; ,}
+\def\perd{\;\;\; .}
+\def\ltk{\left [ \,}
+\def\ltp{\left ( \,}
+\def\ltb{\left \{ \,}
+\def\rtk{\, \right  ] }
+\def\rtp{\, \right  ) }
+\def\rtb{\, \right \} }
+\def\sci#1{{\; \times \; 10^{#1}}}
+\def \rAA {\rm \AA}
+\def \zem {$z_{\rm em}$}
+\def \mzem {z_{\rm em}}
+\def\smm{\sum\limits}
+\def \cmm  {cm$^{-2}$}
+\def \cmmm {cm$^{-3}$}
+\def \kms  {km~s$^{-1}$}
+\def \mkms  {{\rm km~s^{-1}}}
+\def \lyaf {Ly$\alpha$ forest}
+\def \Lya  {Ly$\alpha$}
+\def \lya  {Ly$\alpha$}
+\def \mlya  {Ly\alpha}
+\def \Lyb  {Ly$\beta$}
+\def \lyb  {Ly$\beta$}
+\def \lyg  {Ly$\gamma$}
+\def \ly5  {Ly-5}
+\def \ly6  {Ly-6}
+\def \ly7  {Ly-7}
+\def \nhi  {$N_{\rm HI}$}
+\def \mnhi  {N_{\rm HI}}
+\def \lnhi {$\log N_{HI}$}
+\def \mlnhi {\log N_{HI}}
+\def \etal {\textit{et al.}}
+\def \lyaf {Lyman--$\alpha$ forest}
+\def \mnmin {\mnhi^{\rm min}}
+\def \nmin {$\mnhi^{\rm min}$}
+\def \O {${\mathcal O}(N,X)$}
+\newcommand{\cm}[1]{\, {\rm cm^{#1}}}
+\def \snrlim {SNR$_{lim}$}
+
+\title{Coding the LBG Wind (in 1D)}
+
+\begin{abstract}
+These notes summarize my thoughts on how to code the LBG wind
+introduced by \cite{steidel+10} in 1D.   Am certain it can be done,
+but I'd like a reasonably fast and somewhat malleable algorithm.
+\end{abstract}
+
+\author{
+J. Xavier Prochaska
+}
+
+\section{LBG Model}
+
+\cite{steidel+10} parameterized their wind
+in terms of radius with two quantities the wind speed, $v_{\rm wind}(r)$,
+and the covering fraction of the gas $f_c(r)$.  For the wind speed,
+they use this functional form
+
+\begin{equation}
+v_{\rm wind}(r) = \ltp \frac{A}{1-\alpha} \rtp^{1/2} 
+\ltp r_{\rm min}^{1-\alpha} - r^{1-\alpha} \rtp^{1/2}
+\end{equation}
+where $r_{\rm min} = 1$\,kpc, $\alpha \approx 1.3$ and $A$ is tuned to
+give a speed of $\approx 750\mkms$ at $r \gg r_{\rm min}$.  They
+parameterize the covering fraction as a simple power-law:
+
+\begin{equation}
+f_{\rm c}(r) =  f_{\rm c,max} r^{-\gamma}
+\end{equation}
+where $\gamma = 0.5$ and the maximum covering fraction $f_{\rm
+  c,max}=0.6$ is assumed to occur at $r=r_{\rm min}$.
+
+\section{General Idea}
+
+\noindent These are the steps as I see them
+
+\begin{enumerate}
+\item Generate a photon at $r=r_{\rm min}$ with wavelength $\lambda =
+  \lambda_\gamma$
+\item Propogate it to the radius where its velocity $v_{\gamma} =
+  c(\lambda_\gamma-\lambda_0)/\lambda_0$ matches the wind
+\item Calculate $f_{\rm c}$ at that radius.
+\item Determine if the photon was scattered ($P=f_{\rm c}$.  If not, it escapes.  
+\item Decide whether the scattered photon has a chance to interact
+  with the wind again (often it will not).
+\item If it can, there should be two radii where it could.  
+\item Calculate $f_{\rm c}$ at the first radius and see if it is
+  scattered. If so, proceed as in the last few steps.  If not, carry
+  it to the next radius and repeat.
+\item Propogate the photon until is out.  
+\end{enumerate}
+
+It would be nice to allow for the possibilty of dust extinction as
+well.
+
+\section{Some Minutiae}
+
+As I see it, the only challenging part is to determine whether a
+scattered photon has a non-zero probability of interacting with the
+wind again.  Here is one way of formalizing the problem (in 2D,
+i.e. $x,y$ or $r,\theta$).
+
+First, assume the photon has scattered at a position
+$x_\gamma^0,y_\gamma^0$.  We will assume it scatters into a direction
+$\hat \phi$.  Parameterizing its path by the variable $s$, we have:
+
+\begin{align}
+x_\gamma(s) &= x^0_\gamma + s \, \cos\phi \\
+y_\gamma(s) &= y^0_\gamma + s \, \sin\phi
+\end{align}
+which translates into
+\begin{align}
+\theta_\gamma &= \tan^{-1}(y_\gamma/x_\gamma) \\
+r_\gamma &= \ltk x_\gamma^2 + y_\gamma^2 \rtk^{1/2}
+\end{align}
+
+The idea, then, is to solve for the two values of $s$ where:
+
+\begin{equation}
+v_{\rm wind}(s) [\hat r(s) \times \hat \phi] = v_\gamma
+\end{equation}
+where the stuff in square brackets captures the direction of the
+photon relative to the radial direction.
+
+I had thought initially that this would be a simple quadratic to
+solve, but the velocity expression for the wind is sufficiently
+scary-looking that I doubt it.  Looks like the job for a fast root-finder.
+
+\bibliographystyle{/u/xavier/paper/Bibli/apj}
+\bibliography{/u/xavier/paper/Bibli/allrefs}
+
+%\begin{figure}
+%\epsscale{0.8}
+%\plotone{Figures/fig_dust_spec.ps}
+%\caption{
+%altogether.
+%}
+%\label{fig:dust}
+%\end{figure}
+
+
+\end{document}

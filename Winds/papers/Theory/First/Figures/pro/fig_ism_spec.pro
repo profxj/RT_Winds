@@ -1,6 +1,6 @@
-pro fig_dust_spec, RREAL=rreal
+pro fig_ism_spec, RREAL=rreal
 
-  if not keyword_set( PSFILE ) then psfile = 'fig_dust_spec.ps'
+  if not keyword_set( PSFILE ) then psfile = 'fig_ism_spec.ps'
   if not keyword_set(PAD_FRAC) then pad_frac = 0.1
   if not keyword_set(CSZ) then csz = 1.3
   if not keyword_set(CSZ2) then csz2 = 2.3
@@ -9,12 +9,11 @@ pro fig_dust_spec, RREAL=rreal
   if not keyword_set(XNCOLORS) then xncolors=200L
   if not keyword_set(YSTP) then ystp = 0.07
 
-  xlbl = 0.3
+  xlbl = 0.05
   xlbl2 = 0.05
   ylbl = 0.90
 
   close, /all
-  openr, 1,'Input/fig_dust_spec.inp'
 
   ;;; BEGIN PLOTS
   x_psopen, psfile, /portrait
@@ -24,10 +23,6 @@ pro fig_dust_spec, RREAL=rreal
 
   xmrg = [8,3]
   ymrg = [4.5,0.5]
-
-  nFe = 0
-  readf, 1, nFe
-  sv_fil = strarr(nFe)
 
   ;; Plot FeII
   yrng=[0., 1.8]
@@ -44,7 +39,7 @@ pro fig_dust_spec, RREAL=rreal
            wvmnx = [xrng[0], xcut-off]
         end
         1: begin
-              yrng=[0.95,1.3]
+              yrng=[0.95,2.3]
               ysty = 5
               wvmnx = [xcut+off,xrng[1]]
            end
@@ -55,32 +50,25 @@ pro fig_dust_spec, RREAL=rreal
            xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $
            xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
            xrange=xrng, ystyle=ysty, xstyle=1, psym=1, /nodata, /noerase
-     if ss EQ 1 then axis, yaxis=1, charsiz=csz, ysty=1, xrang=yrng, ytickint=0.1
+     if ss EQ 1 then axis, yaxis=1, charsiz=csz, ysty=1, xrang=yrng, ytickint=0.2
   
-     Fe_fil = ''
-     for kk=0L,nFe-1 do begin
-        if ss EQ 0 then begin
-           readf, 1, Fe_fil
-           sv_fil[kk] = Fe_fil
-        endif else Fe_fil = sv_fil[kk]
-        ;; Parse
-        i1pos = strpos(Fe_fil, 'tau')
-        i2pos = strpos(Fe_fil, '.dat')
-        if i1pos LT 0 then tau = 0. else $
-           tau = float(strmid(Fe_fil, i1pos+3, i2pos-i1pos+2))
-;        print, 'Reading', fe_fil
-        readcol, Fe_fil, wv, fx, /silen
-        nrm = median(fx[where(wv GT 2605)])
-        pix = where(wv GT wvmnx[0] and wv LT wvmnx[1])
-        ;; Plot
-        oplot, wv[pix], fx[pix]/nrm, color=clrs[kk], psym=10, thick=3
+     ;; Fiducial
+     Fe_fil = '../Analysis/Fiducial/Output/spec_FeII_fiducial.dat'
+     readcol, Fe_fil, wv, fx, /silen
+     nrm = median(fx[where(wv GT 2605)])
+     pix = where(wv GT wvmnx[0] and wv LT wvmnx[1])
+     oplot, wv[pix], fx[pix]/nrm, color=clr.red, psym=10, thick=3
+
+     ;; ISM
+     Fe_fil = '../Analysis/ISM/Output/spec_ISM_FeII.dat'
+     readcol, Fe_fil, wv, fx, noscatt_fx, /silen
+     nrm = median(fx[where(wv GT 2605)])
+     pix = where(wv GT wvmnx[0] and wv LT wvmnx[1])
+     oplot, wv[pix], fx[pix]/nrm, color=clr.black, psym=10, thick=3
+     nrm = median(noscatt_fx[where(wv GT 2605)])
+     if ss EQ 0 then $
+        oplot, wv[pix], noscatt_fx[pix]/nrm, color=clr.black, psym=10, thick=3, linesty=1
         
-        ;; Label
-        if ss EQ 0 then  xyouts, xrng[0] + xlbl2*(xrng[1]-xrng[0]), $
-                                 yrng[1] - (0.1 + kk*ystp)*(yrng[1]-yrng[0]), $
-                                 '!9t!X!ddust!N = '+string(tau,format='(f4.1)'), $
-                                 color=clrs[kk], charsi=lsz
-     endfor
   endfor
   oplot, replicate(2586.650,2), yrng, color=clr.gray, linesty=2, thick=1
   oplot, replicate(2600.173,2), yrng, color=clr.gray, linesty=2, thick=1
@@ -92,44 +80,36 @@ pro fig_dust_spec, RREAL=rreal
   
   ;;;;;;;;;;;;;;;;;;;;;;;;
   ;;; MgII
-  nMg = 0
-  readf, 1, nMg
 
   !p.multi = [1,1,2]
   ;; Plot MgII
-  yrng=[0., 2.7]
+  yrng=[0., 3.0]
   xrng=[2786., 2809.8]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $
         xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
         xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata
 
-  Mg_fil = ''
-  for kk=0L,nMg-1 do begin
-     readf, 1, Mg_fil
-     ;; Parse
-     i1pos = strpos(Mg_fil, 'tau')
-     i2pos = strpos(Mg_fil, '.dat')
-     if i1pos LT 0 then tau = 0. else $
-        tau = float(strmid(Mg_fil, i1pos+3, i2pos-i1pos+2))
-     readcol, Mg_fil, wv, fx, /silen
-     nrm = median(fx[where(wv GT 2815)])
-     ;; Plot
-     oplot, wv, fx/nrm, color=clrs[kk], psym=10, thick=3
+  ;; Fiducial
+  Mg_fil = '../Analysis/Fiducial/Output/spec_MgII_fiducial.dat'
+  readcol, Mg_fil, wv, fx, /silen
+  nrm = median(fx[where(wv GT 2815)])
+  oplot, wv, fx/nrm, color=clr.red, psym=10, thick=3
 
-     ;; Label
-     xyouts, xrng[0] + xlbl2*(xrng[1]-xrng[0]), $
-             yrng[1] - (0.1 + kk*ystp)*(yrng[1]-yrng[0]), $
-             '!9t!X!ddust!N = '+string(tau,format='(f4.1)'), $
-             color=clrs[kk], charsi=lsz
+  ;; ISM
+  Mg_fil = '../Analysis/ISM/Output/spec_ISM_MgII.dat'
+  readcol, Mg_fil, wv, fx, noscatt_fx, /silen
+  nrm = median(fx[where(wv GT 2815)])
+  oplot, wv, fx/nrm, color=clr.black, psym=10, thick=3
 
-  endfor
+  nrm = median(noscatt_fx[where(wv GT 2815)])
+  oplot, wv, noscatt_fx/nrm, color=clr.black, psym=10, thick=3, linesty=1
 
   oplot, replicate(2796.352,2), yrng, color=clr.gray, linesty=2, thick=1
   oplot, replicate(2803.531,2), yrng, color=clr.gray, linesty=2, thick=1
   xyouts, xrng[0]+xlbl*(xrng[1]-xrng[0]), yrng[1]*ylbl, $
           'MgII', color=clr.black, charsiz=lsz
-  oplot, xrng, [1., 1.], color=clr.red, linestyle=1, thick=1
+;  oplot, xrng, [1., 1.], color=clr.red, linestyle=1, thick=1
 
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]

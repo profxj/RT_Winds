@@ -1,12 +1,12 @@
-pro fig_nvtau_vs_r, RREAL=rreal, STRCT=strct
+pro fig_ism_diagn, RREAL=rreal, STRCT=strct
 
-  if not keyword_set( PSFILE ) then psfile = 'fig_nvtau_vs_r.ps'
+  if not keyword_set( PSFILE ) then psfile = 'fig_ism_diagn.ps'
   if not keyword_set(CSZ) then csz = 2.0
   if not keyword_set(lSZ) then lsz = 2.0
   if not keyword_set(XNCOLORS) then xncolors=200L
 
   if not keyword_set(dv) then dv = 1.
-  if not keyword_set(NPTS) then npts = 1000L  ; Log steps
+  if not keyword_set(NPTS) then npts = 100L                  ; Log steps
   if not keyword_set(v_0) then v_0 = 50.  ; km/s
   if not keyword_set(n_0) then n_0 = 0.1  ; cm^-3
   if not keyword_set(b_val) then b_val = 15. ; km/s
@@ -14,27 +14,42 @@ pro fig_nvtau_vs_r, RREAL=rreal, STRCT=strct
   if not keyword_set(METAL) then metal = -0.3  ; [M/H]
 
   c = x_constants()
-  ;; Radius
   r0 = 1.  ; kpc
   r1 = 20. ; kpc
+  n_ISM    =  1.           ; Density of the ISM (cm^-3)
+  r_ISM    =  0.5          ; Inner radius of ISM
+  b_ISM    =  40.          ; Doppler within the ISM
+
+  ;; Radius
   rval = r0 * exp( alog(r1/r0) * findgen(npts)/float(npts-1) )
+  rval = [r0*findgen(50)/50, rval] > 1e-3
+  ISM_pix = where(rval GE r_ISM and rval LT r0)
+  npts = npts + 50
   dr = rval - shift(rval,1)  ; kpc
   dr[0] = dr[1] 
 
+
   ;; Velocity
 ;  v_r = v_0 * sqrt(rval / r0)
-  v_r = v_0 * rval / r0
+  v_r = v_0 * rval * (rval GE r0) / r0
 
   ;; Density
   n_r = n_0 * (rval/r0)^(-2)
+  n_r[ISM_pix] = n_ISM
+  n_r[0:ISM_pix[0]-1] = 0.
 
   ;; Optical depth
   wrest = 2796.352d
   mgii = x_setline(wrest)
   lines = replicate(mgii, npts)
   lines.b = b_val
+  lines[ISM_pix].b = b_ISM
   lines.N = alog10(dr * c.kpc * n_r * 10.^(7.53-12.+METAL) * DUST)
   lines.zabs = v_r/3e5
+  gdlin = where(lines.N GT 0.)
+  lines = lines[gdlin]
+
+;  printcol, lines[0:50].N, lines.zabs, lines.b
 
   npix = 2000L
   wav = 10.^(alog10(2795.) + dindgen(npix)*1.449d-6)
@@ -62,8 +77,8 @@ pro fig_nvtau_vs_r, RREAL=rreal, STRCT=strct
   ;; MgII Spectrum 
   xmrg = [9,1]
   ymrg = [4.0,1]
-  yrng=[0.01, 50.]
-  xrng=[r0, r1]
+  yrng=[0.01, 250.]
+  xrng=[r_ISM, r1]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, $
         ytitle='n!dH!u!N [x10!u2!N, cm!u-3!N];   v!dr!N [x10!u-2!N km s!u-1!N];  ' + $
@@ -88,16 +103,13 @@ pro fig_nvtau_vs_r, RREAL=rreal, STRCT=strct
   oplot, r_tau[gd], tau[gd], color=clr.red, psym=10, linesty=2
 
   ;; Label
-  xlbl = 12.
-  xyouts, xlbl, 12., 'v!dr!N', color=clr.blue, charsiz=lsz
+  xlbl = 10.
+  xyouts, xlbl, 12., 'v!dr!N (x10!u-2!N)', color=clr.blue, charsiz=lsz
   xyouts, xlbl, 0.7, '!9t!X!d2796!N', color=clr.red, charsiz=lsz
-  xyouts, xlbl, 0.1, 'n!dH!N', color=clr.black, charsiz=lsz
+  xyouts, xlbl, 0.02, 'n!dH!N (x10!u2!N)', color=clr.black, charsiz=lsz
 
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]
-
-;  x_splot, vel, tau, /bloc
-;  stop
 
   return
 

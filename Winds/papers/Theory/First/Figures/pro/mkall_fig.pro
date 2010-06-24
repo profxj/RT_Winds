@@ -44,6 +44,16 @@ pro mkall_fig
   ;; Dust
   fig_dust_spec
 
+  ;; ISM
+  fig_ism_diagn
+  fig_ism_spec
+
+  ;; LBG
+  fig_lbg_sobolev
+
+  ;; Varying the density and velocity laws
+  fig_vary_profiles
+
 ;;;;;;;;;;;;;;;;
 ;; Observations
 

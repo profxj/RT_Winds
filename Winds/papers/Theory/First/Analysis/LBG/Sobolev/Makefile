@@ -3,7 +3,7 @@
 #- ------------------
 #- Created : Mon Feb 11 17:33:35 2008
 #- 
-#- $Header: /home/jonathan/xavier/X_CVS/radtrans/Winds/papers/Theory/First/Analysis/ISM/Makefile,v 1.2 2010-06-24 12:27:48 xavier Exp $
+#- $Header: /home/jonathan/xavier/X_CVS/radtrans/Winds/papers/Theory/First/Analysis/LBG/Sobolev/Makefile,v 1.1 2010-06-24 12:27:49 xavier Exp $
 #- 
 
 # For Dan's Mac
@@ -13,14 +13,14 @@
 
 
 
-TARGET = outflow_ISM_mgii
-TARGET2 = outflow_ISM_feii
+TARGET = outflow_lbg_sobolev_mgii
+TARGET2 = outflow_lbg_sobolev_feii
 
-OBJECTS = outflow_ISM_mgii.o voigt.o locate_array.o cdf.o spectrum.o 
-OBJECTS2 = outflow_ISM_feii.o voigt.o locate_array.o cdf.o spectrum.o 
+OBJECTS = outflow_lbg_sobolev_mgii.o voigt.o locate_array.o cdf.o spectrum.o 
+OBJECTS2 = outflow_lbg_sobolev_feii.o voigt.o locate_array.o cdf.o spectrum.o 
 
 
-all: mgii feii
+all: mgii
 
 .cc.o: 
 	$(CXX) $(CCOPT) -c -o $@ $<

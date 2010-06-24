@@ -49,7 +49,7 @@ pro fig_asymm_spec, RREAL=rreal
            wvmnx = [xrng[0], xcut-off]
         end
         1: begin
-              yrng=[0.95,1.25]
+              yrng=[0.90,1.25]
               ysty = 5
               wvmnx = [xcut+off,xrng[1]]
            end

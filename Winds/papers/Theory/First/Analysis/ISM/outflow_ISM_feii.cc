@@ -7,14 +7,17 @@
 #include "locate_array.hh"
 #include "voigt.hh"
 #include "spectrum.hh"
+#include "lines.hh"
+
+LINES lines;
 
 // monte carlo parameters
 double n_photons =  2e6;    // number of photons
 double stepsize  = 0.01;   // maximum size of photon step 
 
 // output spectrum parameters
-double l_start   =  2780;     // beginning wavelength (Angstroms)
-double l_stop    =  2820;     // ending wavelength (Angstroms)
+double l_start   =  2575;     // photon beginning wavelength (Angstroms)
+double l_stop    =  2635;     // photon ending wavelength (Angstroms)
 double l_delta   =   0.1;     // wavelength resolution (Angstroms)
 double F_cont    =    1;      // continuum flux level
 int    n_mu      =    1;      // number of theta bins
@@ -51,14 +54,14 @@ double dust_albedo = 0.0;         // ratio of scattering to absorption
 // line parameters
 // --------------------------
  //number of lines to use
-int    n_lines      = 2; 
+//int    n_lines      = 2; 
 // line center wavelengths
-double lambda_0[]   = {2796.352, 2803.531};  
+//double lambda_0[]   = {2796.352, 2803.531};  
 // line oscillator strengths
-double f_lu[]       = {0.6123,     0.3054}; 
+//double f_lu[]       = {0.6123,     0.3054}; 
 // abundances of element of line
 double abun[]       = {3.4e-6, 3.4e-6};  // Solar metallicity and 1/10 down for dust
-double metallicity       = 0.5;                 // 1 = Solar
+double metallicity       = 0.5/2;                 // 1 = Solar (down 2 for Fe)
  // lines doppler velocity in cm/s
 
 // parameters describing voigt profile
@@ -77,6 +80,7 @@ int verbose;             // output parameter
 int main(int argc, char **argv)
 {
 
+  lines.Init("fe_uv1.lines");
 
   void Run_Monte_Carlo(char*);
 
@@ -165,7 +169,7 @@ void Run_Monte_Carlo(char *outfile)
   double mu,phi,sin_theta;
   double tau_r, tau_x, step, r_sq;
   double vd_inc, vd_out, l_step, d_step;
-  double u0,u1,u2, R10, R11, rad, vel, lam_emit;
+  double u0,u1,u2, R10, R11, rad, vel, lam_emit, vproj;
   double uvec[3];
   double nu_d, cross_sec, dens_H;
 
@@ -221,14 +225,14 @@ void Run_Monte_Carlo(char *outfile)
 
       // calculate random step size to each possible line scatter
       scatter = -1;
-      for (l=0;l<n_lines;l++)
+      for (l=0;l<lines.n();l++) // Check for line absorption of the photon
       {
 	// x parameter for this line
-	xloc = (lam_loc/lambda_0[l] - 1)*C_LIGHT/v_doppler;
+	xloc = (lam_loc/lines.lambda(l) - 1)*C_LIGHT/v_doppler;
 	// random optical depth to travel
 	tau_r     =  -1.0*log(1 - gsl_rng_uniform(rangen));
-	nu_d = (C_LIGHT/lambda_0[l]/ANGS_TO_CM)*(v_doppler/C_LIGHT);
-	cross_sec = CLASSICAL_CS*f_lu[l]*voigt.Profile(xloc)/nu_d;
+	nu_d = (C_LIGHT/lines.lambda(l)/ANGS_TO_CM)*(v_doppler/C_LIGHT);
+	cross_sec = CLASSICAL_CS*lines.fval(l)*voigt.Profile(xloc)/nu_d;
 	tau_x     = KPARSEC*dens_H*abun[l]*metallicity*cross_sec;
 	// tau_x     = KPARSEC*Get_Density(r,rad)*abun[l]*metallicity*cross_sec;
 	l_step = tau_r/tau_x;
@@ -251,7 +255,7 @@ void Run_Monte_Carlo(char *outfile)
       if (scatter >= 0)
       {
 	flg_scatter = 1;
-	xloc = (lam_loc/lambda_0[scatter] - 1)*C_LIGHT/v_doppler;
+	xloc = (lam_loc/lines.lambda(scatter) - 1)*C_LIGHT/v_doppler;
 
 	// Get three velocity components of scatterer
  	u0 = voigt.Scatter_Velocity(xloc);
@@ -290,13 +294,33 @@ void Run_Monte_Carlo(char *outfile)
  	xloc = xloc - vd_inc + vd_out; 
 
 	// go back to wavelength
-	lam_loc = lambda_0[scatter]*(1 + xloc*v_doppler/C_LIGHT);
+	lam_loc = lines.lambda(scatter)*(1 + xloc*v_doppler/C_LIGHT);
 
 	// now get change in observer frame wavelength
 	rad = sqrt(r[0]*r[0] + r[1]*r[1] + r[2]*r[2]);
 	vel = Get_Velocity(r,rad)/C_LIGHT;
+	vproj = vel*(r[0]*D[0] + r[1]*D[1] + r[2]*D[2])/rad;
 	if (rad > 0)
-	  lam = lam_loc/(1 + vel*(r[0]*D[0] + r[1]*D[1] + r[2]*D[2])/rad);
+	  lam = lam_loc/(1 + vproj);
+
+	// see if photon is branched away
+	double r1 = gsl_rng_uniform(rangen);
+	if (r1 > lines.P_scat(scatter)) {
+	  // Count it  (deal with dust!!)
+	  // count_it = 1;
+	  // Find which branch
+	  double sum = lines.P_scat(scatter);
+	  for (int j=0;j<lines.n_branch(scatter);j++) 
+	    {
+	      sum += lines.bprob(scatter,j);
+	      if (r1 < sum) {
+		lam = lines.blam(scatter,j)*(1 - vproj); 
+		sum = -9e9;  // Kludge to avoid 'break'
+	      }
+	    }
+	}
+
+
       }
 
    }	

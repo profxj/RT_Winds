@@ -10,7 +10,7 @@ pro chk_spec
   file = 'spec.dat'
   print, 'Reading ', file
   readcol, file, wv, fx, fx_noscat
-  conti_no = median(fx_noscat[0:100])
+  conti_no = median(fx_noscat[0:50])
 
   ;; Plot
   x_psopen, psfile, /maxs
@@ -28,17 +28,18 @@ pro chk_spec
 
   ;; New spec 
   oplot, wv, fx, psym=10, color=clr.black, thick=3
-  oplot, wv, fx_noscat/conti_no, psym=10, color=clr.gray, thick=3, linest=1
+  oplot, wv, fx_noscat/conti_no, psym=10, color=clr.red, thick=3, linest=1
 
   ;; EW
   print, 'EW = ', total(1-fx)*(wv[1]-wv[0]), ' Ang'
 
   ;; Labels
-  lins = [2796.352, 2803.531]
+  if max(wv) LT 2700 then lins = [2586.600, 2600.1729, 2612.6542, 2626.4511] $
+  else lins = [2796.352, 2803.531]
   for nn=0L,n_elements(lins)-1 do begin
       oplot, replicate(lins[nn],2), yrng, color=clr.gray, lines=1
-      loff = lins[nn] - 200/3e5*lins[nn]
-      oplot, replicate(loff,2), yrng, color=clr.blue, lines=2
+;      loff = lins[nn] - 200/3e5*lins[nn]
+;      oplot, replicate(loff,2), yrng, color=clr.blue, lines=2
   endfor
 
 

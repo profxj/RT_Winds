@@ -3,7 +3,7 @@
 #- ------------------
 #- Created : Mon Feb 11 17:33:35 2008
 #- 
-#- $Header: /home/jonathan/xavier/X_CVS/radtrans/Winds/papers/Theory/First/Analysis/LBG/Sobolev/Makefile,v 1.1 2010-06-24 12:27:49 xavier Exp $
+#- $Header: /home/jonathan/xavier/X_CVS/radtrans/Winds/papers/Theory/First/Analysis/LBG/Sobolev/Makefile,v 1.2 2010-06-25 16:42:40 xavier Exp $
 #- 
 
 # For Dan's Mac
@@ -20,7 +20,7 @@ OBJECTS = outflow_lbg_sobolev_mgii.o voigt.o locate_array.o cdf.o spectrum.o
 OBJECTS2 = outflow_lbg_sobolev_feii.o voigt.o locate_array.o cdf.o spectrum.o 
 
 
-all: mgii
+all: mgii feii
 
 .cc.o: 
 	$(CXX) $(CCOPT) -c -o $@ $<

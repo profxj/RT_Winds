@@ -3,64 +3,64 @@ make all
 ###################
 # Model A
 # n ~ 0.4 * r^-3;  v ~ 2. * (r/r_outer)^-2
-mpirun -np 4 outflow_plaw_mgii 3. 0.4 -2. 2. 2e7
+mpirun -np 8 outflow_plaw_mgii 3. 0.4 -2. 2. 2e7
 mv spec.dat Output/spec_plaw_MgII_A.dat
-mpirun -np 4 outflow_plaw_feii 3. 0.4 -2. 2. 2e7
+mpirun -np 8 outflow_plaw_feii 3. 0.4 -2. 2. 2e7
 mv spec.dat Output/spec_plaw_FeII_A.dat
 ###################
 # Model B
 # n ~ 0.5 * r^-3;  v ~ 50. * (r/r_outer)^-1
-mpirun -np 4 outflow_plaw_mgii 3. 0.5 -1. 50. 2e7
+mpirun -np 8 outflow_plaw_mgii 3. 0.5 -1. 50. 2e7
 mv spec.dat Output/spec_plaw_MgII_B.dat
-mpirun -np 4 outflow_plaw_feii 3. 0.5 -1. 50. 2e7
+mpirun -np 8 outflow_plaw_feii 3. 0.5 -1. 50. 2e7
 mv spec.dat Output/spec_plaw_FeII_B.dat
 ###################
 # Model C
 # n ~ 0.3 * r^-3;  v ~ 100. * (r/r_inner)^1/2
-mpirun -np 4 outflow_plaw_mgii 3. 0.3 0.5 100. 2e7
+mpirun -np 8 outflow_plaw_mgii 3. 0.3 0.5 100. 2e7
 mv spec.dat Output/spec_plaw_MgII_C.dat
-mpirun -np 4 outflow_plaw_feii 3. 0.3 0.5 100. 2e7
+mpirun -np 8 outflow_plaw_feii 3. 0.3 0.5 100. 2e7
 mv spec.dat Output/spec_plaw_FeII_C.dat
 ###################
 # Model D
 # n ~ 0.01 * r^0; v ~ 2. * (r/r_outer)^-2
-mpirun -np 4 outflow_plaw_mgii 0. 0.01 -2. 2. 2e7
+mpirun -np 8 outflow_plaw_mgii 0. 0.01 -2. 2. 2e7
 mv spec.dat Output/spec_plaw_MgII_D.dat
-mpirun -np 4 outflow_plaw_feii 0. 0.01 -2. 2. 2e7
+mpirun -np 8 outflow_plaw_feii 0. 0.01 -2. 2. 2e7
 mv spec.dat Output/spec_plaw_FeII_D.dat
 ###################
 # Model E
 # n ~ 0.01 * r^0; v ~ 50. * (r/r_outer)^-1
-mpirun -np 4 outflow_plaw_mgii 0. 0.01 -1. 50. 2e7
+mpirun -np 8 outflow_plaw_mgii 0. 0.01 -1. 50. 2e7
 mv spec.dat Output/spec_plaw_MgII_E.dat
-mpirun -np 4 outflow_plaw_feii 0. 0.01 -1. 50. 2e7
+mpirun -np 8 outflow_plaw_feii 0. 0.01 -1. 50. 2e7
 mv spec.dat Output/spec_plaw_FeII_E.dat
 ###################
 # Model F
 # n ~ 0.02 * r^0; v ~ 100. * (r/r_inner)^1/2
-mpirun -np 4 outflow_plaw_mgii 0. 0.02 0.5 100. 2e7
+mpirun -np 8 outflow_plaw_mgii 0. 0.02 0.5 100. 2e7
 mv spec.dat Output/spec_plaw_MgII_F.dat
-mpirun -np 4 outflow_plaw_feii 0. 0.02 0.5 100. 2e7
+mpirun -np 8 outflow_plaw_feii 0. 0.02 0.5 100. 2e7
 mv spec.dat Output/spec_plaw_FeII_F.dat
 ###################
 # Model G
 # n ~ 0.01 * r^2; v ~ 2. * (r/r_outer)^-2
-mpirun -np 4 outflow_plaw_mgii -2. 0.01 -2. 2. 2e7
+mpirun -np 8 outflow_plaw_mgii -2. 0.01 -2. 2. 2e7
 mv spec.dat Output/spec_plaw_MgII_G.dat
-mpirun -np 4 outflow_plaw_feii -2. 0.01 -2. 2. 2e7
+mpirun -np 8 outflow_plaw_feii -2. 0.01 -2. 2. 2e7
 mv spec.dat Output/spec_plaw_FeII_G.dat
 ###################
 # Model H
 # n ~ 0.001 * r^2; v ~ 50. * (r/r_outer)^-1
-mpirun -np 4 outflow_plaw_mgii -2. 0.001 -1. 50. 2e7
+mpirun -np 8 outflow_plaw_mgii -2. 0.001 -1. 50. 2e7
 mv spec.dat Output/spec_plaw_MgII_H.dat
-mpirun -np 4 outflow_plaw_feii -2. 0.001 -1. 50. 2e7
+mpirun -np 8 outflow_plaw_feii -2. 0.001 -1. 50. 2e7
 mv spec.dat Output/spec_plaw_FeII_H.dat
 ###################
 # Model I
 # n ~ 0.0001 * r^2; v ~ 100. * (r/r_inner)^1/2
-mpirun -np 4 outflow_plaw_mgii -2. 0.0001 0.5 100. 2e7
+mpirun -np 8 outflow_plaw_mgii -2. 0.0001 0.5 100. 2e7
 mv spec.dat Output/spec_plaw_MgII_I.dat
-mpirun -np 4 outflow_plaw_feii -2. 0.0001 0.5 100. 2e7
+mpirun -np 8 outflow_plaw_feii -2. 0.0001 0.5 100. 2e7
 mv spec.dat Output/spec_plaw_FeII_I.dat
 ###################

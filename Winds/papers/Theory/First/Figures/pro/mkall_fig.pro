@@ -53,6 +53,7 @@ pro mkall_fig
 
   ;; Varying the density and velocity laws
   fig_vary_profiles
+  fig_plaw_spec
 
 ;;;;;;;;;;;;;;;;
 ;; Observations

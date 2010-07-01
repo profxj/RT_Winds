@@ -9,7 +9,7 @@
 #include "spectrum.hh"
 
 // monte carlo parameters
-double n_photons =  2e6;    // number of photons
+double n_photons =  1e7;    // number of photons
 double stepsize  = 0.01;   // maximum size of photon step 
 
 // output spectrum parameters
@@ -23,9 +23,8 @@ int    n_phi     =    1;      // number of phi bins
 // ISM parameters
 double r_ISM   =  0.5;      // inner boundary of ISM, in kpc
 double n_ISM = 1.;           // Density (constant) of ISM gas (cm^-3)
-double v_ISM = 100.;           // Random (uniform) velocity of ISM
-//double ISM_doppler    =   15*1e5;              
 double ISM_doppler    =   40*1e5;              
+//double v_ISM = 100.;           // Random (uniform) velocity of ISM
 
 // Wind parameters
 double r_inner   =  1.0;      // inner boundary radius, in kpc
@@ -125,6 +124,7 @@ double Get_Velocity(double *x, double r)
   // return v_min + (r-r_inner)/(r_outer-r_inner) * (v_max-v_min);
   //  if (r < r_inner ) return 2*(gsl_rng_uniform(rangen)-0.5)*v_ISM;
   //      else return v_min * pow(r/r_inner, v_law);
+  if (r < r_inner) return 0.;
   return v_min * pow(r/r_inner, v_law);
 }
 
@@ -138,8 +138,8 @@ double Get_Density(double *x, double r)
   if (r < r_ISM) return 0;
   if (r < r_inner ) return n_ISM; 
   //  if (r > r_outer) return 0;
-  double mu = x[2]/r;
-  return n_0*pow(r_inner/r,n_law)*pow(mu*mu,2*bipolar);
+  //  double mu = x[2]/r;
+  return n_0*pow(r_inner/r,n_law); //*pow(mu*mu,2*bipolar);
 }
 
 //--------------------------------------------
@@ -148,7 +148,7 @@ double Get_Density(double *x, double r)
 double Get_Doppler(double r)
 {
   if (r == 0) return 0;
-  if (r < r_ISM) return ISM_doppler;
+  if (r < r_inner) return ISM_doppler;
   else return wind_doppler;
 }
 
@@ -252,6 +252,7 @@ void Run_Monte_Carlo(char *outfile)
       {
 	flg_scatter = 1;
 	xloc = (lam_loc/lambda_0[scatter] - 1)*C_LIGHT/v_doppler;
+	// if (rad < r_inner)  printf("Radius %e  vel %e\n",rad, vel);
 
 	// Get three velocity components of scatterer
  	u0 = voigt.Scatter_Velocity(xloc);

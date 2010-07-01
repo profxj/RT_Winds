@@ -1,0 +1,8 @@
+2
+Fiducial
+1
+../Analysis/Outputs/fiducial_grid.fits
+A
+2
+../Analysis/PowLaws/Output/spec_plaw_MgII_A.dat
+../Analysis/PowLaws/Output/spec_plaw_FeII_A.dat

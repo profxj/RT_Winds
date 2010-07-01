@@ -9,7 +9,7 @@
 #include "spectrum.hh"
 
 // monte carlo parameters
-double n_photons =  1e7;    // number of photons
+double n_photons =  1e6;    // number of photons
 double stepsize  = 0.0001;   // maximum size of photon step  (kpc)
 
 // output spectrum parameters
@@ -185,7 +185,7 @@ void Run_Monte_Carlo(char *outfile)
   // send the photons
   for (i=0;i<n_photons;i++)
   {
-    //    if ( (float(i)/1000 - i/1000) < 1e-5)  printf("photon %d \n",i);
+    // if ( (float(i)/1000 - i/1000) < 1e-5)  printf("photon %d \n",i);
     // Get initial positions and direction
     Emit(r,D,r_emit);
     // initial wavelength
@@ -205,7 +205,7 @@ void Run_Monte_Carlo(char *outfile)
       dens_H = Get_Density(r,rad);   // Actually normalized funny
 
       // Variable step size
-      if (rad < 1.0) step = 1e-4;  
+      if (rad < 2.0) step = 1e-4;  
       else {
 	if (rad > 10.0) step = 0.1; else step = 0.01;
       }

@@ -2,7 +2,7 @@ pro fig_vary_profiles, RREAL=rreal, STRCT=strct
 
   if not keyword_set( PSFILE ) then psfile = 'fig_vary_profiles.ps'
   if not keyword_set(CSZ) then csz = 1.2
-  if not keyword_set(lSZ) then lsz = 2.0
+  if not keyword_set(lSZ) then lsz = 1.4
   if not keyword_set(XNCOLORS) then xncolors=200L
 
   if not keyword_set(dv) then dv = 1.
@@ -18,6 +18,7 @@ pro fig_vary_profiles, RREAL=rreal, STRCT=strct
   n_nlaw = n_elements(nlaws)
   nmodel = n_vlaw*n_nlaw + 1
   if not keyword_set(N_0) then n_0 = [0.4, 0.5, 0.3, 0.01, 0.01, 0.02, 0.01, 1e-3, 0.0001, 0.1]
+  lbl = ['A','B','C','D','E','F','G','H','I','J','K']
   if n_elements(N_0) NE nmodel then stop
   ;; Blue-dotted, blue-dashed, blue-dot-dash
   ;; Red-dotted, red-dashed, red-dot-dash
@@ -71,6 +72,10 @@ pro fig_vary_profiles, RREAL=rreal, STRCT=strct
         idx_n = qq / 3
         n_r = n_0[qq] * (rval/r0)^nlaws[idx_n]
      endelse
+     if (qq NE (nmodel-1)) then begin
+        print, 'Density: ', idx_n, nlaws[idx_n], n_0[qq]
+        print, 'Velocity: ', idx_v, vlaws[idx_v], vnorm[idx_v]
+     endif
         
      ;; Optical depth
      mgii = x_setline(wrest)
@@ -115,7 +120,12 @@ pro fig_vary_profiles, RREAL=rreal, STRCT=strct
      oplot, vel, tau, color=xclrs[idx_n+1], psym=10, linesty=idx_v+1
 
      ;; Label
-;     xyouts, xlbl, 0.1, 'n!dH!N', color=clr.black, charsiz=lsz
+     ylbl = replicate(yrng[1]/(2^(idx_v+1)),2)
+     oplot, 400.+idx_n*200+[30., 110], 1.1*[ylbl,ylbl],$
+            color=xclrs[idx_n+1], linesty=idx_v+1
+     if qq LT (nmodel-1) then $
+         xyouts, 400 + idx_n*200 + 130., ylbl, lbl[qq], color=xclrs[idx_n+1], charsiz=lsz,$
+                 align=0.
   endfor
      
   if keyword_set( PSFILE ) then x_psclose

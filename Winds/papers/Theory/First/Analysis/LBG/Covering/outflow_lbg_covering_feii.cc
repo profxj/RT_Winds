@@ -12,8 +12,8 @@
 LINES lines;
 
 // monte carlo parameters
-double n_photons =  1e7;    // number of photons
-double stepsize  = 0.01;   // maximum size of photon step 
+double n_photons =  2e6;    // number of photons
+double stepsize  = 0.0001;   // maximum size of photon step  (kpc)
 
 // output spectrum parameters
 double l_start   =  2575;     // photon beginning wavelength (Angstroms)
@@ -23,30 +23,21 @@ double F_cont    =    1;      // continuum flux level
 int    n_mu      =    1;      // number of theta bins
 int    n_phi     =    1;      // number of phi bins
 
-// ISM parameters
-double r_ISM   =  0.5;      // inner boundary of ISM, in kpc
-double n_ISM = 1.;           // Density (constant) of ISM gas (cm^-3)
-double v_ISM = 100.;           // Random (uniform) velocity of ISM
-//double ISM_doppler    =   15*1e5;              
-double ISM_doppler    =   40*1e5;              
-
-// Wind parameters
-double r_inner   =  1.0;      // inner boundary radius, in kpc
-double r_outer   = 20.0;      // outer boundary radius, in kpc
-double r_emit    =  0.2;      // boundary to emit from
-double n_0       =  1e-1;     // number density at inner boundary (cm^-3)
-double n_law     =    2.;      // -1*power law exponent of density law
-double v_max     =  4.0e7;    // velocity at outer boundary (cm/s)
-double v_min     =  50.*1e5;    // velocity at inner boundary (cm/s)
-double v_law     =    1.0;      // power law of velocity profile
+// LBG wind parameters
+double r_inner   =  1.0;      // inner boundary radius, in kpc [Should always be 1 !!]
+double r_outer   = 100.0;      // outer boundary radius, in kpc
+double r_emit    =  0.5;      // boundary to emit from
 double bipolar   =    0;      // degree of bipolarity
-double wind_doppler    =   15*1e5;              
 
-// Dust parameters
+double LBG_gamma = 0.5;  // Covering fraction parameter
+double LBG_fc = 0.6;          // Maximum covering fraction (for MgII 2796)
+double LBG_vmax =  800*1e5;  // cm/s
+double LBG_alpha = 1.3;     // Velocity field parameter
+double LBG_A =  LBG_vmax*LBG_vmax * (1.-LBG_alpha);  // Wind parameter
+double LBG_Aa =  sqrt(LBG_A/(1-LBG_alpha));
+
 double dust_cs     = 3.33e-24;    // dust cross-section
 double dust_tau   = 0.;          // Optical depth of dust through the wind (r=0 to Infinity)
-double omnl = 1-n_law;
-double nH_colm   =  n_0 * pow(r_inner,n_law)  * ( pow(r_outer,omnl)-pow(r_inner,omnl) ) / omnl;
 double dust_norm   =  0.;   // Normalization to give dust_tau
 double dust_albedo = 0.0;         // ratio of scattering to absorption
 
@@ -60,9 +51,10 @@ double dust_albedo = 0.0;         // ratio of scattering to absorption
 // line oscillator strengths
 //double f_lu[]       = {0.6123,     0.3054}; 
 // abundances of element of line
-double abun[]       = {3.4e-6, 3.4e-6};  // Solar metallicity and 1/10 down for dust
-double metallicity       = 0.5/2;                 // 1 = Solar (down 2 for Fe)
+double abun       = 3.4e-6;
+double metallicity       = 0.5/2;                 // 1 = Solar
  // lines doppler velocity in cm/s
+double v_doppler    =   5*1e5;              
 
 // parameters describing voigt profile
 double voigt_a   = 0.1;
@@ -80,6 +72,17 @@ int verbose;             // output parameter
 int main(int argc, char **argv)
 {
 
+  // Dust info
+  // printf("# NH_COLM %.3e, dust_norm %.3e\n", nH_colm,dust_norm);
+  //   if(argc < 2) return 0;
+    //  dust_tau = atof(argv[1]);
+    //  dust_norm   =  dust_tau / dust_cs /  nH_colm / KPARSEC ;  // Normalization to give dust_tau
+  // printf("# argc %e \n",float(10)/3.-10/3);
+
+    // Photons
+    //  if(argc > 2) n_photons = atof(argv[2]);
+
+  // Lines
   lines.Init("fe_uv1.lines");
 
   void Run_Monte_Carlo(char*);
@@ -119,43 +122,42 @@ int main(int argc, char **argv)
 
 }
 
+//--------------------------------------------
+// Function returns the covering fraction as a function of radius
+//--------------------------------------------
+double Get_Cover(double r)
+{
+  //  return v_max*pow(r/r_outer,v_law);
+  // return v_min + (r-r_inner)/(r_outer-r_inner) * (v_max-v_min);
+  if (r <= r_inner) return 0.;
+  return LBG_fc * pow(r/r_inner, -1*LBG_gamma);
+}
+
 
 //--------------------------------------------
-// Function returns the velocity given a radius
+// Function returns the velocity given a radius (in kpc)
 //--------------------------------------------
 double Get_Velocity(double *x, double r)
 {
   //  return v_max*pow(r/r_outer,v_law);
   // return v_min + (r-r_inner)/(r_outer-r_inner) * (v_max-v_min);
-  //  if (r < r_inner ) return 2*(gsl_rng_uniform(rangen)-0.5)*v_ISM;
-  //      else return v_min * pow(r/r_inner, v_law);
-  if (r < r_inner) return 0.;
-  return v_min * pow(r/r_inner, v_law);
+  if (r <= r_inner) return 0;
+  return LBG_Aa * sqrt(1 - pow(r,1-LBG_alpha));  // Assumes r_inner=1kpc
 }
 
 
 //--------------------------------------------
-// Function returns the density given a radius
+// Function returns the density proxy given a radius (in kpc)
 //--------------------------------------------
-double Get_Density(double *x, double r)
-{
-  if (r == 0) return 0;
-  if (r < r_ISM) return 0;
-  if (r < r_inner ) return n_ISM; 
-  //  if (r > r_outer) return 0;
-  // double mu = x[2]/r;
-  return n_0*pow(r_inner/r,n_law); //*pow(mu*mu,2*bipolar);
-}
-
-//--------------------------------------------
-// Function returns the density given a radius
-//--------------------------------------------
-double Get_Doppler(double r)
-{
-  if (r == 0) return 0;
-  if (r < r_inner) return ISM_doppler;
-  else return wind_doppler;
-}
+//double Get_Density(double *x, double r)
+//{
+//  if (r == 0) return 0;
+//  if (r <= r_inner) return 0;  // Avoids divergence of dv/dr (and tau_r)
+//  //  if (r > r_outer) return 0;
+//  double dvdr = LBG_Aa * 0.5 * (LBG_alpha-1) * pow(r,-1*LBG_alpha)  / sqrt(1-pow(r,1-LBG_alpha));
+//  double tau_r = (-1.) * log( 1. - LBG_fc * pow(r,-1*LBG_gamma));
+//  return tau_r * dvdr;  // Kappa_l term ignored as it was multiplied out anyhow
+//}
 
 
 //--------------------------------------------
@@ -165,21 +167,22 @@ void Run_Monte_Carlo(char *outfile)
 {
   // local variables
   int i, l, ind, scatter, dust_scatter, count_it, flg_scatter;
-  double x, lam_loc, xloc,lam, v_doppler;
+  int j, flg_resonance[50];
+  double x, lam_loc, xloc,lam, lam_emit;
   double r[3], D[3];
   double mu,phi,sin_theta;
   double tau_r, tau_x, step, r_sq;
   double vd_inc, vd_out, l_step, d_step;
-  double u0,u1,u2, R10, R11, rad, vel, lam_emit, vproj;
+  double u0,u1,u2, R10, R11, rad, vel, vproj;
   double uvec[3];
-  double nu_d, cross_sec, dens_H;
+  double nu_d, cross_sec, dens_H, cover;
 
   // functions to call
   void MPI_Average_Array(double *, int);
   void Emit(double *r, double *D, double r_inner);
   double Get_Velocity(double*, double);
-  double Get_Density(double*, double);
-  double Get_Doppler(double);
+//  double Get_Density(double*, double);
+  double Get_Cover(double);
 
   // set the start timer 
   time_t start_tp,end_tp;
@@ -201,12 +204,14 @@ void Run_Monte_Carlo(char *outfile)
   // send the photons
   for (i=0;i<n_photons;i++)
   {
+    //    if ( (float(i)/1000 - i/1000) < 1e-5)  printf("photon %d \n",i);
     // Get initial positions and direction
     Emit(r,D,r_emit);
     // initial wavelength
     lam = l_start + (l_stop-l_start)*gsl_rng_uniform(rangen);
     lam_emit = lam;
     flg_scatter = 0;
+    for (j=0;j<50;j++) flg_resonance[j] = 0;
 
     // propogate until escaped
     while (1)
@@ -217,30 +222,40 @@ void Run_Monte_Carlo(char *outfile)
       lam_loc = lam*(1 + vel*(r[0]*D[0] + r[1]*D[1] + r[2]*D[2])/rad);
       if (rad == 0) lam_loc = lam;
 
-      // Grab density and b parameter
-      dens_H = Get_Density(r,rad); 
-      v_doppler = Get_Doppler(rad);
-
-      // default step size
-      step = stepsize;
+      // Variable step size
+      if (rad < 2.0) step = 1e-4;  
+      else {
+	if (rad > 10.0) step = 0.1; else step = 0.01;
+      }
+      // step = stepsize;
 
       // calculate random step size to each possible line scatter
       scatter = -1;
-      for (l=0;l<lines.n();l++) // Check for line absorption of the photon
-      {
-	// x parameter for this line
-	xloc = (lam_loc/lines.lambda(l) - 1)*C_LIGHT/v_doppler;
-	// random optical depth to travel
-	tau_r     =  -1.0*log(1 - gsl_rng_uniform(rangen));
-	nu_d = (C_LIGHT/lines.lambda(l)/ANGS_TO_CM)*(v_doppler/C_LIGHT);
-	cross_sec = CLASSICAL_CS*lines.fval(l)*voigt.Profile(xloc)/nu_d;
-	tau_x     = KPARSEC*dens_H*abun[l]*metallicity*cross_sec;
-	// tau_x     = KPARSEC*Get_Density(r,rad)*abun[l]*metallicity*cross_sec;
-	l_step = tau_r/tau_x;
-	if (tau_x == 0) l_step = VERY_LARGE_NUMBER;
-	if (l_step < step) {step = l_step; scatter = l; }
+      if (rad > r_inner) { 
+	for (l=0;l<lines.n();l++)
+	  {
+	    
+	    // x parameter for this line
+	    xloc = (lam_loc/lines.lambda(l) - 1)*C_LIGHT/v_doppler;
+	    // In resonance
+	    if ((xloc*xloc) <  1 && flg_resonance[l] == 0) {
+	      cover = Get_Cover(rad);
+	      //	      printf("Radius %e  lam %e wave %e\n",rad, lam_loc, lambda_0[l]);
+	      flg_resonance[l] = 1;
+	      if (gsl_rng_uniform(rangen) < cover) {step=1e-4; scatter=l;}
+	    }
+	  }
       }
-
+	
+      // get distance to dust scatter/absorption
+      //tau_r = -1.0*log(1 - gsl_rng_uniform(rangen));
+      //tau_x = dens_H*dust_norm*dust_cs;
+      //d_step = tau_r/tau_x;
+      //if (tau_x == 0) d_step = VERY_LARGE_NUMBER;
+      //if (d_step < step) {step = d_step; scatter = -1; dust_scatter = 1; }
+      //else  dust_scatter = 0;
+      dust_scatter = 0;
+      
       // take the step
       r[0] += D[0]*step;
       r[1] += D[1]*step;
@@ -256,6 +271,7 @@ void Run_Monte_Carlo(char *outfile)
       if (scatter >= 0)
       {
 	flg_scatter = 1;
+	for (j=0;j<50;j++) flg_resonance[j] = 0;
 	xloc = (lam_loc/lines.lambda(scatter) - 1)*C_LIGHT/v_doppler;
 
 	// Get three velocity components of scatterer
@@ -320,10 +336,20 @@ void Run_Monte_Carlo(char *outfile)
 	      }
 	    }
 	}
-
-
       }
 
+      if (dust_scatter)
+      {
+	double z =  gsl_rng_uniform(rangen);
+	if (z > dust_albedo) {count_it = 0; break; }
+	// choose new isotropic direction
+ 	mu  = 1 - 2.0*gsl_rng_uniform(rangen);
+ 	phi = 2.0*PI*gsl_rng_uniform(rangen);
+ 	sin_theta = sqrt(1 - mu*mu);
+ 	D[0] = sin_theta*cos(phi);
+ 	D[1] = sin_theta*sin(phi);
+ 	D[2] = mu;
+      }
    }	
  
     // Count spectrum if needed

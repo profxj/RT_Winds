@@ -1,0 +1,8 @@
+source grab_source
+make all
+# MgII
+#mpirun -np 4 outflow_lbg_covering_mgii
+#mv spec.dat Output/spec_MgII_lbg_covering.dat
+# FeII
+mpirun -np 4 outflow_lbg_covering_feii
+mv spec.dat Output/spec_FeII_lbg_covering.dat

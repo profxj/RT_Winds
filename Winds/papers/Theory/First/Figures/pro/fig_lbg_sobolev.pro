@@ -2,7 +2,7 @@ pro fig_lbg_sobolev, RREAL=rreal, STRCT=strct
 
   if not keyword_set( PSFILE ) then psfile = 'fig_lbg_sobolev.ps'
   if not keyword_set(CSZ) then csz = 1.3
-  if not keyword_set(lSZ) then lsz = 2.0
+  if not keyword_set(lSZ) then lsz = 1.3
   if not keyword_set(XNCOLORS) then xncolors=200L
 
   if not keyword_set(dv) then dv = 1.
@@ -62,6 +62,21 @@ pro fig_lbg_sobolev, RREAL=rreal, STRCT=strct
   nr_i =  n_Mg /  (10.^(7.53-12.+METAL) * DUST)  ;; Hydrogen
 ;  x_splot, v_lbg, n_H, /block
 ;  stop
+  ;; dlogn/dlogr
+  lgn = alog(nr_i)
+  dlgn = lgn - shift(lgn,1)
+  dlgn[0] = dlgn[1]
+  lgr = alog(rval-1)
+  dlgr = lgr - shift(lgr,1)
+  dlgr[0] = dlgr[1]
+  dlgnr = dlgn/dlgr
+  ;x_splot, rval-1, dlgn/dlgr, /bloc
+  lowr = where(rval LT 1.1)
+  low_dlnr = median(dlgnr[lowr])
+  print, 'dln[n] / dln[r]:  Low -- ',  low_dlnr
+  highr = where(rval GT 4)
+  hi_dlnr = median(dlgnr[highr])
+  print, 'dln[n] / dln[r]:  High -- ',  hi_dlnr
 
   ;; Optical depth
   mgii = x_setline(wrest)
@@ -87,7 +102,7 @@ pro fig_lbg_sobolev, RREAL=rreal, STRCT=strct
 
   ;; Radial stuff
   xrng=[1e-4, 100]
-  yrng=[1e-5, 1.]
+  yrng=[1e-6, 1.]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, $
         ytitle='n!dH!N (cm!u-3!N)', $
@@ -96,6 +111,12 @@ pro fig_lbg_sobolev, RREAL=rreal, STRCT=strct
 
   ;; Density
   oplot, rval-1, nr_i, color=clr.black
+  
+  ;; Label
+  xyouts, 0.001, 4e-2, '[r-1]!u'+string(low_dlnr, format='(f4.1)')+'!N', $
+          color=clr.black, charsi=lsz
+  xyouts, 8.0, 2e-4, '[r-1]!u'+string(hi_dlnr, format='(f4.1)')+'!N', $
+          color=clr.black, charsi=lsz
 
   ;; Velocity
   yrng=[0., 800]

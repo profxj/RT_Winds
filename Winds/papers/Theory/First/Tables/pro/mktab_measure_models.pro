@@ -58,7 +58,7 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil
               ;; FeII
               readf, 1, data_fil
               readcol, data_fil, wv, fx, /silen
-              nrm = median(fx[where(wv GT 2605)])
+              nrm = median(fx[where(wv LT 2578)])
               fx = fx/nrm
               feII_strct = { $
                            spec: fx, $

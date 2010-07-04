@@ -20,10 +20,10 @@ pro fig_dust_spec, RREAL=rreal
   x_psopen, psfile, /portrait
   !p.multi = [0,1,2]
   clr = getcolor(/load)
-  clrs = x_setclrs()
+  clrs = [clr.black, clr.blue, clr.red, clr.darkgreen] ;x_setclrs()
 
-  xmrg = [8,3]
-  ymrg = [4.5,0.5]
+  xmrg = [8,4]
+  ymrg = [3.0,3.5]
 
   nFe = 0
   readf, 1, nFe
@@ -54,7 +54,7 @@ pro fig_dust_spec, RREAL=rreal
      plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
            xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $
            xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
-           xrange=xrng, ystyle=ysty, xstyle=1, psym=1, /nodata, /noerase
+           xrange=xrng, ystyle=ysty, xstyle=9, psym=1, /nodata, /noerase
      if ss EQ 1 then axis, yaxis=1, charsiz=csz, ysty=1, xrang=yrng, ytickint=0.1
   
      Fe_fil = ''
@@ -82,9 +82,12 @@ pro fig_dust_spec, RREAL=rreal
                                  color=clrs[kk], charsi=lsz
      endfor
   endfor
-  oplot, replicate(2586.650,2), yrng, color=clr.gray, linesty=2, thick=1
-  oplot, replicate(2600.173,2), yrng, color=clr.gray, linesty=2, thick=1
-  oplot, replicate(2612.6542,2), yrng, color=clr.gray, linesty=2, thick=1
+  xrng2 = (xrng/2600.173 - 1)*3e5
+  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity Relative to FeII 2600 (km/s)'
+
+  oplot, replicate(2586.650,2), yrng, color=clr.orange, linesty=2, thick=2
+  oplot, replicate(2600.173,2), yrng, color=clr.orange, linesty=2, thick=2
+  oplot, replicate(2612.6542,2), yrng, color=clr.orange, linesty=2, thick=2
   xyouts, xrng[0]+xlbl*(xrng[1]-xrng[0]), yrng[0]+(yrng[1]-yrng[0])*ylbl, $
           'FeII', color=clr.black, charsiz=lsz
 ;     oplot, xrng, [1., 1.], color=clr.red, linestyle=1, thick=1
@@ -125,8 +128,8 @@ pro fig_dust_spec, RREAL=rreal
 
   endfor
 
-  oplot, replicate(2796.352,2), yrng, color=clr.gray, linesty=2, thick=1
-  oplot, replicate(2803.531,2), yrng, color=clr.gray, linesty=2, thick=1
+  oplot, replicate(2796.352,2), yrng, color=clr.orange, linesty=2, thick=2
+  oplot, replicate(2803.531,2), yrng, color=clr.orange, linesty=2, thick=2
   xyouts, xrng[0]+xlbl*(xrng[1]-xrng[0]), yrng[1]*ylbl, $
           'MgII', color=clr.black, charsiz=lsz
   oplot, xrng, [1., 1.], color=clr.red, linestyle=1, thick=1

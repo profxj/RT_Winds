@@ -50,6 +50,8 @@ pro mkall_fig
 
   ;; LBG
   fig_lbg_sobolev
+  fig_lbg_profiles
+  fig_lbg_cumul
 
   ;; Varying the density and velocity laws
   fig_vary_profiles

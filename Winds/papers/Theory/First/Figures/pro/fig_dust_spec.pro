@@ -105,7 +105,7 @@ pro fig_dust_spec, RREAL=rreal
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $
         xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
-        xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata
+        xrange=xrng, ystyle=1, xstyle=9, psym=1, /nodata
 
   Mg_fil = ''
   for kk=0L,nMg-1 do begin
@@ -128,6 +128,8 @@ pro fig_dust_spec, RREAL=rreal
 
   endfor
 
+  xrng2 = (xrng/2796.352 - 1)*3e5
+  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity Relative to MgII 2796 (km/s)'
   oplot, replicate(2796.352,2), yrng, color=clr.orange, linesty=2, thick=2
   oplot, replicate(2803.531,2), yrng, color=clr.orange, linesty=2, thick=2
   xyouts, xrng[0]+xlbl*(xrng[1]-xrng[0]), yrng[1]*ylbl, $

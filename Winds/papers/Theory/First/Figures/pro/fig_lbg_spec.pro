@@ -21,8 +21,8 @@ pro fig_lbg_spec
   clr = getcolor(/load)
   clrs = x_setclrs()
 
-  xmrg = [8,3]
-  ymrg = [4.5,0.5]
+  xmrg = [8,4]
+  ymrg = [3.0,3.5]
 
   ;; Plot FeII
   yrng=[0., 1.8]
@@ -49,7 +49,7 @@ pro fig_lbg_spec
      plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
            xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $
            xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
-           xrange=xrng, ystyle=ysty, xstyle=1, psym=1, /nodata, /noerase
+           xrange=xrng, ystyle=ysty, xstyle=9, psym=1, /nodata, /noerase
      if ss EQ 1 then axis, yaxis=1, charsiz=csz, ysty=1, xrang=yrng, ytickint=0.2
   
      ;; Sobolev
@@ -69,9 +69,12 @@ pro fig_lbg_spec
      if ss EQ 0 then $
         oplot, wv[pix], noscatt_fx[pix]/nrm, color=clr.black, psym=10, thick=3, linesty=1
   endfor
-  oplot, replicate(2586.650,2), yrng, color=clr.gray, linesty=2, thick=1
-  oplot, replicate(2600.173,2), yrng, color=clr.gray, linesty=2, thick=1
-  oplot, replicate(2612.6542,2), yrng, color=clr.gray, linesty=2, thick=1
+  xrng2 = (xrng/2600.173 - 1)*3e5
+  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity Relative to FeII 2600 (km/s)'
+
+  oplot, replicate(2586.650,2), yrng, color=clr.orange, linesty=2, thick=2
+  oplot, replicate(2600.173,2), yrng, color=clr.orange, linesty=2, thick=2
+  oplot, replicate(2612.6542,2), yrng, color=clr.orange, linesty=2, thick=2
   xyouts, xrng[0]+xlbl*(xrng[1]-xrng[0]), yrng[0]+(yrng[1]-yrng[0])*ylbl, $
           'FeII', color=clr.black, charsiz=lsz
 ;     oplot, xrng, [1., 1.], color=clr.red, linestyle=1, thick=1
@@ -87,7 +90,7 @@ pro fig_lbg_spec
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $
         xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
-        xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata
+        xrange=xrng, ystyle=1, xstyle=9, psym=1, /nodata
 
   ;; Sobolev
   Mg_fil = '../Analysis/LBG/Sobolev/Output/spec_MgII_lbg_sobolev.dat'
@@ -104,8 +107,11 @@ pro fig_lbg_spec
   nrm = median(noscatt_fx[where(wv GT 2815)])
   oplot, wv, noscatt_fx/nrm, color=clr.black, psym=10, thick=3, linesty=1
 
-  oplot, replicate(2796.352,2), yrng, color=clr.gray, linesty=2, thick=1
-  oplot, replicate(2803.531,2), yrng, color=clr.gray, linesty=2, thick=1
+  xrng2 = (xrng/2796.352 - 1)*3e5
+  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity Relative to MgII 2796 (km/s)'
+
+  oplot, replicate(2796.352,2), yrng, color=clr.orange, linesty=2, thick=2
+  oplot, replicate(2803.531,2), yrng, color=clr.orange, linesty=2, thick=2
   xyouts, xrng[0]+xlbl*(xrng[1]-xrng[0]), yrng[1]*ylbl, $
           'MgII', color=clr.black, charsiz=lsz
 ;  oplot, xrng, [1., 1.], color=clr.red, linestyle=1, thick=1

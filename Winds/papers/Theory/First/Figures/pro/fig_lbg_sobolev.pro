@@ -39,6 +39,7 @@ pro fig_lbg_sobolev, RREAL=rreal, STRCT=strct
   ;;;;;;;;;;;;;;;;
   ;; LBG
   A_lbg = vmax^2 * (1-alpha)
+  print, 'A_LBG = ', A_LBG
   v_lbg = -1. * sqrt(A_lbg/(1-alpha)) * sqrt(r_min^(1-alpha) - rval^(1-alpha))
   fc_lbg = fcmax * (rval/r_min)^(-1*gamma)
   I_lbg = 1 - fc_lbg
@@ -102,20 +103,23 @@ pro fig_lbg_sobolev, RREAL=rreal, STRCT=strct
 
   ;; Radial stuff
   xrng=[1e-4, 100]
-  yrng=[1e-6, 1.]
+;  yrng=[1e-6, 1.]
+  yrng=[1e-13, 1e-5]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, $
-        ytitle='n!dH!N (cm!u-3!N)', $
+        ytitle='n!dMg!N (cm!u-3!N)', $
         xtitle='[r-1] (kpc)', yrange=yrng, thick=4, $
-        xrange=xrng, ystyle=9, xstyle=1, psym=1, /nodata, /ylog, /xlog, /noeras
+        xrange=xrng, ystyle=9, xstyle=1, psym=1, /nodata, /ylog, /xlog, /noeras;, $
+;        xtickformat='x_logticks'
 
   ;; Density
-  oplot, rval-1, nr_i, color=clr.black
+;  oplot, rval-1, nr_i, color=clr.black
+  oplot, rval-1, n_Mg, color=clr.black
   
   ;; Label
-  xyouts, 0.001, 4e-2, '[r-1]!u'+string(low_dlnr, format='(f4.1)')+'!N', $
+  xyouts, 0.001, 2e-8, '[r-1]!u'+string(low_dlnr, format='(f4.1)')+'!N', $
           color=clr.black, charsi=lsz
-  xyouts, 8.0, 2e-4, '[r-1]!u'+string(hi_dlnr, format='(f4.1)')+'!N', $
+  xyouts, 8.0, 8e-10, '[r-1]!u'+string(hi_dlnr, format='(f4.1)')+'!N', $
           color=clr.black, charsi=lsz
 
   ;; Velocity

@@ -1,6 +1,6 @@
 0
 6
-../Analysis/spec_MgII_fiducial.dat
+../Analysis/Fiducial/Output/spec_MgII_fiducial.dat
 ../Analysis/Doppler/Output/spec_MgII_b1.0.dat
 ../Analysis/Doppler/Output/spec_MgII_b3.0.dat
 ../Analysis/Doppler/Output/spec_MgII_b10.0.dat

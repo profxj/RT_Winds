@@ -84,7 +84,8 @@ pro fig_lbg_cumul, RREAL=rreal, STRCT=strct
         xmargin=xmrg, ymargin=ymrg, $
         ytitle='n!dH!N (cm!u-3!N)', $
         xtitle='[r-1] (kpc)', yrange=yrng, thick=4, $
-        xrange=xrng, ystyle=9, xstyle=1, psym=1, /nodata, /ylog, /xlog, /noeras
+        xrange=xrng, ystyle=9, xstyle=1, psym=1, /nodata, /ylog, /xlog, /noeras, $
+        xtickformat='x_logticks'
 
   ;; Density
   oplot, rval-1, nr_i, color=clr.black

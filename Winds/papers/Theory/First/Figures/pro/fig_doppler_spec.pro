@@ -18,6 +18,7 @@ pro fig_doppler_spec, RREAL=rreal
   !p.multi = [0,1,2]
   clr = getcolor(/load)
   clrs = x_setclrs()
+  clrs[3] = clr.darkgreen
 
   xmrg = [9,1]
   ymrg = [4.5,1]

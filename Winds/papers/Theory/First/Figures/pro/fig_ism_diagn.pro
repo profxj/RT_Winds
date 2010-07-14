@@ -6,7 +6,7 @@ pro fig_ism_diagn, RREAL=rreal, STRCT=strct
   if not keyword_set(XNCOLORS) then xncolors=200L
 
   if not keyword_set(dv) then dv = 1.
-  if not keyword_set(NPTS) then npts = 100L                  ; Log steps
+  if not keyword_set(NPTS) then npts = 500L                  ; Log steps
   if not keyword_set(v_0) then v_0 = 50.  ; km/s
   if not keyword_set(n_0) then n_0 = 0.1  ; cm^-3
   if not keyword_set(b_val) then b_val = 15. ; km/s
@@ -87,10 +87,11 @@ pro fig_ism_diagn, RREAL=rreal, STRCT=strct
         xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /ylog, /xlog
 
   ;; Density
-  oplot, rval, n_r*100, color=clr.black
+  oplot, rval, n_r*100, color=clr.red, linesty=2
 
   ;; Velocity
   oplot, rval, v_r/100., color=clr.blue, linesty=1
+  oplot, [1., 1.], [min(v_r/100), yrng[0]], color=clr.blue, lines=1
 
   ;; Tau
   r_tau = fltarr(npix)
@@ -100,13 +101,13 @@ pro fig_ism_diagn, RREAL=rreal, STRCT=strct
      mn = min(abs(vel[gd[ii]]-v_r), imn)
      r_tau[gd[ii]] = rval[imn]
   endfor
-  oplot, r_tau[gd], tau[gd], color=clr.red, psym=10, linesty=2
+  oplot, r_tau[gd], tau[gd], color=clr.black
 
   ;; Label
   xlbl = 10.
   xyouts, xlbl, 12., 'v!dr!N (x10!u-2!N)', color=clr.blue, charsiz=lsz
-  xyouts, xlbl, 0.7, '!9t!X!d2796!N', color=clr.red, charsiz=lsz
-  xyouts, xlbl, 0.02, 'n!dH!N (x10!u2!N)', color=clr.black, charsiz=lsz
+  xyouts, xlbl, 0.7, '!9t!X!d2796!N', color=clr.black, charsiz=lsz
+  xyouts, xlbl, 0.02, 'n!dH!N (x10!u2!N)', color=clr.red, charsiz=lsz
 
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]

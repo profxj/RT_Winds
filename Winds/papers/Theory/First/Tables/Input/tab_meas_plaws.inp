@@ -1,4 +1,4 @@
-10
+12
 Fiducial
 1
 ../Analysis/Outputs/fiducial_grid.fits
@@ -38,3 +38,11 @@ I
 2
 ../Analysis/PowLaws/Output/spec_plaw_MgII_I.dat
 ../Analysis/PowLaws/Output/spec_plaw_FeII_I.dat
+LBG Sobolev
+2
+../Analysis/LBG/Sobolev/Output/spec_MgII_lbg_sobolev.dat
+../Analysis/LBG/Sobolev/Output/spec_FeII_lbg_sobolev.dat
+LBG Covering
+2
+../Analysis/LBG/Covering/Output/spec_MgII_lbg_covering.dat
+../Analysis/LBG/Covering/Output/spec_FeII_lbg_covering.dat

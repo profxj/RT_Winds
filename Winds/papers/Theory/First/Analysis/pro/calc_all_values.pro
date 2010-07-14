@@ -1,6 +1,7 @@
 ;; calc_ew_values, 'Outputs/fiducial_grid.fits', strct
 pro calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans
 
+  if not keyword_set(MINI) then MINI = 0.05
   if not keyword_set(TRANS) then $
      trans = [2796.352,2803.531, 2586.650d, 2600.1729, 2612.6542d, $
               2626.4511, 2632.1081]
@@ -83,20 +84,19 @@ pro calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans
         endif else begin
            ;; Last pixel of absorption
            a = where(spec[0:imn] LT 0.95, na)
-           if na EQ 0 then stop
-           a1 = a[na-1]
+           if na EQ 0 then a1 = imn-1 else a1 = a[na-1]
            ;; First pixel of absorption
            a = where(spec[0:a1] GT 0.95, na)
-           a0 = a[na-1]
+           if na EQ 0 then a0 = a1-1 else a0 = a[na-1]
         endelse
         ;; Sum it up
         strct[qq].W_abs = dwv*total( (1.-spec[a0:a1]) )
         strct[qq].vmnx_abs = [vel[a0],vel[a1]]
 
         ;; Peak optical depth
-        strct[qq].tau_peak = -1*alog(min(spec[a0:a1],imnt))
+        strct[qq].tau_peak = -1*alog(min(spec[a0:a1],imnt) > MINI)
         strct[qq].tau_vel = vel[a0+imnt]
-        tau_vals = -1*alog(spec[a0:a1])
+        tau_vals = -1*alog(spec[a0:a1] > MINI)
         strct[qq].vel_tau = total(vel[a0:a1]*tau_vals) / total(tau_vals) ;; km/s
      endif
 

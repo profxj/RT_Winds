@@ -47,7 +47,7 @@ pro fig_vary_profiles, RREAL=rreal, STRCT=strct
   x_psopen, psfile, /portrait
   !p.multi = [0,1,2]
   clr = getcolor(/load)
-  xclrs = x_setclrs()
+  xclrs = x_setclrs(/dark)
   xmrg = [11,2]
   ymrg = [4.0,1]
 

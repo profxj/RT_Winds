@@ -33,7 +33,7 @@ pro fig_spatial_cut, wrest, dv, grid_file, psfile, XRNG=xrng, YRNG=yrng, $
   if not keyword_set(YMRG) then ymrg = [5.0,1]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $
-        xtitle='r (kpc)', yrange=yrng, thick=4, $
+        xtitle='Distance (kpc)', yrange=yrng, thick=4, $
         xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /ylog
 
   ;; Continuum

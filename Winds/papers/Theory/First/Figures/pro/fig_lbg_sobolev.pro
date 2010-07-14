@@ -108,7 +108,7 @@ pro fig_lbg_sobolev, RREAL=rreal, STRCT=strct
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, $
         ytitle='n!dMg!N (cm!u-3!N)', $
-        xtitle='[r-1] (kpc)', yrange=yrng, thick=4, $
+        xtitle='[r/kpc-1] ', yrange=yrng, thick=4, $
         xrange=xrng, ystyle=9, xstyle=1, psym=1, /nodata, /ylog, /xlog, /noeras;, $
 ;        xtickformat='x_logticks'
 
@@ -121,6 +121,7 @@ pro fig_lbg_sobolev, RREAL=rreal, STRCT=strct
           color=clr.black, charsi=lsz
   xyouts, 8.0, 8e-10, '[r-1]!u'+string(hi_dlnr, format='(f4.1)')+'!N', $
           color=clr.black, charsi=lsz
+  xyouts, 2., 1e-6, '(a)', color=clr.black, charsi=lsz
 
   ;; Velocity
   yrng=[0., 800]
@@ -128,7 +129,7 @@ pro fig_lbg_sobolev, RREAL=rreal, STRCT=strct
         xmargin=xmrg, ymargin=ymrg, $
         xtitle='[r-1] (kpc)', yrange=yrng, thick=4, $
         xrange=xrng, ystyle=4, xstyle=4, psym=1, /nodata, /xlog, /noeras
-  axis, yaxis=1, charsiz=csz, ysty=1, yrang=yrng, ytit='|v!dr!N| (km s!u-1!N)'
+  axis, yaxis=1, charsiz=csz, ysty=1, yrang=yrng, ytit='v!dr!N (km s!u-1!N)'
 
   oplot, rval-1, abs(v_lbg), color=clr.black, linesty=1
 
@@ -150,6 +151,7 @@ pro fig_lbg_sobolev, RREAL=rreal, STRCT=strct
   ;; Model i [Sobolev]
   oplot, vel, fx_i, color=clr.red, linest=1, psym=10
 
+  xyouts, -200., 0.85, '(b)', color=clr.black, charsi=lsz
 ;  xyouts, xlbl, 0.1, 'n!dH!N', color=clr.black, charsiz=lsz
 
   if keyword_set( PSFILE ) then x_psclose

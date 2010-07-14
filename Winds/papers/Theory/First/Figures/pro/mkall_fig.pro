@@ -16,7 +16,7 @@ pro mkall_fig
 
   ;; Spatial
   ;; MgII
-  fig_ifu, 2796.35, [-200., -100., 0, 200], $
+  fig_ifu, 2796.35, [-250., -100., 0, 200], $
            '../Analysis/Outputs/fiducial_grid.fits', 'fig_fiducial_ifu_mgii.ps', $
            ymnx=[-20,20], xrng=[-600, 500], yrng=[0., 2.5]
 
@@ -31,6 +31,7 @@ pro mkall_fig
 ;  fig_spatial_cut, 2796.35, [-200., -100., 0, 200], $
 ;           '../Analysis/Outputs/fiducial_grid.fits', 'fig_scut_fiducial_mgii.ps', $
 ;           xrng=[-20,20], yrng=[1e-4, 1e0]
+  fig_fiducial_cut
 
 ;;;;;;;;;;;;;;;;
 ;; Complexity

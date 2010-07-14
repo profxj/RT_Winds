@@ -83,7 +83,7 @@ pro fig_dust_spec, RREAL=rreal
      endfor
   endfor
   xrng2 = (xrng/2600.173 - 1)*3e5
-  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity Relative to FeII 2600 (km/s)'
+  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity (km/s) Relative to FeII 2600'
 
   oplot, replicate(2586.650,2), yrng, color=clr.orange, linesty=2, thick=2
   oplot, replicate(2600.173,2), yrng, color=clr.orange, linesty=2, thick=2
@@ -129,7 +129,7 @@ pro fig_dust_spec, RREAL=rreal
   endfor
 
   xrng2 = (xrng/2796.352 - 1)*3e5
-  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity Relative to MgII 2796 (km/s)'
+  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity (km/s) Relative to MgII 2796'
   oplot, replicate(2796.352,2), yrng, color=clr.orange, linesty=2, thick=2
   oplot, replicate(2803.531,2), yrng, color=clr.orange, linesty=2, thick=2
   xyouts, xrng[0]+xlbl*(xrng[1]-xrng[0]), yrng[1]*ylbl, $

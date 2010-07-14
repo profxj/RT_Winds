@@ -72,7 +72,7 @@ pro fig_nvtau_vs_r, RREAL=rreal, STRCT=strct
         xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /ylog, /xlog
 
   ;; Density
-  oplot, rval, n_r*100, color=clr.black
+  oplot, rval, n_r*100, color=clr.red, linest=2
 
   ;; Velocity
   oplot, rval, v_r/100., color=clr.blue, linesty=1
@@ -85,13 +85,13 @@ pro fig_nvtau_vs_r, RREAL=rreal, STRCT=strct
      mn = min(abs(vel[gd[ii]]-v_r), imn)
      r_tau[gd[ii]] = rval[imn]
   endfor
-  oplot, r_tau[gd], tau[gd], color=clr.red, psym=10, linesty=2
+  oplot, r_tau[gd], tau[gd], color=clr.black
 
   ;; Label
   xlbl = 12.
-  xyouts, xlbl, 12., 'v!dr!N', color=clr.blue, charsiz=lsz
-  xyouts, xlbl, 0.7, '!9t!X!d2796!N', color=clr.red, charsiz=lsz
-  xyouts, xlbl, 0.1, 'n!dH!N', color=clr.black, charsiz=lsz
+  xyouts, xlbl, 12., 'v!dr!N (x10!u-2!N)', color=clr.blue, charsiz=lsz
+  xyouts, xlbl, 0.7, '!9t!X!d2796!N', color=clr.black, charsiz=lsz
+  xyouts, xlbl, 0.1, 'n!dH!N (x10!u2!N)', color=clr.red, charsiz=lsz
 
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]

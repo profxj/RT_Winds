@@ -57,14 +57,14 @@ pro fig_ism_spec, RREAL=rreal
      readcol, Fe_fil, wv, fx, /silen
      nrm = median(fx[where(wv GT 2605)])
      pix = where(wv GT wvmnx[0] and wv LT wvmnx[1])
-     oplot, wv[pix], fx[pix]/nrm, color=clr.red, psym=10, thick=3
+     oplot, wv[pix], fx[pix]/nrm, color=clr.black, psym=10, thick=3
 
      ;; ISM
      Fe_fil = '../Analysis/ISM/Output/spec_ISM_FeII.dat'
      readcol, Fe_fil, wv, fx, noscatt_fx, /silen
      nrm = median(fx[where(wv GT 2605)])
      pix = where(wv GT wvmnx[0] and wv LT wvmnx[1])
-     oplot, wv[pix], fx[pix]/nrm, color=clr.black, psym=10, thick=3
+     oplot, wv[pix], fx[pix]/nrm, color=clr.red, psym=10, thick=3
      nrm = median(noscatt_fx[where(wv GT 2605)])
      if ss EQ 0 then $
         oplot, wv[pix], noscatt_fx[pix]/nrm, color=clr.black, psym=10, thick=3, linesty=1
@@ -72,7 +72,7 @@ pro fig_ism_spec, RREAL=rreal
   endfor
 
   xrng2 = (xrng/2600.173 - 1)*3e5
-  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity Relative to FeII 2600 (km/s)'
+  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity (km/s) Relative to FeII 2600'
 
   oplot, replicate(2586.650,2), yrng, color=clr.orange, linesty=2, thick=2
   oplot, replicate(2600.173,2), yrng, color=clr.orange, linesty=2, thick=2
@@ -98,19 +98,19 @@ pro fig_ism_spec, RREAL=rreal
   Mg_fil = '../Analysis/Fiducial/Output/spec_MgII_fiducial.dat'
   readcol, Mg_fil, wv, fx, /silen
   nrm = median(fx[where(wv GT 2815)])
-  oplot, wv, fx/nrm, color=clr.red, psym=10, thick=3
+  oplot, wv, fx/nrm, color=clr.black, psym=10, thick=3
 
   ;; ISM
   Mg_fil = '../Analysis/ISM/Output/spec_ISM_MgII.dat'
   readcol, Mg_fil, wv, fx, noscatt_fx, /silen
   nrm = median(fx[where(wv GT 2815)])
-  oplot, wv, fx/nrm, color=clr.black, psym=10, thick=3
+  oplot, wv, fx/nrm, color=clr.red, psym=10, thick=3
 
   nrm = median(noscatt_fx[where(wv GT 2815)])
   oplot, wv, noscatt_fx/nrm, color=clr.black, psym=10, thick=3, linesty=1
 
   xrng2 = (xrng/2796.352 - 1)*3e5
-  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity Relative to MgII 2796 (km/s)'
+  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity (km/s) Relative to MgII 2796'
 
   oplot, replicate(2796.352,2), yrng, color=clr.orange, linesty=2, thick=2
   oplot, replicate(2803.531,2), yrng, color=clr.orange, linesty=2, thick=2

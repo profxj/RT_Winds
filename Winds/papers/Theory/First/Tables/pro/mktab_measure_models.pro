@@ -1,5 +1,5 @@
 ;; mktab_summ
-pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil
+pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title
 
   if not keyword_set( INFIL ) then infil = 'Input/tab_meas_models.inp'
   if not keyword_set( OUTFIL ) then outfil = 'tab_meas_models.tex'
@@ -124,16 +124,17 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil
   printf, 91,  '\begin{deluxetable}{ccrcccccccccc}'
   printf, 91,  '\rotate'
   printf, 91,  '\tablewidth{0pc}'
-  printf, 91,  '\tablecaption{Line Diagnostics \label{tab:line_diag}}'
+  printf, 91,  '\tablecaption{'+TITLE
+  printf, 91,  '\label{tab:line_diag}}'
   printf, 91,  '\tabletypesize{\footnotesize}'
   printf, 91,  '\tablehead{\colhead{Transition} & \colhead{Model} & \colhead{$v_{\rm int}^a$} & ' + $
-    '\colhead{$W_{\lambda}$} & \colhead{$\tau_{\rm pk}$} & \colhead{$\tau_{\rm vel}$} '
-  printf, 91,  '& \colhead{$<v(\tau)>$}'
+    '\colhead{$W_{\lambda}$} & \colhead{$\tau_{\rm pk}$} & \colhead{$v_\tau$} '
+  printf, 91,  '& \colhead{$v_{\bar \tau}$}'
   printf, 91,  '& \colhead{$v_{\rm int}^b$} & ' + $
-    '\colhead{$W_{\lambda}$} & \colhead{$f_{\rm pk}$} & \colhead{$f_{\rm vel}$} '
-  printf, 91,  '& \colhead{$<v(f)>$}'
+    '\colhead{$W_{\lambda}$} & \colhead{$f_{\rm pk}$} & \colhead{$v_f$} '
+  printf, 91,  '& \colhead{$v_{\bar f}$}'
   printf, 91,  '\\'
-  printf, 91,  '&& (\kms) & (\AA) }'
+  printf, 91,  '&& (\kms) & (\AA) && (\kms) & (\kms) & (\kms) & (\AA) & & (\kms) & (\kms)}'
   printf, 91, '\startdata'
 
   ;; LOOP
@@ -199,10 +200,11 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil
 
   ;; End of Table
   printf, 91, '\enddata'
-;  printf, 91, '\tablecomments{Unless specified otherwise, all quantities refer to the \sna=2 threshold.  The cosmology assumed has $\Omega_\Lambda = 0.7, ' + $
-;          '\Omega_m = 0.3$, and $H_0 = 72 \mkms \rm Mpc^{-1}$.}'
-  printf, 91, '\tablenotetext{a}{Velocity interval over which the equivalent width is calculated.}'
-  printf, 91, '\end{deluxetable}'
+  printf, 91, '\tablecomments{Listed are the equivalent wdiths (absorption and emission), the peak optical depth for the absorption'
+  printf, 91, '$\tau_{\rm pk} \equiv -\ln(I_{\rm min})$, the velocity where the optical depth peaks $v_\tau$, the optical depth-weighted velocity centroid '
+  printf, 91, '$v_{\bar \tau} \equiv \int dv v \ln[I(v)] / \int dv \ln[I(v)]$, the peak flux $f_{\rm pk}$ in emission, the velocity where the flux peaks '
+  printf, 91, '$v_f$, and the flux-weighted velocity centroid of the emission line $v_{\bar f}$.}'
+  printf, 91, '\end{deluxetable}' 
 
   close, /all
 

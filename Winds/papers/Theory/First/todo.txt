@@ -1,3 +1,6 @@
+-----------------
+Xavier
+-----------------
 1. Include Dan's calculation of minimum depth for line profile  ~ r_wind/r_source
 2. Rerun the fiducial models with the 'proper' r_source value
 3. Label kpc on the other axis of the RHS boxes
@@ -6,3 +9,14 @@
 6. Discuss the launching radius in the text (1D and 3D are a bit different in that all the 1D come from r_emit whereas the 3D probably comes from a range)
 7. Rerun all models with sufficient photons (e.g. ISM)
 8. Fix the bug in the FeII emission for the ISM model
+9. Add dust to all the power-law models
+10. Do a SiII 1526 calculation for the LBG model?
+11. Do an INFALL model
+
+---------------------
+Dan
+---------------------
+
+---------------------
+Kate
+---------------------

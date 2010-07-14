@@ -27,7 +27,7 @@ pro fig_asymm_spec, RREAL=rreal
   x_psopen, psfile, /portrait
   !p.multi = [0,1,2]
   clr = getcolor(/load)
-  clrs = x_setclrs()
+  clrs = x_setclrs(/dark)
   tmp = clrs[1]
   clrs[1] = clrs[2]
   clrs[2] = tmp
@@ -49,7 +49,7 @@ pro fig_asymm_spec, RREAL=rreal
            wvmnx = [xrng[0], xcut-off]
         end
         1: begin
-              yrng=[0.90,1.25]
+              yrng=[0.95,1.25]
               ysty = 5
               wvmnx = [xcut+off,xrng[1]]
            end
@@ -72,7 +72,7 @@ pro fig_asymm_spec, RREAL=rreal
      spec_feii = total(total(feii_data,1),1)
      pix = where(feii_wave GT wvmnx[0] and feii_wave LT wvmnx[1])
      oplot, feii_wave[pix], spec_feii[pix], color=clr.black, psym=10, thick=3
-     ystp = 0.065
+     ystp = 0.07
      if ss EQ 0 then $
         xyouts, xrng[0]+xlbl2*(xrng[1]-xrng[0]), yrng[1]-ystp*(yrng[1]-yrng[0]), $
                 'Fiducial', color=clr.black, charsiz=lsz
@@ -99,7 +99,7 @@ pro fig_asymm_spec, RREAL=rreal
   endfor
      
   xrng2 = (xrng/2600.173 - 1)*3e5
-  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity Relative to FeII 2600 (km/s)'
+  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity (km/s) Relative to FeII 2600'
 
   oplot, replicate(xcut,2), yrng, color=clr.orange, linesty=2
   oplot, replicate(2586.650,2), yrng, color=clr.orange, linesty=2, thick=2
@@ -131,7 +131,7 @@ pro fig_asymm_spec, RREAL=rreal
   
   spec_mgii = total(total(mgii_data,1),1)
   oplot, mgii_wave, spec_mgii, color=clr.black, psym=10, thick=3
-  ystp = 0.065
+  ystp = 0.07
   xyouts, xrng[0]+xlbl2*(xrng[1]-xrng[0]), yrng[1]-ystp*(yrng[1]-yrng[0]), $
           'Fiducial', color=clr.black, charsiz=lsz
   
@@ -154,7 +154,7 @@ pro fig_asymm_spec, RREAL=rreal
   endfor
   
   xrng2 = (xrng/2796.352 - 1)*3e5
-  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity Relative to MgII 2796 (km/s)'
+  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity (km/s) Relative to MgII 2796'
 
   oplot, replicate(2796.352,2), yrng, color=clr.orange, linesty=2, thick=2
   oplot, replicate(2803.531,2), yrng, color=clr.orange, linesty=2, thick=2

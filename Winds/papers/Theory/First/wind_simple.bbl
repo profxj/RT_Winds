@@ -1,0 +1,28 @@
+\begin{thebibliography}{6}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{{Prochaska} {et~al.}(2006){Prochaska}, {Chen}, \& {Bloom}}]{pcb06}
+{Prochaska}, J.~X., {Chen}, H.-W., \& {Bloom}, J.~S. 2006, \apj, 648, 95
+
+\bibitem[{{Prochaska} {et~al.}(2007){Prochaska}, {Chen}, {Dessauges-Zavadsky},
+  \& {Bloom}}]{pcd+07}
+{Prochaska}, J.~X., {Chen}, H.-W., {Dessauges-Zavadsky}, M., \& {Bloom}, J.~S.
+  2007, \apj, 666, 267
+
+\bibitem[{{Prochaska} \& {Wolfe}(2001)}]{pw01}
+{Prochaska}, J.~X., \& {Wolfe}, A.~M. 2001, \apjl, 560, L33
+
+\bibitem[{{Savage} \& {Sembach}(1996)}]{ss96}
+{Savage}, B.~D., \& {Sembach}, K.~R. 1996, \araa, 34, 279
+
+\bibitem[{{Shapley} {et~al.}(2003){Shapley}, {Steidel}, {Pettini}, \&
+  {Adelberger}}]{shapley03}
+{Shapley}, A.~E., {Steidel}, C.~C., {Pettini}, M., \& {Adelberger}, K.~L. 2003,
+  \apj, 588, 65
+
+\bibitem[{{Steidel} {et~al.}(2010){Steidel}, {Erb}, {Shapley}, {Pettini},
+  {Reddy}, {Bogosavljevi{\'c}}, {Rudie}, \& {Rakic}}]{steidel+10}
+{Steidel}, C.~C., {Erb}, D.~K., {Shapley}, A.~E., {Pettini}, M., {Reddy}, N.,
+  {Bogosavljevi{\'c}}, M., {Rudie}, G.~C., \& {Rakic}, O. 2010, \apj, 717, 289
+
+\end{thebibliography}

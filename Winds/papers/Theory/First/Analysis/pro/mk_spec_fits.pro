@@ -1,4 +1,5 @@
 ; mk_spec_fits, 'Outputs/fiducial_feII.spec', 'Outputs/fiducial_mgII.spec', 'Outputs/fiducial_grid.fits'
+; mk_spec_fits, 'ISM/Output/fe_ism.spec',  'ISM/Output/mg_ism.spec', 'ISM/Output/ism_grid.fits'
 pro mk_spec_fits, feii_file, mgii_file, file_out
 
 for qq=0,1 do begin

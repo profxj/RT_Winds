@@ -1,0 +1,7 @@
+source grab_source
+make all
+###################
+mpirun -np 8 outflow_rad_mgii
+mv spec.dat Output/spec_rad_MgII.dat
+mpirun -np 8 outflow_rad_feii
+mv spec.dat Output/spec_rad_FeII.dat

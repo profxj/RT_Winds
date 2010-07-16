@@ -3,7 +3,7 @@ pro fig_ifu, wrest, dv, grid_file, psfile, YMNX=ymnx, XRNG=xrng, YRNG=yrng
   if not keyword_set(PAD_FRAC) then pad_frac = 0.1
   if not keyword_set(CSZ) then csz = 1.1
   if not keyword_set(CSZ2) then csz2 = 1.0
-  if not keyword_set(CSZ3) then csz3 = 0.8
+  if not keyword_set(CSZ3) then csz3 = 0.9
   if not keyword_set(lSZ) then lsz = 1.5
   if not keyword_set(XNCOLORS) then xncolors=200L
   if not keyword_set(YMNX) then ymnx = [-10,10]  ; kpc (size of box)
@@ -36,7 +36,7 @@ pro fig_ifu, wrest, dv, grid_file, psfile, YMNX=ymnx, XRNG=xrng, YRNG=yrng
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, $
         ytitle='Normalized Flux', $
-        xtitle='v!dr!N (km s!u-1!N)', yrange=yrng, thick=4, $
+        xtitle='v (km s!u-1!N)', yrange=yrng, thick=4, $
         xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, $
         pos=[0.10, 0.42, 0.90, 0.59]
 
@@ -82,7 +82,7 @@ pro fig_ifu, wrest, dv, grid_file, psfile, YMNX=ymnx, XRNG=xrng, YRNG=yrng
                       ncolor=xncolors, /invert, FORMAT='(f4.1)',$
                    title='Log Surface Brightness',charsiz=csz3 
 
-  xpos1 = [0.5, 4.7, 0.5, 4.7]
+  xpos1 = [0.5, 4.45, 0.5, 4.45]
   ypos1 = [6., 6., 0.3, 0.3]
   for qq=0,ncut-1 do begin
 
@@ -124,15 +124,23 @@ pro fig_ifu, wrest, dv, grid_file, psfile, YMNX=ymnx, XRNG=xrng, YRNG=yrng
             xrange=[min(xlabel),max(xlabel)], $
             yrange=[min(ylabel),max(ylabel)], $
             xstyle=5, ystyle=5
+      if (qq MOD 2) EQ 1 then begin
+         ytit=''
+         yspaces = replicate(' ', 30)
+      endif  else begin
+         ytit = 'kpc'
+         yspaces = ''
+      endelse
       plot, [0], [0], /device, /noerase, xrange=ymnx, $
-            yrange=ymnx, xtitle='kpc', charsiz=csz2, $
-            ytitle='kpc', /nodata, xsty=1, $
+            yrange=ymnx, xtitle='kpc', charsiz=csz2, ytickn=yspaces, $
+            ytitle=ytit, /nodata, xsty=1, ysty=1, $
             position=thisPosition ;, ytickname=['-2','-1','0','+1','+2']
+      if (qq MOD 2) EQ 1 then axis, yaxis=1, charsiz=csz2, ysty=1, xrang=yrng, ytit='kpc'
       clr = getcolor(/load)
       if round(dv[qq]) LT 0. then pclr = clr.blue else pclr=clr.red
       if abs(round(dv[qq])) LT 10. then pclr = clr.black
       xyouts, ymnx[0]+0.05*(ymnx[1]-ymnx[0]), ymnx[0]+0.85*(ymnx[1]-ymnx[0]),  $
-              'v!dr!N='+strtrim(round(dv[qq]),2),color=pclr, charsiz=lsz
+              'v='+strtrim(round(dv[qq]),2),color=pclr, charsiz=lsz
   endfor
   
   if keyword_set( PSFILE ) then x_psclose

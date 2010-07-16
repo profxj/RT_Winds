@@ -49,14 +49,22 @@ pro mkall_fig
   fig_ism_diagn
   fig_ism_spec
 
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Other Laws
+
+  ;; Varying the density and velocity laws
+  fig_vary_profiles
+  fig_plaw_spec
+
+  ;; Radiation driven
+  fig_radiation_nvt
+  fig_rad_spec
+
   ;; LBG
   fig_lbg_sobolev
   fig_lbg_spec
   fig_lbg_cumul
 
-  ;; Varying the density and velocity laws
-  fig_vary_profiles
-  fig_plaw_spec
 
 ;;;;;;;;;;;;;;;;
 ;; Observations

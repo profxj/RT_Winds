@@ -48,20 +48,20 @@ pro fig_noemiss, GRID_FILE, PSFILE
   oplot, replicate(2803.531,2), yrng, color=clr.gray, linesty=2
   xyouts, xrng[0]+xlbl*(xrng[1]-xrng[0]), yrng[1]*ylbl, $
           'MgII', color=clr.black, charsiz=lsz
-  oplot, xrng, [1., 1.], color=clr.red, linestyle=1, thick=1
+  oplot, xrng, [1., 1.], color=clr.green, linestyle=2, thick=1
 
   ;; No emission
   fig_nvtau_vs_r, strct=strct
   wrest = strct.wrest
   wave = wrest - wrest * strct.vel / 3e5
   pix = where(strct.vel GT -50 and strct.vel LT 1000)
-  oplot, wave[pix], exp(-1.*(strct.tau[pix] < 10)), color=clr.red, psym=10
+  oplot, wave[pix], exp(-1.*(strct.tau[pix] < 10)), color=clr.red, linesty=1
 
   ;; 2803
   wrest = 2803.531d
   wave = wrest - wrest * strct.vel / 3e5
   tau = strct.tau / 2
-  oplot, wave[pix], exp(-1.*(tau[pix] < 10)), color=clr.red, psym=10
+  oplot, wave[pix], exp(-1.*(tau[pix] < 10)), color=clr.red, linesty=1
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Read in FeII Data

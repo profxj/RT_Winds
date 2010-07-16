@@ -28,7 +28,7 @@ pro fig_fiducial_1d, RREAL=rreal
 
   ;; Plot MgII
   yrng=[0., 2.5]
-  xrng=[2786., 2810]
+  xrng=[2786., 2812]
   pos=[0.08, 0.6, 0.48, 0.95]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         ytitle='Normalized Flux', $
@@ -84,7 +84,7 @@ pro fig_fiducial_1d, RREAL=rreal
 
   xmrg = [8,3]
   ymrg = [0,0]
-  xrng=[-1000, 500]
+  xrng=[-1100, 500]
   xtit = ''
 
   for qq=0L,ntrans-1 do begin
@@ -102,13 +102,14 @@ pro fig_fiducial_1d, RREAL=rreal
 
      if qq EQ (ntrans-1) then delvarx, xspaces $ 
      else xspaces = replicate(' ',30) 
-     if qq EQ (ntrans-1) then xtit = 'Normalized Velocity (km s!u-1!N)'
+     if qq EQ (ntrans-1) then xtit = 'Relative Velocity (km s!u-1!N)'
+     if qq EQ (ntrans-1) then ytki=0.1
 
      plot, [0], [0], color=clr.black, background=clr.white, charsize=csz2,$
-           xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $
+           xmargin=xmrg, ymargin=ymrg, $
            xtitle=xtit, yrange=yrng, thick=4, $
            xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, $
-           xtickn=xspaces
+           xtickn=xspaces, ytickinter=ytki
 
      vel = (wave-trans[qq])/trans[qq] * 3e5  ;; km/s
      oplot, vel, spec, color=clr.black, psym=10, thick=3
@@ -123,6 +124,8 @@ pro fig_fiducial_1d, RREAL=rreal
              yrng[0]+ (yrng[1]-yrng[0])*0.10, $
              strtrim(nam,2), color=clr.black, charsize=LSZ2
   endfor
+  xyouts, 0.53, 0.55, 'Normalized Flux', align=0.5, orient=90, $
+          color=clr.black, charsize=LSZ2, /NORM
   
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]

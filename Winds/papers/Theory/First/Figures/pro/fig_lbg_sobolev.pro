@@ -2,7 +2,7 @@ pro fig_lbg_sobolev, RREAL=rreal, STRCT=strct
 
   if not keyword_set( PSFILE ) then psfile = 'fig_lbg_sobolev.ps'
   if not keyword_set(CSZ) then csz = 1.3
-  if not keyword_set(lSZ) then lsz = 1.3
+  if not keyword_set(lSZ) then lsz = 1.5
   if not keyword_set(XNCOLORS) then xncolors=200L
 
   if not keyword_set(dv) then dv = 1.

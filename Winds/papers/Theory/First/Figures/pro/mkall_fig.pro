@@ -48,6 +48,7 @@ pro mkall_fig
   ;; ISM
   fig_ism_diagn
   fig_ism_spec
+  fig_ism_ifu
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Other Laws

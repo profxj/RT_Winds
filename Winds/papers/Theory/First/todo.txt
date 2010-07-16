@@ -12,6 +12,8 @@ Xavier
 9. Add dust to all the power-law models
 10. Do a SiII 1526 calculation for the LBG model?
 11. Do an INFALL model
+12. Put dust in the ISM model
+13. Modify the optical depths of the fiducial model
 
 ---------------------
 Dan
@@ -20,6 +22,7 @@ Dan
 102. Write methodology sub-section
 103. Suggest other variants + models
 104. Correct any/all of my radiation lingo
+105. Check for a bug in the asymmetric emission maps?
 
 
 ---------------------

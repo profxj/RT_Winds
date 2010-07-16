@@ -9,7 +9,7 @@ pro fig_radiation_nvt, RREAL=rreal, STRCT=strct
   if not keyword_set(NPTS) then npts = 1000L  ; Log steps
   if not keyword_set(v_0) then v_0 = 250.  ; Normalization (km/s)
   if not keyword_set(v_1) then v_1 = 1.  ; Scaling in velocity law
-  if not keyword_set(n_0) then n_0 = 0.05  ; Normalization cm^-3
+  if not keyword_set(n_0) then n_0 = 0.1  ; Normalization cm^-3
   if not keyword_set(b_val) then b_val = 15. ; km/s
   if not keyword_set(DUST) then dust = 0.1  ; Depletion
   if not keyword_set(METAL) then metal = -0.3  ; [M/H]
@@ -92,7 +92,7 @@ pro fig_radiation_nvt, RREAL=rreal, STRCT=strct
   xlbl = 11.
   xyouts, xlbl, 6., 'v!dr!N (x10!u-1!N)', color=clr.blue, charsiz=lsz
   xyouts, xlbl, 0.6, '!9t!X!d2796!N', color=clr.black, charsiz=lsz
-  xyouts, xlbl, 0.1, 'n!dH!N (x10!u2!N)', color=clr.red, charsiz=lsz
+  xyouts, xlbl, 0.05, 'n!dH!N (x10!u2!N)', color=clr.red, charsiz=lsz
 
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]

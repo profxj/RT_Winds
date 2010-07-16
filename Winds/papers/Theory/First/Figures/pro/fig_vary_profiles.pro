@@ -92,32 +92,40 @@ pro fig_vary_profiles, RREAL=rreal, STRCT=strct
      yrng=[1e-3, 1e3]
      xrng=[r0, r1]
      plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
-           xmargin=xmrg, ymargin=ymrg, $
+           xmargin=xmrg, ymargin=ymrg, ytickformat='x_logticks', $
            ytitle='n!dH!u!N [x10!u2!N, cm!u-3!N];   v!dr!N [x10!u-2!N km s!u-1!N]', $
            xtitle='Radius (kpc)', yrange=yrng, thick=4, $
            xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /ylog, /noerase
 
+     if qq EQ 0 then xyouts, xrng[0]+0.2*(xrng[1]-xrng[0]), $
+                             yrng[1]/4., $
+                             '(a)', charsi=lsz, color=clr.black
+
      ;; Density
      if idx_v EQ 0 then oplot, rval, n_r*100, color=xclrs[idx_n+1]
-     if idx_v EQ -1 then oplot, rval, n_r*100, color=clr.black
+     if idx_v EQ -1 then oplot, rval, n_r*100, color=clr.black, thick=2
 
      ;; Velocity
      if idx_n EQ 0 then oplot, rval, v_r/100., color=clr.gray, linesty=idx_v+1
-     if idx_n EQ -1 then oplot, rval, v_r/100., color=clr.black
+     if idx_n EQ -1 then oplot, rval, v_r/100., color=clr.black, thick=2, linesty=4
 
      ;; tau
      !p.multi = [1,1,2]
-     yrng=[0.01, 1e3]
+     yrng=[0.01, 3e3]
      xrng=[0., 1000.]
      plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
-           ytitle='!9t!X!d2796!N', $
+           ytitle='!9t!X!d2796!N', ytickformat='x_logticks', $
            xtitle='v!dr!N (km s!u-1!N)', yrange=yrng, thick=4, $
            xmargin=xmrg, ymargin=ymrg, $
            xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /noerase, /ylog
 
+     if qq EQ 0 then xyouts, xrng[0]+0.2*(xrng[1]-xrng[0]), $
+                             yrng[1]/4., $
+                             '(b)', charsi=lsz, color=clr.black
 
+     if idx_v EQ -1 then thk = 2 else thk = 4
      ;; Tau
-     oplot, vel, tau, color=xclrs[idx_n+1], psym=10, linesty=idx_v+1
+     oplot, vel, tau, color=xclrs[idx_n+1], linesty=idx_v+1, thick=thk
 
      ;; Label
      ylbl = replicate(yrng[1]/(2^(idx_v+1)),2)

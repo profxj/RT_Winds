@@ -34,7 +34,7 @@ pro fig_lbg_spec
      ;; Plot FeII
      case ss of 
         0: begin
-           yrng=[0., 1.8] 
+           yrng=[0., 1.9] 
            ysty = 9
            wvmnx = [xrng[0], xcut-off]
         end

@@ -38,7 +38,7 @@ pro fig_rad_spec, RREAL=rreal
            wvmnx = [xrng[0], xcut-off]
         end
         1: begin
-              yrng=[0.95,2.3]
+              yrng=[0.95,1.3]
               ysty = 5
               wvmnx = [xcut+off,xrng[1]]
            end

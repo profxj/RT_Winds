@@ -21,7 +21,7 @@ Dan
 101. Worry about the Voigt profile
 102. Write methodology sub-section
 103. Suggest other variants + models
-104. Correct any/all of my radiation lingo
+104. Correct any/all of my radiation lingo (e.g. resonance vs resonant; scattering vs. re-emission)
 105. Check for a bug in the asymmetric emission maps?
 
 

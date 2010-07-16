@@ -1,5 +1,6 @@
 ;; mktab_summ
-pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title
+pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title, $
+                          LBL=lbl
 
   if not keyword_set( INFIL ) then infil = 'Input/tab_meas_models.inp'
   if not keyword_set( OUTFIL ) then outfil = 'tab_meas_models.tex'
@@ -125,7 +126,7 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title
   printf, 91,  '\rotate'
   printf, 91,  '\tablewidth{0pc}'
   printf, 91,  '\tablecaption{'+TITLE
-  printf, 91,  '\label{tab:line_diag}}'
+  printf, 91,  '\label{'+LBL+'}}'
   printf, 91,  '\tabletypesize{\footnotesize}'
   printf, 91,  '\tablehead{\colhead{Transition} & \colhead{Model} & \colhead{$v_{\rm int}^a$} & ' + $
     '\colhead{$W_{\lambda}$} & \colhead{$\tau_{\rm pk}$} & \colhead{$v_\tau$} '

@@ -1,4 +1,4 @@
-pro fig_ism_ifu, wrest, dv, grid_file, psfile, YMNX=ymnx, XRNG=xrng, YRNG=yrng
+pro fig_feii_ifu, wrest, dv, grid_file, psfile, YMNX=ymnx, XRNG=xrng, YRNG=yrng
 
   if not keyword_set(PAD_FRAC) then pad_frac = 0.1
   if not keyword_set(CSZ) then csz = 1.1
@@ -9,13 +9,13 @@ pro fig_ism_ifu, wrest, dv, grid_file, psfile, YMNX=ymnx, XRNG=xrng, YRNG=yrng
   if not keyword_set(YMNX) then ymnx = [-10,10]  ; kpc (size of box)
   if not keyword_set(XRNG) then xrng=[-600., 1200]
   if not keyword_set(YRNG) then yrng=[0., 2.5]
-  if not keyword_set(PSFILE) then psfile = 'fig_ism_ifu.ps'
+  if not keyword_set(PSFILE) then psfile = 'fig_feii_ifu.ps'
 
   ;; 'Inputs'
-  all_wrest = [2796.35, 2796.35, 2600.173, 2612.654]
-  dv = [-100., 100., 0, 0]
+  all_wrest = [2600.173, 2600.173, 2612.654, 2612.654]
+  dv = [-100., 0, -100, 0]
   ncut = n_elements(dv)
-  grid_file = '../Analysis/ISM/Output/ism_grid.fits'
+  grid_file = '../Analysis/Outputs/fiducial_grid.fits'
   ymnx=[-20,20] 
 
   if ncut GT 4 then stop
@@ -129,9 +129,9 @@ pro fig_ism_ifu, wrest, dv, grid_file, psfile, YMNX=ymnx, XRNG=xrng, YRNG=yrng
       if round(dv[qq]) LT 0. then pclr = clr.blue else pclr=clr.red
       if abs(round(dv[qq])) LT 10. then pclr = clr.black
       case qq of 
-         0: wlbl = 'MgII '
-         1: wlbl = 'MgII '
-         2: wlbl = 'FeII '
+         0: wlbl = 'FeII '
+         1: wlbl = 'FeII '
+         2: wlbl = 'FeII* '
          3: wlbl = 'FeII* '
          else: stop
       endcase

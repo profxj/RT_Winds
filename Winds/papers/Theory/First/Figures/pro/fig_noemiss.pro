@@ -95,13 +95,13 @@ pro fig_noemiss, GRID_FILE, PSFILE
   getfnam, wrest, f, nam
   wave = wrest - wrest * strct.vel / 3e5
   tau = strct.tau * wrest / strct.wrest * f / strct.fval
-  oplot, wave[pix], exp(-1.*(tau[pix] < 10)), color=clr.red, psym=10
+  oplot, wave[pix], exp(-1.*(tau[pix] < 10)), color=clr.red, linesty=1
 
   wrest = 2600.1729d
   getfnam, wrest, f, nam
   wave = wrest - wrest * strct.vel / 3e5
   tau = strct.tau * wrest / strct.wrest * f / strct.fval
-  oplot, wave[pix], exp(-1.*(tau[pix] < 10)), color=clr.red, psym=10
+  oplot, wave[pix], exp(-1.*(tau[pix] < 10)), color=clr.red, linesty=1
 
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]

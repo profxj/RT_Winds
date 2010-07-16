@@ -20,13 +20,14 @@ pro mkall_fig
            '../Analysis/Outputs/fiducial_grid.fits', 'fig_fiducial_ifu_mgii.ps', $
            ymnx=[-20,20], xrng=[-600, 500], yrng=[0., 2.5]
 
-  fig_ifu, 2600.173, [-100., 0.], $
-           '../Analysis/Outputs/fiducial_grid.fits', 'fig_fiducial_ifu_feii2600.ps', $
-           ymnx=[-20,20], xrng=[-600, 500], yrng=[0., 1.8]
+  fig_feii_ifu
+;  fig_ifu, 2600.173, [-100., 0.], $
+;           '../Analysis/Outputs/fiducial_grid.fits', 'fig_fiducial_ifu_feii2600.ps', $
+;           ymnx=[-20,20], xrng=[-600, 500], yrng=[0., 1.8]
 
-  fig_ifu, 2612.654, [-100., 0.], $
-           '../Analysis/Outputs/fiducial_grid.fits', 'fig_fiducial_ifu_feii2612.ps', $
-           ymnx=[-20,20], xrng=[-600, 500], yrng=[0.9, 1.3]
+;  fig_ifu, 2612.654, [-100., 0.], $
+;           '../Analysis/Outputs/fiducial_grid.fits', 'fig_fiducial_ifu_feii2612.ps', $
+;           ymnx=[-20,20], xrng=[-600, 500], yrng=[0.9, 1.3]
 
 ;  fig_spatial_cut, 2796.35, [-200., -100., 0, 200], $
 ;           '../Analysis/Outputs/fiducial_grid.fits', 'fig_scut_fiducial_mgii.ps', $

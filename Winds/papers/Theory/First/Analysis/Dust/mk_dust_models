@@ -8,9 +8,9 @@ make all
 #mpirun -np 8 outflow_dust_mgii 10.0 1e10
 #mv spec.dat Output/spec_MgII_tau10.0.dat
 # FeII
-#mpirun -np 8 outflow_dust_feii 1.0 2e7
+#mpirun -np 8 outflow_dust_feii 1.0 1e8
 #mv spec.dat Output/spec_FeII_tau1.0.dat
-#mpirun -np 8 outflow_dust_feii 3.0 2e7
+#mpirun -np 8 outflow_dust_feii 3.0 2e8
 #mv spec.dat Output/spec_FeII_tau3.0.dat
-mpirun -np 16 outflow_dust_feii 10.0 1e10
+mpirun -np 16 outflow_dust_feii 10.0 3e10
 mv spec.dat Output/spec_FeII_tau10.0.dat

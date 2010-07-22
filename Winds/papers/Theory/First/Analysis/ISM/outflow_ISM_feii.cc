@@ -316,6 +316,7 @@ void Run_Monte_Carlo(char *outfile)
 	      sum += lines.bprob(scatter,j);
 	      if (r1 < sum) {
 		lam = lines.blam(scatter,j)*(1 - vproj); 
+		lam = lam*(1 + v_doppler/C_LIGHT*(uvec[0]*D[0] + uvec[1]*D[1] + uvec[2]*D[2]));
 		sum = -9e9;  // Kludge to avoid 'break'
 	      }
 	    }

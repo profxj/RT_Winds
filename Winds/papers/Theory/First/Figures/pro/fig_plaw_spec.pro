@@ -30,7 +30,7 @@ pro fig_plaw_spec, RREAL=rreal
 
      ;; Plot FeII
      yrng=[0., 1.8]
-     xrng=[2580, 2618]
+     xrng=[2577, 2618]
      xcut = 2605.
      off = 1.
      !p.multi = [6-qq*2,3,2,0,1]
@@ -39,17 +39,17 @@ pro fig_plaw_spec, RREAL=rreal
         cnt = qq*3 + kk
         Fe_fil = root+'FeII_'+lbl[cnt]+'.dat'
         readcol, Fe_fil, wv, fx, /silen
-        nrm = median(fx[where(wv GT 2634)])
+        nrm = median(fx[where(wv LT 2577)])
 
         for ss=0,1 do begin
            case ss of 
               0: begin
-                 yrng=[0., 1.8] 
+                 yrng=[0., 2.1] 
                  ysty = 9
                  wvmnx = [xrng[0], xcut-off]
               end
               1: begin
-                 yrng=[0.95,1.3]
+                 yrng=[0.95,1.4]
                  ysty = 5
                  wvmnx = [xcut+off,xrng[1]]
               end
@@ -84,8 +84,8 @@ pro fig_plaw_spec, RREAL=rreal
 
      !p.multi = [5-qq*2,3,2,0,1]
      ;; Plot MgII
-     yrng=[0., 3.3]
-     xrng=[2786., 2809.8]
+     yrng=[0., 4.0]
+     xrng=[2785., 2809.8]
      plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
            xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $
            xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $

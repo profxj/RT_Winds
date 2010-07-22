@@ -24,10 +24,13 @@ pro fig_radiation_nvt, RREAL=rreal, STRCT=strct
 
   ;; Velocity
   v_r = v_0 * sqrt( v_1 * (1./r1 - 1./rval) + alog(r1/rval) )
+  print, 'sigma = ', v_0 / 2, 'km/s'
+  print, 'R_g = ', v_1, ' kpc'
 
   ;; Density
   n_r = n_0 * v_0 / rval^2 / v_r
   n_r[npts-1] = n_r[npts-2]
+  print, 'dM/dt = ', n_0*v_0 * (c.kpc^2 * 1e5) * c.mp / c.msun * c.yr, 'Msun/yr'
 
   ;; Optical depth
   wrest = 2796.352d

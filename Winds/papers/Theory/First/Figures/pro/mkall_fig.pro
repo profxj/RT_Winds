@@ -70,6 +70,9 @@ pro mkall_fig
 
 ;;;;;;;;;;;;;;;;
 ;; Observations
+  fig_obs_vf
+  fig_obs_vtau
+  fig_obs_peaktau
 
 ;  fig_slitwidth
 

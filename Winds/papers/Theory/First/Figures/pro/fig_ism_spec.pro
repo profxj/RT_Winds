@@ -38,7 +38,7 @@ pro fig_ism_spec, RREAL=rreal
            wvmnx = [xrng[0], xcut-off]
         end
         1: begin
-              yrng=[0.95,2.3]
+              yrng=[0.95,3.0]
               ysty = 5
               wvmnx = [xcut+off,xrng[1]]
            end
@@ -49,7 +49,7 @@ pro fig_ism_spec, RREAL=rreal
            xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $
            xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
            xrange=xrng, ystyle=ysty, xstyle=9, psym=1, /nodata, /noerase
-     if ss EQ 1 then axis, yaxis=1, charsiz=csz, ysty=1, xrang=yrng, ytickint=0.2
+     if ss EQ 1 then axis, yaxis=1, charsiz=csz, ysty=1, xrang=yrng, ytickint=0.5
      if ss EQ 0 then oplot, wvmnx, [0.,0.], color=clr.green, linesty=2, thick=2
   
      ;; Fiducial

@@ -14,6 +14,8 @@ Xavier
 11. Do an INFALL model
 12. Put dust in the ISM model
 13. Modify the optical depths of the fiducial model
+14. Redo all FeII models with l_start = 2573 and l_stop = 2637
+15. Show an instrument 'smoothed' (e.g. LRIS) profile (or two)
 
 ---------------------
 Dan

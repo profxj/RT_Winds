@@ -16,8 +16,8 @@ double n_photons =  1e6;    // number of photons
 double stepsize  = 0.01;   // maximum size of photon step 
 
 // output spectrum parameters
-double l_start   =  2575;     // photon beginning wavelength (Angstroms)
-double l_stop    =  2635;     // photon ending wavelength (Angstroms)
+double l_start   =  2573;     // photon beginning wavelength (Angstroms)
+double l_stop    =  2637;     // photon ending wavelength (Angstroms)
 double l_delta   =   0.1;     // wavelength resolution (Angstroms)
 double F_cont    =    1;      // continuum flux level
 int    n_mu      =    1;      // number of theta bins

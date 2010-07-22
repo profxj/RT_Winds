@@ -55,17 +55,17 @@ pro fig_ism_spec, RREAL=rreal
      ;; Fiducial
      Fe_fil = '../Analysis/Fiducial/Output/spec_FeII_fiducial.dat'
      readcol, Fe_fil, wv, fx, /silen
-     nrm = median(fx[where(wv GT 2605)])
+     nrm = median(fx[where(wv GT 2634)])
      pix = where(wv GT wvmnx[0] and wv LT wvmnx[1])
      oplot, wv[pix], fx[pix]/nrm, color=clr.black, psym=10, thick=3
 
      ;; ISM
      Fe_fil = '../Analysis/ISM/Output/spec_ISM_FeII.dat'
      readcol, Fe_fil, wv, fx, noscatt_fx, /silen
-     nrm = median(fx[where(wv GT 2605)])
+     nrm = median(fx[where(wv GT 2634)])
      pix = where(wv GT wvmnx[0] and wv LT wvmnx[1])
      oplot, wv[pix], fx[pix]/nrm, color=clr.red, psym=10, thick=3
-     nrm = median(noscatt_fx[where(wv GT 2605)])
+     nrm = median(noscatt_fx[where(wv GT 2634)])
      if ss EQ 0 then $
         oplot, wv[pix], noscatt_fx[pix]/nrm, color=clr.black, psym=10, thick=3, linesty=1
         

@@ -2,7 +2,7 @@ pro fig_plaw_spec, RREAL=rreal
 
   if not keyword_set( PSFILE ) then psfile = 'fig_plaw_spec.ps'
   if not keyword_set(PAD_FRAC) then pad_frac = 0.1
-  if not keyword_set(CSZ) then csz = 1.3
+  if not keyword_set(CSZ) then csz = 1.5
   if not keyword_set(CSZ2) then csz2 = 2.3
   if not keyword_set(lSZ) then lsz = 1.5
   if not keyword_set(lSZ2) then lsz2 = 1.3
@@ -11,7 +11,7 @@ pro fig_plaw_spec, RREAL=rreal
   lbl = ['A','B','C','D','E','F','G','H','I','J','K']
   root = '../Analysis/PowLaws/Output/spec_plaw_'
 
-  xlbl = 0.3
+  xlbl = 0.2
   xlbl2 = 0.05
   ylbl = 0.90
 
@@ -39,7 +39,7 @@ pro fig_plaw_spec, RREAL=rreal
         cnt = qq*3 + kk
         Fe_fil = root+'FeII_'+lbl[cnt]+'.dat'
         readcol, Fe_fil, wv, fx, /silen
-        nrm = median(fx[where(wv GT 2605)])
+        nrm = median(fx[where(wv GT 2634)])
 
         for ss=0,1 do begin
            case ss of 

@@ -59,7 +59,7 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title,
               ;; FeII
               readf, 1, data_fil
               readcol, data_fil, wv, fx, /silen
-              nrm = median(fx[where(wv LT 2578)])
+              nrm = median(fx[where(wv GT 2634)])
               fx = fx/nrm
               feII_strct = { $
                            spec: fx, $
@@ -201,9 +201,9 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title,
 
   ;; End of Table
   printf, 91, '\enddata'
-  printf, 91, '\tablecomments{Listed are the equivalent wdiths (absorption and emission), the peak optical depth for the absorption'
+  printf, 91, '\tablecomments{{L}isted are the equivalent wdiths (absorption and emission), the peak optical depth for the absorption'
   printf, 91, '$\tau_{\rm pk} \equiv -\ln(I_{\rm min})$, the velocity where the optical depth peaks $v_\tau$, the optical depth-weighted velocity centroid '
-  printf, 91, '$v_{\bar \tau} \equiv \int dv v \ln[I(v)] / \int dv \ln[I(v)]$, the peak flux $f_{\rm pk}$ in emission, the velocity where the flux peaks '
+  printf, 91, '$v_{\bar \tau} \equiv \int dv \, v \ln[I(v)] / \int dv \ln[I(v)]$, the peak flux $f_{\rm pk}$ in emission, the velocity where the flux peaks '
   printf, 91, '$v_f$, and the flux-weighted velocity centroid of the emission line $v_{\bar f}$.}'
   printf, 91, '\end{deluxetable}' 
 

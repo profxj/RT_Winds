@@ -79,8 +79,26 @@ pro calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans
            if na EQ 0 then stop
            a1 = a[0] + imn
            ;; Returns to the continuum
-           a = where(spec[0:imn] GT 0.95, na)
-           a0 = a[na-1]
+           ;; This failed in Models D and G of the Power-Laws
+           ;; Kludges
+           case round(trans[qq]) of 
+              2796: begin 
+                 a = where(spec[0:imn] LT 0.95, na)
+                 a0 = a[0]
+              end
+              2803: begin 
+                 ;; Find peak 2796 emission
+                 mn = min(abs(wave-2796.352),imn2)
+                 mx = max(spec[imn2:imn-20],imx2)
+                 ;; Grab min from there
+                 a = where(spec[imn2+imx2:imn] LT 0.95, na)
+                 a0 = imn2+imx2+a[0]
+              end
+              else: begin
+                 a = where(spec[0:imn] GT 0.95, na)
+                 a0 = a[na-1]
+              end
+           endcase
         endif else begin
            ;; Last pixel of absorption
            a = where(spec[0:imn] LT 0.95, na)
@@ -94,19 +112,32 @@ pro calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans
         strct[qq].vmnx_abs = [vel[a0],vel[a1]]
 
         ;; Peak optical depth
-        strct[qq].tau_peak = -1*alog(min(spec[a0:a1],imnt) > MINI)
-        strct[qq].tau_vel = vel[a0+imnt]
-        tau_vals = -1*alog(spec[a0:a1] > MINI)
-        strct[qq].vel_tau = total(vel[a0:a1]*tau_vals) / total(tau_vals) ;; km/s
+        strct[qq].tau_peak = -1*alog(min(spec[a0:a1],imnt) > MINI)  > 0.
+        if strct[qq].tau_peak GT 0. then begin 
+           strct[qq].tau_vel = vel[a0+imnt]
+           tau_vals = -1*alog(spec[a0:a1] > MINI)
+           strct[qq].vel_tau = total(vel[a0:a1]*tau_vals) / total(tau_vals) ;; km/s
+        endif 
      endif
 
      ;;;;;;;;;;;;;;;;
      ;; Emission
      if spec[imn] LT 1.02 then begin
-        e = where(spec[imn:*] GT 1.02, na)
-        e0 = e[0]+imn
-        e = where(spec[e0:*] LT 1.02, na)
-        e1 = e[0]+e0
+        if strct[qq].flg_trans EQ 0 then begin
+           ;; The following assumes the line is to the red 
+           e = where(spec[imn:*] GT 1.02, na)
+           e0 = e[0]+imn
+           e = where(spec[e0:*] LT 1.02, na)
+           e1 = e[0]+e0
+        endif else begin
+           ;; Find the peak (hopefully there is one that is positive)
+           mx = max(spec[imn-20+lindgen(41)], imx)
+           imx = imn-20+imx
+           e = where(spec[0:imx] LT 1.02, na)
+           e0 = e[na-1]
+           e = where(spec[imx:*] LT 1.02, na)
+           e1 = e[0]+imn
+        endelse
      endif else begin
         e = where(spec[0:imn] LT 1.02, na)
         e0 = e[na-1]

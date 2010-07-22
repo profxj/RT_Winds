@@ -28,7 +28,7 @@ double r_ISM   =  0.5;      // inner boundary of ISM, in kpc
 double n_ISM = 1.;           // Density (constant) of ISM gas (cm^-3)
 double v_ISM = 100.;           // Random (uniform) velocity of ISM
 //double ISM_doppler    =   15*1e5;              
-double ISM_doppler    =   40*1e5;              
+double ISM_doppler    =   40*1e5;    // Doppler in the ISM region (cm/s)          
 
 // Wind parameters
 double r_inner   =  1.0;      // inner boundary radius, in kpc

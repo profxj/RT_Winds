@@ -1,30 +1,29 @@
 -----------------
 Xavier
------------------
-1. Include Dan's calculation of minimum depth for line profile  ~ r_wind/r_source
-2. Rerun the fiducial models with the 'proper' r_source value
+	1. Include Dan's calculation of minimum depth for line profile  ~ r_wind/r_source
+	2. Rerun the fiducial models with the 'proper' r_source value
 	3. Label kpc on the other axis of the RHS boxes
 	4. Do a range of b-values
-5. Make sure the inner bounday is not absorbing any photons in the non-ISM models
+	5. Make sure the inner bounday is not absorbing any photons in the non-ISM models
 6. Discuss the launching radius in the text (1D and 3D are a bit different in that all the 1D come from r_emit whereas the 3D probably comes from a range)
-7. Rerun all models with sufficient photons (e.g. ISM)
-8. Fix the bug in the FeII emission for the ISM model
+	7. Rerun all models with sufficient photons (e.g. ISM)
+	8. Fix the bug in the FeII emission for the ISM model
 9. Add dust to all the power-law models
 10. Do a SiII 1526 calculation for the LBG model?
 11. Do an INFALL model
 12. Put dust in the ISM model
 13. Modify the optical depths of the fiducial model
 14. Make a bigger deal about the 2600/2586 inversion in the ISM case
-15. Redo all FeII models with l_start = 2573 and l_stop = 2639
+	15. Redo all FeII models with l_start = 2573 and l_stop = 2639
 16. Show an instrument 'smoothed' (e.g. LRIS) profile (or two)
 17. Consider (again) whether v_doppler is done right for re-remitted photons
 18. Discuss FeII* 2626/2632 blending
-19. Fix labels on the Obs v_f plot
+	19. Fix labels on the Obs v_f plot
 20. Use 1D fiducial model for all but the IFU plots
 21. Move Sobolev discussion up to fiducial model
 22. Consider a Martin+Bouche model with high dust
 23. Add to Intro:  
-  What has been done previously
+  What has (not) been done previously
      -- Scattered light
      -- Flourescence
      -- Funny treatment of Sobolev
@@ -35,7 +34,7 @@ Xavier
 ---------------------
 Dan
 ---------------------
-101. Worry about the Voigt profile
+	101. Worry about the Voigt profile
 102. Write methodology sub-section
 103. Suggest other variants + models
 104. Correct any/all of my radiation lingo (e.g. resonance vs resonant; scattering vs. re-emission [flourescence])
@@ -50,3 +49,12 @@ Kate
 1002. Suggest other references
 1003. Consider other ways to compare to observations
 1004. Suggest other variants + models
+
+===========================
+Models to run (or rerun)
+=========================== 
+	Fiducial (MgII, FeII)
+ISM with dust
+Fiducial with tau varying (MgII, FeII) 
+LBG in '3D'
+Doppler

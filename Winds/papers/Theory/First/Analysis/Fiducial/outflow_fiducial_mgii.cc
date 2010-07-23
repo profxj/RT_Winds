@@ -220,7 +220,7 @@ void Run_Monte_Carlo(char *outfile)
       r_sq = r[0]*r[0] + r[1]*r[1] + r[2]*r[2];
       if (r_sq > r_outer*r_outer) {count_it = 1; break;}
       // see if we've gone under inner boundary
-      if (r_sq < r_emit*r_emit) {count_it = 0; break; }
+      // if (r_sq < r_emit*r_emit) {count_it = 0; break; }
 
       // if we line scattered, do it
       if (scatter >= 0)

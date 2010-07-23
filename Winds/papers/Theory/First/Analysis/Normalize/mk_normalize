@@ -1,0 +1,17 @@
+# Compile
+source grab_source
+make all
+#### MgII
+mpirun -np 4 outflow_norm_mgii 0.03 1e7
+mv spec.dat Output/spec_MgII_norm_03.dat
+mpirun -np 4 outflow_norm_mgii 0.30 1e7
+mv spec.dat Output/spec_MgII_norm_30.dat
+mpirun -np 4 outflow_norm_mgii 1.00 1e7
+mv spec.dat Output/spec_MgII_norm_100.dat
+#### FeII
+mpirun -np 4 outflow_norm_feii 0.03 2e7
+mv spec.dat Output/spec_FeII_norm_03.dat
+mpirun -np 4 outflow_norm_feii 0.30 2e7
+mv spec.dat Output/spec_FeII_norm_30.dat
+mpirun -np 4 outflow_norm_feii 1.00 2e7
+mv spec.dat Output/spec_FeII_norm_100.dat

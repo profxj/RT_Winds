@@ -16,8 +16,8 @@ double n_photons =  2e7;    // number of photons
 double stepsize  = 0.01;   // maximum size of photon step 
 
 // output spectrum parameters
-double l_start   =  2575;     // photon beginning wavelength (Angstroms)
-double l_stop    =  2635;     // photon ending wavelength (Angstroms)
+double l_start   =  2573;     // photon beginning wavelength (Angstroms)
+double l_stop    =  2639;     // photon ending wavelength (Angstroms)
 double l_delta   =   0.1;     // wavelength resolution (Angstroms)
 double F_cont    =    1;      // continuum flux level
 int    n_mu      =    1;      // number of theta bins
@@ -143,8 +143,8 @@ double Get_Density(double *x, double r)
 void Run_Monte_Carlo(char *outfile)
 {
   // local variables
-  int i,j, l, ind, scatter, dust_scatter, count_it;
-  double x, lam_loc, xloc,lam;
+  int i,j, l, ind, scatter, dust_scatter, count_it, flg_scatter;
+  double x, lam_loc, xloc,lam, lam_emit;
   double r[3], D[3];
   double mu,phi,sin_theta;
   double tau_r, tau_x, step, r_sq;
@@ -184,6 +184,8 @@ void Run_Monte_Carlo(char *outfile)
     Emit(r,D,r_emit);
     // initial wavelength
     lam = l_start + (l_stop-l_start)*gsl_rng_uniform(rangen);
+    lam_emit = lam;
+    flg_scatter = 0;
 
     // propogate until escaped
     while (1)
@@ -238,6 +240,7 @@ void Run_Monte_Carlo(char *outfile)
       // if we line scattered, do it
       if (scatter >= 0)
       {
+	flg_scatter = 1;
 	xloc = (lam_loc/lines.lambda(scatter) - 1)*C_LIGHT/v_doppler;
 
 	// Get three velocity components of scatterer
@@ -329,6 +332,17 @@ void Run_Monte_Carlo(char *outfile)
       p_obs = atan2(D[0],D[1]);
       if (p_obs < 0) p_obs += 2*PI;
       spectrum.Count(t_obs,l_obs,m_obs,p_obs,E_obs);
+    }
+
+    // Count un-absorbed photons
+    if (flg_scatter == 0) 
+      {
+      l_obs = lam_emit;
+      E_obs = E_p;
+      m_obs = D[2];
+      p_obs = atan2(D[0],D[1]);
+      if (p_obs < 0) p_obs += 2*PI;
+      spectrum.Scatter(t_obs,l_obs,m_obs,p_obs,E_obs);
     }
   }
   

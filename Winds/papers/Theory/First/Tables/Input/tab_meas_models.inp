@@ -1,7 +1,8 @@
 6
 Fiducial
-1
-../Analysis/Outputs/fiducial_grid.fits
+2
+../Analysis/Fiducial/Output/spec_MgII_fiducial.dat
+../Analysis/Fiducial/Output/spec_FeII_fiducial.dat
 \taud=1
 2
 ../Analysis/Dust/Output/spec_MgII_tau1.0.dat

@@ -1,7 +1,8 @@
-12
+13
 Fiducial
-1
-../Analysis/Outputs/fiducial_grid.fits
+2
+../Analysis/Fiducial/Output/spec_MgII_fiducial.dat
+../Analysis/Fiducial/Output/spec_FeII_fiducial.dat
 A
 2
 ../Analysis/PowLaws/Output/spec_plaw_MgII_A.dat
@@ -38,6 +39,10 @@ I
 2
 ../Analysis/PowLaws/Output/spec_plaw_MgII_I.dat
 ../Analysis/PowLaws/Output/spec_plaw_FeII_I.dat
+Radiation
+2
+../Analysis/Radiation/Output/spec_rad_MgII.dat
+../Analysis/Radiation/Output/spec_rad_FeII.dat
 LBG Sobolev
 2
 ../Analysis/LBG/Sobolev/Output/spec_MgII_lbg_sobolev.dat

@@ -10,12 +10,14 @@ pro calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Read in MgII Data
   spec_mgII = mgII_strct.spec
+  intr_mgII = mgII_strct.noscatt_spec
   mgII_wave = mgII_strct.wave
   dwv_mgII = abs(mgii_wave[1]-mgii_wave[0])
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Read in FeII Data
   spec_feII = feII_strct.spec
+  intr_feII = feII_strct.noscatt_spec
   feII_wave = feII_strct.wave
   dwv_feII = abs(feii_wave[1]-feii_wave[0])
 
@@ -30,7 +32,8 @@ pro calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans
         j: 0., $             ;; Angular momentum
         vmnx_abs: fltarr(2), $   ;; End points of W integration
         vmnx_em: fltarr(2), $   ;; End points of W integration
-        W_abs: 0., $
+        W_abs: 0., $       ;; Absorption EW (resonance lines only)
+        W_int: 0., $   ;; (intrinsic) EW in the absence of scattering/re-emission
         W_em: 0., $
         tau_peak: 0., $   ;; Maximum optical depth of the line
         tau_vel: 0., $   ;; Velocity of maximum optical depth
@@ -46,10 +49,12 @@ pro calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans
      if trans[qq] LT 2700. then begin
         wave = feii_wave
         spec = spec_feii
+        intr_spec = intr_feii
         dwv = dwv_feii
      endif else begin
         wave = mgii_wave
         spec = spec_mgii
+        intr_spec = intr_mgii
         dwv = dwv_mgii
      endelse
 
@@ -103,8 +108,12 @@ pro calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans
            ;; Last pixel of absorption
            a = where(spec[0:imn] LT 0.95, na)
            if na EQ 0 then a1 = imn-1 else a1 = a[na-1]
+           ;; Find peak absorption
+           kdg_pix = 50
+           mn = min(spec[a1-kdg_pix:a1],imn2)
+           isrch = a1-kdg_pix+imn2
            ;; First pixel of absorption
-           a = where(spec[0:a1] GT 0.95, na)
+           a = where(spec[0:isrch] GT 0.95, na)  ;; The '5' is a kludge
            if na EQ 0 then a0 = a1-1 else a0 = a[na-1]
         endelse
         ;; Sum it up
@@ -118,6 +127,11 @@ pro calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans
            tau_vals = -1*alog(spec[a0:a1] > MINI)
            strct[qq].vel_tau = total(vel[a0:a1]*tau_vals) / total(tau_vals) ;; km/s
         endif 
+
+        ;; Intrinsic EW
+        if fix(trans[qq]) NE 2803 then pix = where(vel GT -1000 and vel LT 200) $
+        else pix = where(vel GT -789 and vel LT 200) 
+        strct[qq].W_int = dwv*total( (1.-intr_spec[pix]) )
      endif
 
      ;;;;;;;;;;;;;;;;
@@ -143,6 +157,20 @@ pro calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans
         e0 = e[na-1]
         e = where(spec[imn:*] LT 1.02, na)
         e1 = e[0]+imn
+        ;; Hard code 2626 and 2632 to deal with blending
+        case round(trans[qq]) of 
+           2626: begin
+              wcen = (2626.4511+2632.1081d)/2
+              mn = min(abs(wave-wcen), imn3)
+              e1 = e1 < imn3
+           end
+           2632: begin
+              wcen = (2626.4511+2632.1081d)/2
+              mn = min(abs(wave-wcen), imn3)
+              e0 = e0 > imn3
+           end
+           else:
+        endcase
      endelse
      ;; Sum it up
      strct[qq].W_em = dwv*total( (1.-spec[e0:e1]) )

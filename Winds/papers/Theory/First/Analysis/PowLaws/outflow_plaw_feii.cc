@@ -17,7 +17,7 @@ double stepsize  = 0.01;   // maximum size of photon step
 
 // output spectrum parameters
 double l_start   =  2573;     // photon beginning wavelength (Angstroms)
-double l_stop    =  2637;     // photon ending wavelength (Angstroms)
+double l_stop    =  2639;     // photon ending wavelength (Angstroms)
 double l_delta   =   0.1;     // wavelength resolution (Angstroms)
 double F_cont    =    1;      // continuum flux level
 int    n_mu      =    1;      // number of theta bins
@@ -311,6 +311,7 @@ void Run_Monte_Carlo(char *outfile)
 	      sum += lines.bprob(scatter,j);
 	      if (r1 < sum) {
 		lam = lines.blam(scatter,j)*(1 - vproj); 
+		lam = lam*(1 + v_doppler/C_LIGHT*(uvec[0]*D[0] + uvec[1]*D[1] + uvec[2]*D[2]));
 		sum = -9e9;  // Kludge to avoid 'break'
 	      }
 	    }

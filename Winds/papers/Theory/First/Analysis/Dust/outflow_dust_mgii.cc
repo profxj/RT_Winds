@@ -221,7 +221,7 @@ void Run_Monte_Carlo(char *outfile)
 	if (l_step < step) {step = l_step; scatter = l; }
       }
 
-      // get distance to dust scatter/absorption
+      // Calculate dust opacity and check for absorption
       tau_r = -1.0*log(1 - gsl_rng_uniform(rangen));
       tau_x = KPARSEC*dens_H*dust_norm*dust_cs;
       d_step = tau_r/tau_x;
@@ -319,8 +319,8 @@ void Run_Monte_Carlo(char *outfile)
       spectrum.Count(t_obs,l_obs,m_obs,p_obs,E_obs);
     }
 
-    // Count un-absorbed photons
-    if (flg_scatter == 0) 
+    // Count un-absorbed photons (and not dust absorbed)
+    if (flg_scatter == 0 && dust_scatter == 0) 
       {
       l_obs = lam_emit;
       E_obs = E_p;

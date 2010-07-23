@@ -3,7 +3,7 @@ Xavier
 -----------------
 1. Include Dan's calculation of minimum depth for line profile  ~ r_wind/r_source
 2. Rerun the fiducial models with the 'proper' r_source value
-3. Label kpc on the other axis of the RHS boxes
+	3. Label kpc on the other axis of the RHS boxes
 	4. Do a range of b-values
 5. Make sure the inner bounday is not absorbing any photons in the non-ISM models
 6. Discuss the launching radius in the text (1D and 3D are a bit different in that all the 1D come from r_emit whereas the 3D probably comes from a range)
@@ -15,8 +15,22 @@ Xavier
 12. Put dust in the ISM model
 13. Modify the optical depths of the fiducial model
 14. Make a bigger deal about the 2600/2586 inversion in the ISM case
-15. Redo all FeII models with l_start = 2573 and l_stop = 2637
+15. Redo all FeII models with l_start = 2573 and l_stop = 2639
 16. Show an instrument 'smoothed' (e.g. LRIS) profile (or two)
+17. Consider (again) whether v_doppler is done right for re-remitted photons
+18. Discuss FeII* 2626/2632 blending
+19. Fix labels on the Obs v_f plot
+20. Use 1D fiducial model for all but the IFU plots
+21. Move Sobolev discussion up to fiducial model
+22. Consider a Martin+Bouche model with high dust
+23. Add to Intro:  
+  What has been done previously
+     -- Scattered light
+     -- Flourescence
+     -- Funny treatment of Sobolev
+     -- Spatial extent
+  Discuss NaI emission
+24. Produce a bi-conical model
 
 ---------------------
 Dan
@@ -24,8 +38,9 @@ Dan
 101. Worry about the Voigt profile
 102. Write methodology sub-section
 103. Suggest other variants + models
-104. Correct any/all of my radiation lingo (e.g. resonance vs resonant; scattering vs. re-emission)
+104. Correct any/all of my radiation lingo (e.g. resonance vs resonant; scattering vs. re-emission [flourescence])
 105. Check for a bug in the asymmetric emission maps?
+106. Help X get a 2D map of the LBG emission
 
 
 ---------------------

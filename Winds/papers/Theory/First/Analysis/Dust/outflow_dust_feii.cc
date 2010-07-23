@@ -342,7 +342,7 @@ void Run_Monte_Carlo(char *outfile)
     }
 
     // Count un-absorbed photons
-    if (flg_scatter == 0) 
+    if (flg_scatter == 0 && dust_scatter == 0) 
       {
       l_obs = lam_emit;
       E_obs = E_p;

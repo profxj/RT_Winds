@@ -1,4 +1,4 @@
-pro fig_nvtau_vs_r, RREAL=rreal, STRCT=strct
+pro fig_nvtau_vs_r, STRCT=strct
 
   if not keyword_set( PSFILE ) then psfile = 'fig_nvtau_vs_r.ps'
   if not keyword_set(CSZ) then csz = 2.0
@@ -45,6 +45,7 @@ pro fig_nvtau_vs_r, RREAL=rreal, STRCT=strct
 
   if arg_present(STRCT) then begin
      strct = { $
+             rval: rval, $
              wrest: wrest, $
              wave: wav, $
              fval: mgii.f, $

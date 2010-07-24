@@ -80,6 +80,13 @@ int main(int argc, char **argv)
   // Photons
   if(argc > 5) n_photons = atof(argv[5]);
 
+  // Dust
+  if(argc > 6) {
+    dust_tau = atof(argv[1]);
+    dust_norm   =  dust_tau / dust_cs /  nH_colm / KPARSEC ;
+    return 0;  // Need to deal with nH_colm properly
+  }
+
   void Run_Monte_Carlo(char*);
 
   // initialize MPI for parallelism
@@ -182,6 +189,8 @@ void Run_Monte_Carlo(char *outfile)
   int n_wave = (l_stop - l_start)/l_delta;
   double E_p = F_cont*n_wave*n_mu*n_phi/n_photons*l_delta;
 
+  dust_scatter = 0;
+
   // send the photons
   for (i=0;i<n_photons;i++)
   {
@@ -224,12 +233,14 @@ void Run_Monte_Carlo(char *outfile)
       }
 
       // get distance to dust scatter/absorption
-      tau_r = -1.0*log(1 - gsl_rng_uniform(rangen));
-      tau_x = KPARSEC*dens_H*dust_norm*dust_cs;
-      d_step = tau_r/tau_x;
-      if (tau_x == 0) d_step = VERY_LARGE_NUMBER;
-      if (d_step < step) {step = d_step; scatter = -1; dust_scatter = 1; }
-      else  dust_scatter = 0;
+      if (dust_norm > 0.) {
+	tau_r = -1.0*log(1 - gsl_rng_uniform(rangen));
+	tau_x = KPARSEC*dens_H*dust_norm*dust_cs;
+	d_step = tau_r/tau_x;
+	if (tau_x == 0) d_step = VERY_LARGE_NUMBER;
+	if (d_step < step) {step = d_step; scatter = -1; dust_scatter = 1; }
+	else  dust_scatter = 0;
+      }
       
       // take the step
       r[0] += D[0]*step;
@@ -298,7 +309,7 @@ void Run_Monte_Carlo(char *outfile)
       {
 	double z =  gsl_rng_uniform(rangen);
 	if (z > dust_albedo) {count_it = 0; break; }
-	// choose new isotropic direction
+	// choose new isotropic direction (not used)
  	mu  = 1 - 2.0*gsl_rng_uniform(rangen);
  	phi = 2.0*PI*gsl_rng_uniform(rangen);
  	sin_theta = sqrt(1 - mu*mu);
@@ -322,7 +333,7 @@ void Run_Monte_Carlo(char *outfile)
     }
 
     // Count un-absorbed photons
-    if (flg_scatter == 0) 
+    if (flg_scatter == 0 && dust_scatter == 0) 
       {
       l_obs = lam_emit;
       E_obs = E_p;

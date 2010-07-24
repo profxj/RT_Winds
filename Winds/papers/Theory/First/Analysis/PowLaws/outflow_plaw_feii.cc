@@ -83,6 +83,12 @@ int main(int argc, char **argv)
   // Photons
   if(argc > 5) n_photons = atof(argv[5]);
 
+  // Dust
+  if(argc > 6) {
+    dust_tau = atof(argv[1]);
+    dust_norm   =  dust_tau / dust_cs /  nH_colm / KPARSEC ;
+  }
+
   // Lines 
   lines.Init("fe_uv1.lines");
 

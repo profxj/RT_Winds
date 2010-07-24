@@ -296,7 +296,7 @@ void Run_Monte_Carlo(char *outfile)
       {
 	double z =  gsl_rng_uniform(rangen);
 	if (z > dust_albedo) {count_it = 0; break; }
-	// choose new isotropic direction
+	// choose new isotropic direction (not used)
  	mu  = 1 - 2.0*gsl_rng_uniform(rangen);
  	phi = 2.0*PI*gsl_rng_uniform(rangen);
  	sin_theta = sqrt(1 - mu*mu);

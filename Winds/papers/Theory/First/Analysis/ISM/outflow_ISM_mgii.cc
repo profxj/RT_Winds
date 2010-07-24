@@ -9,7 +9,7 @@
 #include "spectrum.hh"
 
 // monte carlo parameters
-double n_photons =  1e7;    // number of photons
+double n_photons =  2e7;    // number of photons
 double stepsize  = 0.01;   // maximum size of photon step 
 
 // output spectrum parameters
@@ -42,7 +42,9 @@ double wind_doppler    =   15*1e5;
 double dust_cs     = 3.33e-24;    // dust cross-section
 double dust_tau   = 0.;          // Optical depth of dust through the wind (r=0 to Infinity)
 double omnl = 1-n_law;
-double nH_colm   =  n_0 * pow(r_inner,n_law)  * ( pow(r_outer,omnl)-pow(r_inner,omnl) ) / omnl;
+double NH_wind   =  n_0 * pow(r_inner,n_law)  * ( pow(r_outer,omnl)-pow(r_inner,omnl) ) / omnl;
+double NH_ism    =  n_ISM * (r_inner-r_ISM);
+double NH_colm   =  NH_ism + NH_wind;
 double dust_norm   =  0.;   // Normalization to give dust_tau
 double dust_albedo = 0.0;         // ratio of scattering to absorption
 
@@ -76,6 +78,12 @@ int verbose;             // output parameter
 int main(int argc, char **argv)
 {
 
+  // Input dust (optional),  Photons are inputted two (required)
+  if(argc > 2) {
+    dust_tau = atof(argv[1]);
+    dust_norm   =  dust_tau / dust_cs /  NH_colm / KPARSEC ;
+    n_photons = atof(argv[2]);
+  }
 
   void Run_Monte_Carlo(char*);
 
@@ -193,6 +201,7 @@ void Run_Monte_Carlo(char *outfile)
   int n_wave = (l_stop - l_start)/l_delta;
   double E_p = F_cont*n_wave*n_mu*n_phi/n_photons*l_delta;
 
+  dust_scatter = 0;
   // send the photons
   for (i=0;i<n_photons;i++)
   {
@@ -234,6 +243,16 @@ void Run_Monte_Carlo(char *outfile)
 	l_step = tau_r/tau_x;
 	if (tau_x == 0) l_step = VERY_LARGE_NUMBER;
 	if (l_step < step) {step = l_step; scatter = l; }
+      }
+
+      // Calculate dust opacity and check for absorption
+      if (dust_norm > 0.) {
+	tau_r = -1.0*log(1 - gsl_rng_uniform(rangen));
+	tau_x = KPARSEC*dens_H*dust_norm*dust_cs;
+	d_step = tau_r/tau_x;
+	if (tau_x == 0) d_step = VERY_LARGE_NUMBER;
+	if (d_step < step) {step = d_step; scatter = -1; dust_scatter = 1; }
+	else  dust_scatter = 0;
       }
 
       // take the step
@@ -300,6 +319,19 @@ void Run_Monte_Carlo(char *outfile)
 	  lam = lam_loc/(1 + vel*(r[0]*D[0] + r[1]*D[1] + r[2]*D[2])/rad);
       }
 
+      if (dust_scatter)
+      {
+	double z =  gsl_rng_uniform(rangen);
+	if (z > dust_albedo) {count_it = 0; break; }
+	// choose new isotropic direction (not used)
+ 	mu  = 1 - 2.0*gsl_rng_uniform(rangen);
+ 	phi = 2.0*PI*gsl_rng_uniform(rangen);
+ 	sin_theta = sqrt(1 - mu*mu);
+ 	D[0] = sin_theta*cos(phi);
+ 	D[1] = sin_theta*sin(phi);
+ 	D[2] = mu;
+      }
+
    }	
  
     // Count spectrum if needed
@@ -316,7 +348,7 @@ void Run_Monte_Carlo(char *outfile)
     }
 
     // Count un-absorbed photons
-    if (flg_scatter == 0) 
+    if (flg_scatter == 0 && dust_scatter == 0) 
       {
       l_obs = lam_emit;
       E_obs = E_p;

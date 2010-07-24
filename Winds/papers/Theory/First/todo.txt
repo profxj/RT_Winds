@@ -30,6 +30,9 @@ Xavier
      -- Spatial extent
   Discuss NaI emission
 24. Produce a bi-conical model
+25. Note the source cannot absorb photons
+26. Put FeII* 'calculation' in the Methodology section
+27. "Observe" the fiducial model through LRIS
 
 ---------------------
 Dan
@@ -54,7 +57,12 @@ Kate
 Models to run (or rerun)
 =========================== 
 	Fiducial (MgII, FeII)
-ISM with dust
 Fiducial with tau varying (MgII, FeII) 
+ISM
+ISM with dust
+LBG
 LBG in '3D'
 Doppler
+Power-laws (some) with dust
+
+

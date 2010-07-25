@@ -24,7 +24,7 @@ pro grid_wind
   cell_center = fltarr(ngrid,ngrid,ngrid,3)
   xx = xval # replicate(1., ngrid) 
   yy = replicate(1., ngrid) # xval
-  for k=0L,ngrid-1 do cell_center[*,*,k,0] = xx
+  for i=0L,ngrid-1 do cell_center[*,*,i,0] = xx
   for i=0L,ngrid-1 do cell_center[i,*,*,1] = xx
   for i=0L,ngrid-1 do cell_center[i,*,*,2] = yy
 

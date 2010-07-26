@@ -2,10 +2,10 @@
 source grab_source
 make all
 #### MgII
-mpirun -np 4 outflow_norm_mgii 0.03 1e7
-mv spec.dat Output/spec_MgII_norm_03.dat
-mpirun -np 4 outflow_norm_mgii 0.30 1e7
-mv spec.dat Output/spec_MgII_norm_30.dat
+#mpirun -np 4 outflow_norm_mgii 0.03 1e7
+#mv spec.dat Output/spec_MgII_norm_03.dat
+#mpirun -np 4 outflow_norm_mgii 0.30 1e7
+#mv spec.dat Output/spec_MgII_norm_30.dat
 mpirun -np 4 outflow_norm_mgii 1.00 1e7
 mv spec.dat Output/spec_MgII_norm_100.dat
 #### FeII

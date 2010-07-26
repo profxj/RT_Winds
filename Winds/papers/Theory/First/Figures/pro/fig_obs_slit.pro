@@ -11,7 +11,22 @@ pro fig_obs_slit
   c = x_constants()
 
   npt = 100
-  slit_ratio = 5 * findgen(npt)/npt
+  slit_ratio = 2 * findgen(npt)/npt
+
+  ;; Plot
+  x_psopen, psfile, /maxs
+  clr = getcolor(/load)
+
+  xmrg = [8,1]
+  ymrg = [4.0,1]
+  yrng=[0., 2]
+  xrng=[0., max(slit_ratio)]
+  plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
+        xmargin=xmrg, ymargin=ymrg, $
+        ytitle='W!da!N / W!di!N    [Ang]', $
+        xtitle='Slit Width / [2 * r!d!9t!X=0.2!N]', $
+        yrange=yrng, thick=4, $
+        xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Fiducial
@@ -25,48 +40,67 @@ pro fig_obs_slit
   sz = size(raw_data,/dimen)
   ngrid = sz[0]
   raw_wave = xmrdfits(grid_file, idx[1], /silent)
-  vel = (raw_wave-2796.35)/2796.35 * c.c / 1e5 ; km/s
-  dwv = abs(raw_wave[1]-raw_wave[0])
   raw_data = float(raw_data)
   spec = total(total(raw_data,1),1)
-  abs_pix = where(vel GT -1060 and vel LT -50.4)  ;; Determined by hand!
-  em_pix = where(vel GT -50.4 and vel LT 295, n_em)
-  W_abs = total(dwv[abs_pix]*(1.-spec[abs_pix])) ;; Ang
-  W_em  = total(dwv[em_pix]*(1.-spec[em_pix]))
-
-  mgii_em = total(total(raw_data[*,*,em_pix],3),1)
-
+  dwv = abs(raw_wave[1]-raw_wave[0])
   dl = 40. / ngrid ;; kpc
   yval = findgen(ngrid) - ngrid/2 + 0.5  ;; Dimensionless
   yval = yval*dl
 
-  w_ratio = fltarr(npt)
-  for jj=0L,npt-1 do begin
-     ;; Good cells
-     gd = where(abs(yval) LE slit_ratio[jj]*fiducial_rtau, ngd) 
-     if ngd GT 0 then begin
-        w_ratio[jj] = (dwv*(total(mgii_em[gd])-n_em)) / W_abs
-        print, slit_ratio[jj], w_ratio[jj], ngd
+
+  for qq=0L,2 do begin
+     case qq of 
+        0: begin
+           wrest = 2796.35
+           vmnx = [-1060., -50.4, 295]
+           lsty = 0
+        end
+        1: begin
+           wrest = 2803.531
+           vmnx = [-470., -43.6, 905]
+           lsty = 1
+        end
+        2: begin
+           wrest = 2600.1729
+           vmnx = [-1037, -66, 714, 2491, 3363]
+           lsty = 2
+           idx=[0,1]
+           raw_data = xmrdfits(grid_file, idx[0], /silent)
+           raw_wave = xmrdfits(grid_file, idx[1], /silent)
+           raw_data = float(raw_data)
+           spec = total(total(raw_data,1),1)
+           dwv = abs(raw_wave[1]-raw_wave[0])
+        end
+        else: stop
+     endcase
+        
+     vel = (raw_wave-wrest)/wrest * c.c / 1e5 ; km/s
+;     if qq EQ 2 then stop
+     abs_pix = where(vel GT vmnx[0] and vel LT vmnx[1]) ;; Determined by hand!
+     W_abs = total(dwv*(1.-spec[abs_pix])) ;; Ang
+
+     em_pix = where(vel GT vmnx[1] and vel LT vmnx[2], n_em)
+     if qq GT 1 then begin
+        em_pix = [em_pix, where(vel GT vmnx[3] and vel LT vmnx[4], n_em2)]
+        n_em = n_em + n_em2
      endif
+     W_em  = total(dwv*(1.-spec[em_pix]))
+
+     print, wrest, W_abs, W_em
+
+     mgii_em = total(total(raw_data[*,*,em_pix],3),1)
+     w_ratio = fltarr(npt)
+     for jj=0L,npt-1 do begin
+        ;; Good cells
+        gd = where(abs(yval) LE slit_ratio[jj]*fiducial_rtau, ngd) 
+        if ngd GT 0 then begin
+           w_ratio[jj] = (dwv*(total(mgii_em[gd])-n_em)) / W_abs
+;        print, slit_ratio[jj], w_ratio[jj]*w_abs, w_ratio[jj], ngd
+        endif
+     endfor
+
+     oplot, slit_ratio, w_ratio, color=clr.black, psym=10, linesty=lsty
   endfor
-  stop
-
-  ;; Plot
-  x_psopen, psfile, /maxs
-  clr = getcolor(/load)
-
-  xmrg = [8,1]
-  ymrg = [4.0,1]
-  yrng=[0., 1]
-  xrng=[0., max(slit_ratio)]
-  plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
-        xmargin=xmrg, ymargin=ymrg, $
-        ytitle='W!da!N - W!di!N    [Ang]', $
-        xtitle='Slit Width / (2 * r!d!9t!X=0.2)', $
-        yrange=yrng, thick=4, $
-        xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata
-
-
 
 
   if keyword_set( PSFILE ) then x_psclose

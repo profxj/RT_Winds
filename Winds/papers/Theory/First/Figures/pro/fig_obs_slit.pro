@@ -23,7 +23,7 @@ pro fig_obs_slit
   xrng=[0., max(slit_ratio)]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, $
-        ytitle='W!da!N / W!di!N    [Ang]', $
+        ytitle='W!de!N / W!da!N    [Ang]', $
         xtitle='Slit Width / [2 * r!d!9t!X=0.2!N]', $
         yrange=yrng, thick=4, $
         xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata

@@ -2,9 +2,9 @@ pro fig_obs_lris, RREAL=rreal
 
   if not keyword_set( PSFILE ) then psfile = 'fig_obs_lris.ps'
   if not keyword_set(PAD_FRAC) then pad_frac = 0.1
-  if not keyword_set(CSZ) then csz = 1.3
+  if not keyword_set(CSZ) then csz = 1.6
   if not keyword_set(CSZ2) then csz2 = 2.3
-  if not keyword_set(lSZ) then lsz = 1.5
+  if not keyword_set(lSZ) then lsz = 1.7
   if not keyword_set(lSZ2) then lsz2 = 1.3
   if not keyword_set(XNCOLORS) then xncolors=200L
   if not keyword_set(YSTP) then ystp = 0.07
@@ -21,15 +21,15 @@ pro fig_obs_lris, RREAL=rreal
   clr = getcolor(/load)
   clrs = x_setclrs()
 
-  xmrg = [8,4]
-  ymrg = [3.0,3.5]
+  xmrg = [8,1]
+  ymrg = [4.0,3.5]
 
   ;;;;;;;;;;;;;;;;;;;;;;;;
   ;;; MgII
 
   ;; Plot MgII
-  yrng=[-0.1, 1.8]
-  xrng=[2786., 2809.8]
+  yrng=[-0.1, 2.8]
+  xrng=[2785., 2811.]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $
         xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
@@ -53,10 +53,14 @@ pro fig_obs_lris, RREAL=rreal
   nlow = npix/10
   low_fx = congrid(smth, nlow)
   low_wv = congrid(wv, nlow)
+  print, 'dlambda = ', low_wv[1]-low_wv[0]
 
   ;; Noise
-  low_fx = x_addnoise(low_fx, 7., seed=-2211L) 
+  seed = -2211L
+  low_fx = x_addnoise(low_fx, 7., seed=seed)
 
+  ;; Plot
+  oplot, wv, fx, color=clr.gray, linesty=1, thick=1
   oplot, low_wv, low_fx, color=clr.black, psym=10, thick=3
 
   xrng2 = (xrng/2796.352 - 1)*3e5
@@ -66,9 +70,41 @@ pro fig_obs_lris, RREAL=rreal
   oplot, replicate(2803.531,2), yrng, color=clr.orange, linesty=2, thick=2
   oplot, [-9e9,9e9], [0.,0.], color=clr.green, linesty=2, thick=2
   xyouts, xrng[0]+xlbl*(xrng[1]-xrng[0]), yrng[1]*ylbl, $
-          'MgII', color=clr.black, charsiz=lsz
+          '(a)', color=clr.black, charsiz=lsz
 ;  oplot, xrng, [1., 1.], color=clr.red, linestyle=1, thick=1
+  
+  ;; Stack spectrum
+  nstack = 100L
+  all_spec = fltarr(npix, nstack)
+  shft = round(10*randomn(seed, nstack))
 
+  for ii=0L,nstack-1 do all_spec[*,ii] = shift(fx,shft[ii])
+  all_spec[*] = convol(all_spec[*], kernel,/edge_wrap)
+  all_smooth = reform(rebin(all_spec[*], nlow*nstack), nlow, nstack)
+
+  all_smooth = reform(rebin(all_spec[*], nlow*nstack), nlow, nstack)
+  all_smooth = x_addnoise(all_smooth, 2., seed=seed)
+  avg_spec = total(all_smooth,2) / nstack
+
+  ;; Plot
+  plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
+        xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $
+        xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
+        xrange=xrng, ystyle=1, xstyle=9, psym=1, /nodata
+
+  oplot, wv, fx, color=clr.gray, linesty=1, thick=1
+  oplot, low_wv, avg_spec, color=clr.black, psym=10, thick=3
+
+  ;; Label
+  xrng2 = (xrng/2796.352 - 1)*3e5
+  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity (km/s) Relative to MgII 2796'
+
+  oplot, replicate(2796.352,2), yrng, color=clr.orange, linesty=2, thick=2
+  oplot, replicate(2803.531,2), yrng, color=clr.orange, linesty=2, thick=2
+  oplot, [-9e9,9e9], [0.,0.], color=clr.green, linesty=2, thick=2
+
+  xyouts, xrng[0]+xlbl*(xrng[1]-xrng[0]), yrng[1]*ylbl, $
+          '(b)', color=clr.black, charsiz=lsz
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]
   close, /all

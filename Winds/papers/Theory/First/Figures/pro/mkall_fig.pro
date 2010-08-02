@@ -76,6 +76,8 @@ pro mkall_fig
   fig_obs_peaktau
   fig_obs_ew
   fig_obs_slit
+  fig_obs_sb
+  fig_obs_lris
 
 ;  fig_slitwidth
 

@@ -87,6 +87,7 @@ int main(int argc, char **argv)
   if(argc > 6) {
     dust_tau = atof(argv[1]);
     dust_norm   =  dust_tau / dust_cs /  nH_colm / KPARSEC ;
+    return 0;  // Need to deal with nH_colm properly
   }
 
   // Lines 

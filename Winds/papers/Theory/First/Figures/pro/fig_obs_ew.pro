@@ -2,7 +2,7 @@ pro fig_obs_ew
 
   if not keyword_set( PSFILE ) then psfile = 'fig_obs_ew.ps'
   if not keyword_set(CSZ) then csz = 2.0
-  if not keyword_set(lSZ) then lsz = 1.5
+  if not keyword_set(lSZ) then lsz = 1.8
   if not keyword_set(pSZ) then psz = 1.2
   if not keyword_set(XNCOLORS) then xncolors=200L
 
@@ -32,7 +32,7 @@ pro fig_obs_ew
   ;; MgII Spectrum 
   xmrg = [8,1]
   ymrg = [4.0,1]
-  yrng=[-3., 3.]
+  yrng=[-3., 1.]
   xrng=[0.1, 20.]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, $
@@ -68,17 +68,24 @@ pro fig_obs_ew
 
   ;; Label
   xlbl = 0.2
-  ystp = 0.15
-  ooff = 2.09
-  toff = 0.05
-  xyouts, xlbl, yrng[1]-ooff-(ystp*1), 'MgII 2796', color=clr.black, charsiz=lsz
-  oplot, [xlbl-10], [yrng[1]-toff-(ystp*1)], psym=1, color=clr.black
+  ystp = 0.20
+  ooff = 0.3
+  toff = 0.35
+  xyouts, xlbl, yrng[0]+ooff+(ystp*1), 'MgII 2796', color=clr.black, charsiz=lsz
+  oplot, [xlbl/1.1], [yrng[0]+toff+(ystp*1)], psym=1, color=clr.black
 
-  xyouts, xlbl, yrng[1]-ooff-(ystp*2), 'FeII 2600', color=clr.red, charsiz=lsz
-  oplot, [xlbl-10], [yrng[1]-toff-(ystp*2)], psym=2, color=clr.red
+  xyouts, xlbl, yrng[0]+ooff+(ystp*2), 'FeII 2600', color=clr.red, charsiz=lsz
+  oplot, [xlbl/1.1], [yrng[0]+toff+(ystp*2)], psym=2, color=clr.red
 
-  xyouts, xlbl, yrng[1]-ooff-(ystp*3), 'FeII 2586', color=clr.blue, charsiz=lsz
-  oplot, [xlbl-10], [yrng[1]-toff-(ystp*3)], psym=4, color=clr.blue
+  xyouts, xlbl, yrng[0]+ooff+(ystp*3), 'FeII 2586', color=clr.blue, charsiz=lsz
+  oplot, [xlbl/1.1], [yrng[0]+toff+(ystp*3)], psym=4, color=clr.blue
+
+  ;; Percentage lines
+  npt = 100
+  x_Wi = xrng[0] +  findgen(npt)*(xrng[1]-xrng[0])/(npt-1)
+
+  oplot, x_Wi, -0.1*x_Wi, color=clr.gray, lines=1
+  oplot, x_Wi, -0.5*x_Wi, color=clr.gray, lines=2
 
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]

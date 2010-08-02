@@ -1364,7 +1364,66 @@ absent.}  Figure~\ref{fig:obs_ew} demonstrates a simple observational
 consequence of the line emission: reduced estimates for the absorption
 equivalent width \ewabs\ of the flow.  In the case of \ion{Mg}{2},
 which has the most affected transitions, the \ewabs\ is reduced by
-XX\% for the wind models presented in this paper.
+$30-50\%$ for the wind models presented in this paper.  This could
+yield a systematically lower optical depth for the wind and therefore
+a lower total mass and kinetic energy.  Although not apparent in
+Figure~\ref{fig:obs_ew}, the effects are most pronounced for wind
+scenarios where the peak optical depth occurs near $v = \mkms$.
+Simple geometric projection limits the majority of scattered photon emission to
+have $v \approx \pm 200 \mkms$ and the absorption profiles
+are filled-in primarily at these velocities.  In
+Figure~\ref{fig:obs_peaktau}, we plot the observed peak optical depth
+for \mgiia\ 
+versus the velocity where $\tau = \tau_{pk}$ for the various wind models (i.e.\
+$\tau_{pk}$ vs.\ $v_\tau$ from Tables~\ref{tab:line_diag},
+\ref{tab:plaw_diag}).   In every one of the models, the intrinsic peak
+optical depth exceeds 10 and occasionally exceeds 100.  For the
+majority of cases with $v_\tau < -300\mkm$, one observes $\tau_{pk} <
+2$ and would infer the wind is not even optically thick!
+The results are similar for \mgiib\ although one infers a somewhat
+higher column density because of its lower $f\lambda$ value.
+In the majority of cases, one would faslely conclude that hte wind
+partially covered the source and also estimate a peak optical depth
+lower than the intrinsic. 
+
+All of these (negative) effects for \ion{Mg}{2} absorption are reduced
+for the \ion{Fe}{2} absorption profiles, especially for \feiia.  This
+is because a signficant fraction (or even a majority) of the
+\ion{Fe}{2} emission is florescent \ion{Fe}{2}* emission at longer
+wavelengths which have no effect on the absorption profiles. [word]
+Therefore, the \ion{Fe}{2} absorption equivalent widths (\ewabs) more
+closely follow the intrinsic value, one derives more accurate peak
+optical depths, and the absorption kinematics more faithfully reflect
+the motions of the flow.  Regarding the last point, one 
+predicts a velocity offset between the peak depth of the \ion{Fe}{2}
+centroid and that for \ion{Mg}{2} (Figure~\ref{fig:obs_vtau})
+especially when the peak occurs at $v > -400 \mkms$.  One is simply
+not sensitive to opacity at $v \sim 0 \mkms$ with the \ion{Mg}{2}
+transitions.  This includes gas realted tothe ISM of the galaxy and
+also infalling material with modest speeds.  One must take careful
+consideration of line emission, therefore,  before drawing robust
+conclusions aobut the presence/absence of gas with small velocity
+offsets from systemic.
+
+We emphasize that all of these effects are heightened by the
+relatively low spectral resolution and S/N characteristic of the data
+obtained on $z>0$ star-forming galaxies.  Figure~\ref{fig:obs_lris}a
+shows one realization of the \mgiid\ doublet for the fiducial model
+convolved with the line-spread-function of the Keck/LRIS spectrometer
+(FWHM=250\kms) and an assumed S/N=7 per XX\AA\ pixel.  Both the absorption
+and emission profiles are evident, but it is evident that it will be
+very difficult to resolve the issues discussed above (e.g.\ partial
+covering, incorrect peak optical depth) with these data.  The effects
+are even more difficult to predict for spectral stacks, especially
+when the systemic redshifts are uncertain by $> 10 \mkms$ (e.g.\ S10).
+An example is presnted in Figure~\ref{fig:obs_lris}b, where we have
+averaged 200 identical \ion{Mg}{2} profiles from the fiducial model
+degraded to a S/N=1\,pix$^{-1}$ and assuming a random redshift error
+$\sigma(z) = 40\mkms$.  [Check S10]
+
+[Should galaxies with strong \lya\ emission be expected to show
+low-ion emission? Perhaps not if \lya\ is produced by ionizing photons
+from SF regions.]
 
 [Could they have accidentally `sky subtracted' it?  I doubt it]
 
@@ -1774,6 +1833,30 @@ Slit width effects
 EW effect
 }
 \label{fig:obs_ew}
+\end{figure}
+
+\begin{figure}
+\includegraphics[scale=0.6,angle=90]{Figures/fig_obs_peaktau.ps}
+\caption{
+EW effect
+}
+\label{fig:obs_peaktau}
+\end{figure}
+
+\begin{figure}
+\includegraphics[scale=0.6,angle=90]{Figures/fig_obs_vtau.ps}
+\caption{
+Velocity offset
+}
+\label{fig:obs_vtau}
+\end{figure}
+
+\begin{figure}
+\includegraphics[scale=0.6,angle=90]{Figures/fig_obs_lris.ps}
+\caption{
+Velocity offset
+}
+\label{fig:obs_lris}
 \end{figure}
 
 

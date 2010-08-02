@@ -58,9 +58,11 @@ Models to run (or rerun)
 =========================== 
 	Fiducial (MgII, FeII)
 Fiducial with tau varying (MgII, FeII) 
-ISM
-ISM with dust
+	ISM
+	ISM with dust
+Dust models enough times to 'fit' flux vs tau_d
 LBG
+LBG with dust [tau ~ distance]
 LBG in '3D'
 Doppler
 Power-laws (some) with dust

@@ -144,10 +144,10 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title,
   printf, 91,  '\tablehead{\colhead{Transition} & \colhead{Model} & ' + $
           '\colhead{$v_{\rm int}^a$} & ' + $
           '\colhead{$W_{\rm i}$} & ' + $
-          '\colhead{$W_{a}$} & \colhead{$\tau_{\rm pk}$} & \colhead{$v_\tau$} '
+          '\colhead{$W_{\rm a}$} & \colhead{$\tau_{\rm pk}$} & \colhead{$v_\tau$} '
   printf, 91,  '& \colhead{$v_{\bar \tau}$}'
   printf, 91,  '& \colhead{$v_{\rm int}^b$} & ' + $
-    '\colhead{$W_{e}$} & \colhead{$f_{\rm pk}$} & \colhead{$v_f$} '
+    '\colhead{$W_{\rm e}$} & \colhead{$f_{\rm pk}$} & \colhead{$v_f$} '
   printf, 91,  '& \colhead{$v_{\bar f}$}'
   printf, 91,  '\\'
   printf, 91,  '&& (\kms) & (\AA) & (\AA) && (\kms) & (\kms) & (\kms) & (\AA) & & (\kms) & (\kms)}'

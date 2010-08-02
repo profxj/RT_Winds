@@ -1,6 +1,7 @@
-pro fig_ism_spec, RREAL=rreal
+pro fig_ism_spec, RREAL=rreal, DUST=dust
 
   if not keyword_set( PSFILE ) then psfile = 'fig_ism_spec.ps'
+  if keyword_set( DUST ) then psfile = 'fig_ism_dust.ps'
   if not keyword_set(PAD_FRAC) then pad_frac = 0.1
   if not keyword_set(CSZ) then csz = 1.3
   if not keyword_set(CSZ2) then csz2 = 2.3
@@ -68,6 +69,16 @@ pro fig_ism_spec, RREAL=rreal
      nrm = median(noscatt_fx[where(wv GT 2634)])
      if ss EQ 0 then $
         oplot, wv[pix], noscatt_fx[pix]/nrm, color=clr.black, psym=10, thick=3, linesty=1
+
+     if keyword_set(DUST) then begin
+        ;; ISM with dust
+        Fe_fil = '../Analysis/ISM/Output/spec_ISM_FeII_dust.dat'
+        readcol, Fe_fil, wv, fx, noscatt_fx, /silen
+        nrm = median(fx[where(wv GT 2634)])
+        pix = where(wv GT wvmnx[0] and wv LT wvmnx[1])
+        oplot, wv[pix], fx[pix]/nrm, color=clr.green, psym=10, thick=3
+        nrm = median(noscatt_fx[where(wv GT 2634)])
+     endif
         
   endfor
 
@@ -108,6 +119,13 @@ pro fig_ism_spec, RREAL=rreal
 
   nrm = median(noscatt_fx[where(wv GT 2815)])
   oplot, wv, noscatt_fx/nrm, color=clr.black, psym=10, thick=3, linesty=1
+
+  if keyword_set(DUST) then begin
+     Mg_fil = '../Analysis/ISM/Output/spec_ISM_MgII_dust.dat'
+     readcol, Mg_fil, wv, fx, noscatt_fx, /silen
+     nrm = median(fx[where(wv GT 2815)])
+     oplot, wv, fx/nrm, color=clr.green, psym=10, thick=3
+  endif
 
   xrng2 = (xrng/2796.352 - 1)*3e5
   axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity (km/s) Relative to MgII 2796'

@@ -342,10 +342,20 @@ void Run_Monte_Carlo(char *outfile)
 	      }
 	    }
 	}
-
-
       }
 
+      if (dust_scatter)
+      {
+	double z =  gsl_rng_uniform(rangen);
+	if (z > dust_albedo) {count_it = 0; break; }
+	// choose new isotropic direction
+ 	mu  = 1 - 2.0*gsl_rng_uniform(rangen);
+ 	phi = 2.0*PI*gsl_rng_uniform(rangen);
+ 	sin_theta = sqrt(1 - mu*mu);
+ 	D[0] = sin_theta*cos(phi);
+ 	D[1] = sin_theta*sin(phi);
+ 	D[2] = mu;
+      }
    }	
  
     // Count spectrum if needed

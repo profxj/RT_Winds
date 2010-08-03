@@ -12,13 +12,7 @@ private:
 
 public:
 
-  int n_x;
-  int n_pts;
-
-  double opac_fac;
-  double xmax, dx;
-  float *opac, *vdop, *apar;
-  float *J_UV, *popac;
+  float vdop;
   CDF emis;
 
   double l_start, l_stop;
@@ -44,7 +38,7 @@ public:
   double P_esc(double, int*);
 
   double vdotD(int, double*);
-  double v_doppler(int ind)    { return vdop[ind]; }
+  double v_doppler()    { return vdop; }
   double line_opacity(int ind) { return opac[ind]; }
 
   void Wipe_J_UV();

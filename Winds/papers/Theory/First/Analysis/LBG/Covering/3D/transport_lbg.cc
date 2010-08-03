@@ -37,7 +37,8 @@ void Run_Monte_Carlo(double n_photons)
 {
   // local variables
   int    i, scatter;
-  double tau_r, tau_x, vdotD;
+  int l, flg_resonance[50];
+  double tau_r, tau_x, rad;
   double l_step, step, max_step;
   double Pe, lobs, r_rot[3];
   PHOTON p;
@@ -45,7 +46,8 @@ void Run_Monte_Carlo(double n_photons)
   // functions to call
   void MPI_Average_Array(double *, int);
   double P_esc(double, double*);
-  void Emit(PHOTON*);
+  double Get_vdotD(double,double*, double*);  // Vector only
+  void Emit(PHOTON*, double);
   void Line_Scatter(PHOTON&, double, double*);
   void Get_Rotated_Coords(double *, double *);
 
@@ -62,47 +64,54 @@ void Run_Monte_Carlo(double n_photons)
 
     // add in straight light
     Pe   = P_esc(p.lloc,p.r);
-    lobs = p.lloc*(1 - model.vdotD(p.ic,D_obs)/C_LIGHT);
+    lobs = p.lloc*(1 - Get_vdotD(model.r_emit, p.r,D_obs)/C_LIGHT);
     Get_Rotated_Coords(p.r,r_rot);
     spectrum.Count(1,lobs,r_rot[0],r_rot[1],p.E_p*Pe);
+
+    for (l=0;l<50;l++) flg_resonance[l] = 0;
 
     // propogate until escaped (unless nothing stands in the way)
     while (1)
     {
       // locate zone and escape if so
-      p.ic = model.Locate_Zone(p.r);
-      if (p.ic < 0) {p.escaped = 1; break; }
+      //p.ic = model.Locate_Zone(p.r);
+      //if (p.ic < 0) {p.escaped = 1; break; }
 
       // photon wavelength in local frame
-      p.lloc = p.lam/(1 - model.vdotD(p.ic, p.D)/C_LIGHT);
+      rad = sqrt(p.r[0]*p.r[0] + p.r[1]*p.r[1] + p.r[2]*p.r[2]);
+      p.lloc = p.lam/(1 - Get_vdotD(rad, p.r, p.D)/C_LIGHT);
 
-      // default step size
-      max_step = model.dx*stepfrac;
-      step = max_step;
+      // Variable step size (kpc)
+      if (rad < 2.0) step = 1e-4;
+      else {
+	if (rad > 10.0) step = 0.1; else step = 0.01;
+      }
+      max_step = step;
+
       scatter = -1;
 
       // calculate random step size to each possible line scatter
-      l_step = VERY_LARGE_NUMBER;
-      int l_scat = 0;
-      for (int j=0;j<lines.n();j++)
-      {
-	p.xloc = (p.lloc/lines.lambda(j) - 1)*C_LIGHT/model.v_doppler(p.ic);
-	tau_r   =  -1.0*log(1.0 - gsl_rng_uniform(rangen));
-	double vp = voigt.Profile(p.xloc,model.apar[p.ic]);
-	tau_x = model.line_opacity(p.ic)*lines.cs(j)*vp*KILOPARSEC;
-	double this_step = tau_r/tau_x;
-	if (tau_x == 0) this_step = VERY_LARGE_NUMBER;
-	if (this_step < l_step) {l_step = this_step; l_scat = j; }
+      if (rad > r_inner) { 
+	//l_step = VERY_LARGE_NUMBER;
+      	//int l_scat = 0;
+	for (int j=0;j<lines.n();j++)
+	  {
+	    p.xloc = (p.lloc/lines.lambda(j) - 1)*C_LIGHT/model.v_doppler();
+	    // In resonance
+	    if ((p.xloc*p.xloc) <  1 && flg_resonance[j] == 0) {
+	      cover = model.Covering(rad);
+	      flg_resonance[j] = 1;
+	      if (gsl_rng_uniform(rangen) < cover) {step=1e-4; scatter=1; l_scat=j;}
+	    }
+	  }
       }
       
-      // see if this a line step
-      if (l_step < max_step) {step = l_step; scatter = 1; }
-
       // take the step
       p.r[0] += p.D[0]*step;
       p.r[1] += p.D[1]*step;
       p.r[2] += p.D[2]*step;
 
+      // Did we escape?
       r_sq = p.r[0]*p.r[0] + p.r[1]*p.r[1] + p.r[2]*p.r[2];
       if (r_sq > r_outer*r_outer) {count_it = 1; break;}
       
@@ -113,9 +122,11 @@ void Run_Monte_Carlo(double n_photons)
 	double vscat[3];
 	Line_Scatter(p, lines.lambda(l_scat), vscat);
 
+	for (l=0;l<50;l++) flg_resonance[l] = 0;
+
 	// count scattered light
-	lobs = p.lloc*(1 - model.vdotD(p.ic,D_obs)/C_LIGHT);
-	Pe   = P_esc(p.lloc,p.r)*lines.P_scat(l_scat);
+	lobs = p.lloc*(1 - Get_vdotD(rad, p.r,D_obs)/C_LIGHT);
+	Pe   = P_esc(p.lloc,p.r)*lines.P_scat(l_scat);  // JXP -- Stuck here on 2010 Aug 03, 4:47pm
 	Get_Rotated_Coords(p.r,r_rot);
 	spectrum.Count(1,lobs,r_rot[0],r_rot[1],p.E_p*Pe); 
 
@@ -123,7 +134,7 @@ void Run_Monte_Carlo(double n_photons)
 	double dvdp = vscat[0]*D_obs[0] + vscat[1]*D_obs[1] + vscat[2]*D_obs[2];
 	for (int j=0;j<lines.n_branch(l_scat);j++) 
 	{
-	  lobs = lines.blam(l_scat,j)*(1 - model.vdotD(p.ic,D_obs)/C_LIGHT);
+	  lobs = lines.blam(l_scat,j)*(1 - model.Velocity(rad)*Get_vdotD(rad,p.r,D_obs)/C_LIGHT);
 	  lobs = lobs*(1 - dvdp/C_LIGHT);
 	  Pe   = lines.bprob(l_scat,j);
 	  spectrum.Count(1,lobs,r_rot[0],r_rot[1],p.E_p*Pe); 
@@ -165,6 +176,11 @@ void Run_Monte_Carlo(double n_photons)
 //     p.ic, p.r[0],p.r[1],p.r[2],p.D[0],p.D[1],p.D[2],p.lam, p.lloc);
 
 
+double Get_vdotD(double rad, double *r, double *D)
+  vel = model.Velocity(rad);
+  double vd = (D[0]*r[0] + D[1]*r[1] + D[2]*r[2])/rad;  // Velocity calculated elsewhere
+  return vd;
+}
 
 
 void Emit(PHOTON *p, double rphot)
@@ -177,40 +193,23 @@ void Emit(PHOTON *p, double rphot)
   double sinp_core  = sin(phi_core);
   double cost_core  = 1 - 2.0*drand48();
   double sint_core  = sqrt(1-cost_core*cost_core);
-  // pick photon propogation direction wtr to local normal
-  double phi_loc = 2*PI*drand48(); 
-  // choose sqrt(R) to get outward, cos(theta) emission
-  double cost_loc  = sqrt(drand48());
-  double sint_loc  = sqrt(1 - cost_loc*cost_loc);
-  // local direction vector
-  double D_xl = sint_loc*cos(phi_loc);
-  double D_yl = sint_loc*sin(phi_loc);
-  double D_zl = cost_loc;
   // real coordinates
   p->r[0] = rphot*sint_core*cosp_core;
   p->r[1] = rphot*sint_core*sinp_core;
   p->r[2] = rphot*cost_core;
-    // apply rotation matrix to convert vector into overall frame
-  p->D[0] = cost_core*cosp_core*D_xl - sinp_core*D_yl + sint_core*cosp_core*D_zl;
-  p->D[1] = cost_core*sinp_core*D_xl + cosp_core*D_yl + sint_core*sinp_core*D_zl;
-  p->D[2] = -sint_core*D_xl +  cost_core*D_zl;
-
-  /////////////////////
-  //  I have stopped here!!
-  /////////////////////
-  // local and observer frame wavelength
-  lam_emit = l_start + (l_stop-l_start)*gsl_rng_uniform(rangen);
-  p->lloc  = lam_emit;
-  double vdotD = model.vdotD(p->ic, p->D);
-  p->lam  = p->lloc*(1 - vdotD/C_LIGHT);
-
-  // initial isotropic emission
+  // Initial isotropic emission
   double mu  = 1 - 2.0*gsl_rng_uniform(rangen);
   double phi = 2.0*PI*gsl_rng_uniform(rangen);
   double sin_theta = sqrt(1 - mu*mu);
   p->D[0] = sin_theta*cos(phi);
   p->D[1] = sin_theta*sin(phi);
   p->D[2] = mu;
+
+  // local and observer frame wavelength
+  lam_emit = model.l_start + (model.l_stop-model.l_start)*gsl_rng_uniform(rangen);
+  p->lloc  = lam_emit;
+  double vdotD = Get_vdotD(rphot, p->r, p->D);  // This is always zero
+  p->lam  = p->lloc*(1 - vdotD/C_LIGHT);
 
   p->escaped = 0;
 
@@ -221,10 +220,12 @@ void Line_Scatter(PHOTON &p, double lam, double *uvec)
 {
   double u0,u1,u2, R10, R11;
 
-  p.xloc = (p.lloc/lam - 1)*C_LIGHT/model.v_doppler(p.ic);
+  p.xloc = (p.lloc/lam - 1)*C_LIGHT/model.v_doppler();
 
   // get three velocity components of scatterer
-  u0 = voigt.Sample_U(p.xloc,model.apar[p.ic]);
+  double temp = 0.5*M_PROTON*pow(model.v_doppler,2)/K_BOLTZ;
+  double apar = 4.7e-3*sqrt(1e4/temp);
+  u0 = voigt.Sample_U(p.xloc,apar);
   R10 =  gsl_rng_uniform(rangen);
   R11 =  gsl_rng_uniform(rangen);
   u1 = sqrt(-1.0*log(1.0-R11))*cos(2*PI*R10); 
@@ -260,16 +261,17 @@ void Line_Scatter(PHOTON &p, double lam, double *uvec)
   p.xloc = p.xloc - vd_inc + vd_out; 
   
   // go back to wavelength
-  p.lloc = lam*(1 + p.xloc*model.v_doppler(p.ic)/C_LIGHT);
+  p.lloc = lam*(1 + p.xloc*model.v_doppler()/C_LIGHT);
 
   // now get change in observer frame wavelength
-  double vdotD = model.vdotD(p.ic, p.D);
+  double rad = sqrt(p.r[0]*p.r[0] + p.r[1]*p.r[1] + p.r[2]*p.r[2]);
+  double vdotD = Get_vdotD(rad, p.r, p.D);
   p.lam  = p.lloc*(1 - vdotD/C_LIGHT);
   
   // set proper magnitude of uvec
-  uvec[0] *= model.v_doppler(p.ic);
-  uvec[1] *= model.v_doppler(p.ic);
-  uvec[2] *= model.v_doppler(p.ic);
+  uvec[0] *= model.v_doppler();
+  uvec[1] *= model.v_doppler();
+  uvec[2] *= model.v_doppler();
   
   // check for weirdness
   if (isnan(p.lam)) printf("Snan %e %e %e %e\n",p.lloc,p.xloc,u2,R11);

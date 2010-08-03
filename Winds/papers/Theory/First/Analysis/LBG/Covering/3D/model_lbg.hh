@@ -37,7 +37,8 @@ public:
   int    Emit(double *, double*);
   double P_esc(double, int*);
 
-  double vdotD(int, double*);
+  double Velocity(double);
+  double Covering(double);
   double v_doppler()    { return vdop; }
   double line_opacity(int ind) { return opac[ind]; }
 

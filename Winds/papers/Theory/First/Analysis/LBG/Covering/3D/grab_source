@@ -1,0 +1,14 @@
+cp ../../../../../../../Grid/Transfer/Lua.cc .
+cp ../../../../../../../Grid/Transfer/anvoigt.cc .
+cp ../../../../../../../Grid/Transfer/cdf.cc .
+cp ../../../../../../../Grid/Transfer/locate_array.cc .
+cp ../../../../../../../Grid/Transfer/spectrum.cc .
+cp ../../../../../../../Grid/Transfer/uv_transport.cc .
+cp ../../../../../../../Grid/Transfer/Error.hh .
+cp ../../../../../../../Grid/Transfer/Lua.hh .
+cp ../../../../../../../Grid/Transfer/anvoigt.hh .
+cp ../../../../../../../Grid/Transfer/cdf.hh .
+cp ../../../../../../../Grid/Transfer/lines.hh .
+cp ../../../../../../../Grid/Transfer/locate_array.hh .
+cp ../../../../../../../Grid/Transfer/physical_constants.hh .
+cp ../../../../../../../Grid/Transfer/spectrum.hh .

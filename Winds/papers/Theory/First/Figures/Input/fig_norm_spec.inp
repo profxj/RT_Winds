@@ -1,0 +1,10 @@
+4
+../Analysis/Normalize/Output/spec_FeII_norm_03.dat
+../Analysis/Fiducial/Output/spec_FeII_fiducial.dat
+../Analysis/Normalize/Output/spec_FeII_norm_30.dat
+../Analysis/Normalize/Output/spec_FeII_norm_100.dat
+4
+../Analysis/Normalize/Output/spec_MgII_norm_03.dat
+../Analysis/Fiducial/Output/spec_MgII_fiducial.dat
+../Analysis/Normalize/Output/spec_MgII_norm_30.dat
+../Analysis/Normalize/Output/spec_MgII_norm_100.dat

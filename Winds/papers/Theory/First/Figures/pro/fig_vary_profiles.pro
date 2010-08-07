@@ -102,11 +102,11 @@ pro fig_vary_profiles, RREAL=rreal, STRCT=strct
                              '(a)', charsi=lsz, color=clr.black
 
      ;; Density
-     if idx_v EQ 0 then oplot, rval, n_r*100, color=xclrs[idx_n+1]
+     if idx_v EQ 0 then oplot, rval, n_r*100., color=clr.gray, linesty=idx_n+1
      if idx_v EQ -1 then oplot, rval, n_r*100, color=clr.black, thick=2
 
      ;; Velocity
-     if idx_n EQ 0 then oplot, rval, v_r/100., color=clr.gray, linesty=idx_v+1
+     if idx_n EQ 0 then oplot, rval, v_r/100, color=xclrs[idx_v+1]
      if idx_n EQ -1 then oplot, rval, v_r/100., color=clr.black, thick=2, linesty=4
 
      ;; tau
@@ -123,16 +123,16 @@ pro fig_vary_profiles, RREAL=rreal, STRCT=strct
                              yrng[1]/4., $
                              '(b)', charsi=lsz, color=clr.black
 
-     if idx_v EQ -1 then thk = 2 else thk = 4
+     if idx_n EQ -1 then thk = 2 else thk = 4
      ;; Tau
-     oplot, vel, tau, color=xclrs[idx_n+1], linesty=idx_v+1, thick=thk
+     oplot, vel, tau, color=xclrs[idx_v+1], linesty=idx_n+1, thick=thk
 
      ;; Label
-     ylbl = replicate(yrng[1]/(2^(idx_v+1)),2)
-     oplot, 400.+idx_n*200+[30., 110], 1.1*[ylbl,ylbl],$
-            color=xclrs[idx_n+1], linesty=idx_v+1
+     ylbl = replicate(yrng[1]/(2^(idx_n+1)),2)
+     oplot, 400.+idx_v*200+[30., 110], 1.1*[ylbl,ylbl],$
+            color=xclrs[idx_v+1], linesty=idx_n+1
      if qq LT (nmodel-1) then $
-         xyouts, 400 + idx_n*200 + 130., ylbl, lbl[qq], color=xclrs[idx_n+1], charsiz=lsz,$
+         xyouts, 400 + idx_v*200 + 130., ylbl, lbl[qq], color=xclrs[idx_v+1], charsiz=lsz,$
                  align=0.
   endfor
      

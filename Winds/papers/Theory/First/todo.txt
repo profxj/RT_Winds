@@ -11,16 +11,16 @@ Xavier
 9. Add dust to all the power-law models
 10. Do a SiII 1526 calculation for the LBG model?
 11. Do an INFALL model
-12. Put dust in the ISM model
-13. Modify the optical depths of the fiducial model
-14. Make a bigger deal about the 2600/2586 inversion in the ISM case
+	12. Put dust in the ISM model
+	13. Modify the optical depths of the fiducial model
+	14. Make a bigger deal about the 2600/2586 inversion in the ISM case
 	15. Redo all FeII models with l_start = 2573 and l_stop = 2639
-16. Show an instrument 'smoothed' (e.g. LRIS) profile (or two)
-17. Consider (again) whether v_doppler is done right for re-remitted photons
+	16. Show an instrument 'smoothed' (e.g. LRIS) profile (or two)
+	17. Consider (again) whether v_doppler is done right for re-remitted photons
 18. Discuss FeII* 2626/2632 blending
 	19. Fix labels on the Obs v_f plot
 20. Use 1D fiducial model for all but the IFU plots
-21. Move Sobolev discussion up to fiducial model
+	21. Move Sobolev discussion up to fiducial model
 22. Consider a Martin+Bouche model with high dust
 23. Add to Intro:  
   What has (not) been done previously
@@ -31,8 +31,9 @@ Xavier
   Discuss NaI emission
 24. Produce a bi-conical model
 25. Note the source cannot absorb photons
-26. Put FeII* 'calculation' in the Methodology section
-27. "Observe" the fiducial model through LRIS
+	26. Put FeII* 'calculation' in the Methodology section
+	27. "Observe" the fiducial model through LRIS
+28. Re-measure W_a when varying the slit width (fig_obs_slit)
 
 ---------------------
 Dan
@@ -51,7 +52,7 @@ Kate
 1001. Improve Intro
 1002. Suggest other references
 1003. Consider other ways to compare to observations
-1004. Suggest other variants + models
+	1004. Suggest other variants + models
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -63,7 +64,7 @@ Models to run (or rerun)
 	ISM
 	ISM with dust
 Dust models enough times to 'fit' flux vs tau_d
-LBG
+	LBG
 LBG with dust [tau ~ distance]
 LBG in '3D'
 	Doppler

@@ -8,7 +8,8 @@ pro fig_plaw_spec, RREAL=rreal
   if not keyword_set(lSZ2) then lsz2 = 1.3
   if not keyword_set(XNCOLORS) then xncolors=200L
   if not keyword_set(YSTP) then ystp = 0.07
-  lbl = ['A','B','C','D','E','F','G','H','I','J','K']
+  lbl = ['A','D','G','B','E','H','C','F','I']
+;  lbl = ['A','B','C','D','E','F','G','H','I','J','K']
   root = '../Analysis/PowLaws/Output/spec_plaw_'
 
   xlbl = 0.2
@@ -85,6 +86,7 @@ pro fig_plaw_spec, RREAL=rreal
      !p.multi = [5-qq*2,3,2,0,1]
      ;; Plot MgII
      yrng=[0., 4.0]
+;     if qq GE 2 then yrng = [0., 2.5]
      xrng=[2785., 2809.8]
      plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
            xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $

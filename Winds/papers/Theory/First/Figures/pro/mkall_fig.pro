@@ -52,6 +52,9 @@ pro mkall_fig
   fig_ism_spec, /dust
   fig_ism_ifu
 
+  ;; Normalize
+  fig_norm_spec
+
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Other Laws
 

@@ -63,7 +63,7 @@ void Run_Monte_Carlo(double n_photons)
     p.E_p = model.L_tot/(1.0*n_photons); 
 
     // add in straight light
-    Pe   = P_esc(p.lloc,p.r);
+    Pe   = P_esc(p.lloc,p.r);  // This one need not be unity
     lobs = p.lloc*(1 - Get_vdotD(model.r_emit, p.r,D_obs)/C_LIGHT);
     Get_Rotated_Coords(p.r,r_rot);
     spectrum.Count(1,lobs,r_rot[0],r_rot[1],p.E_p*Pe);
@@ -126,7 +126,7 @@ void Run_Monte_Carlo(double n_photons)
 
 	// count scattered light
 	lobs = p.lloc*(1 - Get_vdotD(rad, p.r,D_obs)/C_LIGHT);
-	Pe   = P_esc(p.lloc,p.r)*lines.P_scat(l_scat);  // JXP -- Stuck here on 2010 Aug 03, 4:47pm
+	Pe   = P_esc(p.lloc,p.r)*lines.P_scat(l_scat);  // Check to come into resonance with redder lines
 	Get_Rotated_Coords(p.r,r_rot);
 	spectrum.Count(1,lobs,r_rot[0],r_rot[1],p.E_p*Pe); 
 
@@ -134,7 +134,7 @@ void Run_Monte_Carlo(double n_photons)
 	double dvdp = vscat[0]*D_obs[0] + vscat[1]*D_obs[1] + vscat[2]*D_obs[2];
 	for (int j=0;j<lines.n_branch(l_scat);j++) 
 	{
-	  lobs = lines.blam(l_scat,j)*(1 - model.Velocity(rad)*Get_vdotD(rad,p.r,D_obs)/C_LIGHT);
+	  lobs = lines.blam(l_scat,j)*(1 - Get_vdotD(rad,p.r,D_obs)/C_LIGHT);
 	  lobs = lobs*(1 - dvdp/C_LIGHT);
 	  Pe   = lines.bprob(l_scat,j);
 	  spectrum.Count(1,lobs,r_rot[0],r_rot[1],p.E_p*Pe); 
@@ -178,7 +178,7 @@ void Run_Monte_Carlo(double n_photons)
 
 double Get_vdotD(double rad, double *r, double *D)
   vel = model.Velocity(rad);
-  double vd = (D[0]*r[0] + D[1]*r[1] + D[2]*r[2])/rad;  // Velocity calculated elsewhere
+  double vd = vel*(D[0]*r[0] + D[1]*r[1] + D[2]*r[2])/rad;  
   return vd;
 }
 
@@ -188,15 +188,16 @@ void Emit(PHOTON *p, double rphot)
   // Get initial positions and direction
   double lam_emit;
 
-  double phi_core = 2*PI*drand48(); 
+  double phi_core = 2*PI*gsl_rng_uniform(rangen); 
   double cosp_core  = cos(phi_core);
   double sinp_core  = sin(phi_core);
-  double cost_core  = 1 - 2.0*drand48();
+  double cost_core  = 1 - 2.0*gsl_rng_uniform(rangen);
   double sint_core  = sqrt(1-cost_core*cost_core);
   // real coordinates
-  p->r[0] = rphot*sint_core*cosp_core;
-  p->r[1] = rphot*sint_core*sinp_core;
-  p->r[2] = rphot*cost_core;
+  remit = rphot * gsl_rng_uniform(rangen);
+  p->r[0] = remit*sint_core*cosp_core;
+  p->r[1] = remit*sint_core*sinp_core;
+  p->r[2] = remit*cost_core;
   // Initial isotropic emission
   double mu  = 1 - 2.0*gsl_rng_uniform(rangen);
   double phi = 2.0*PI*gsl_rng_uniform(rangen);
@@ -208,7 +209,7 @@ void Emit(PHOTON *p, double rphot)
   // local and observer frame wavelength
   lam_emit = model.l_start + (model.l_stop-model.l_start)*gsl_rng_uniform(rangen);
   p->lloc  = lam_emit;
-  double vdotD = Get_vdotD(rphot, p->r, p->D);  // This is always zero
+  double vdotD = Get_vdotD(remit, p->r, p->D);  // This is always zero
   p->lam  = p->lloc*(1 - vdotD/C_LIGHT);
 
   p->escaped = 0;

@@ -1,0 +1,15 @@
+source grab_source
+make all
+#### MgII
+mpirun -np 8 outflow_dust_mgii 0.5 1e8
+mv spec.dat Output/spec_MgII_tau0.5.dat
+mpirun -np 8 outflow_dust_mgii 1.5 1e8
+mv spec.dat Output/spec_MgII_tau1.5.dat
+mpirun -np 8 outflow_dust_mgii 2.0 1e8
+mv spec.dat Output/spec_MgII_tau2.0.dat
+mpirun -np 8 outflow_dust_mgii 2.5 1e8
+mv spec.dat Output/spec_MgII_tau2.5.dat
+mpirun -np 8 outflow_dust_mgii 4.0 1e8
+mv spec.dat Output/spec_MgII_tau4.0.dat
+mpirun -np 8 outflow_dust_mgii 5.0 1e8
+mv spec.dat Output/spec_MgII_tau5.0.dat

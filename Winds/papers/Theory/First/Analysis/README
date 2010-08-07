@@ -11,3 +11,8 @@ Models
 
 2) Asymmetric
   pro/grid_asymmetric.pro
+
+3) Biconical
+  grid_biconical, 10.
+  grid_biconical, 45.
+  grid_biconical, 60.

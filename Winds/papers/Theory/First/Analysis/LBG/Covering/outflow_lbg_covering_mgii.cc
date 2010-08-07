@@ -265,7 +265,7 @@ void Run_Monte_Carlo(char *outfile)
       if (scatter >= 0)
       {
 	flg_scatter = 1;
-	for (j=0;j<50;j++) flg_resonance[j] = 0;
+	// for (j=0;j<50;j++) flg_resonance[j] = 0;
 	xloc = (lam_loc/lambda_0[scatter] - 1)*C_LIGHT/v_doppler;
 
 	// Get three velocity components of scatterer

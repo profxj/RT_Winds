@@ -45,6 +45,7 @@ pro mkall_fig
 
   ;; Dust
   fig_dust_spec
+  fig_taud_vs_we
 
   ;; ISM
   fig_ism_diagn

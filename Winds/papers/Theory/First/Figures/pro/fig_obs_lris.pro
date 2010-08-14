@@ -1,6 +1,7 @@
-pro fig_obs_lris, RREAL=rreal
+pro fig_obs_lris, FE=fe
 
   if not keyword_set( PSFILE ) then psfile = 'fig_obs_lris.ps'
+  if keyword_set(FE) then psfile = 'fig_obs_lris_fe.ps'
   if not keyword_set(PAD_FRAC) then pad_frac = 0.1
   if not keyword_set(CSZ) then csz = 1.6
   if not keyword_set(CSZ2) then csz2 = 2.3
@@ -8,6 +9,7 @@ pro fig_obs_lris, RREAL=rreal
   if not keyword_set(lSZ2) then lsz2 = 1.3
   if not keyword_set(XNCOLORS) then xncolors=200L
   if not keyword_set(YSTP) then ystp = 0.07
+  if not keyword_set(FE) then wrest= 2796.352 else wrest = 2600.173
 
   xlbl = 0.05
   xlbl2 = 0.05
@@ -28,17 +30,27 @@ pro fig_obs_lris, RREAL=rreal
   ;;; MgII
 
   ;; Plot MgII
-  yrng=[-0.1, 2.8]
-  xrng=[2785., 2811.]
+  if not keyword_set(FE) then begin
+     Mg_fil = '../Analysis/ISM/Output/spec_ISM_MgII.dat' 
+     xtit='Velocity (km/s) Relative to MgII 2796'
+     yrng=[-0.1, 2.8]
+     xrng=[2785., 2811.] 
+  endif else begin
+     Mg_fil = '../Analysis/Fiducial/Output/spec_FeII_fiducial.dat'
+     xtit='Velocity (km/s) Relative to FeII 2600'
+     yrng=[-0.1, 1.8]
+     xrng = [2580., 2605]
+  endelse
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, ytitle='Relative Flux', $
         xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
         xrange=xrng, ystyle=1, xstyle=9, psym=1, /nodata
 
   ;; ISM
-  Mg_fil = '../Analysis/ISM/Output/spec_ISM_MgII.dat'
+
   readcol, Mg_fil, wv, fx, noscatt_fx, /silen
-  nrm = median(fx[where(wv GT 2815)])
+  if not keyword_set(FE) then nrm = median(fx[where(wv GT 2815)]) $
+  else nrm = median(fx[where(wv GT 2634)])
   fx = fx/nrm
   dwv = wv[1]-wv[0]
   npix = n_elements(wv)
@@ -60,11 +72,11 @@ pro fig_obs_lris, RREAL=rreal
   low_fx = x_addnoise(low_fx, 7., seed=seed)
 
   ;; Plot
-  oplot, wv, fx, color=clr.gray, linesty=1, thick=1
+  oplot, wv, fx, color=clr.darkgray, linesty=1, thick=3
   oplot, low_wv, low_fx, color=clr.black, psym=10, thick=3
 
-  xrng2 = (xrng/2796.352 - 1)*3e5
-  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity (km/s) Relative to MgII 2796'
+  xrng2 = (xrng/wrest - 1)*3e5
+  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl=xtit
 
   oplot, replicate(2796.352,2), yrng, color=clr.orange, linesty=2, thick=2
   oplot, replicate(2803.531,2), yrng, color=clr.orange, linesty=2, thick=2
@@ -92,15 +104,20 @@ pro fig_obs_lris, RREAL=rreal
         xtitle='Wavelength (Ang)', yrange=yrng, thick=4, $
         xrange=xrng, ystyle=1, xstyle=9, psym=1, /nodata
 
-  oplot, wv, fx, color=clr.gray, linesty=1, thick=1
+  oplot, wv, fx, color=clr.darkgray, linesty=1, thick=3
   oplot, low_wv, avg_spec, color=clr.black, psym=10, thick=3
 
   ;; Label
-  xrng2 = (xrng/2796.352 - 1)*3e5
-  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity (km/s) Relative to MgII 2796'
+  xrng2 = (xrng/wrest - 1)*3e5
+  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl=xtit
 
-  oplot, replicate(2796.352,2), yrng, color=clr.orange, linesty=2, thick=2
-  oplot, replicate(2803.531,2), yrng, color=clr.orange, linesty=2, thick=2
+  if not keyword_set(FE) then begin
+     oplot, replicate(2796.352,2), yrng, color=clr.orange, linesty=2, thick=2
+     oplot, replicate(2803.531,2), yrng, color=clr.orange, linesty=2, thick=2
+  endif else begin
+     oplot, replicate(2586.650,2), yrng, color=clr.orange, linesty=2, thick=2
+     oplot, replicate(2600.173,2), yrng, color=clr.orange, linesty=2, thick=2
+  endelse
   oplot, [-9e9,9e9], [0.,0.], color=clr.green, linesty=2, thick=2
 
   xyouts, xrng[0]+xlbl*(xrng[1]-xrng[0]), yrng[1]*ylbl, $

@@ -82,6 +82,7 @@ pro mkall_fig
   fig_obs_slit
   fig_obs_sb
   fig_obs_lris
+  fig_obs_lris, /fe
 
 ;  fig_slitwidth
 

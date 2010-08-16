@@ -44,6 +44,8 @@ Dan
 104. Correct any/all of my radiation lingo (e.g. resonance vs resonant; scattering vs. re-emission [flourescence])
 105. Check for a bug in the asymmetric emission maps?
 106. Help X get a 2D map of the LBG emission
+107. How many FeII lines are there 'recorded' and what is a 
+  proper reference?
 
 
 ---------------------

@@ -23,10 +23,10 @@
 \newcommand{\mgiib}{\ion{Mg}{2}~$\lambda 2803$}
 \newcommand{\feiia}{\ion{Fe}{2}~$\lambda 2586$}
 \newcommand{\feiib}{\ion{Fe}{2}~$\lambda 2600$}
-\newcommand{\feiic}{\ion{Fe}{2}$^* \; \lambda 2612$}
-\newcommand{\feiie}{\ion{Fe}{2}$^* \; \lambda 2626$}
+\newcommand{\feiic}{\ion{Fe}{2}$* \; \lambda 2612$}
+\newcommand{\feiie}{\ion{Fe}{2}$* \; \lambda 2626$}
 \newcommand{\feiid}{\ion{Fe}{2}~$\lambda\lambda 2586, 2600$}
-\newcommand{\feiis}{\ion{Fe}{2}$^*$}
+\newcommand{\feiis}{\ion{Fe}{2}$*$}
 \newcommand{\nmg}{$n_{\rm Mg^+}$}
 \newcommand{\mnmg}{n_{\rm Mg^+}}
 \newcommand{\nfe}{$n_{\rm Fe^+}$}
@@ -76,7 +76,7 @@
 \newcommand{\cm}[1]{\, {\rm cm^{#1}}}
 \def \snrlim {SNR$_{lim}$}
 
-\title{Simple Wind Models}
+\title{Idealized Wind Models of Cool Gas Outflows}
 
 \author{
 J. Xavier Prochaska\altaffilmark{1}, 
@@ -259,8 +259,8 @@ commonly observed, the separation is large and the transitions
 must be treated separately.  
 
 Iron exhibits the most complex set of energy levels for elements
-frequently studied in astrophysics.  The Fe$^+$ ion alone has over XXX
-energy levels recorded \citep{iron}, and even this is an
+frequently studied in astrophysics.  The Fe$^+$ ion alone has over
+10,000 energy levels recorded \citep{iron}, and even this is an
 incomplete list.  
 One reason for iron's complexity is
 that the majority of its configurations exhibit fine-structure splitting.
@@ -283,24 +283,29 @@ There are two resonance-line transitions\footnote{We adopt the
 associated with this multiplet (\feiid)
 corresponding to $\Delta J = 0, -1$; these are indicated by upward (black) arrows
 in Figure~\ref{fig:energy}. The solid (green) downward
-arrows in Figure~\ref{fig:energy} mark the transitions that are
-connected to
+arrows in Figure~\ref{fig:energy} mark the non-resonant \feiis\
+transitions that are connected to
 the upper energy levels of the resonance lines.  These transitions may
 occur following the absorption of a single photon by Fe$^+$ in its
-ground-state.  
+ground-state.   This process may also be referred to as flourescence.
 
 The Figure also shows (as dashed, downward arrows) two of the
 \feiis\ transitions that connect to higher energy levels of the \zconfig\
 configuration.  Ignoring collisions and recombinations, these
-transitions may only can only occur after the absorption
+transitions may only occur after the absorption
 of two photons: one to raise the electron from the ground-state to an
 excited state and another to raise the electron from the excited state
 to one of the \zconfig\ levels with $J \le 5/2$.  The excitation of
 fine-structure levels by 
 the absorption of UV photons is termed indirect UV pumping
 \citep[e.g][]{silva02,pcb06} and requires the ion to lie
-near an intense source of UV photons (see $\S$~\ref{sec:pump}).  In the
-following, we will assume that this process does not occur. 
+near an intense source of UV photons.  
+Even a bright, star-forming galaxy emits too few photons at $\lambda
+\approx 2500$\AA\ to UV-pump Fe$^+$ ions that are farther than $\sim
+100$\,pc from the stars.
+In the
+following, we will assume that emission from this process is
+negligible.
 
 Our calculations also ignore collisional
 processes\footnote{Recombination is also ignored.}, i.e.\ collisional
@@ -311,19 +316,18 @@ density $n_c$ is large.  For the \aconfig$_{9/2} \to
 $\aconfig$_{7/2}$ transition, the critical density $n_e^C \approx 4
 \sci{5} \cm{-3}$.  At these densities, one would predict  
 detectable quantities of \ion{Fe}{1} which has not yet been observed
-in galactic-scale outflows
-\citep[see also][]{pcb06}.  Furthermore, observations rarely show
+in galactic-scale outflows. Furthermore, observations rarely show
 {\it absorption} from the
-fine-structure levels of the \aconfig\ configuration and even that material
-is not significantly blue-shifted \citep{rubin+10}.
+fine-structure levels of the \aconfig\ configuration and that material
+is not significantly blue-shifted (Rubin et al., in prep). 
 In the following, we assume that electrons only occupy the
 ground-state, i.e.\ the gas has zero opacity to the non-resonant
 lines.
-Empirically, because collisional excitation is insignificant and
+If collisional excitation is insignificant 
 then one may also neglect collisional de-excitation.  
-The excitation energy for Mg$^+$ ($T_{\rm ex} \approx 50,000$\,K),  
-meanwhile, is significantly higher implying 
-negligible collisional processes.
+Regarding the \ion{Mg}{2} doublet, its
+excitation energy is significantly higher implying 
+negligible collisional processes at essentially any density.
 
 \subsection{The Source}
 
@@ -334,18 +338,18 @@ stars and \ion{H}{2} regions that is then modulated by dust and gas
 within the interstellar medium (ISM).  For the spectral regions studied
 here, most stars show a featureless continuum but a few spectral
 types do show significant \ion{Mg}{2} and \ion{Fe}{2} absorption.
-[Any emission??]  \ion{H}{2} regions, meanwhile, are observed to emit
+{\bf [Kate: Any emission??]}  \ion{H}{2} regions, meanwhile, are observed to emit
 at the \mgiid\ doublet, primarily due to recombinations in the outer
-layers [How about FeII?].  It is beyond the scope of this paper to
+layers {\bf [Kate: How about FeII?]}.  It is beyond the scope of this paper to
 properly model the 
 stellar absorption and \ion{H}{2} region emission, but the reader
 should be aware that they can complicate the observed spectrum,
 independent of the outflow, especially at velocities $v \approx 0 \mkms$.
-In the following, we will simply assume a flat continuum 
+In the following, we assume a simple flat continuum 
 normalized to unit value.  The size of the emitting
-region $r_{\rm source}$ is a free parameter, but we tend to
-restrict its value to be smaller than the minimum radial extent of any
-gaseous component.
+region $r_{\rm source}$ is a free parameter, but we restrict its value
+to be smaller than the minimum radial extent of any gaseous
+component. 
 
 
 \subsection{Monte Carlo Algorithm}
@@ -353,6 +357,12 @@ gaseous component.
 [Describe 1D and 3D algorithms]
 
 [Put tests in an Appendix?]
+
+\subsection{The Sobolev Approximation}
+
+For a wind with a steep velocity law (i.e.\ a large gradient $dv/dr$)
+and/or a a narrow intrinsic profile (i.e.\ a small Doppler parameter),
+Sobolev \cite{sobolev} 
 
 \subsection{Dust}
 \label{sec:dust_method}

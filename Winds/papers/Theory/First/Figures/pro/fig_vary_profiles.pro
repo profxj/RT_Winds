@@ -44,6 +44,7 @@ pro fig_vary_profiles, RREAL=rreal, STRCT=strct
   dvel = median(vel-shift(vel,1))  ; Should be 1 km/s
 
   ;; Plot
+  close, /all
   x_psopen, psfile, /portrait
   !p.multi = [0,1,2]
   clr = getcolor(/load)
@@ -51,6 +52,7 @@ pro fig_vary_profiles, RREAL=rreal, STRCT=strct
   xmrg = [11,2]
   ymrg = [4.0,1]
 
+  openw, 11, 'plaws_parms.dat'
 
   for qq=0L,nmodel-1 do begin
      if qq EQ (nmodel-1) then begin
@@ -86,6 +88,14 @@ pro fig_vary_profiles, RREAL=rreal, STRCT=strct
 
      fx = x_voigt(wav, lines, /nosmooth, TAU=tau)
 ;     if qq EQ (nmodel-1) then stop
+
+     ;; Table
+     if qq NE (nmodel-1) then $
+        printf, 11, lbl[qq], ' & ', '$r^{'+string(nlaws[idx_n],format='(i2)')+'}$& '+$
+               string(n_0[qq],format='(f6.4)')+' & '+$
+               '$r^{'+string(vlaws[idx_v],format='(f4.1)')+'}$& '+$
+               string(vnorm[idx_v],format='(f5.1)')+' & '+$
+               string(alog10(max(tau)),format='(f3.1)')+' \\ '
 
      ;; Density and Velocity
      !p.multi = [2,1,2]
@@ -138,6 +148,7 @@ pro fig_vary_profiles, RREAL=rreal, STRCT=strct
      
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]
+  close, /all
 
   return
 

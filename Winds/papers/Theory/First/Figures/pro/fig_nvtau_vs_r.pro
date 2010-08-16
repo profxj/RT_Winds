@@ -43,6 +43,13 @@ pro fig_nvtau_vs_r, STRCT=strct
 
   fx = x_voigt(wav, lines, /nosmooth, TAU=tau)
 
+  ;; Sobolev
+  dvdr = v_0/r0
+  getfnam, wrest, fval, nam
+  kappa_l = !pi*c.e^2/c.me/c.c * fval
+  n_Mg = n_r * 10.^(7.53-12.+METAL) * DUST
+  tau_r = n_Mg*kappa_l / (dvdr*1e5/c.kpc) * (wrest*1e-8) 
+
   if arg_present(STRCT) then begin
      strct = { $
              rval: rval, $
@@ -68,7 +75,7 @@ pro fig_nvtau_vs_r, STRCT=strct
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, $
         ytitle='n!dH!u!N [x10!u2!N, cm!u-3!N];   v!dr!N [x10!u-2!N km s!u-1!N];  ' + $
-        '!9t!X!d2796!N', $
+        '!9t!X!S!d2796!R!N!uS!N', $
         xtitle='Radius (kpc)', yrange=yrng, thick=4, $
         xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /ylog, /xlog
 
@@ -86,12 +93,13 @@ pro fig_nvtau_vs_r, STRCT=strct
      mn = min(abs(vel[gd[ii]]-v_r), imn)
      r_tau[gd[ii]] = rval[imn]
   endfor
-  oplot, r_tau[gd], tau[gd], color=clr.black
+  oplot, rval, tau_r, color=clr.black
+  oplot, r_tau[gd], tau[gd], color=clr.black, linesty=1
 
   ;; Label
   xlbl = 12.
   xyouts, xlbl, 12., 'v!dr!N (x10!u-2!N)', color=clr.blue, charsiz=lsz
-  xyouts, xlbl, 0.7, '!9t!X!d2796!N', color=clr.black, charsiz=lsz
+  xyouts, xlbl, 0.7, '!9t!X!S!d2796!R!N!uS!N', color=clr.black, charsiz=lsz
   xyouts, xlbl, 0.1, 'n!dH!N (x10!u2!N)', color=clr.red, charsiz=lsz
 
   if keyword_set( PSFILE ) then x_psclose

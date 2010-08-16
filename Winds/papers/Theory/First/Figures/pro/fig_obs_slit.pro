@@ -13,6 +13,8 @@ pro fig_obs_slit
   npt = 100
   slit_ratio = 2 * findgen(npt)/npt
 
+  stop ;; Remeasure the absorption EW too !
+
   ;; Plot
   x_psopen, psfile, /maxs
   clr = getcolor(/load)

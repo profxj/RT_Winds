@@ -1,0 +1,2135 @@
+\documentclass[12pt,preprint]{aastex}
+\usepackage{natbib,amsmath}
+
+\special{papersize=8.5in,11in}
+\begin{document}
+
+\newcommand{\msun}{M_\odot}
+\newcommand{\tpk}{$\tau_{\rm pk}$}
+\newcommand{\mtpk}{\tau_{\rm pk}}
+\newcommand{\mdv}{\delta v}
+\newcommand{\ewabs}{$W_{\rm a}$}
+\newcommand{\ewe}{$W_{\rm e}$}
+\newcommand{\rtt}{$r_{\tau = 0.2}$}
+\newcommand{\mrtt}{r_{\tau = 0.2}}
+\newcommand{\bturb}{$b_{\rm turb}$}
+\newcommand{\mbturb}{b_{\rm turb}}
+\newcommand{\taud}{$\tau_{\rm dust}$}
+\newcommand{\mtaud}{\tau_{\rm dust}}
+\newcommand{\maconfig}{2p$^6$3s}
+\newcommand{\mbconfig}{2p$^6$3p}
+\newcommand{\aconfig}{a~$^6$D$^0$}
+\newcommand{\zconfig}{z~$^6$D$^0$}
+\newcommand{\mvr}{v_{\rm r}}
+\newcommand{\naid}{\ion{Na}{1}~$\lambda\lambda 5891, 5897$}
+\newcommand{\mgiid}{\ion{Mg}{2}~$\lambda\lambda 2796, 2803$}
+\newcommand{\mgiia}{\ion{Mg}{2}~$\lambda 2796$}
+\newcommand{\mgiib}{\ion{Mg}{2}~$\lambda 2803$}
+\newcommand{\feiia}{\ion{Fe}{2}~$\lambda 2586$}
+\newcommand{\feiib}{\ion{Fe}{2}~$\lambda 2600$}
+\newcommand{\feiic}{\ion{Fe}{2}$* \; \lambda 2612$}
+\newcommand{\feiie}{\ion{Fe}{2}$* \; \lambda 2626$}
+\newcommand{\feiid}{\ion{Fe}{2}~$\lambda\lambda 2586, 2600$}
+\newcommand{\feiis}{\ion{Fe}{2}$*$}
+\newcommand{\nmg}{$n_{\rm Mg^+}$}
+\newcommand{\mnmg}{n_{\rm Mg^+}}
+\newcommand{\nfe}{$n_{\rm Fe^+}$}
+\newcommand{\mnfe}{n_{\rm Fe^+}}
+\def\hub{h_{72}^{-1}}
+\def\umfp{{\hub \, \rm Mpc}}
+\def\mzq{z_q}
+\def\zabs{$z_{\rm abs}$}
+\def\mzabs{z_{\rm abs}}
+\def\intl{\int\limits}
+\def\cmma{\;\;\; ,}
+\def\perd{\;\;\; .}
+\def\ltk{\left [ \,}
+\def\ltp{\left ( \,}
+\def\ltb{\left \{ \,}
+\def\rtk{\, \right  ] }
+\def\rtp{\, \right  ) }
+\def\rtb{\, \right \} }
+\def\sci#1{{\; \times \; 10^{#1}}}
+\def \rAA {\rm \AA}
+\def \zem {$z_{\rm em}$}
+\def \mzem {z_{\rm em}}
+\def\smm{\sum\limits}
+\def \cmm  {cm$^{-2}$}
+\def \cmmm {cm$^{-3}$}
+\def \kms  {km~s$^{-1}$}
+\def \mkms  {\, {\rm km~s^{-1}}}
+\def \lyaf {Ly$\alpha$ forest}
+\def \Lya  {Ly$\alpha$}
+\def \lya  {Ly$\alpha$}
+\def \mlya  {Ly\alpha}
+\def \Lyb  {Ly$\beta$}
+\def \lyb  {Ly$\beta$}
+\def \lyg  {Ly$\gamma$}
+\def \ly5  {Ly-5}
+\def \ly6  {Ly-6}
+\def \ly7  {Ly-7}
+\def \nhi  {$N_{\rm HI}$}
+\def \mnhi  {N_{\rm HI}}
+\def \lnhi {$\log N_{HI}$}
+\def \mlnhi {\log N_{HI}}
+\def \etal {\textit{et al.}}
+\def \lyaf {Lyman--$\alpha$ forest}
+\def \mnmin {\mnhi^{\rm min}}
+\def \nmin {$\mnhi^{\rm min}$}
+\def \O {${\mathcal O}(N,X)$}
+\newcommand{\cm}[1]{\, {\rm cm^{#1}}}
+\def \snrlim {SNR$_{lim}$}
+
+\title{Idealized Wind Models of Cool Gas Outflows}
+
+\author{
+J. Xavier Prochaska\altaffilmark{1}, 
+Others
+%John M. O'Meara\altaffilmark{2}, 
+%Gabor Worseck\altaffilmark{1} 
+%\& Scott Burles\altaffilmark{3}
+}
+\altaffiltext{1}{Department of Astronomy and Astrophysics, UCO/Lick Observatory, University of California, 1156 High Street, Santa Cruz, CA 95064}
+%\altaffiltext{2}{Department of Chemistry and Physics, Saint Michael's College.
+%One Winooski Park, Colchester, VT 05439}
+
+\begin{abstract}
+\begin{itemize}
+\item Emission is a generic feature of (nearly) isotropic winds.  This
+  emission fills in absorption at $v \approx 0$, significantly
+  complicating the absorption-line analysis, especially of an ISM
+  component. 
+\item The relative strengths of the emission
+lines, therefore, is sensitive to both the opacity and velocity
+extent of the wind.
+\end{itemize}
+\end{abstract}
+
+\keywords{absorption lines -- intergalactic medium -- Lyman limit systems -- SDSS}
+
+\section{Introduction}
+
+Nearly all gaseous objects that shine are also
+observed to generate gaseous flows.  This includes the jets of protostars, the
+stellar winds of massive O and B stars, the gentle Solar wind
+of our Sun, the associated absorption of bright quasars, and the
+spectacular jets of radio-loud AGN.   These gaseous outflows moderate
+the accretion of new material onto the object, inject energy and
+momentum into gas on large scales, and ...
+Developing a comprehensive model for these flows is critical to
+understanding the evolution of the source and its impact on the
+surrounding environment.
+
+Star-burst galaxies, whose luminosity is dominated by \ion{H}{2} regions
+and massive stars, are also observed to drive gaseous outflows.  These
+flows are generally expected (and sometimes observed) to have multiple
+phases, for example a hot and diffuse phase traced by X-ray emission
+together with a cool, denser phase traced by H$\alpha$ emission 
+\citep[e.g.][]{shc+04,km10}. 
+Several spectacular
+examples in the local universe demonstrate that flows can extend to
+tens of kpc from the galaxy \citep{M87} carrying significant speed
+to escape from the gravitational potential well of the galaxy's dark
+matter halo \citep{wind_escape}.
+
+Beyond $z \sim 0$, galactic outflows are 
+revealed by UV and optical absorption lines, e.g.\ \ion{Na}{1},
+\ion{Mg}{2}, \ion{Si}{2} and \ion{C}{4} transitions.  With the galaxy
+as a backlight, one observes gas that is predominantly
+blue-shifted which indicates a flow toward
+Earth and away from the galaxy.  These transitions are sensitive to
+the cool (\ion{Mg}{2}; $T \sim 10^4$K) and warm (\ion{C}{4}; $T \sim
+10^5$K) phases of the flow.  The incidence of cool gas outflows is
+nearly universal in star-forming galaxies;  this includes systems at $z \sim 0$
+which exhibit \ion{Na}{1} and \ion{Mg}{2} absorption
+\citep{rvs05a,martin05,smn+09}, $z \sim 1$ star-forming galaxies traced by
+\ion{Fe}{2} and \ion{Mg}{2} transitions \citep{wcp+09,rwk+10}, and
+$z>2$ Lyman break galaxies (LBGs) that show blue-shifted \ion{Si}{2},
+\ion{C}{2}, and \ion{O}{1} transitions \citep{sgp+96,lkg+97,shapley03}.
+
+The observation of metal-line absorption is now a well established
+means of identifying outflows. Very little research,
+however,  has been directed
+to comparing the observations against (even idealized) wind
+models.  Instead, researchers have gleaned what limited information
+is afforded by direct analysis of the absorption lines.  The data do yield
+robust measurements of the speed of the gas yet they poorly constrain the
+optical depth, covering fraction, density, temperature, and distance
+of the flow from the galaxy.   In turn, constraints related to the
+mass, energetics, and momentum of the flow suffer from
+orders of magnitude uncertainty.  Both the origin and impact of
+galactic-scale winds, therefore, remain open matters of debate
+\citep{debate}.
+
+Recent studies of $z \sim 1$ star-forming galaxies have revealed that
+the cool gas often exhibits significant resonant-line emission (e.g.\
+\ion{Mg}{2}) in
+tandem with the nearly ubiquitous blue-shifted absorption
+\citep{wcp+09,rwk+10}.  The resultant spectra resemble the P-Cygni
+profile characteristic of stellar winds.
+\cite{rubin+10c} have also detected line
+emission from non-resonant \ion{Fe}{2}$^*$ transitions 
+Their interpretation is that the emission is the result of photons
+scattered off the wind into our sightline, analogous to P-Cygni.
+\cite{rubin+10c} also observed spatially extended \ion{Mg}{2} emission
+which they use to estimate the size of the outflow.  They infer that
+the wind extends to at least 5\,kpc from the galaxy.  Line emission is
+also observed for $z \sim 3$ LBGs in the resonant \lya\ transition
+and non-resonant \ion{Si}{2}$^*$ transitions \citep{prs+02,shapley03}.
+A comprehensive analysis of the emission lines
+related to galactic-scale outflows
+(e.g.\ via deep integral-field-unit observations) may offer unique
+diagnostics on the morphology and density of the outflow, eventually
+setting tighter constraints on the energetics of the flow.  
+
+[Phillips first reported?]
+Bright \ion{Mg}{2} and \ion{Fe}{2}* line emission has also been
+reported for individual galaxies at $z \sim 0.7$ by \cite{rubin+10c}
+and Rubin et al.\ 2011 (in prep).
+\cite{wcp+09}, who
+studied \ion{Mg}{2} absorption in $z \sim 1.4$ galaxies, reported
+\ion{Mg}{2} emission in a small subset of the individual galaxy
+spectra of their large sample.  These were excluded from the full
+analysis on concerns that the emission was related to AGN activity.
+The stacked spectra of the remaining galaxies, however, also indicated
+\ion{Mg}{2} emisison, both directly and when the authors modeled and
+`removed' the $v \approx 0\mkms$ absorption component.  Although the
+authors suggested the emission could be related to back-scattered
+light in the wind, they also allowed that it could be related to weak
+AGN activity.   Very similar \ion{Mg}{2} emission was observed by
+\cite{rwk+10} who repeated the analysis of \cite{wcp+09} on a set
+of lower redshift galaxies. 
+[Did Kate see FeII* emission in her stacks? If not, why not?]
+
+Although astronomers are rapidly producing a wealth of observational
+datasets on galactic-scale winds, a key ingredient to a proper
+analysis is absent.
+[Draw analogy to exploring SN lightcurves and spectra]
+
+In this paper, we take the first steps toward modeling the absorption
+and emission properties of cool gas outflows.  Using Monte Carlo
+radiative transfer techniques, we study the nature of \ion{Mg}{2} and
+\ion{Fe}{2} absorption and emission for winds with a range of
+properties.  Although the winds are idealized, the results frequently
+contradict our intuition and 
+challenge the straightforward conversion of observables to (even crude) physical
+constraints.  [Add another line or two]
+
+The paper is organized as follows.  In $\S$~\ref{sec:method}, we
+describe the methodology of our radiative transfer algorithms.  These
+are applied to a fiducial wind model in $\S$~\ref{sec:fiducial} and
+variations of this model in $\S$~\ref{sec:variants}.  In
+$\S$~\ref{sec:alternate}, we explore wind models with a broader range
+of density and velocity laws.  Consideration of key observables is
+given in $\S$~\ref{sec:obs} and we discuss the principal results
+in $\S$~\ref{sec:discuss}.  A brief summary is given in
+$\S$~\ref{sec:summary}.
+
+\section{Methodology}
+\label{sec:method}
+
+This section describes our methodology for generating
+emission/absorption profiles from simple wind models.
+
+\subsection{The Radiative Transitions}
+
+In this paper, we focus on two sets of radiative transitions
+arising from Fe$^+$ and Mg$^+$ ions
+(Table~\ref{tab:atomic}, Figure~\ref{fig:energy}).
+This is a necessarily limited
+set, but the two ions and their transitions do have characteristics
+shared by the majority of low-ion transitions
+observed in cool-gas outflows. Therefore, many
+of the results that follow may be generalized to observational studies that
+consider other atoms and ions of cool gas.
+
+The Mg$^+$ ion, with a single 3s electron in the ground-state,
+exhibits an alkali doublet of transitions at $\lambda \approx
+2800$\AA\ analogous to the
+\lya\ doublet of neutral hydrogen.  Figure~\ref{fig:energy}
+presents the energy level diagram for this 
+\mgiid\ doublet.  In non-relativistic quantum
+mechanics, the 2p$^6$3p energy level is said to be split by spin-orbit
+coupling giving the observed line doublet.  These are the only
+\ion{Mg}{2} electric-dipole transitions 
+with wavelengths near 2800\AA\ and the transition connecting
+the $\rm {}^2P_{3/2}$ and $\rm {}^2P_{1/2}$ states is forbidden by several
+selection rules.  Therefore, an absorption from
+\maconfig~$\to$~\mbconfig\
+is followed $\approx 100\%$ of the time by a spontaneous decay
+($t_{\rm decay} \approx 4\sci{-9}$s) to the
+ground state. Our treatment will ignore any other possibilities
+(e.g.\ absorption by a second photon when the electron is at the \mbconfig\ level).
+
+In terms of radiative transfer, the 
+\mgiid\ doublet is very similar to that for \ion{H}{1}
+\lya, the \naid\ doublet, and many other doublets commonly
+studied in the interstellar medium (ISM) of distant galaxies.  
+Each of these has the ground-state connected to a pair of electric
+dipole transitions with nearly identical energy.
+The doublets differ only in 
+their rest wavelengths and the energy of the doublet separation. 
+For \ion{H}{1} \lya, the
+separation is sufficiently small ($\Delta v = c \Delta E / E \approx
+1.3 \mkms$) that most radiative transfer treatments actually ignore it
+is a doublet.
+This is generally justifiable for \lya\ because 
+most astrophysical processes have turbulent motions that
+significantly exceed the doublet's velocity separation and effectively mix the
+two transitions.  For \ion{Mg}{2} ($\Delta v \approx 770 \mkms$),  
+\ion{Na}{1} ($\Delta v \approx 304 \mkms$), and most of the other doublets
+commonly observed, the separation is large and the transitions
+must be treated separately.  
+
+Iron exhibits the most complex set of energy levels for elements
+frequently studied in astrophysics.  The Fe$^+$ ion alone has over
+10,000 energy levels recorded \citep{iron}, and even this is an
+incomplete list.  
+One reason for iron's complexity is
+that the majority of its configurations exhibit fine-structure splitting.
+This includes the ground-state configuration (\aconfig) which is split
+into 5 levels, 
+labeled by the total angular momentum $J$, 
+with excitation energies $T_{\rm ex} \equiv \Delta E / k$ ranging from
+$T_{\rm ex} \approx 500-1500$\,K (Figure~\ref{fig:energy}).  
+Transitions between these fine-structure levels are 
+forbidden (magnetic-dipole) and have spontaneous decay times of several hours.  
+
+In this paper, we examine transitions between the ground-state
+configuration and the energy levels of the \zconfig\
+configuration.  This set of transitions (named the
+UV1 multiplet) have wavelengths near 2600\AA.
+There are two resonance-line transitions\footnote{We adopt the
+  standard convention that a ``resonance line'' is an electric-dipole
+  transition connected to the ground-state.  We also label
+  non-resonant transitions with an asterisk, e.g.\ \feiic.} 
+associated with this multiplet (\feiid)
+corresponding to $\Delta J = 0, -1$; these are indicated by upward (black) arrows
+in Figure~\ref{fig:energy}. The solid (green) downward
+arrows in Figure~\ref{fig:energy} mark the non-resonant \feiis\
+transitions that are connected to
+the upper energy levels of the resonance lines.  These transitions may
+occur following the absorption of a single photon by Fe$^+$ in its
+ground-state.   This process may also be referred to as flourescence.
+
+The Figure also shows (as dashed, downward arrows) two of the
+\feiis\ transitions that connect to higher energy levels of the \zconfig\
+configuration.  Ignoring collisions and recombinations, these
+transitions may only occur after the absorption
+of two photons: one to raise the electron from the ground-state to an
+excited state and another to raise the electron from the excited state
+to one of the \zconfig\ levels with $J \le 5/2$.  The excitation of
+fine-structure levels by 
+the absorption of UV photons is termed indirect UV pumping
+\citep[e.g][]{silva02,pcb06} and requires the ion to lie
+near an intense source of UV photons.  
+Even a bright, star-forming galaxy emits too few photons at $\lambda
+\approx 2500$\AA\ to UV-pump Fe$^+$ ions that are farther than $\sim
+100$\,pc from the stars.
+In the
+following, we will assume that emission from this process is
+negligible.
+
+Our calculations also ignore collisional
+processes\footnote{Recombination is also ignored.}, i.e.\ collisional
+excitation and de-excitation of the various levels.  For the
+fine-structure levels of the \aconfig\ configuration, the excitation
+energies are modest ($T_{\rm ex} \sim 1000$\,K) but the critical
+density $n_c$ is large.  For the \aconfig$_{9/2} \to
+$\aconfig$_{7/2}$ transition, the critical density $n_e^C \approx 4
+\sci{5} \cm{-3}$.  At these densities, one would predict  
+detectable quantities of \ion{Fe}{1} which has not yet been observed
+in galactic-scale outflows. Furthermore, observations rarely show
+{\it absorption} from the
+fine-structure levels of the \aconfig\ configuration and that material
+is not significantly blue-shifted (Rubin et al., in prep). 
+In the following, we assume that electrons only occupy the
+ground-state, i.e.\ the gas has zero opacity to the non-resonant
+lines.
+If collisional excitation is insignificant 
+then one may also neglect collisional de-excitation.  
+Regarding the \ion{Mg}{2} doublet, its
+excitation energy is significantly higher implying 
+negligible collisional processes at essentially any density.
+
+\subsection{The Source}
+
+Nearly all of the absorption studies of galactic-scale outflows 
+have focused on intensely, star-forming galaxies.  The
+intrinsic emission of these galaxies is a complex combination of
+stars and \ion{H}{2} regions that is then modulated by dust and gas
+within the interstellar medium (ISM).  For the spectral regions studied
+here, most stars show a featureless continuum but a few spectral
+types do show significant \ion{Mg}{2} and \ion{Fe}{2} absorption.
+{\bf [Kate: Any emission??]}  \ion{H}{2} regions, meanwhile, are observed to emit
+at the \mgiid\ doublet, primarily due to recombinations in the outer
+layers {\bf [Kate: How about FeII?]}.  It is beyond the scope of this paper to
+properly model the 
+stellar absorption and \ion{H}{2} region emission, but the reader
+should be aware that they can complicate the observed spectrum,
+independent of the outflow, especially at velocities $v \approx 0 \mkms$.
+In the following, we assume a simple flat continuum 
+normalized to unit value.  The size of the emitting
+region $r_{\rm source}$ is a free parameter, but we restrict its value
+to be smaller than the minimum radial extent of any gaseous
+component. 
+
+
+\subsection{Monte Carlo Algorithm}
+
+[Describe 1D and 3D algorithms]
+
+[Put tests in an Appendix?]
+
+\subsection{Dust}
+\label{sec:dust_method}
+
+For the majority of models studied in this paper, we assume the gas
+contains no dust.
+This is an invalid assumption, especially for material associated with
+the ISM of a galaxy.  
+Extraplanar material likely associated with a galactic-scale 
+outflow has been observed to emit IR radiation characteristic of dust \citep[e.g.][]{M87_dust}.
+Essentially all astrophysical environments that contain both cool gas
+and metals also show signatures of dust depletion and extinction.  This includes the
+ISM of star-forming and \ion{H}{1}-selected galaxies
+\citep[e.g.][]{ss96,pw01,pcd+07}, strong \ion{Mg}{2} metal-line
+absorption systems \citep{ykv+06,mnt+08}, and the galactic winds traced
+by low-ion transitions \citep{prs+02,rvs05b}.  Although the galactic winds
+traced specifically by \ion{Mg}{2} and \ion{Fe}{2} transitions have not (yet) been
+demonstrated to contain dust, it is reasonable to consider its
+effects.
+In addition, \cite{msf+10} have argued from a statistical analysis
+that dust is distributed to many tens kpc from $z \sim 0.1$ galaxies
+and have suggested it was transported from the galaxies by
+galactic-scale winds.  One is motivated, therefore, to consider
+models that include the effects of dust extinction.
+
+For analysis on normalized spectra, the effects of dust are largely minimized; 
+dust has a nearly constant opacity over small spectral regions and all
+features are simply scaled together.
+For scattered and resonantly trapped photons, however, the relative effect of dust
+extinction can be much greater.  
+These photons travel a much longer distance to escape the medium and
+may experience a much higher integrated opacity from dust.
+Indeed, dust is frequently invoked to
+explain the weak (or absent) \lya\ emission from star-forming galaxies
+\citep[e.g.][]{shapley03}.  Although the transitions studied here have
+much lower opacity than \lya, dust could still play an important role
+in the predicted profiles.
+
+In a few models, we include absorption by dust under the following
+assumptions:
+(i) the dust opacity scales with the density of the gas (i.e.\ we
+adopt a fixed dust-to-gas ratio);
+(ii) the opacity is independent of wavelength, a reasonable
+approximation given the small spectral range analyzed;
+(iii) the photons absorbed by dust are re-emitted at IR wavelengths
+and are `lost' from the system.  The dust absorption is normalized by \taud, 
+the integrated opacity of dust from the center of the system to
+infinity.  The ambient ISM of a star-forming galaxy may be expected to exhibit
+\taud\ values of one to a few at $\lambda \sim 3000$\AA\ \citep[e.g.][]{dust_again}.
+
+\subsection{The Sobolev Approximation}
+
+For a wind with a steep velocity law (i.e.\ a large gradient $dv/dr$)
+and/or a a narrow intrinsic profile (i.e.\ a small Doppler parameter),
+\citet{sobolev60} introduced a formalism that defines the opacity of
+the wind at a given radius $\tau(r)$ in terms of the density and
+velocity gradient of the flow at that radius:
+
+\begin{equation}
+\tau^S(r) = \kappa_\ell \rho(r) \, \lambda_\ell \ltp \frac{dv}{dr}
+\rtp^{-1}
+\label{eqn:Sobolev}
+\end{equation}
+where $\kappa_\ell$ is the opacity of transition $\ell$.  The opacity
+holds for a photon with wavelength $\lambda^S
+= \lambda_\ell (1-v(r)/c)$ with the velocity evaluated at the radius.
+This is, of course, not the true opacity.
+A photon with wavelength $\lambda^S$ that travels through the wind 
+experiences a total opacity 
+$\tau_\nu = \intl_0^\infty \rho(r) \kappa_\nu dr$.  The Sobolev
+approximation is valid when the opacity the photon experiences is
+domianted by gas in a localized portion of the flow that has velocity
+$v = c(\lambda^S/\lambda^\ell - 1)$.  In this case, $\tau^S$ provides an
+excellent approximation.  We find that it applies to nearly all of the
+models presented in this paper.  [Comment on the lack of the $b$-value
+in this?]
+
+
+
+\section{The Fiducial Wind Model}
+\label{sec:fiducial}
+
+In this section, we study a simple yet illustrative wind model for
+a galactic-scale outflow.  The properties of this wind were tuned, in
+part, to yield a \ion{Mg}{2} absorption profile 
+similar to those observed for $z \sim 1$, star-forming galaxies
+\citep{wcp+09,rubin+10c}.  We emphasize, however, that we do not
+favor this fiducial model over any other wind scenario nor do its
+properties have special physical motivation.
+Its role is to establish a baseline
+for discussion.
+
+The fiducial wind is isotropic, dust-free, and extends from an inner wind
+radius $r_{\rm inner}$ to an outer wind radius $r_{\rm outer}$.  
+It follows a (mass-flux conserving) density law,
+
+\begin{equation}
+n_{\rm H} (r) = \frac{n^0_{\rm H}}{r^2} \;\;\; , 
+\label{eqn:density}
+\end{equation}
+and a velocity law with a purely radial flow
+
+\begin{equation}
+\vec v = v_r (r) \hat r = v_0 r \hat r  \perd
+\label{eqn:vel}
+\end{equation}
+Turbulent motions are
+characterized by a Doppler parameter\footnote{
+  The adopted Doppler parameter
+  ($\mbturb = 15 \mkms$) has a minor impact on the results.
+  The absorption profiles are insensitive to its value and varying \bturb\
+  only tends to modify the widths and modestly
+  shift the centroids of emission lines.} 
+, $b_{\rm turb}$.  
+We convert the hydrogen density $n_{\rm H}$ to the number densities of
+Mg$^+$ and Fe$^+$ ions by assuming solar relative abundances with an
+absolute metallicity of 1/2 solar and depletion factors of 1/10 and
+1/20 for Mg and Fe respectively, i.e.\  $\mnmg = 10^{-5.47} n_{\rm H}$ 
+and \nfe=\nmg/2. At the center of the wind is a homogeneous source of
+continuum photons with size $r_{\rm source}$. The parameters for the
+fiducial wind model are summarized in Table~\ref{tab:fiducial}.   
+
+In Figure~\ref{fig:fiducial_nvt} we plot the density and velocity
+laws against radius;  
+their simple power-law expressions are evident.  The figure also
+shows the optical depth profile for the \mgiia\ transition
+($\tau_{2796}$), estimated from the Sobolev approximation\footnote{We
+  have verified this approxmiation holds by calculating 
+  $\tau_{2796}$ first
+  as a function of velocity by summing the opacity for a series of
+  discrete and small radial intervals
+  between $r_{\rm inner}$  and $r_{\rm outer}$.   We then mapped
+  $\tau_{2796}$ onto radius using the velocity law
+  (Equation~\ref{eqn:vel}). This optical depth profile is shown as the
+black dotted line in Figure~\ref{fig:fiducial_nvt}.}
+(Equation~\ref{eqn:Sobolev}). 
+
+The $\tau_{2796}$ profile peaks with $\tau_{2796}^{\rm max} \approx 30$
+at a velocity $\mvr \approx 65 \mkms$ corresponding to $r \approx 1.3
+r_{\rm inner}$.  The optical depth profile for the \mgiib\ transition
+(not plotted) is scaled down by the $f\lambda$ ratio but is otherwise identical.  Similarly,
+the optical depth profiles for the \feiid\ transitions are
+scaled down by $f \lambda$ and the \nfe/\nmg\ ratio.  
+
+Because the results are dictated by frequency dependence of the
+$\tau_{2796}$ profile, 
+the actual dimensions and density of the wind are
+essentially unimportant provided they scale together to give nearly the same
+optical depth. Therefore, one may consider the choices for
+$r_{\rm inner}, r_{\rm outer}, n_{\rm H}^0$ as arbitrary.
+Nevertheless, we adopted values for this fiducial model with
+some astrophysical motivation,  e.g., values that correspond to
+galactic dimensions and a normalization that gives $\tau_{2796}^{\rm
+  max} \sim 10$.
+
+
+Using the methodology described in $\S$~\ref{sec:method}, we
+propogated photons from the source and through the outflow to an
+`observer' at $r \gg r_{\rm outer}$ that views the entire wind+source
+complex.  Figure~\ref{fig:fiducial_1d} presents the 1D spectrum
+that this observer would record, with the unattenuated flux
+normalized to unit value.   The \ion{Mg}{2} doublet
+shows the canonical `P-Cygni profile' that characterizes a continuum
+source embedded within an outflow.  Strong absorption is evident at
+$\delta v  \equiv (\lambda/\lambda_0 - 1) < -50 \mkms$ in both transitions (equivalent widths, $W^{2796} =
+3.0$\AA\ and $W^{2803} = 1.3$\AA) and each shows emission at
+positive velocities.  For an isotropic and dust-free model, the
+total equivalent width of the doublet must be zero,
+i.e.\ every photon
+absorbed eventually escapes the system, typically at lower
+energy.  The wind simply shuffles the photons in frequency space.
+A simple summation of the absorption and emission equivalent widths
+(Table~\ref{tab:fiducial_EW}) confirms this expectation.
+
+Focusing further on the \ion{Mg}{2} absorption, one notes that the profiles lie
+well above zero intensity and have similar depth even though their $f\lambda$
+values differ by a factor of two.  In standard absorption line
+analysis, this is 
+the tell-tale signature of a `cloud' that has a high optical depth (i.e.\
+saturated) which only partially covers the emitting source
+\citep[e.g.][]{hammann+10}.  Our fiducial wind model, however, 
+{\it entirely covers the source}; the apparent partial covering must
+be related to a different effect.
+Figure~\ref{fig:noemiss} further emphasizes this point by comparing the 
+absorption profiles from Figure~\ref{fig:fiducial_1d} against an
+artificial model where no absorbed photons are 
+re-emitted.   As expected from the
+$\tau_{2796}$ profile (Figure~\ref{fig:fiducial_nvt}), this
+`intrinsic' model
+produces a strong \mgiid\ doublet that absorbs all photons at
+$\delta v \approx -100 \mkms$, i.e.\ $I_{2796}^{\rm min} = \exp(-\tau^{\rm
+  max}_{2796}) \approx 0$.
+The true model, in contrast, has been `filled in' at $\delta v \approx -100
+\mkms$ by photons scattered in the wind.  An
+absorption-line analysis that ignores these effects
+would (i) systematically underestimate the true optical
+depth and (ii) falsely conclude that the wind partially covers the
+source.  We will find that this
+[behaviour] is a generic result, even for wind models that include
+dust and are not fully isotropic.
+
+Turning to the emission profiles of the \mgiid\ doublet, one notes
+that they are also similar with comparable equivalent widths The
+flux of the \mgiib\ transition even exceeds that for \mgiia\ giving a
+line ratio that is far below the $2:1$ ratio that one may have naively
+expected. 
+[Does recombination predict 2:1??]
+The emission profiles are very similar because the gas is optically
+thick yielding comparable total absorption. 
+Furthermore, the flux from \mgiib\ actually exceeds the
+\mgiia\ emission because the wind speed is greater than the velocity separation
+of the doublet, $|\mvr|_{\rm max} > (\Delta v)_{\rm MgII}$.
+Therefore, the red wing of the
+\mgiia\ emission profile is partially absorbed by \mgiib\ and
+re-emitted at lower frequency.  We conclude that the relative
+strengths of the emission lines is sensitive to both the opacity and
+velocity extent of the wind.   
+
+Now consider the \ion{Fe}{2} transitions:
+the bottom left panel of Figure~\ref{fig:fiducial_1d} covers the
+majority of the \ion{Fe}{2} UV1 transitions and several are
+shown in the velocity plot.  The line
+profile for \feiib\ is very similar to the \mgiid\ doublet;
+one observes strong absorption to negative velocities and strong
+emission at $\mdv > 0 \mkms$ producing a characteristic P-Cygni profile. 
+Splitting
+the profile at $\mdv = -50 \mkms$, we measure an equivalent width
+$W^{2600}_{\rm a} = 1.16$\AA\ in absorption and $W^{2600}_{\rm e} =
+-0.94$\AA\ in emission (Table~\ref{tab:fiducial_EW}) for a total
+equivalent width of $W^{2600}_{\rm TOT} \approx 0.22$\AA.  
+In contrast, the \feiia\ resonance line shows much weaker emission and
+a much higher total equivalent width ($W^{2586}_{\rm TOT} = 0.49$\AA),
+even though the line has a $2 \times$ lower $f\lambda$ value.
+These differences between the \ion{Fe}{2} resonance lines (and with the
+\ion{Mg}{2} doublet) occur because of the complex of non-resonant
+\feiis\ transitions that are coupled to the resonance lines
+(Figure~\ref{fig:energy}).  Specifically, 
+resonance photons absorbed at \feiid\ have a finite probability of
+being re-emitted as a non-resonant photon which then escapes the system
+without further interaction.  The principal effects are to reduce the
+line emission of \feiid\ and to produce non-resonant line-emission (e.g.\
+\feiic).
+
+The reduced \feiia\ emission relative to \feiib\ is related to
+two factors:
+(i) there is an additional downward transition from the
+\zconfig$_{7/2}$ level and 
+(ii) the Einstein A
+coefficients of the non-resonant lines coupled to \feiia\ are comparable to and even
+exceed the Einstein A coefficient of
+the resonant transition.  In contrast, 
+the \feiie\ transition (associated with \feiib)
+has an approximately  $4\times$ smaller A coefficient than the
+corresponding
+resonance line.  Therefore, the majority of photons absorbed at
+$\lambda \approx 2600$\AA\ are re-emitted as \feiib\ photons whereas 
+the majority of photons absorbed at $\lambda \approx 2586$\AA\ are re-emitted 
+at longer wavelengths (\feiic\ or $\lambda 2632$).
+If we were to increase $\tau_{2600}$ (and especially if we include
+gas with $\mvr \approx 0 \mkms$) then the \feiib\ emission is
+significantly suppressed (e.g.\ $\S$~\ref{sec:ISM}).
+The total equivalent width, however, of the three lines connected to the
+\zconfig$_{7/2}$ upper level must still vanish (photons are conserved
+in this isotropic, dust-free model).
+
+
+The preceding discussion emphasizes the filling-in of resonance
+absorption at $\mdv
+\lesssim -50 \mkms$ and the generation of emission lines at $\mdv \approx
+0 \mkms$ by photons scattered in the wind.  To study the spatial
+extent of this emission, we mapped the emission of the fiducial
+model (see $\S$~\ref{sec:monte} for a description of the algorithm).
+The output is a set of surface-brightness maps in a series of 
+frequency channels yielding a
+dataset analogous to integral-field-unit (IFU) observations.  In
+Figure~\ref{fig:fiducial_ifu_mgii}, we present the output 
+at several velocities relative to the \mgiia\
+transition. At $\mdv = -250 \mkms$, where the wind has an optical
+depth $\tau_{2796} < 1$ (Figure~\ref{fig:fiducial_nvt}),
+the source contributes roughly half of the observed flux.  
+At $\mdv=-100 \mkms$, however, the
+wind absorbs all photons from the source and the observed emission is
+entirely from photons scattered by the wind.  This scattered emission
+actually exceeds the source+wind emission at 
+$\mdv = -250 \mkms$ such that the absorption profile is
+negatively offset from the velocity where $\tau_{2796}$ is maximal
+(Figure~\ref{fig:fiducial_nvt}).
+The net result is
+weaker \ion{Mg}{2} absorption that peaks blueward of the actual peak in the
+optical depth profile.  
+Table~\ref{tab:line_diag} reports several kinematic measurements of
+the absorption and emission features.
+Clearly, these effects complicate estimates for the
+speed, covering fraction, and total column density of the wind.  At
+$\mdv = 0 \mkms$, the wind and source have comparable total flux with the
+latter dominating at higher velocities.  
+
+Similar results are observed for the \ion{Fe}{2} resonance
+transitions (Figure~\ref{fig:fiducial_ifu_feii}).
+For transitions to fine-structure levels of the \aconfig, the source
+is unattenuated but there is a significant contribution from photons
+generated in the wind. 
+The results presented in Figures~\ref{fig:fiducial_ifu_mgii} and
+\ref{fig:fiducial_ifu_feii} are sensitive to the radial extent,
+morphology, density and velocity profiles of this galactic-scale
+wind.  Consequently, IFU observations of line emission from low-ion
+transitions may offer the most direct constraints on galactic-scale
+wind properties. 
+
+At all velocities, the majority of light comes from the inner regions
+of the wind. 
+The majority of
+\ion{Mg}{2} emission occurs within the inner few kpc, e.g.\ $50-60\%$
+of the light at $\mdv=-100$ to $+100 \mkms$
+comes from $|r| < 3$\,kpc.
+The emission
+is even more centrally concentrated for the \ion{Fe}{2} transitions.
+A proper treatment of these
+distributions is critical to interpret observations
+acquired through a slit, i.e.\ where the aperture has a limited extent
+in one or more dimensions.  A standard longslit on 10m-class
+telescopes, for example, subtends $\approx 1''$ corresponding to
+$5-10$\,kpc for $z \sim 1$.    We return to this issue in
+$\S$~\ref{sec:discuss}. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Variations to the Fiducial Model}
+\label{sec:variants}
+
+In this section, we investigate a series of more complex wind
+scenarios
+through modifications to the fiducial model.  These include relaxing
+the assumption of isotropy, introducing dust, adding an ISM
+component within $r_{\rm inner}$, and varying the normalization of the
+optical depth profiles.
+
+\subsection{Anisotropic Winds}
+\label{sec:anisotropic}
+
+The fiducial model assumes an
+isotropic wind with only radial variations in velocity and density. 
+Angular isotropy is obviously an idealized case, but
+it is frequently assumed in studies of galactic-scale outflows
+\citep[e.g.][]{steidel+10}.   There are several reasons, however, to
+consider anisotropic winds.  Firstly, galaxies are not spherically
+symmetric;  the sources driving the
+wind (e.g.\ supernovae, AGN) are very unlikely to be isotropically distributed
+within the galaxy.  
+Secondly, the galactic ISM frequently has a disk-like morphology
+which will suppress the wind preferentially at low galactic latitudes,
+perhaps yielding a bi-conic morphology \citep[e.g.][]{M87}.
+Lastly, the galaxy could be surrounded by an
+anisotropic gaseous halo whose interaction would produce an irregular 
+outflow.
+
+With these considerations in mind, we reanalyzed the fiducial model
+with the 3D algorithm after departing from isotropy.  It is beyond the
+scope of this paper to explore a full suite of anisotropic profiles.
+We consider two simple examples: (i) half the fiducial model, where 
+the density is set to zero for $2\pi$ steradians.  This model is
+viewed from $\phi = 0^\circ$ (source uncovered) 
+to $\phi = 180^\circ$ (source covered); and 
+(ii) a bi-conical wind where the density is set to zero for angles
+$|\theta| < \theta_b$ that and is viewed along the plane of symmetry.
+
+The resulting \ion{Mg}{2} and
+\ion{Fe}{2} profiles for the half wind are compared against the fiducial model
+(isotropic wind) in Figure~\ref{fig:anisotropic}.  
+Examining the \mgiid\ doublet, 
+the $\phi = 0^\circ$ model only shows
+line-emission from photons scattered
+off the back side.  These photons, by definition, have $\mdv \gtrsim 0 \mkms$
+relative to line-center (a subset have $\mdv \lesssim 0 \mkms$ because
+of turbulent motions in the wind). 
+When viewed from the opposite direction ($\phi = 180^\circ$), the
+absorption lines dominate but there is still significant
+line-emission, at $\mdv \approx 0 \mkms$ and at $\mdv < 0 \mkms$ which fills
+in the absorption, from photons that scatter through the wind.  The
+key difference from the isotropic wind is the absence of photons
+scattered to $\mdv > 100 \mkms$;  this also implies deeper 
+\mgiib\ absorption at $\mdv \approx -100 \mkms$. The 
+shift in velocity centroid and asymmetry of the emission lines
+serve to diagnose the degree of wind isotropy, especially in
+conjunction with analysis of the absorption profiles. 
+The results are similar for the \feiid\ resonance lines.  The
+\ion{Fe}{2}$^* \; \lambda 2612$ line, meanwhile, shows most clearly the
+offset in velocity between the source unobscured ($\phi = 0^\circ$)
+and source covered ($\phi = 180^\circ$) cases.  The offset of the
+\feiis\ lines is the most significant 
+difference from the fully isotropic wind.
+
+[Add a paragraph on the bi-conical wind]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Dust}
+\label{sec:dust}
+
+As described in $\S$~\ref{sec:dust_method}, 
+one generally expects dust in astrophysical environments that contain
+cool gas and metals.  This dust 
+modifies the observed wind profiles in two manners. 
+First, it is a source of opacity for all of 
+the photons.  This suppresses the flux at all
+wavelengths by $\approx \exp(-\mtaud)$ but because we re-normalize the
+profiles, this effect is essentially ignored.  Second, photons that are
+scattered by the wind must travel a greater
+distance to escape and therefore suffer from greater extinction.  A photon that is
+trapped for many scatterings may have a very high probability of being absorbed
+by dust.  
+Section~\ref{sec:dust_method} describes the details on our treatment of dust; we 
+remind the reader here that we assume a constant dust-to-gas ratio 
+that is normalized by the total optical
+depth \taud\ a photon would experience if it traveled from the
+source to infinity without scattering. 
+
+In Figure~\ref{fig:dust}, we show the \ion{Mg}{2} and \ion{Fe}{2}
+profiles of the fiducial model ($\mtaud = 0$) against a series of
+models with $\mtaud > 0$.  For the \ion{Mg}{2} transitions, the
+dominant effect is the suppression of line emission at $\mdv \ge 0
+\mkms$.  These `red' photons have scattered off the
+backside of the wind and must travel a longer path than other
+photons.  Dust leads to a differential reddening that increases with 
+velocity relative to line-center. This is a natural consequence of dust
+extinction and is most evident in the \feiic\ 
+emission profile which is symmetrically distributed around
+$\mdv= 0 \mkms$ in the $\mtaud=0$ model.   In terms of absorption, the profiles are
+nearly identical for $\mtaud \le 3$.  One requires very high
+extinction to eventually produce a deepening of the profiles at 
+$\mdv \approx -100 \mkms$.
+
+% The following could go in the Discussion section
+We conclude that dust has only a modest influence on this fiducial model and,
+by inference, models with moderate peak optical depth and
+significant velocity gradients with radius (i.e.\ scenarios where the
+photons scatter one to a few times before exiting).
+For qualitative changes, one requires an extreme level of
+extinction ($\mtaud = 10$).  In this case, the source would be
+extinguished by 15\,magnitudes and could never be observed. 
+Even $\mtaud = 3$ is larger than typically inferred for the
+star-forming galaxies that drive outflows \citep[e.g.][]{dust}.
+For the emission lines,
+the dominant effect is a reduction in the flux 
+with a greater extinction at higher velocities relative to line-center.
+In these respects, dust extinction crudely mimics the behavior of the
+anisotropic
+wind described in Section~\ref{sec:anisotropic}. [Is there a
+distinguishing factor, e.g. flux of 2612/2600??]
+
+
+\subsection{ISM}
+\label{sec:ISM}
+
+The fiducial model does not include gas associated with
+the interstellar medium of the galaxy, i.e.\ material at $r \sim
+0$\,kpc with $v_{\rm r} \approx 0 \mkms$.  This allowed us to focus on
+results related solely to a wind component.  The decision to ignore the ISM
+was also motivated by the general absence of significant absorption at
+$\mdv \approx 0 \mkms$ in galaxies that exhibit outflows 
+\citep[e.g.][]{wcp+09,rwk+10,steidel+10}.
+On the other hand, the stars that comprise the
+source are very likely embedded within and fueled by gas
+of the ISM.  
+Consider, then, a modification to the fiducial model that 
+includes an ISM. 
+Specifically, we assume the ISM component has density $n_{\rm H} = 1 \cm{-3}$ for
+$r_{\rm ISM} \le r < r_{\rm inner}$ with $r_{\rm ISM} = 0.5$\,kpc, 
+an average velocity of $\mvr = 0 \mkms$, and a larger turbulent velocity $b_{\rm ISM} = 40 \mkms$.
+%Figure~\ref{fig:ISM} summarizes the model.
+The resultant optical depth profile $\tau_{2796}$ is identical to the
+fiducial model for $r > 2$\,kpc, has a slightly higher opacity at
+$r=1-2$\,kpc, and has a very large opacity at $r = 0.5-1$\,kpc.
+
+In Figure~\ref{fig:ISM_spec}, the solid curves show the \ion{Mg}{2} and
+\ion{Fe}{2} profiles for the ISM+wind and fiducial 
+models. In comparison, the
+dotted curve shows the intrinsic absorption profile for the ISM+wind
+model corresponding to the (unphysical) case
+where none of the absorbed photons are scattered or re-emitted.   Focus first on the
+\ion{Mg}{2} doublet.  As expected, the dotted curve shows strong
+absorption at $\mdv \approx 0 \mkms$ and blueward.  The full models,
+in contrast, show non-zero flux at these velocities and even a
+normalized flux exceeding unity at $\mdv \approx 0 \mkms$.  In
+fact, the ISM+wind model is nearly identical to the fiducial model;
+the only quantitative difference is that the velocity centroid of
+the emission lines are shifted redward by $\approx +100 \mkms$.
+We have also examined the spatial emission of this model and note
+qualitatively similar results to the fiducial wind model
+(Figures~\ref{fig:fiducial_ifu_mgii} and \ref{fig:fiducial_ifu_feii}).
+
+There are, however, several qualitative differences 
+for the \ion{Fe}{2} transitions. 
+First, the \feiia\ transition in the ISM+wind model
+shows much stronger absorption at $\mdv \approx 0$
+to $-100 \mkms$.  In contrast to the \ion{Mg}{2} doublet,
+the profile is not filled in by scattered photons. Instead, 
+the majority of \feiia\ photons that are absorbed are re-emitted as
+\feiis$\lambda\lambda 2612, 2632$ photons.  In fact, the
+\feiia\ profile very nearly matches the profile without re-emission 
+(compare to the dotted lines); this transition provides a
+very good description of the intrinsic ISM+wind optical depth profile.  
+We conclude that resonant transitions that are coupled to (multiple)
+non-resonant, electric dipole transitions offer the best
+diagnosis of ISM absorption.
+
+The differences in the \ion{Fe}{2} absorption profiles are reflected
+in the much higher strengths ($3-10\times$) of emission from
+transitions to the excited states of \aconfig.   This occurs because:
+(1) there is greater absorption by the \feiid\
+resonance lines; (2) the high opacity of the ISM component leads to
+an enhanced conversion of resonance photons with $\mdv \approx 0\mkms$
+into \feiis\ photons.  This is especially notable for the
+\feiib\ transition whose coupled \feiis\ transition shows an equivalent width nearly
+$10\times$ stronger than for the fiducial model.  The relative
+strengths of the \feiib\ and \feiie\ lines provide a direct
+diagnostic on the degree to which the resonance lines are trapped.
+[Comment:  this is a product of $\tau_{2600}$ and the velocity
+gradient]
+
+Because of the high degree of photon trapping within the ISM
+component, this model does suffer more from dust extinction than the
+fiducial model.  We have studied the ISM+wind model including dust
+with $\mtaud=1$ (normalized to include the ISM gas).  All of the 
+emission lines are significantly reduced.  The \ion{Mg}{2} emission is
+affect most because these lines are resonantly trapped.  The \feiis\
+emission is also reduced relative to the dust-free model, but the
+absolute flux still exceeds the fiducial model
+(Table~\ref{tab:line_diag}).
+[Should I show a figure?] 
+
+\subsection{Varying $n_{\rm H}^0$}
+
+The final modification we applied to the fiducial model was to
+uniformly vary the normalization of the optical depth profiles.
+Specifically, we ran a series of additional models with $n_H^0$ at
+1/3, 3, and 10 times the fiducial value of $n_H^{0,f} = 0.1 \cm{-3}$.
+The resulting \ion{Mg}{2} and \ion{Fe}{2} profiles are compared
+against the fiducial model in Figure~\ref{fig:norm}.  Inspecting
+\ion{Mg}{2}, one notes that the models with 1/3 and $3 n_H^{0,f}$
+behave as expected.  Higher optical depth leads to greater \mgiia\
+absorption and stronger \mgiib\ emission such that the observed
+\mgiib\ absorption profile weakens.  In the extreme case for the
+normalization of $10 n_H^{0,f}$, the \mgiib\ absorption and \mgiia\
+emission have nearly disappeared and one primarily observes very
+strong \mgiia\ absorption and \mgiib\ emission.
+
+Similar behaviour is observed for the \ion{Fe}{2} transitions.
+Interestingly, the \feiia\ transiions never show significant emission,
+only stronger absorption with increasing $n_H^0$.  In fact, for $n_H^0
+> 2 n_H^{0,f}$ the peak optical depth of \feiia\ actually exceeds that
+for \feiib\ because the latter remains significantly filled-in by
+scattered photons.  [Is there a final point to make?]
+
+\subsection{Summary Table}
+
+Table~\ref{tab:line_diag} presents a series of quantitative measures
+for the \ion{Mg}{2} and \ion{Fe}{2} absorption and emission lines for
+the fiducial model ($\S$~\ref{sec:fiducial}) and a subset of the models
+presented in this section.  Listed are the absorption and emission
+equivalent widths ($W_{\rm a}, W_{\rm e}$), the peak optical depth
+for the absorption $\tau_{\rm pk}$, the
+velocity where the optical depth peaks $v_\tau$, the optical
+depth-weighted velocity centroid $v_{\bar \tau} \equiv \int dv \, v
+\ln[I(v)] / \int dv \ln[I(v)]$, the peak flux $f_{\rm pk}$ in
+emission, the velocity where the flux peaks $v_f$, and the
+flux-weighted velocity centroid of the emission line $v_{\bar f}$.
+We discuss several of these measures in $\S$~\ref{sec:discuss}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Alternate Wind Models}
+\label{sec:alternate}
+
+\subsection{The Lyman Break Galaxy Model}
+\label{sec:lbg}
+
+The Lyman break galaxies (LBGs), UV color-selected galaxies at $z \sim 3$,
+exhibit cool gas outflows in \ion{Si}{2}, \ion{C}{2},
+etc.\ transitions with speeds up to 1000\,\kms\
+\citep[e.g.][]{lkg+97,pks+98}.
+Researchers have invoked these winds to explain enrichment of
+the intergalactic medium \citep[e.g.][]{aguirre,spa+06}, the origin of the
+damped \lya\ systems \citep{nbf98,schaye01a}, and the formation of
+`red and dead' galaxies \citep[e.g.][]{redgal}.  Although the
+presence of these outflows were established over a decade ago,
+the processes that drive them remain
+unidentified.  Similarly,  current estimates of the mass and energetics of the
+outflow suffer from orders of magnitude uncertainty.
+
+Recently, \citet[][; hereafter S10]{steidel+10} introduced a model to
+explain jointly the average absorption they observed
+toward a set of several hundred LBGs and the average absorption in gas
+observed transverse to these galaxies.  
+Their wind model is defined by two
+expressions: (i) a radial velocity law $\mvr(r)$ and (ii) the covering
+fraction of optically thick `clouds' $f_c(r)$.  For the latter, S10
+envision an 
+ensemble of small, optically thick $(\tau \gg 1)$ clouds that only
+partially cover a galactic-scale source.
+For the velocity law, they adopted the following functional
+form
+
+\begin{equation}
+\mvr = \ltp \frac{A_{\rm LBG}}{1-\alpha} \rtp^{1/2} \ltk r_{\rm
+  inner}^{1-\alpha} - r^{1-\alpha} \rtk^{1/2}
+\label{eqn:LBG_vlaw}
+\end{equation}
+with $A_{\rm LBG}$ the constant that sets the terminal speed,
+$r_{inner}$ the inner radius of the wind (taken to be 1\,kpc), and
+$\alpha$ the power-law exponent that describes how steeply the velocity curve rises.  Their
+analysis of the LBG absorption profiles implied
+a very steeply rising curve with $\alpha \approx 1.3$.
+This velocity expression is shown as a dotted line in 
+Figure~\ref{fig:LBG_Sobolev}a.  
+
+The covering fraction of optically thick clouds, meanwhile, was assumed to have
+the functional form
+
+\begin{equation}
+f_c(r) = f_{c,max} \ltp \frac{r}{r_{\rm inner}} \rtp^{-\gamma} \cmma
+\label{eqn:covering}
+\end{equation}
+with $\gamma \approx 0.5$ and $f_{c,max}$ the maximum covering
+fraction.  From this expression and the velocity law, one can recover
+an absorption profile $I_{\rm LBG}(v) = 1 - f_c(r[v])$, written
+explicitly as
+
+\begin{equation}
+I_{\rm LBG}(v) = 1 - f_{c,max} \ltk r_{\rm inner}^{1-\alpha} - \ltp
+\frac{1-\alpha}{A_{\rm LBG}} \rtp v^2 \rtk^{\gamma/(\alpha-1)}
+\perd
+\label{eqn:LBG_I}
+\end{equation}
+The resulting profile for $f_{c,max} = 0.6$, $\gamma=0.5$,
+$\alpha=1.3$, and $A_{\rm LBG} = -192,000 \, \rm km^2 s^{-2} kpc^{-2}$ 
+is displayed in Figure~\ref{fig:LBG_Sobolev}b.  
+
+In the following, we consider two methods to analyze the LBG wind.
+Both approaches assume isotropy and adopt the velocity law given by
+Equation~\ref{eqn:LBG_vlaw}.  In one model, we treat the cool gas as a
+diffuse medium with unit covering fraction and a radial density
+profile determined from the Sobolev approximation.  We then apply 
+the Monte Carlo methodology used for the other wind models to predict
+\ion{Mg}{2} and \ion{Fe}{2} line profiles.  In the other model,
+we modify our algorithms to more precisely mimic the concept of an
+ensemble of optically thick clouds with a partial covering fraction on
+galactic scales.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Sobolev approximation}
+\label{sec:Sobolev}
+
+As demonstrated in Figure~\ref{fig:LBG_Sobolev}, the wind velocity for
+the LBG model rises very steeply with increasing radius before
+flattening at large radii.  Under these conditions, the Sobolev
+approximation provies an accurate relation between the optical depth
+of the flowing medium to the
+density and velocity gradient ($d\mvr/dr$) of the gas.  In our case, we 
+generate the optical depth profile in velocity space using Equation~\ref{eqn:LBG_I}, 
+
+\begin{equation}
+\tau_{\rm LBG}(v) = -\ln \ltk I_{\rm LBG}(v) \rtk \perd
+\label{eqn:tauLBG}
+\end{equation}
+We then invert the Sobolev approximation (Equation~\ref{eqn:Sobolev})
+to derive the radial density profile:
+
+\begin{equation}
+n_{\rm LBG}(r) = \frac{\tau_{\rm LBG}(r) \; d\mvr/dr}{\kappa_\ell
+  \lambda} \cmma
+\label{eqn:Sobolev}
+\end{equation}
+with $\lambda$ the rest wavelength and $\kappa_\ell \equiv f\pi^2
+e^2/m_e c$.  
+
+The solid curve in Figure~\ref{fig:LBG_Sobolev}a shows the
+resultant density profile for Mg$^+$ assuming that the \mgiia\ line
+follows the intensity profile drawn in Figure~\ref{fig:LBG_Sobolev}b. 
+This is a relatively extreme density profile.  From the inner radius
+of 1\,kpc to 2\,kpc, the density drops by over 2 orders of
+magnitude including nearly one order of magnitude over the first
+10\,pc.  Beyond 2\,kpc, the density drops even more rapidly, falling
+orders of magnitude from 2 to 100\,kpc.
+
+We verified that the Sobolev-derived density profile shown in
+Figure~\ref{fig:LBG_Sobolev}a
+reproduces the proper
+absorption profile by discretizing the gas into a series of layers
+and calculating the integrated absorption profile.  This
+calculation is shown as a dotted red curve in
+Figure~\ref{fig:LBG_Sobolev}b; it is an excellent
+match to the desired profile (black curve).
+To calculate the optical depth profiles for the other transitions, we
+assume $\mnfe = \mnmg/2$ and scale $\tau$ by the $f\lambda$ product.
+
+We generated \ion{Mg}{2} and \ion{Fe}{2} profiles for this wind
+using the 1D algorithm with no dust extinction; these are shown as
+red curves in Figure~\ref{fig:LBG_spec}.   For this analysis, one
+should focus on the \mgiia\ transition.  The dotted line in the Figure
+shows the intensity profile when one ignores re-emission
+of absorbed photons.  By construction, it is the exact profile\footnote{Note that
+  one should not make this comparison for the other transitions in
+  the Sobolev model because those are scaled down by $f\lambda$ and
+  for \ion{Fe}{2} the reduced Fe$^+$ abundance.} 
+described by Equation~\ref{eqn:LBG_I} and plotted in
+Figure~\ref{fig:LBG_Sobolev}b.   In comparison, the full model (solid,
+red curve)
+shows much weaker absorption, especially at $v = 0$ to $-300 \mkms$
+due to scattered photons.
+In this respect, our LBG-Sobolev model is an
+inaccurate description of the observations. The model
+also predicts significant emission in the \ion{Mg}{2} lines and several of
+the \ion{Fe}{2}$^*$ transitions.   Emission associated with cool gas
+has been observed for \ion{Si}{2}$^*$
+transitions in LBGs \citep{prs+02,shapley03}, but
+the \ion{Fe}{2}$^*$ transitions
+modeled here lie in the near-IR and have not yet been investigated.
+On the other hand, there have been no 
+reported detections of significant line-emission related to low-ion resonance
+transitions (e.g.\ \ion {Mg}{2}) in LBGs, only $z \le 1$ star-forming galaxies
+\citep{wcp+09,rwk+10}.  
+The principal result is that the scattering and re-emission of
+absorbed photons significantly alters the predicted absorption profiles
+for the inputted model.  This is, of course, an unavoidable
+consequence of an isotropic, dust-free model with unit covering
+fraction.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Partial Covering Fraction}
+\label{sec:Covering}
+
+In the previous sub-section, we described a Sobolev solution that
+reproduces the average absorption profile of LBGs in cool gas
+transitions when scattered photons are ignored.  A proper analysis
+that includes scattered photons,
+however, predicts line-profiles that are qualitatively
+different from the observations because these scattered photons fill-in
+absorption and generate significant line emission (similar to the
+fiducial wind model; $\S$~\ref{sec:fiducial}).
+This LBG-Sobolev model, however, differs from
+the one proposed by S10:  those authors proposed an ensemble of optically
+thick clouds with the (partial) covering fraction described by
+Equation~\ref{eqn:covering}, whereas the Sobolev model assumes
+a diffuse medium with a declining density profile but a unit covering
+fraction.  At face value, one may question whether this difference
+causes the contradictory results of the LBG-Sobolev model. 
+
+To more properly model the LBG wind described in S10, we 
+performed the following Monte Carlo calculation.  First, we propogated
+a photon from the source until its velocity relative to line-center
+resonates with the wind (the photon escapes if this never occurs).
+The photon then has a probability $P = f_c(r)$ of scattering.  If it
+scatters, we track the photon until it comes into
+resonance again\footnote{Because this wind has a monotonically
+  increasing velocity law, the photon may only interact again if a
+  longer wavelength transition is available, e.g.\ \mgiib\ for a
+  scattered \mgiia\ photon.} or escapes the system.  In this model, all of the
+resonance transitions are assumed to have identical (high) optical
+depth. 
+
+The results of the full calculation (absorption plus scattering) are
+shown as the black curve in Figure~\ref{fig:LBG_spec}.  Remarkably, the results
+are very similar to the LBG-Sobolev calculation; scattered photons fill-in
+the absorption profiles at $v \approx 0 \mkms$ and yield significant
+emission lines at $v \gtrsim 0 \mkms$ in the resonance
+lines. Furthermore, significant emission is observed 
+for the \feiis\ transitions, centered at $\mdv \approx 0 \mkms$.  
+In contrast to the \ion{Mg}{2} profiles, the predicted \ion{Fe}{2}
+lines (especially \feiia) much more closely resembl the intrinsic
+profiles (dotted curves).  This occurs because many of these
+absorbed photons flouresce into \feiis\ emission.
+The equivalent width of \feiia\ even exceeds that for \feiib, an
+inversion that, if observed, would strongly support this model.
+
+In principle, these differences may be reduced by increasing the
+assumed abundances of \nmg\ and \nfe.  A robust conclusion of our
+analysis, however, is that these simple models cannot reproduce the
+observed profiles of resonantly trapped lines like the \ion{Mg}{2}
+doublet because of the emission from scattered photons.  In order to
+achieve a significant opacity at $\mdv \approx 0 \mkms$, one must
+either suppress the line-emission (e.g.\ with severe dust extinction) 
+or include a substantial ISM component that absorbs light at $\mdv
+\gtrsim 0 \mkms$ (e.g.\ $\S$~\ref{sec:ISM}).  As we discuss in the
+following section, it is difficult (if not impossible) to fully
+suppress the line-emission.  This is especially true for a scenario
+with partial covering.
+
+
+Given the essentially perfect correspondence between the LBG-Sobolev and
+LBG partial covering models (for \mgiia), we are motivated to consider
+further the characteristics of the Sobolev model which has 
+an explicit density profile.  It is straightforward, then, to convert the density and
+velocity profiles into distributions of mass, energy, and momentum
+within
+the wind.  These are shown in cumulative form in
+Figure~\ref{fig:LBG_cumul}.  Before discussing the results, we offer
+two cautionary comments: (i) the conversion of \nmg\ to $n_{\rm H}$
+assumes a very poorly constrained scalar factor of $10^{5.47}$.  One
+should give minimal weight to the absolute values for any of the
+quantities;
+(ii) the Sobolev approximation is not a proper description of the S10
+LBG wind model.
+The primary result expressed by Figure~\ref{fig:LBG_cumul} is that the
+majority of energy, mass, and momentum in the wind is transported by
+the outer layers ($r > 20$\,kpc).  This is surprising given that the
+density is $\approx 5$~orders of magnitude lower at these radii than
+at $r = 1$\,pc.  [Is this unphysical?  Can we conflate it to then kill
+the S10 model?]
+
+We also caution that the \ion{C}{4} emission observed for LBGs
+\citep[e.g.][]{prs+02} may result from the galactic-scale outflow, not
+only the expected stellar winds of massive stars.
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Radiation Pressure}
+\label{sec:radiative}
+
+[Kate: Write the details of velocity + density law]
+
+\begin{equation}
+\mvr(r) = 2\sigma \sqrt{R_g \ltp \frac{1}{R_0} - \frac{1}{r} \rtp
+   + \ln\ltp R_0/r \rtp }
+\end{equation}
+
+\begin{equation}
+n(r) = \frac{dM_{\rm wind}/dt}{r^2 v(r)}
+\end{equation}
+Similar to the fiducial wind model, this wind has a decreasing density
+law with $n_{\rm H}$ roughly proportional to $r^{-2}$ [CHECK].
+To produce a wind whose \mgiia\ optical depth profile peaks at 
+$\tau_{2796}^{\rm max} \gtrsim 10$, we set $R_g = r_{\rm inner} =
+1\,\rm kpc$, $R_0=20\,\rm kpc$, and $\sigma = 125 \mkms$.  The density
+and velocity peak at $r=r_{\rm inner}$ where $n_{\rm H}^0 = 0.07
+\cm{-3}$ and $\mvr = 380 \mkms$.  This corresponds to a mass flow of
+$0.63 \msun\; \rm yr^{-1}$.  
+
+Figure~\ref{fig:rad_spec} presents the \ion{Mg}{2} and \ion{Fe}{2}
+profiles for a radiatively-driven wind model compared against the
+fiducial wind model.
+In contrast to the fiducial model, the
+velocity of the radiation-driven model decreases with increasing
+radius such that the optical depth peaks at large velocity (here $\mdv
+\approx -400 \mkms$).  At these velocities, the absorption is not
+filled-in by scattered photons such that one recovers absorption lines
+that very nearly match the intrinsic optical depth profile (dotted
+curve).  Although the \ion{Mg}{2} absorption profiles are very
+different from the fiducial model, the \ion{Mg}{2} line-emission has
+similar peak flux and velocity centroids (see also
+Table~\ref{tab:plaw_diag}).  The \feiis\ emisison also has a simiar
+equivalent width, yet the lines are much broader for the
+radiative-driven model. This reflects the fact that the peak optical
+depth occurs at $\mdv \approx -400 \mkms$.
+
+
+%%%%%%%%%%%%%%%%%%%%
+\subsection{Power-Law Models}
+\label{sec:power}
+
+The models investigated in the previous two sections
+assumed power-law descriptions for both the density and velocity
+laws (Equations~\ref{eqn:density},\ref{eqn:vel}).
+The power-law exponents were arbitrarily chosen, i.e.\ with little physical
+motivation.  In this sub-section, we explore the results for a series
+of other power-law expressions.
+We consider three different density laws ($n_{\rm H} \propto
+r^{-3}, r^{0}, r^2$) and three different velocity laws ($\mvr
+\propto r^{-2}, r^{-1}, r^{0.5}$) for 9 new wind models
+(Table~\ref{tab:plaw_parm}, Figure~\ref{fig:plaws}a).  
+[Comment in the Table how $\mvr$ is
+different when the velocity law is positive]  
+Each of these winds extends over the same inner and outer radii as the
+fiducial model.
+The density and velocity normalizations $n_{\rm H}^0, v^0$ have been
+modified to yield an \mgiia\ optical depth profile that peaks at
+$\tau_{2796}^{\rm max} \approx 10-10^3$ that usually decreases to
+$\tau_{2796} < 1$ (Figure~\ref{fig:plaws}b). [Use Sobolev?]
+All models assume a Doppler parameter
+$b=15\mkms$, full isotropy, and a dust-free environment.
+Lastly, the abundance of Mg$^+$ and Fe$^+$ ions scale with hydrogen as
+in the fiducial model.
+
+Figure~\ref{fig:plaws_spec} presents the \ion{Mg}{2} and \ion{Fe}{2}
+profiles for the full suite of power-law models.  Although these
+models differ qualitatively from the fiducial model in their density
+and velocity laws, the resultant profiles share many of the same
+features.  Each shows significant absorption at $\mdv < 0 \mkms$ with
+the profiles extending to the velocity where $\tau_{2796} < 0.1$
+(Figure~\ref{fig:plaws}b).  All of hte models also exhibit strong
+line-emission, primarily at velocities $\mdv \sim 0 \mkms$.  
+This emission fills-in the \ion{Mg}{2} absorption at $\mdv \gtrsim
+-100 \mkms$ such that the profiles never achieve a relative flux less
+than $\approx 0.1$ at these velocities.  [Comment on exceptions]
+Similar to the radiative driven wind ($\S$~\ref{sec:radiate}),
+however, the power-law models that have significant opacity at $\mdv <
+-300 \mkms$ have larger peak optical depths.  Another commonality is
+the weak or absent line-emission at \feiia; one instead notes strong
+\feiic\ emission that generally excees the equivalent width of the
+fiducial model.  
+
+One of the few distinctions of these models from the fiducial wind is
+the higher peak optical depth of absorption in the \feiib\
+transition.  This is predominantly due to the fact that several of
+these power law models have much higher peak optical depth in all
+transitions.  [Also due to ?]
+Table~\ref{tab:plaw_diag} compares measures of the absorption and
+emission profiles against the fiducial model.
+
+[Comment that $v(r)$ has a greater effect than $n(r)$.]
+
+
+
+%\section{Observables}
+%\label{sec:obs}
+%
+%%Although the focus of this paper is to explore the absorption/emission
+%profiles for idealized wind models, we ultimately intend to compare 
+%profiles like these against observations to constrain characteristics
+%of the wind (e.g.\ radial extent, energetics).  In this section we
+%consider a few observables and their dependence on the wind properties.
+%
+%\subsection{Absorption profiles}
+%
+% \begin{enumerate}
+%   \item Peak optical depth
+%     \begin{itemize}
+%       \item Not a robust measure of $\tau_{wind}$
+%       \item Not even a good relative predictor for $\tau$
+%       \item Not a robust predictor of $f_c$
+%       \item Scatter plot of $\tau$ inferred vs.\ $\tau$ true
+%     \end{itemize}
+%   \item Kinematics
+%     \begin{itemize}
+%       \item Nearly robust for $v<v_{min}$
+%       \item But what sets $v_{min}$?
+%       \item Generally get the full extent of the wind speed
+%       \item Plot $v_{pk}$ vs $\tau_{pk}$
+%     \end{itemize}
+%   \item EW
+%     \begin{itemize}
+%       \item Primarily set by $v_{min}(\tau \sim 1)$
+%       \item $f\lambda$ matters, but so do emission channels
+%       \item (EW measured - EW intrinsic) vs.\ EW intrinsic
+%     \end{itemize}
+%   \item Fine-structure
+%     \begin{itemize}
+%       \item Distance to the source
+%     \end{itemize}
+% \end{enumerate}
+%     
+%\subsection{Emission profiles}
+%
+% \begin{enumerate}
+%   \item Resonant lines
+%     \begin{itemize}
+%       \item Kinematics of backside
+%       \item Flux + relative
+%       \item Plot $v_{pk}$ emission vs.\ $v_{pk}$ absorption?
+%    \end{itemize}
+%   \item Fine-structure
+%     \begin{itemize}
+%       \item Flux $\propto \tau_{wind}$ + relative
+%       \item Kinematics (anisotropy)
+%    \end{itemize}
+% \end{enumerate}
+     
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion}
+\label{sec:discuss}
+
+Focuses on the observational consequences and implications if our results. 
+
+The previous sections presented idealized wind models for
+cool gas outflows, and explored the absorption/emission profiles of
+the \mgiid\ doublet and the \ion{Fe}{2} UV1 multiplet.  In addition to
+the ubiquitous presence of blue-shifted absorption, the wind models
+also predict strong line-emission in both resonance
+and non-resonance transitions.  For isotropic and dust-free scenarios,
+this is a simple convservation of photons: every photon emitted by
+the source eventually escapes the system maintaining an essentially
+zero total equivalent width. A principal result of this paper,
+therefore, is that cool gas outflows should generate detectable 
+line-emission.
+ 
+Indeed, line-emission from low-ion transitions has been reported from 
+star-forming galaxies that exhibit cool gas outflows.  
+This includes emission related to \ion{Na}{1} \citep{phillips,chen},
+\ion{Mg}{2} emission \citep{wcp+09,rwk+10}, 
+\ion{Si}{2}* emission from LBG galaxies \citep{shapley03},
+and most recently significant \feiis\ emission \citep{rubin+10c}. 
+These authors have proposed a variety of origins for this
+line-emission including AGN activity, recombination in \ion{H}{2}
+regions, and back-scattering off the galactic-scale wind.
+[Are there aspects of those works that are now understood, e.g. the
+difference in FeII 2586 and FeII 2600?]
+Our results suggest that the majority of this line-emission is 
+line-scattered photons in the cool gas outflows of these star-forming
+galaxies.  Indeed, our results indicate that line emission could and
+should be produced by all of these galaxies if the outflows 
+are nearly isotropic. [Add??]
+
+On the other hand,
+there are many examples of galaxies where blue-shifted absorption is
+detected yet the authors report no significant line emission.  This
+includes \ion{Na}{1} flows \cite{rupke,martin,sato}, 
+the \ion{Mg}{2} and \ion{Fe}{2} transitions studied in
+ULIRGS by \cite{mb09}, and the extreme \ion{Mg}{2} outflows identified
+by \cite{tmd07}.  Similarly, there have been no reports of
+resonance line-emission from low-ion transitions in the
+LBGs\footnote{\citet{psa+00}
+  reported and analyzed \ion{C}{4} line-emission from the lensed LBG
+  cb58, attributing this flux to stellar winds.  We caution, however,
+  that the galactic-scale wind proposed to exist for cb58 should also
+  have contributed to the \ion{C}{4} line-emission.}, and a subset of
+$z \lesssim 1$ galaxies show no detectable \ion{Mg}{2} or \ion{Fe}{2}*
+emission (Rubin et al., in prep). 
+These non-detections appear to contradict a primary conclusion of 
+this paper.   We are motivated, therefore, to
+reassess several of the effects that can reduce the line-emission
+and consider whether these could preclude its detection for many
+star-forming galaxies.  [If MgII emission is 'common' for HII regions,
+why don't we see it *always* when we see OII, Hbeta, etc? Is it
+trapped and then extincted? Same for FeII*]
+
+%% STOPPED HERE %%
+
+Dust is frequently invoked to explain the suppression of line emission
+related toresonantly trapped transitions (e.g.\ \lya).  Indeed, a photon
+that is trapped for many scatterings within a dusty medium will 
+preferentially be extincted relative to a non-resonant photon.  In
+$\S$~\ref{sec:dust}, we examined the effects of dust extinction on 
+\ion{Mg}{2} and \ion{Fe}{2} emission.  The general result was a modest
+suppression of the line flux of the order of (1+\taud)$^{-1}$ instead of
+exp(--\taud). Although the \ion{Mg}{2} photons are resonantly
+trapped, they require only one to a few scatterings
+to escape the wind model and dust has only a
+modest effect.  This results from the moderate opacity of the \ion{Mg}{2}
+doublet (e.g.\ relative to \lya) and also the velocity law of the
+fiducial wind model.
+As we have discussed, in scenarios where the \ion{Mg}{2} photons are
+more effectively trapped (i.e.\ for many scatterings), dust suppresses
+the emission further.
+We also emphasize that the \ion{Fe}{2} resonance photons, especially
+\feiia, are converted to non-resonant photons and escape the wind
+freely.  Therefore, a wind model that trapped \ion{Mg}{2}
+photons for many scatterings would not similarly trap 
+\feiid\ photons.  The effects of dust are much 
+reduced for \ion{Fe}{2}* and, by inference, any other set of
+transitions that are coupled to a fine-structure level (e.g.\
+\ion{Si}{2} and \ion{Si}{2}*).  In summary,
+dust does reduce the line flux relative to the continuum, but we
+conclude that it has only a modest effect on the predicted \ion{Mg}{2}
+and \ion{Fe}{2}* emission.     
+
+Another factor that may reduce the line-emission is a
+non-isotropic wind model. One may lower the flux, for example,  by
+removing the backside to the wind (e.g.\ the source itself could
+shadow a significant fraction of the backside).  To zeroth order, the line emission scales
+roughly as $\Omega/4\pi$ where $\Omega$ is the angular extent of the
+wind\footnote{There is also a first order dependence on the actual
+  orientation of the wind, with maximal emission when the backside is
+  fully viewed.}.  Because we require that the wind 
+points toward us, it is difficult to reduce $\Omega$ signficantly
+below $2 \pi$.  Therefore, we expect this effect to reduce the
+emission by at most a factor of order unity.  
+Similarly, an anisotropic source may alter the predicted
+line-emission.  For example, if the backside of the galaxy were
+brighter/fainter then would one predict brighter/fainter emission
+relative to the observed continuum.
+To reduce the emission, the brightest regions
+of the galaxy would need to be oriented toward Earth.  Although this
+would not be a
+generic occurance, most spectroscopic samples are magnitude-limited
+and therefore biased to detecting galaxies when viewed at their
+highest fluxes.
+
+Together, dust and non-isotropic wind models may reduce the line-emission
+of \ion{Mg}{2} and \ion{Fe}{2}
+by a factor of order unity.  This would generally
+not be sufficient, however, to reduce the emission below the typical detection
+limits. 
+
+There is another (more subtle) effect that in principle will
+substantially reduce the observed line emission: slit-loss.  As
+described in Figure~\ref{fig:fiducial_ifu_mgii}, 
+emission from the wind is spatially extended with
+a non-zero surface brightness predicted at large radii. This implies 
+a non-negligible luminosity emitted well beyond the galaxy.  
+The majority of observations of star-forming galaxies to date have
+been taken through a spectroscopic slit designed to cover
+the brightest continuum regions of the galaxy. Slits with angular
+extents of $1-1.5''$ subtend roughly $8-15$\,kpc for galaxies at $z>0.5$.
+Therefore, a $1''$ slit covering a galaxy with our fiducial wind would cover
+less than half the wind.  The result will be reduced line emission,
+even when compared to the galaxy continuum.
+
+We explore the effects of slit-loss as follows.
+We model the slit as a perfect, infinitely-long rectangle centered on the
+galaxy.  We then tabulate the equivalent width of the line-emission
+through slits with a range of widths, parameterized by twice the radius
+where the wind has a Sobolev optical depth of $\tau^S = 0.2$ (\rtt).
+The line-emission will be weak beyond
+this radius because the photons have only a low probability of
+interacting with the wind.  For the fiducial wind model, $\mrtt
+\approx 15$\,kpc for the \mgiia\ transition (Figure~\ref{fig:fiducial_nvt}).  
+
+The predicted equivalent width in emission \ewe\ relative to the absorption
+equivalent width \ewabs\ is presented in
+Figure~\ref{fig:obs_slit} for a series of transitions for the fiducial
+wind model (black curves).
+[Add LBG, radiative]
+The curves rise very steeply with increasing slit width and then
+plateau when the slit width is $\approx \mrtt$.  
+The results are comparable for other wind models considered
+in this paper (colored curves in Figure~\ref{fig:obs_slit}).
+All of the curves rise so steeply that 
+the effect is of slit-loss is of order unity
+unless the slit-width is very small.   
+Nevertheless, the results do motivate
+extended aperture observations, e.g.\ integral field unit (IFU)
+instrumentation that would map the wind both spatially and spectrally.
+
+
+Although several effects can reduce the line-emission
+relative to the absorption of the outflow, our analysis
+indicates that detectable line-emission should occur. 
+A principal effect of this emission is
+that it modifies the observed absorption profiles (e.g.\
+Figure~\ref{fig:noemiss}). This may lead to erroneous conclusions
+regarding several characteristics of the flow.  {\it An anaaaalysis of cool gas outflows
+that ignores line-emission may incorrectly conclude that the gas is
+partially covered, has a significantly lower peak optical depth,
+and/or that a $\mdv \sim 0 \mkms$ component is
+absent.}  Figure~\ref{fig:obs_ew} demonstrates one observational
+consequence of the line emission: reduced measurements for the absorption
+equivalent width \ewabs\ of the flow.  In the case of \ion{Mg}{2},
+which has the most affected transitions, the \ewabs\ is reduced by
+$30-50\%$ from the intrinsic absorption.  In turn, one may derive 
+a systematically lower optical depth or velocity extent for the wind,
+and therefore a lower total mass and kinetic energy.  
+The effects are most pronounced for wind
+scenarios where the peak optical depth occurs near $\mdv = 0 \mkms$.
+Geometric projection limits the majority of scattered photon emission to
+have $|\mdv| < 200 \mkms$; therefore,  the absorption profiles
+are filled-in primarily at these velocities.  In
+Figure~\ref{fig:obs_peaktau}, we plot the observed peak optical depth
+$tau_{\rm pk}$ for \mgiia\ 
+versus the velocity where the profile has greatest depth 
+for the various wind models (i.e.\
+$\tau_{\rm pk}$ vs.\ $v_\tau$ from Tables~\ref{tab:line_diag} and
+\ref{tab:plaw_diag}).   In every one of the models, the true peak
+optical depth $\tau_{\rm pk}^{\rm true} > 10$.  For the
+majority of cases with $v_\tau > -300\mkms$, one observes $\tau_{\rm pk} <
+2$ and would infer the wind is not even optically thick!
+This occurs because photons scattered by the wind have `filled-in' the
+absorption at velocity $\mdv \approx 0 \mkms$.  In contrast, the wind
+models with $v_\tau < -400 \mkms$ all give $\tau_{\rm pk} > 3$.  The
+results are similar for the \mgiib\ profile.  In fact, one infers a
+very similar $\tau_{\rm pk}$ for the two lines which would generally
+lead to the false conclusion of partial covering (and, correctly, a
+higher $\tau_{\rm pk}^{\rm true}$).  [Last thought?\
+
+All of these (somewhat negative) effects for \ion{Mg}{2} absorption are reduced
+for the \ion{Fe}{2} absorption profiles, especially for \feiia.  This
+is because a signficant fraction (even a majority) of the
+\ion{Fe}{2} emission is florescent \ion{Fe}{2}* emission at longer
+wavelengths, which has no effect on the absorption profiles. 
+Therefore, the \ion{Fe}{2} absorption equivalent widths (\ewabs) more
+closely follow the intrinsic value, one derives more accurate peak
+optical depths, and the absorption kinematics more faithfully reflect
+the motions of the flow.  Regarding the last point, one also
+predicts a velocity offset between the \ion{Fe}{2} and \ion{Mg}{2}
+centroids (Figure~\ref{fig:obs_vtau}).
+One is simply
+less sensitive to absorption at $v \sim 0 \mkms$ with the \ion{Mg}{2}
+transitions.  This includes gas realted to the ISM of the galaxy and
+also material infalling at a modest speed.  One must take careful
+consideration of line emission, therefore,  before drawing robust
+conclusions aobut the presence/absence of gas with small velocity
+offsets from systemic. [Comment on MgII moving too fast]
+
+We emphasize that all of these effects are heightened by the
+relatively low spectral resolution and S/N characteristic of the data
+obtained on $z>0$ star-forming galaxies.  Figure~\ref{fig:obs_lris}a
+shows one realization of the \mgiid\ doublet for the ISM+wind model
+convolved with the line-spread-function of the Keck/LRIS spectrometer
+(FWHM=250\kms) and an assumed S/N=7 per (1 \AA) pixel.  Both the absorption
+and emission profiles are evident, but it is evident that it will be
+very difficult to resolve the issues discussed above (e.g.\ partial
+covering, incorrect peak optical depth) with these data.  The effects
+are even more difficult to predict for spectral stacks, especially
+when the systemic redshifts are uncertain by $> 10 \mkms$ (e.g.\ S10).
+An example is presnted in Figure~\ref{fig:obs_lris}b, where we have
+averaged 100 identical \ion{Mg}{2} profiles from the fiducial model
+degraded to a S/N=2\,pix$^{-1}$ and assuming a random redshift error
+$\sigma(z) = 100\mkms$.  [Check S10 error] [Note the further shift in
+MgII 2796 due to the instrument resolution]
+
+[Should galaxies with strong \lya\ emission be expected to show
+low-ion emission? Perhaps not if \lya\ is produced by ionizing photons
+from SF regions.]
+
+[Could they have accidentally `sky subtracted' it?  I doubt it]
+
+The previous few paragraphs sound a cautionary and largely negative
+perspective on the implications for absorption-line analysis of
+galactic-scale outflows, in the presence of (expected) significant
+line-emission.   While this does complicate [the analysis],
+observations of the line emission alone offer new and unique
+constraints on the charcteristics of the outflow.  And when coupled
+with the absorption-line data, the two sets of constraints...
+The most direct measure provided by the line emission is an estimate
+of the size and morphology of the outflow \citep[e.g.][]{rubin+10c}.  
+Line emission is predicted to extend to radii where the Sobolev
+optical depth exceeds a few tenths [is that right?].  The principle
+challenge is to achieve sufficient sensitivity to detect the low
+surface brightness emission.  
+
+As Figure~\ref{fig:obs_sb}
+demonstrates, the surface brightness at the inner wind radius of our
+fiducial wind exceeds the outer radius by several orders of magnitude.
+Nevertheless, an instrument that sampled the entire wind (e.g.\ a
+large format IFU or narrow band imager) may detect the emission in
+azimuthally averaged apertures. [Give estimate]
+[Add FeII* to the SB figure]
+
+Of the transitions considered in this paper, \ion{Mg}{2} emission is
+preferred for [this analysis] because 
+(i) it has the largest equivalent width in absorption and
+(ii) there are fewer emission channels per absorption line than for
+\ion{Fe}{2}.  This implies the highest peak and integrated fluxes
+(Figure~\ref{fig:obs_sb}).  With an IFU observation covering all of
+the \ion{Fe}{2} transitions, one could sum the together to enhance the
+signal. 
+
+The kinematics of the line emission also offer insight into physical
+characteristics of the wind.
+
+[Relative strengths of MgII 2796 and 2803 speak to $\tau$ and
+$v_r^{max}$]
+
+%%%%%%%%%%%%%%%%%
+
+1)  Emission is a generic prediction of wind models (and something
+which has been essentially ignored aside from \lya).  We can discuss
+the caveats (dust, finite slit size, intrinsic spectrum).
+
+2)  Emission complicates the analysis of absorption at v$\sim$0 km/s, especially in
+resonantly trapped transitions (e.g. MgII, NaI).   This affects tau\_pk,
+C\_f and also offsets the line centroids (e.g. FeII, MgII).  These
+are primarily negative effects.
+
+3)  Emission can be used for good!   This is largely an extension of
+your emission paper, of course.
+
+   (i)  Morphology [MgII is likely best]
+  (ii)  Kinematics  --  FWHM, centroid $=>$  Wind speed, ISM
+ (iii)  Flux ratios?  e.g.   f\_2796/f\_2803 and/or f\_2626/f\_2600
+
+[Are MgII and FeII* emission strict predictions of outflows?  People
+have been so focused on absorption.]
+
+[Does recombination predict 2:1 for MgII??]
+[We also emphasize that departures from a 2:1
+ratio indicate that processes other than simple recombination are
+active. ]
+
+[Profiles are modified by {\it many} factors => Difficult to derive
+robust constraints from absorption alone.]
+
+[Is one safe if there is no emission detected?]
+
+[What does MgI tell us about winds?  Why no P-Cygni?]
+
+\section{Concluding remarks}
+\label{sec:conclude}
+
+1. More complicated winds needed
+
+2. Cosmological context (espeicially at $z>2$)
+
+\acknowledgments
+
+J.X.P and K.R. are partially supported
+by an NSF CAREER grant (AST--0548180), and 
+by NSF grant AST-0908910.
+
+\clearpage
+
+%\bibliographystyle{/u/xavier/NSF/SASIR/SASIR-ATI/prop2009/Text/nsfati}
+%\bibliography{/u/xavier/NSF/SASIR/SASIR-ATI/prop2009/Text/nsfati09}
+\bibliographystyle{/u/xavier/paper/Bibli/apj}
+\bibliography{/u/xavier/paper/Bibli/allrefs}
+
+\clearpage
+
+\input{../Tables/table_atomic.tex}
+\input{../Tables/tab_fiducial.tex}
+\input{../Tables/tab_fiducial_ew.tex}
+\input{../Tables/tab_meas_models.tex}
+\input{../Tables/tab_plaw_parm.tex}
+\input{../Tables/tab_meas_plaws.tex}
+
+\begin{figure}
+\epsscale{0.95}
+\plotone{../Figures/energy_levels.ps}
+\caption{
+Energy level diagrams for the \mgiid\ doublet and the UV1
+multiplet of \ion{Fe}{2} transitions   
+(based on Figure~7 from \cite{hmt+99}).
+Each transition shown is
+labeled by its rest wavelength (\AA) and Einstein A-coefficient
+(s$^{-1}$). Black upward arrows
+indicate the resonance-line transitions, i.e.\ those connected to the ground
+state.  The 2p$^6$3p configuration of Mg$^+$ is split into
+two energy levels that give rise to the \mgiid\ doublet.  
+Both the 3d$^6$4s ground state and 3d$^6$4p upper level of Fe$^+$
+exhibit fine-structure splitting that gives rise to a series of
+electric-dipole transitions. 
+The downward (green) arrows show the \feiis\ transitions that are connected to the
+resonance-line transitions (i.e.\ they share the same upper energy
+levels).  We also show a pair of levels (\ion{Fe}{2}$^* \lambda\lambda
+2618,2631$) that arise from higher levels in the \zconfig\
+configuration.  These transitions have not yet been observed in
+galactic-scale outflows and are not considered in our analysis.
+}
+\label{fig:energy}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{../Figures/fig_nvtau_vs_r.ps}
+\caption{
+Density (dashed; red), radial velocity (dotted; blue), and
+\mgiia\ optical depth profiles (solid; black) for the fiducial
+wind model (see Table~\ref{tab:fiducial} for details).
+The density and velocity laws are simple $r^{-2}$ and $r^1$
+power-laws.  The optical depth profile was calculated by summing
+the opacity at small and discrete radial intervals in velocity space
+and was then converted to radius with the velocity law.  One notes that
+the wind is optically thick at the inner radius ($r_{\rm inner} =
+1$\,kpc) and becomes optically thin at the outer radius ($r_{\rm
+  outer} = 20$\,kpc).
+Note that the density and velocity curves have been scaled for plotting
+convenience.  
+}
+\label{fig:fiducial_nvt}
+\end{figure}
+
+\begin{figure}
+\includegraphics[scale=0.6,angle=90]{../Figures/fig_fiducial_1d.ps}
+\caption{
+{\it Left} -- (Upper) \mgiid\ profiles for the fiducial wind model
+described in Table~\ref{tab:fiducial} and
+Figure~\ref{fig:fiducial_nvt}.  The doublet shows the P-Cygni profiles
+characteristic of an outflow with significant absorption blueward of
+line-center (dashed vertical lines) extending to $v = -1000\mkms$
+and significant emission redward of line-center.  Note
+that even though the peak optical depth of the \ion{Mg}{2} transitions
+is $\tau_{2796}^{\rm max} \approx 30$ at $v \approx -70 \mkms$,
+photons scattered off the outflow fill in the absorption.
+(Lower) \ion{Fe}{2} absorption and emission profiles for the UV1
+multiplet at $\lambda \approx 2600$\AA.  The \feiid\ resonance lines 
+show weaker absorption due to the smaller Fe$^+$ number density and
+lower $f\lambda$ values.  Each also shows a P-Cygni profile, although
+the emission for \feiia\ is significantly weaker than that of the
+\feiib\ and \mgiid\ transitions.  This is because a majority of the
+absorbed \feiia\ photons are converted into
+\ion{Fe}{2}$^*~\lambda\lambda 2612, 2632$ photons.
+{\it Right} -- A subset of the transitions displayed in a velocity
+plot.
+}
+\label{fig:fiducial_1d}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{../Figures/fig_noemiss.ps}
+\caption{
+The solid curves show the line profiles (absorption and emission) of
+the \ion{Mg}{2} and \ion{Fe}{2} resonance lines for the fiducial wind
+model.  These include the effects of scattered photons and show the
+canonical P-Cygni profiles of a source 
+embedded within an outflow.  Overplotted (dotted line) on each transition is
+the predicted absorption profile under the constraint that every
+absorbed photon is lost from the system, i.e.\ no scattering or
+re-emission occurs.   The true profiles have been `filled
+in' significantly by light scattered in the wind.  Ignoring this
+process, one would model the absorption lines with a systematically lower
+optical depth and (incorrectly) conclude that the source is partly covered by the
+gas.  
+}
+\label{fig:noemiss}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{../Figures/fig_fiducial_ifu_mgii.ps}
+\caption{
+Surface-brightness emission maps around the \mgiia\ transition for the
+source+wind complex of the fiducial model.  The middle panel shows the
+1D spectrum with $v=0 
+\mkms$ corresponding to $\lambda = 2796.35$\AA\ and the dotted vertical
+curves indicate the velocity slices for the emission maps.  The
+source has a size $r_{\rm source} = 0.5$\,kpc, traced by a few
+pixels at the center.   At $v=-250 \mkms$, the wind has an optical
+depth of $\tau_{2796} \approx 1$ and the source contributes
+roughly half of the observed flux.  At $v=-100 \mkms$ the
+wind absorbs all photons from the source and the observed emission is
+entirely due to photons scattered by the wind.  Impressively, this
+emission exceeds the integrated flux at $v = -250\mkms$ such that the
+line center is offset from the peak optical depth.  At $v \ge 0
+\mkms$,  both the source and wind contribute to the observed emission.
+At all velocities, the majority of emission comes from the inner
+$\approx 5$\,kpc.
+}
+\label{fig:fiducial_ifu_mgii}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{../Figures/fig_feii_ifu.ps}
+\caption{
+(Upper) Surface-brightness emission maps around the \feiib\ transition for the
+source+wind complex.  The middle panel shows the 1D spectrum with $v=0
+\mkms$ corresponding to $\lambda = 2600.173$\AA\ and the dotted vertical
+curves indicating the velocity slices for the emission maps.  
+The results are very similar to those observed for the \mgiid\ doublet
+(Figure~\ref{fig:fiducial_ifu_mgii}).
+(Lower) Surface-brightness emission maps around the \ion{Fe}{2}~$\lambda
+2612$ transition for the 
+source+wind complex.  The middle panel shows the 1D spectrum with $v=0
+\mkms$ corresponding to $\lambda = 2612.654$\AA\ and the dotted vertical
+curves indicating the velocity slices for the emission maps.  
+In this case, the source is unattenuated yet scattered photons from
+the wind also have a significant contribution. 
+}
+\label{fig:fiducial_ifu_feii}
+\end{figure}
+
+%\begin{figure}
+%\epsscale{0.8}
+%\plotone{Figures/fig_fiducial_cut.ps}
+%\caption{
+%The panels show the relative emission from the wind as a function of
+%radius for (a) \mgiia\ and (b) \feiib\ in a series of velocity
+%channels.  With the exception of $v = -100 \mkms$ for \mgiia, the wind
+%has finite transmission such that one observes the source at $r =
+%0$\,kpc.  In all cases,  the majority of emission occurs at $r
+%\lesssim 2.5$\,kpc, even if one ignores the source emission.
+%}
+%\label{fig:fiducial_cuts}
+%\end{figure}
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{../Figures/fig_asymm_spec.ps}
+\caption{
+Profiles of the \ion{Fe}{2} and \ion{Mg}{2} profiles for the fiducial
+case (black lines) compared against an anisotropic wind blowing into
+only $2\pi$ steradians as viewed from $\phi = 0^\circ$ (source
+uncovered) to $\phi = 180^\circ$ (source covered).  One detects
+significant emission for all orientations of this wind but significant
+absorption only for $\phi \ge 90^\circ$.
+The velocity centroid of the 
+emission shifts from positive to negative velocities as $\phi$
+increases and one transitions from viewing the wind to be behind the
+source to in front.  The velocity centroid of emission, therefore, may
+give a robust measure of wind isotropy.
+}
+\label{fig:anisotropic}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{../Figures/fig_dust_spec.ps}
+\caption{
+Profiles of the \ion{Fe}{2} and \ion{Mg}{2} profiles for the fiducial
+model (black) against a series of models that include 
+dust extinction.  The primary effect is suppression of
+the line-emission relative to the continuum. 
+A more subtle but important effect is that the redder photons in the
+emission lines (corresponding to higher velocity relative to
+line-center) suffer greater extinction.  This is most evident in the
+\feiic\ emission line; it occurs because these photons must
+travel farther to scatter off the backside of the wind.  Note that
+the absorption lines are nearly unmodified until $\mtaud = 10$, a
+level of extinction that would preclude observing the source
+altogether.
+}
+\label{fig:dust}
+\end{figure}
+
+%\begin{figure}
+%\epsscale{0.8}
+%\plotone{Figures/fig_ism_diagn.ps}
+%\caption{
+%Density (dashed; red), radial velocity (dotted; blue), and
+%\mgiia\ optical depth profiles (solid; black) for the ISM+wind
+%model.  The wind is identical to that from the fiducial model
+%(Figure~\ref{fig:fiducial_nvt}) but this ISM+wind model also includes an ISM component
+%with $n_{\rm H} = 1 \cm{-3}$ that has an average velocity of $\mvr = 0
+%\mkms$ and a large turbulent velocity $b_{\rm ISM} = 40 \mkms$.
+%Note that the density and velocity curves have been scaled for plotting
+%convenience.  
+%}
+%\label{fig:ISM}
+%\end{figure}
+
+\begin{figure}
+\epsscale{0.7}
+\plotone{../Figures/fig_ism_spec.ps}
+\caption{
+Profiles of the \ion{Fe}{2} and \ion{Mg}{2} profiles for the ISM+wind
+model (red) compared against the fiducial wind model (black). 
+The dotted line traces the predicted absorption profile in the absence
+of re-emission and scattering.
+Regarding the \ion{Mg}{2}~doublet, the primary difference between the
+ISM+wind and the fiducial models is the shift of $\approx 100 \mkms$
+in the emission lines from $v \approx 0 \mkms$ for the fiducial
+model to $v \approx +100\mkms$ for the ISM+wind model. 
+For the ISM+wind model, 
+the \ion{Fe}{2} profiles show qualitative differences. 
+the ISM model.  The \feiid\ resonance transitions each exhibit much
+greater absorption at $v \approx 0 \mkms$ than the fiducial model.
+The resonant line-emission is also substantially
+reduced, implying much higher fluxes for the non-resonant lines (e.g.\
+\feiic).  The lack of scattered \feiia\ photons results in an
+absorption profile that very nearly matches the input opacity profile.
+We conclude that resonance transitions that are strongly coupled to
+non-resonant lines offer the best
+characterization of an ISM component.
+}
+\label{fig:ISM_spec}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{../Figures/fig_norm_spec.ps}
+\caption{
+Varying normalization
+}
+\label{fig:norm}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{../Figures/fig_lbg_sobolev.ps}
+\caption{
+(a) The dotted curve shows the velocity law (values are labeled on the
+right side) for the LBG model
+of S10.  Note how rapidly the velocity rises from $r =
+1$ to 2\,kpc.  The solid curve shows the Sobolev solution for the
+Mg$^+$ gas
+density derived from 
+the average absorption profile of LBG galaxies (see below).
+The density drops off as $(r/{\rm kpc}-1)^{-0.6}$ initially and then
+steepens to $(r/{\rm kpc}-1)^{-1.8}$.
+(b) Average absorption profile for LBG cool gas absorption as
+measured and defined by S10
+(black solid curve).  Overplotted on this curve is a (red) dotted line that
+shows the \mgiia\ absorption profile derived from the density (and velocity)
+law shown in the upper panel.  The excellent agreement confirms the
+validity of the Sobolev approximation.
+}
+\label{fig:LBG_Sobolev}
+\end{figure}
+
+\clearpage
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{../Figures/fig_lbg_spec.ps}
+\caption{
+Profiles of the \ion{Fe}{2} and \ion{Mg}{2} profiles for the two
+LBG models considered: (red) the profiles from the 
+Sobolev approximation 
+and (black) a model constructed to faithfully
+correspond to the wind model advocated by S10.  The dotted line
+shows the absorption profiles of the latter model if one were
+to neglect scattered and re-emitted photons.  Similar to the fiducial
+model (Figure~\ref{fig:fiducial_1d}), scattered and re-emitted photons
+significantly modify the absorption profiles (especially \ion{Mg}{2})
+and produce significant emission lines.  
+The result, for \ion{Mg}{2} especially, is a set of profiles that do
+not match the average observed LBG absorption profile.
+Note the excellent agreement
+between the \mgiia\ profile for the two models. [Cast doubt on S10
+here?]
+}
+\label{fig:LBG_spec}
+\end{figure}
+
+\begin{figure}
+\includegraphics[scale=0.6,angle=90]{../Figures/fig_lbg_cumul.ps}
+\caption{
+Profiles of the \ion{Fe}{2} and \ion{Mg}{2} profiles for the fiducial
+}
+\label{fig:LBG_cumul}
+\end{figure}
+
+%%%% RADIATIVE %%%%%%
+%\begin{figure}
+%\epsscale{0.8}
+%\plotone{Figures/fig_radiation_nvt.ps}
+%\caption{
+%Radiation diagnosed
+%}
+%\label{fig:rad_nvt}
+%\end{figure}
+
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{../Figures/fig_rad_spec.ps}
+\caption{
+\ion{Mg}{2} and \ion{Fe}{2}
+profiles for a radiation-driven wind model (red) compared against the
+fiducial wind model (black).  In contrast to the fiducial model, the
+velocity of the radiation-driven model decreases with increasing
+radius such that the optical depth peaks at large velocity (here $\mdv
+\approx -400 \mkms$).  At these velocities, the absorption is not
+filled-in by scattered photons such that one recovers absorption lines
+that very nearly match the intrinsic optical depth profile (dotted
+curve).  Although the \ion{Mg}{2} absorption profiles are very
+different from the fiducial model, the \ion{Mg}{2} line-emission has
+similar peak flux and velocity centroids (see also
+Table~\ref{tab:plaw_diag}).  The \feiis\ emisison also has a simiar
+equivalent width, yet the lines are much broader for the
+radiative-driven model. This reflects the fact that the peak optical
+depth occurs at $\mdv \approx -400 \mkms$.
+}
+\label{fig:rad_spec}
+\end{figure}
+
+
+
+%%%% POWER LAWS %%%%
+\begin{figure}
+\epsscale{0.8}
+\plotone{../Figures/fig_vary_profiles.ps}
+\caption{
+Power-law profiles
+}
+\label{fig:plaws}
+\end{figure}
+
+\begin{figure}
+\includegraphics[scale=0.6,angle=90]{../Figures/fig_plaw_spec.ps}
+\caption{
+\ion{Mg}{2} and \ion{Fe}{2} profiles for a series of power-law wind
+models described in Table~\ref{tab:plaw_parm}.  These panels reveal
+the diversity of absorption and emission that result from a set of
+intrinsic optical depth profiles that have relatively modest
+differences (Figure~\ref{fig:plaws}b).  As designed, all of the models
+show significant absorption blueward of systemic velocity.  As
+important, each shows strong line-emission at $\mdv \sim 0 \mkms$,
+with the flux proportional to the degree of absorption.
+}
+\label{fig:plaws_spec}
+\end{figure}
+
+
+\begin{figure}
+\includegraphics[scale=0.6,angle=90]{../Figures/fig_obs_slit.ps}
+\caption{
+Emission equivalent width ($W_{\rm e}$) relative to the observed
+absorption equivalent width ($W_{\rm a}$) for a series of transitions:
+(solid -- \mgiia; dotted -- \mgiib; dashed -- \feiib).  The
+\ewe/\ewabs\ ratio is plottd as a function of slit width relative to
+twice the radius \rtt, defined to be where the Sobolev optical depth 
+$\tau^S = 0.2$.  The black curves correspond to the fiducial wind
+model ($\S$~\ref{sec:fiducial}), the red curves are for the
+LBG-partial covering scenario ($\S$~\ref{sec:Covering}), and the
+radiative-driven wind ($\S$~\ref{sec:radiative}) has blue curves.
+For all of the wind models, the \ewe/\ewabs\ ratio rises very steeply
+with slit width and plataeus at $\approx \mrtt$.  [Add?]
+}
+\label{fig:obs_slit}
+\end{figure}
+
+\begin{figure}
+\includegraphics[scale=0.6,angle=90]{../Figures/fig_obs_ew.ps}
+\caption{
+Difference between the `observed' absorption equivalent width \ewabs\
+which includes the flux of scattered photons and the intrinsic
+equivalent width $W_{\rm i}$ that ignores photon scattering.  The
+dashed (dotted) curves trace a 50\%\ (10\%) reduction in \ewabs\
+relative to $W_{\rm i}$.  One notes a reduction in \ewabs by $\approx
+30-50\%$ for the \mgiia\ transition (the effect is generally larger
+for \mgiib).  The effects of scattered photons are reduced for the
+\ion{Fe}{2} transitions because a fraction (in fact a majority for
+\feiia) of the absorbed photons flourecse as \feiis\ emission at
+longer wavelengths and do not `fill-in' the absorption profiles.
+}
+\label{fig:obs_ew}
+\end{figure}
+
+\begin{figure}
+\includegraphics[scale=0.6,angle=90]{../Figures/fig_obs_peaktau.ps}
+\caption{
+The observed peak optical depth $\tau_{\rm pk} \equiv -\ln [I_{\rm
+  min}]$ for \mgiia\ profiles of the wind models studied in this paper
+(Tables~\ref{tab:line_diag}, \ref{tab:plaw_diag}) with $I_{\rm min}$
+the minimum normalized intensity of the absorption profile.  Cases
+where \tpk\ exceeds 3 are presented as lower limits.  The \tpk\ values
+are plotted against the velocity $v_\tau$ where $I(v) = I_{\rm min}$.  In all
+of the models, the true peak optical depth $\mtpk^{\rm true} > 10$.
+The much lower `observed' values occur because scattered \mgiia\
+photons have filled-in the absorption profiels at velocities $\mdv
+\gtrsim -400 \mkms$.  Therefore, the effects are greates for wind
+models where the optical depth peaks near $\mdv \sim 0 \mkms$.
+Indeed, models with $v_\tau < -400 \mkms$ all show $\mtpk > 3$.
+}
+\label{fig:obs_peaktau}
+\end{figure}
+
+\begin{figure}
+\includegraphics[scale=0.6,angle=90]{../Figures/fig_obs_vtau.ps}
+\caption{
+Comparison of the velocities where the \feiia\ and \mgiia\ absorption
+profiles have observed peak optical depth.  Results for all the models
+studied in this paper are presented (Tables~\ref{tab:line_diag},
+\ref{tab:plaw_diag}).  The dashsed curve traces the one-to-one line.
+It is evident that for wind models have a peak optical depth near the
+systemic velocity, the \mgiib\ absorption profile is shifted blueward
+by one to several hundred \kms.  One may therefore falesly conclude
+that (i) the majority of mass in the wind is travelling at a higher
+velocity; and (ii) there is no gas with $\mdv \sim 0 \mkms$.
+}
+\label{fig:obs_vtau}
+\end{figure}
+
+\begin{figure}
+\includegraphics[scale=0.6,angle=90]{../Figures/fig_obs_lris.ps}
+\caption{
+Velocity offset
+}
+\label{fig:obs_lris}
+\end{figure}
+
+\begin{figure}
+\includegraphics[scale=0.6,angle=90]{../Figures/fig_obs_sb.ps}
+\caption{
+Surface brightness
+}
+\label{fig:obs_sb}
+\end{figure}
+
+
+
+\end{document}

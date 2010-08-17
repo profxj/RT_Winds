@@ -4,6 +4,8 @@
 \special{papersize=8.5in,11in}
 \begin{document}
 
+\newcommand{\tpk}{$\tau_{\rm pk}$}
+\newcommand{\mtpk}{\tau_{\rm pk}}
 \newcommand{\mdv}{\delta v}
 \newcommand{\ewabs}{$W_{\rm a}$}
 \newcommand{\ewe}{$W_{\rm e}$}
@@ -1193,6 +1195,7 @@ only the expected stellar winds of massive stars.
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Radiation Pressure}
+\label{sec:radiative}
 
 [Kate: Write the details of velocity + density law]
 
@@ -1816,19 +1819,19 @@ the wind also have a significant contribution.
 \label{fig:fiducial_ifu_feii}
 \end{figure}
 
-\begin{figure}
-\epsscale{0.8}
-\plotone{Figures/fig_fiducial_cut.ps}
-\caption{
-The panels show the relative emission from the wind as a function of
-radius for (a) \mgiia\ and (b) \feiib\ in a series of velocity
-channels.  With the exception of $v = -100 \mkms$ for \mgiia, the wind
-has finite transmission such that one observes the source at $r =
-0$\,kpc.  In all cases,  the majority of emission occurs at $r
-\lesssim 2.5$\,kpc, even if one ignores the source emission.
-}
-\label{fig:fiducial_cuts}
-\end{figure}
+%\begin{figure}
+%\epsscale{0.8}
+%\plotone{Figures/fig_fiducial_cut.ps}
+%\caption{
+%The panels show the relative emission from the wind as a function of
+%radius for (a) \mgiia\ and (b) \feiib\ in a series of velocity
+%channels.  With the exception of $v = -100 \mkms$ for \mgiia, the wind
+%has finite transmission such that one observes the source at $r =
+%0$\,kpc.  In all cases,  the majority of emission occurs at $r
+%\lesssim 2.5$\,kpc, even if one ignores the source emission.
+%}
+%\label{fig:fiducial_cuts}
+%\end{figure}
 
 \begin{figure}
 \epsscale{0.8}
@@ -1836,12 +1839,12 @@ has finite transmission such that one observes the source at $r =
 \caption{
 Profiles of the \ion{Fe}{2} and \ion{Mg}{2} profiles for the fiducial
 case (black lines) compared against an anisotropic wind blowing into
-only $2\pi$ steradians as viewed from $\theta = 0^\circ$ (source
-uncovered) to $\theta = 180^\circ$ (source covered).  One detects
+only $2\pi$ steradians as viewed from $\phi = 0^\circ$ (source
+uncovered) to $\phi = 180^\circ$ (source covered).  One detects
 significant emission for all orientations of this wind but significant
-absorption only for $\theta \ge 90^\circ$.
+absorption only for $\phi \ge 90^\circ$.
 The velocity centroid of the 
-emission shifts from positive to negative velocities as $\theta$
+emission shifts from positive to negative velocities as $\phi$
 increases and one transitions from viewing the wind to be behind the
 source to in front.  The velocity centroid of emission, therefore, may
 give a robust measure of wind isotropy.
@@ -2026,7 +2029,14 @@ Power-law profiles
 \begin{figure}
 \includegraphics[scale=0.6,angle=90]{Figures/fig_plaw_spec.ps}
 \caption{
-Power-law profiles spectral lines
+\ion{Mg}{2} and \ion{Fe}{2} profiles for a series of power-law wind
+models described in Table~\ref{tab:plaw_parm}.  These panels reveal
+the diversity of absorption and emission that result from a set of
+intrinsic optical depth profiles that have relatively modest
+differences (Figure~\ref{fig:plaws}b).  As designed, all of the models
+show significant absorption blueward of systemic velocity.  As
+important, each shows strong line-emission at $\mdv \sim 0 \mkms$,
+with the flux proportional to the degree of absorption.
 }
 \label{fig:plaws_spec}
 \end{figure}
@@ -2035,7 +2045,17 @@ Power-law profiles spectral lines
 \begin{figure}
 \includegraphics[scale=0.6,angle=90]{Figures/fig_obs_slit.ps}
 \caption{
-Slit width effects
+Emission equivalent width ($W_{\rm e}$) relative to the observed
+absorption equivalent width ($W_{\rm a}$) for a series of transitions:
+(solid -- \mgiia; dotted -- \mgiiab; dashed -- \feiib).  The
+\ewe/\ewabs\ ratio is plottd as a function of slit width relative to
+twice the radius \rtt, defined to be where the Sobolev optical depth 
+$\tau^S = 0.2$.  The black curves correspond to the fiducial wind
+model ($\S$~\ref{sec:fiducial}), the red curves are for the
+LBG-partial covering scenario ($\S$~\ref{sec:Covering}), and the
+radiative-driven wind ($\S$~\ref{sec:radiative}) has blue curves.
+For all of the wind models, the \ewe/\ewabs\ ratio rises very steeply
+with slit width and plataeus at $\approx \mrtt$.  [Add?]
 }
 \label{fig:obs_slit}
 \end{figure}
@@ -2043,7 +2063,16 @@ Slit width effects
 \begin{figure}
 \includegraphics[scale=0.6,angle=90]{Figures/fig_obs_ew.ps}
 \caption{
-EW effect
+Difference between the `observed' absorption equivalent width \ewabs\
+which includes the flux of scattered photons and the intrinsic
+equivalent width $W_{\rm i}$ that ignores photon scattering.  The
+dashed (dotted) curves trace a 50\%\ (10\%) reduction in \ewabs\
+relative to $W_{\rm i}$.  One notes a reduction in \ewabs by $\approx
+30-50\%$ for the \mgiia\ transition (the effect is generally larger
+for \mgiib).  The effects of scattered photons are reduced for the
+\ion{Fe}{2} transitions because a fraction (in fact a majority for
+\feiia) of the absorbed photons flourecse as \feiis\ emission at
+longer wavelengths and do not `fill-in' the absorption profiles.
 }
 \label{fig:obs_ew}
 \end{figure}
@@ -2051,7 +2080,18 @@ EW effect
 \begin{figure}
 \includegraphics[scale=0.6,angle=90]{Figures/fig_obs_peaktau.ps}
 \caption{
-EW effect
+The observed peak optical depth $\tau_{\rm pk} \equiv -\ln [I_{\rm
+  min}]$ for \mgiia\ profiles of the wind models studied in this paper
+(Tables~\ref{tab:line_diag}, \ref{tab:plaw_diag}) with $I_{\rm min}$
+the minimum normalized intensity of the absorption profile.  Cases
+where \tpk\ exceeds 3 are presented as lower limits.  The \tpk\ values
+are plotted against the velocity $v_\tau$ where $I(v) = I_{\rm min}$.  In all
+of the models, the true peak optical depth $\mtpk^{\rm true} > 10$.
+The much lower `observed' values occur because scattered \mgiia\
+photons have filled-in the absorption profiels at velocities $\mdv
+\gtrsim -400 \mkms$.  Therefore, the effects are greates for wind
+models where the optical depth peaks near $\mdv \sim 0 \mkms$.
+Indeed, models with $v_\tau < -400 \mkms$ all show $\mtkp > 3$.
 }
 \label{fig:obs_peaktau}
 \end{figure}
@@ -2059,7 +2099,15 @@ EW effect
 \begin{figure}
 \includegraphics[scale=0.6,angle=90]{Figures/fig_obs_vtau.ps}
 \caption{
-Velocity offset
+Comparison of the velocities where the \feiia\ and \mgiia\ absorption
+profiles have observed peak optical depth.  Results for all the models
+studied in this paper are presented (Tables~\ref{tab:line_diag},
+\ref{tab:plaw_diag}).  The dashsed curve traces the one-to-one line.
+It is evident that for wind models have a peak optical depth near the
+systemic velocity, the \mgiib\ absorption profile is shifted blueward
+by one to several hundred \kms.  One may therefore falesly conclude
+that (i) the majority of mass in the wind is travelling at a higher
+velocity; and (ii) there is no gas with $\mdv \sim 0 \mkms$.
 }
 \label{fig:obs_vtau}
 \end{figure}

@@ -12,7 +12,7 @@
 LINES lines;
 
 // monte carlo parameters
-double n_photons =  2e7;    // number of photons
+double n_photons =  1e8;    // number of photons
 double stepsize  = 0.01;   // maximum size of photon step 
 
 // output spectrum parameters

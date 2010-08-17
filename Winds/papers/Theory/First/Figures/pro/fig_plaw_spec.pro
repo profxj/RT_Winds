@@ -2,7 +2,7 @@ pro fig_plaw_spec, RREAL=rreal
 
   if not keyword_set( PSFILE ) then psfile = 'fig_plaw_spec.ps'
   if not keyword_set(PAD_FRAC) then pad_frac = 0.1
-  if not keyword_set(CSZ) then csz = 1.5
+  if not keyword_set(CSZ) then csz = 1.8
   if not keyword_set(CSZ2) then csz2 = 2.3
   if not keyword_set(lSZ) then lsz = 1.5
   if not keyword_set(lSZ2) then lsz2 = 1.3

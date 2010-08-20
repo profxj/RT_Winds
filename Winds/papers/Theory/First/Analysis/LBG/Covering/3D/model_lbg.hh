@@ -40,7 +40,6 @@ public:
   double Velocity(double);
   double Covering(double);
   double v_doppler()    { return vdop; }
-  double line_opacity(int ind) { return opac[ind]; }
 
   void Wipe_J_UV();
   void Reduce_J_UV();

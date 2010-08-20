@@ -40,6 +40,7 @@ double MODEL::Velocity(double r)
 }
 
 double MODEL::Covering(double r)
+{
   if (r <= r_inner) return 0.;
   return LBG_fc * pow(r/r_inner, -1*LBG_gamma);
 }

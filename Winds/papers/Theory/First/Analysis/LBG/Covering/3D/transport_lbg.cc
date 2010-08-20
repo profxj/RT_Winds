@@ -7,7 +7,7 @@
 #include "locate_array.hh"
 #include "anvoigt.hh"
 #include "spectrum.hh"
-#include "model.hh"
+#include "model_lbg.hh"
 #include "lines.hh"
 #include "physical_constants.hh"
 
@@ -36,16 +36,16 @@ double stepfrac = 0.7;
 void Run_Monte_Carlo(double n_photons)
 {
   // local variables
-  int    i, scatter;
+  int    i, scatter, l_scat;
   int l, flg_resonance[50];
-  double tau_r, tau_x, rad;
+  double tau_r, tau_x, rad, r_sq, cover;
   double l_step, step, max_step;
   double Pe, lobs, r_rot[3];
   PHOTON p;
 
   // functions to call
   void MPI_Average_Array(double *, int);
-  double P_esc(double, double*);
+  double P_esc(double, double*, int);
   double Get_vdotD(double,double*, double*);  // Vector only
   void Emit(PHOTON*, double);
   void Line_Scatter(PHOTON&, double, double*);
@@ -63,11 +63,16 @@ void Run_Monte_Carlo(double n_photons)
     p.E_p = model.L_tot/(1.0*n_photons); 
 
     // add in straight light
-    Pe   = P_esc(p.lloc,p.r);  // This one need not be unity
+    Pe   = P_esc(p.lloc,p.r, -1);  // This one need not be unity
     lobs = p.lloc*(1 - Get_vdotD(model.r_emit, p.r,D_obs)/C_LIGHT);
     Get_Rotated_Coords(p.r,r_rot);
-    spectrum.Count(1,lobs,r_rot[0],r_rot[1],p.E_p*Pe);
+    spectrum.Count(1,lobs,abs(r_rot[0]),abs(r_rot[1]),p.E_p*Pe);
 
+    // Did we escape right out?
+    if (Pe > 0.99999) continue;
+    // printf("# Got here \n");
+
+    // Reset the flag
     for (l=0;l<50;l++) flg_resonance[l] = 0;
 
     // propogate until escaped (unless nothing stands in the way)
@@ -89,9 +94,10 @@ void Run_Monte_Carlo(double n_photons)
       max_step = step;
 
       scatter = -1;
+      l_scat = -1;
 
       // calculate random step size to each possible line scatter
-      if (rad > r_inner) { 
+      if (rad > model.r_inner) { 
 	//l_step = VERY_LARGE_NUMBER;
       	//int l_scat = 0;
 	for (int j=0;j<lines.n();j++)
@@ -113,7 +119,7 @@ void Run_Monte_Carlo(double n_photons)
 
       // Did we escape?
       r_sq = p.r[0]*p.r[0] + p.r[1]*p.r[1] + p.r[2]*p.r[2];
-      if (r_sq > r_outer*r_outer) {count_it = 1; break;}
+      if (r_sq > model.r_outer*model.r_outer) {break;}
       
       // Do line scatter if necessary
       if (scatter == 1) 
@@ -126,9 +132,9 @@ void Run_Monte_Carlo(double n_photons)
 
 	// count scattered light
 	lobs = p.lloc*(1 - Get_vdotD(rad, p.r,D_obs)/C_LIGHT);
-	Pe   = P_esc(p.lloc,p.r)*lines.P_scat(l_scat);  // Check to come into resonance with redder lines
+	Pe   = P_esc(p.lloc,p.r,l_scat)*lines.P_scat(l_scat);  // Check to come into resonance with redder lines
 	Get_Rotated_Coords(p.r,r_rot);
-	spectrum.Count(1,lobs,r_rot[0],r_rot[1],p.E_p*Pe); 
+	spectrum.Count(1,lobs,abs(r_rot[0]),abs(r_rot[1]),p.E_p*Pe); 
 
 	// count branching lines
 	double dvdp = vscat[0]*D_obs[0] + vscat[1]*D_obs[1] + vscat[2]*D_obs[2];
@@ -177,7 +183,8 @@ void Run_Monte_Carlo(double n_photons)
 
 
 double Get_vdotD(double rad, double *r, double *D)
-  vel = model.Velocity(rad);
+{
+  double vel = model.Velocity(rad);
   double vd = vel*(D[0]*r[0] + D[1]*r[1] + D[2]*r[2])/rad;  
   return vd;
 }
@@ -194,7 +201,7 @@ void Emit(PHOTON *p, double rphot)
   double cost_core  = 1 - 2.0*gsl_rng_uniform(rangen);
   double sint_core  = sqrt(1-cost_core*cost_core);
   // real coordinates
-  remit = rphot * gsl_rng_uniform(rangen);
+  double remit = rphot * gsl_rng_uniform(rangen);
   p->r[0] = remit*sint_core*cosp_core;
   p->r[1] = remit*sint_core*sinp_core;
   p->r[2] = remit*cost_core;
@@ -224,7 +231,7 @@ void Line_Scatter(PHOTON &p, double lam, double *uvec)
   p.xloc = (p.lloc/lam - 1)*C_LIGHT/model.v_doppler();
 
   // get three velocity components of scatterer
-  double temp = 0.5*M_PROTON*pow(model.v_doppler,2)/K_BOLTZ;
+  double temp = 0.5*M_PROTON*pow(model.v_doppler(),2)/K_BOLTZ;
   double apar = 4.7e-3*sqrt(1e4/temp);
   u0 = voigt.Sample_U(p.xloc,apar);
   R10 =  gsl_rng_uniform(rangen);
@@ -279,72 +286,96 @@ void Line_Scatter(PHOTON &p, double lam, double *uvec)
 
 }
 
-double P_esc(double lloc, double *r)
+///////////////////////////////////// /////////////////////////////////////
+//  Escape probability
+double P_esc(double lloc, double *r, int l_scat)
 {
-  double MAX_TAU = 20;
-  double xloc;
-  int ind;
-  
-  double dr = model.dx*stepfrac;
+  double xloc, TOT_ESC, r_sq, step;
+  int scatter,  flg, j, l;
+
+  int n_lines = lines.n();
+
+  TOT_ESC = 1.;
+
+  // See if there is a transition to the red
+  flg = 0;
+  if(l_scat >= 0) {
+    for (j=0; j<n_lines;j++) {
+      if (lines.lambda(j) > lines.lambda(l_scat) && j != l_scat) {flg=1;} // Yes there is
+    }
+    if (flg == 0) return TOT_ESC;  // No there isn't
+  }
+  // printf("# Got here\n");
   
   double xr[3];
   xr[0] = r[0];
   xr[1] = r[1];
   xr[2] = r[2];
 
-  int n_lines = lines.n();
+  double rad = sqrt(xr[0]*xr[0] + xr[1]*xr[1] + xr[2]*xr[2]);
+  double lam = lloc*(1 - Get_vdotD(rad, xr, D_obs)/C_LIGHT);
 
-  // get location
-  ind = model.Locate_Zone(xr);
-  if (ind < 0) return 1;
-  double lam = lloc*(1 - model.vdotD(ind,D_obs)/C_LIGHT);
+  int  flg_resonance[50];
+  for (l=0;l<50;l++) flg_resonance[l] = 0;
 
-
-  // integrate along a ray to the observer
-  double tau = 0;
-  for (double z = 0;z < model.xmax; z+= dr)
-  {
-    lloc = lam/(1 - model.vdotD(ind,D_obs)/C_LIGHT);
-
-    for (int j=0;j<n_lines;j++) 
+  while (1)
     {
-      xloc = (lloc/lines.lambda(j) - 1)*C_LIGHT/model.v_doppler(ind);
-      tau += model.opac[ind]*lines.cs(j)*(dr*KILOPARSEC)*voigt.Profile(xloc,model.apar[ind]);
+      
+      // photon wavelength in local frame
+      rad = sqrt(xr[0]*xr[0] + xr[1]*xr[1] + xr[2]*xr[2]);
+      lloc = lam/(1 - Get_vdotD(rad, xr, D_obs)/C_LIGHT);
+      
+      // Variable step size (kpc)
+      if (rad < 2.0) step = 1e-4;
+      else {
+	if (rad > 10.0) step = 0.1; else step = 0.01;
+      }
+      
+      scatter = -1;
+      l_scat = -1;
+      
+      // calculate random step size to each possible line scatter
+      if (rad > model.r_inner) { 
+	//l_step = VERY_LARGE_NUMBER;
+      	//int l_scat = 0;
+	for (j=0;j<lines.n();j++)
+	  {
+	    xloc = (lloc/lines.lambda(j) - 1)*C_LIGHT/model.v_doppler();
+	    // In resonance, 
+	    if ((xloc*xloc) <  1 && flg_resonance[j] == 0) {
+	      TOT_ESC *= (1-model.Covering(rad));
+	      flg_resonance[j] = 1;
+	    }
+	  }
+      }
+      
+      // take the step
+      xr[0] += D_obs[0]*step;
+      xr[1] += D_obs[1]*step;
+      xr[2] += D_obs[2]*step;
+
+      // Did we escape?
+      r_sq = xr[0]*xr[0] + xr[1]*xr[1] + xr[2]*xr[2];
+      if (r_sq > model.r_outer*model.r_outer) return TOT_ESC;
     }
-
-    if (tau > MAX_TAU) break;
-    
-    // take the step
-    xr[0] += D_obs[0]*dr;
-    xr[1] += D_obs[1]*dr;
-    xr[2] += D_obs[2]*dr;
-
-    // get location
-    ind = model.Locate_Zone(xr);
-    if (ind < 0) break;
-  }
-    
-  double P;
-  if (tau >= MAX_TAU) P = 0;
-  else P = exp(-tau);
-  return P;
+      
 }
 
 
 void Get_Rotated_Coords(double *r, double *f)
 {
-  double r0 = r[0] - model.xmax/2.0;
-  double r1 = r[1] - model.xmax/2.0;
-  double r2 = r[2] - model.xmax/2.0;
+  double r0 = r[0] - model.r_outer;
+  double r1 = r[1] - model.r_outer;
+  double r2 = r[2] - model.r_outer;
 
   // apply rotation matrix 
   f[0] = cos_obs[0]*cos_obs[2]*r0 - cos_obs[3]*r1 + cos_obs[1]*cos_obs[2]*r2;
   f[1] = cos_obs[0]*cos_obs[3]*r0 + cos_obs[2]*r1 + cos_obs[1]*cos_obs[3]*r2;
   f[2] = -1*cos_obs[1]*r0 +  cos_obs[0]*r2;
 
-  f[0] = f[0] + model.xmax/2.0;
-  f[1] = f[1] + model.xmax/2.0;
-  f[2] = f[2] + model.xmax/2.0;
+  f[0] = f[0] + model.r_outer;
+  f[1] = f[1] + model.r_outer;
+  f[2] = f[2] + model.r_outer;
   
 }
 

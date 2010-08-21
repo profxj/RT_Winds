@@ -72,6 +72,9 @@ pro mkall_fig
   fig_lbg_spec
   fig_lbg_cumul
 
+  ;; Clump
+  fig_lbg_clump_mass
+  fig_lbg_clump_eandp
 
 ;;;;;;;;;;;;;;;;
 ;; Observations

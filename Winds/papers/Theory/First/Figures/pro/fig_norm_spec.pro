@@ -7,7 +7,7 @@ pro fig_norm_spec, RREAL=rreal
   if not keyword_set(lSZ) then lsz = 1.3
   if not keyword_set(lSZ2) then lsz2 = 1.5
   if not keyword_set(XNCOLORS) then xncolors=200L
-  if not keyword_set(YSTP) then ystp = 0.07
+  if not keyword_set(YSTP) then ystp = 0.08
 
   xlbl = 0.3
   xlbl2 = 0.05
@@ -78,7 +78,8 @@ pro fig_norm_spec, RREAL=rreal
         ;; Label
         if ss EQ 0 then  xyouts, xrng[0] + xlbl2*(xrng[1]-xrng[0]), $
                                  yrng[1] - (0.1 + kk*ystp)*(yrng[1]-yrng[0]), $
-                                 'Norm = '+string(norm,format='(f4.1)'), $
+                                 'n!S!dH!R!N!u0!N = '+string(norm,format='(f4.1)')+$
+                                 'n!S!dH!R!N!u0,f!N', $
                                  color=clrs[kk], charsi=lsz
      endfor
   endfor
@@ -123,7 +124,8 @@ pro fig_norm_spec, RREAL=rreal
      ;; Label
      xyouts, xrng[0] + xlbl2*(xrng[1]-xrng[0]), $
              yrng[1] - (0.1 + kk*ystp)*(yrng[1]-yrng[0]), $
-             'Norm = '+string(norm,format='(f4.1)'), $
+             'n!S!dH!R!N!u0!N = '+string(norm,format='(f4.1)')+$
+             'n!S!dH!R!N!u0,f!N', $
              color=clrs[kk], charsi=lsz
 
   endfor

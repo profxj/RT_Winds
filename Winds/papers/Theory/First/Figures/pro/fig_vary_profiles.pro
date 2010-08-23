@@ -1,7 +1,7 @@
 pro fig_vary_profiles, RREAL=rreal, STRCT=strct
 
   if not keyword_set( PSFILE ) then psfile = 'fig_vary_profiles.ps'
-  if not keyword_set(CSZ) then csz = 1.2
+  if not keyword_set(CSZ) then csz = 1.4
   if not keyword_set(lSZ) then lsz = 1.4
   if not keyword_set(XNCOLORS) then xncolors=200L
 
@@ -125,7 +125,7 @@ pro fig_vary_profiles, RREAL=rreal, STRCT=strct
      xrng=[0., 1000.]
      plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
            ytitle='!9t!X!d2796!N', ytickformat='x_logticks', $
-           xtitle='v!dr!N (km s!u-1!N)', yrange=yrng, thick=4, $
+           xtitle='v!N (km s!u-1!N)', yrange=yrng, thick=4, $
            xmargin=xmrg, ymargin=ymrg, $
            xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /noerase, /ylog
 

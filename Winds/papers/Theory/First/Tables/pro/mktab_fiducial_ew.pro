@@ -29,7 +29,7 @@ pro mktab_fiducial_ew, outfil
           'Fiducial Model\label{tab:fiducial_EW}}'
   printf, 91,  '\tabletypesize{\footnotesize}'
   printf, 91,  '\tablehead{\colhead{Transition} & \colhead{$v_{\rm int}^a$} & ' + $
-    '\colhead{$W_{\lambda}$} \\ '
+    '\colhead{$W_{\lambda}^b$} \\ '
   printf, 91,  '& (\kms) & (\AA) }'
   printf, 91, '\startdata'
 
@@ -85,6 +85,7 @@ pro mktab_fiducial_ew, outfil
 ;  printf, 91, '\tablecomments{Unless specified otherwise, all quantities refer to the \sna=2 threshold.  The cosmology assumed has $\Omega_\Lambda = 0.7, ' + $
 ;          '\Omega_m = 0.3$, and $H_0 = 72 \mkms \rm Mpc^{-1}$.}'
   printf, 91, '\tablenotetext{a}{Velocity interval over which the equivalent width is calculated.}'
+  printf, 91, '\tablenotetext{b}{Negative values indicate line-emission.}'
   printf, 91, '\end{deluxetable}'
 
   close, /all

@@ -34,6 +34,7 @@ Xavier
 	26. Put FeII* 'calculation' in the Methodology section
 	27. "Observe" the fiducial model through LRIS
 	28. Re-measure W_a when varying the slit width (fig_obs_slit)
+29. Correct all the Table 4, 6 values (e.g. Weak FeII 2586 emission)
 
 ---------------------
 Dan

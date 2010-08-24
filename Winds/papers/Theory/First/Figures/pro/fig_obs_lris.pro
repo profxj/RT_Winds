@@ -36,7 +36,6 @@ pro fig_obs_lris, FE=fe
      yrng=[-0.1, 2.8]
      xrng=[2785., 2811.] 
   endif else begin
-     stop
      Mg_fil = '../Analysis/Fiducial/Output/spec_FeII_fiducial.dat'
      xtit='Velocity (km/s) Relative to FeII 2600'
      yrng=[-0.1, 1.8]

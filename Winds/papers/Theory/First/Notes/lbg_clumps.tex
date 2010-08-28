@@ -51,18 +51,23 @@
 \begin{document}
 
 \begin{center}
-{\Large Simple Exploration of the LBG Clump Model (Steidel+10)}
+{\Large Simple Exploration of the LBG Clump Model (Steidel+10): v2}
 \end{center}
 
 Here are some definitions of key quantities: 
 
 \begin{my_itemize}
 \item \nc: Number of clumps in a given shell of width $\Delta r$
+\item $\Delta v_c$: Internal velocity dispersion of the clump (e.g.\
+  10 km/s)
+\item $\Delta r$: Width of the shell. This will relate to the internal
+  velocity dispersion of the clumps.
+\item $n$: Number density of clumps at radius $r$
 \item $d_c$: Size of the clump (assumed to be cubes)
 \item $\sigma$: Cross-section of the clump ($d_c^2$)
 \item $n_c$: Number density of a clump (Hydrogen)
 \item $m_c$: Mass of a clump, i.e. $m_p n_c d_c^3$
-\item $A$: Total area of clumps, i.e. $\mnc \sigma$
+%\item $A$: Total area of clumps in $\Delta r$, i.e. $\mnc \sigma$
 \item $f_c$: Covering fraction of clumps at radius $r$
 \end{my_itemize}
 
@@ -72,7 +77,6 @@ In the S10 model, the clumps have covering fraction
 f_c(r) = f_{c,max} \ltp \frac{r}{r_{\rm inner}} \rtp^{-\gamma} \cmma
 \label{eqn:covering}
 \end{equation}
-
 with $\gamma \approx 0.5$ and velocity
 
 \begin{equation}
@@ -82,60 +86,44 @@ with $\gamma \approx 0.5$ and velocity
 \end{equation}
 with $\alpha \approx 1.3$.
 
-Consider a shell of width $\Delta r$ at radius $r$.  The surface area
-of this shell is $4\pi r^2$.  To achieve a covering fraction $f_c$,
-one requires
+Consider a shell of width $\Delta r$ at radius $r$.   The number of
+clumps in this shell is:
 
 \begin{equation}
-\mnc(r) = \frac{4 \pi r^2}{\sigma} \cdot f_c(r) = 
-\frac{4 \pi f_{c,max}}{\sigma \, (\rm kpc^{1/2})} \cdot r^{3/2}
+\mnc = n \cdot \Delta r \cdot 4 \pi r^2
 \end{equation}
-clumps within the shell.  It is evident that the number of clumps
-increases rather steeply with radius.  [Note: we could allow for
-varying clump size by doing the calculation in terms of $A$ but I
-don't think it would matter much.]
-
-Now consider the mass profile of this clumpy wind.  Again, assuming
-identical clumps at all radii, we have the mass per shell of 
+And the covering fraction will be
 
 \begin{equation}
-M_{\Delta r} = m_c \mnc 
+f_c = \frac{\sigma \mnc}{4 \pi r^2} = n \sigma \Delta r
 \end{equation}
-Normalizing to the mass in the first shell ($r = 1 - 2$\,kpc), we get
-the cumulative mass profile shown in Figure~\ref{fig:mass}.
-We find that there is 10000$\times$ more mass in the wind beyond that
-in the innermost shell!  
+Lastly, the thickness of a given shell relates to the overlap of the
+clumps in velocity space.  Given an internal velocity dispersion $\Delta
+v_c$ for each clump, we have:
 
-\clearpage
+\begin{equation}
+\Delta r = \Delta v_c \ltp \frac{dv}{dr} \rtp^{-1}  \perd
+\end{equation}
+This starts to look like the Sobolev equations, but not quite.  The
+key issue here is that $\Delta r$ varies with radius.  Because the LBG
+velocity curve flattens, $\Delta r$ increases quite rapidly with $r$.
 
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=4.5in,angle=180]{../Figures/fig_lbg_clump_mass.pdf}
-\end{center}
-  \caption{Cumulative mass profile, normalized to the mass within
-    $r=1-2$\,kpc, for identical clumps.  There is over 10000$\times$
-    more mass beyond 2\,kpc than within that first shell. 
-}
-  \label{fig:mass}
-\end{figure}
+If we like, we can rewrite these equations in terms of the density of
+the clumps
 
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=4.5in,angle=180]{../Figures/fig_lbg_clump_eandp.pdf}
-\end{center}
-  \caption{Cumulative energy and momentum profiles.
-}
-  \label{fig:eandp}
-\end{figure}
+\begin{equation}
+n(r) = \frac{f_c(r)}{\sigma} \frac{1}{\Delta r} \cmma
+\end{equation}
+the mass of a shell of $\Delta r$
 
-
-Figure~\ref{fig:eandp} shows the energy and momentum
-profiles, again relative to that in the inner most shell assuming
-$E_{\Delta r} = M_{\Delta r} v^2$ and $P = M_{\Delta r} v$.  The
-results are similar to the mass profile because the velocity curve
-rises so steeply at small radii.
-
-\vskip 0.2in
+\begin{equation}
+M_{\Delta r} = \frac{f}{\sigma} \cdot 4 \pi r^2 \cdot m_c
+\end{equation}
+We see (as in v1 of this write-up) that the mass in each shell goes as
+$r^{3/2}$ given the functional form of the covering fraction.  But the
+mistake I had made is that the thickness of the shells ($\Delta r$) is
+increasing with radius.  So the cumulative mass doesn't increase as
+rapidly.   
 
 Now consider an estimation of the absolute value for the mass.  I'll
 begin by assuming a size for the clump of $d_c = 100$\,pc.  If we
@@ -144,17 +132,31 @@ Si$^+$ number density $n_{\rm Si^+} = 10^{14} \cm{-2} / d_c$.  Lastly,
 I will assume solar abundance, i.e. $n_H = 10^{4.5} n_{\rm Si^+}$.
 This gives a number density $n_H \approx 0.01 \cm{-3}$.  I think it
 might be hard to have much lower number density. Each clump,
-then, has a mass $m_c = 253 \msol$. To
-get a 80\%\ covering fraction at 2\,kpc, we will need $\mnc \approx
-4000$ clumps or a total of $\approx 10^6 \msol$.  Finally, we estimate
-that the total mass in the wind is $10^{10} \msol$ with $\sim 90\%$ of
-that mass beyond 30\,kpc.  All of this material is travelling at
-800\,\kms.  
+then, has a mass $m_c = 253 \msol$. 
 
-\vskip 0.1in
+With this clump size and mass, we get the density, mass, and flux
+profiles shown in Figure~\ref{fig:aclump}.  Each of these curves start
+at $r = 2$\,kpc because at smaller radii the clumps overlap.  Again,
+the mass approaches $10^{10} \msol$ and most of the mass lies at the
+outer radii.  The clump density drops very rapidly with radius such
+that the clump flux is nearly constant.  I think this is by design
+given the shells have thickness $\Delta r \propto (dv/dr)^{-1}$, but
+I'm not sure.
 
 So, is this at all plausible?  And, if not, can one monkey with the
-size of my clumps etc.\ to make a plausible scenario?
+size or $\Delta v_c$ of my clumps etc.\ to make a plausible scenario?
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=5.5in]{../Figures/fig_lbg_aclump.pdf}
+\end{center}
+  \caption{$\Delta r$, density, mass, and flux profiles for the LBG
+    wind model assuming $\Delta v_c = 10 \mkms$ and that the clump has
+    $d_c = 100$\,pc and $m_c = 250 \msol$.
+}
+  \label{fig:aclump}
+\end{figure}
+
 
 \end{document}
 

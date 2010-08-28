@@ -1,6 +1,6 @@
-pro fig_lbg_clump_mass, RREAL=rreal, STRCT=strct
+pro fig_lbg_clump_deltar, RREAL=rreal, STRCT=strct
 
-  if not keyword_set( PSFILE ) then psfile = 'fig_lbg_clump_mass.ps'
+  if not keyword_set( PSFILE ) then psfile = 'fig_lbg_clump_deltar.ps'
   if not keyword_set(CSZ) then csz = 1.9
   if not keyword_set(lSZ) then lsz = 2.0
 
@@ -16,11 +16,12 @@ pro fig_lbg_clump_mass, RREAL=rreal, STRCT=strct
   if not keyword_set(alpha) then alpha = 1.3 ;
   if not keyword_set(vmax) then vmax = 800. ; 
   if not keyword_set(WREST) then wrest = 2796.352d
+  if not keyword_set(Dv) then Dv = 10. ; km/s
 
 
   ;; Begin
   c = x_constants()
-  rval = r_min + findgen(100)
+  rval = r_min + findgen(10000L)/100
   dr = 1. ; kpc
 
   ;;;;;;;;;;;;;;;;
@@ -31,31 +32,23 @@ pro fig_lbg_clump_mass, RREAL=rreal, STRCT=strct
   I_lbg = 1 - fc_lbg
   I_v = 1. - fcmax * (1 - (1-alpha)*v_lbg^2/A_lbg)^(-1*gamma/(1-alpha))
 
+  dvdr = sqrt(A_lbg/(1-alpha)) * 0.5 / sqrt(1-rval^(1-alpha)) * (alpha-1) * rval^(-1*alpha)
+  dvdr[0] = 2*dvdr[1] ; Kludge
+
+  ;; Delta r
+  delta_r = Dv / dvdr
+
   ;; Sum up to 100kpc from 2kpc
   xval = fltarr(10000L)
-  drval = fltarr(10000L)
-  mval = fltarr(10000L)
-  nval = fltarr(10000L)
+  yval = fltarr(10000L)
   xval[0] = 2. ; kpc
   cnt = 0
-  sigma = 0.01 ; kpc^2
   while(xval[cnt] LT 100.) do begin
-     ;; Dr
      mn = min(abs(rval-xval[cnt]),imn)
-     drval[cnt] = delta_r[imn]
-     ;; Density
-     nval[cnt] = fc_lbg[imn]/sigma / drval[cnt]  ; kpc^-3
-     ;; Mass
-     mval[cnt] = 4*!pi*xval[cnt]^2 * fc_lbg[imn] / sigma
-     ;; Increment
+     yval[cnt] = delta_r[imn]
      cnt = cnt+1
      xval[cnt] = xval[cnt-1] + delta_r[imn]
   endwhile
-  stop  ;; Abandoned this code for fig_lbg_aclump
-
-
-  ;; Mass
-  rel_mass = rval^(1.5)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Plot
@@ -63,21 +56,23 @@ pro fig_lbg_clump_mass, RREAL=rreal, STRCT=strct
   !p.multi = [0,1,1]
   clr = getcolor(/load)
 
-  xmrg = [9,2]
+  xmrg = [10,2]
   ymrg = [3.7,0.5]
 
   ;;;;;;;;;;;;;;;;;;;;;;;
   ;; Integrated mass
   xrng=[1e0, 100]
-  yrng=[1., 2e4]
+  yrng=[1e-3, 10]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, $
-        ytitle='Cumulative Mass (Relative to Mass at 2kpc)', $
+        ytitle='!9D!X r (kpc)', $
         xtitle='Radius (kpc)', yrange=yrng, thick=4, $
         xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /xlog, /ylog
 
-  ;; Mass
-  oplot, rval[1:*], total(rel_mass[1:*],/cumul)/rel_mass[1], color=clr.black
+  ;; Delta r
+  oplot, rval, delta_r, color=clr.black
+
+;  oplot, xval[0:cnt-1], yval[0:cnt-1], color=clr.red, psym=10
 
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]

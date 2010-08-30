@@ -9,4 +9,4 @@ LBG_fc = 0.6          -- Maximum covering fraction (for MgII 2796)
 LBG_vmax =  8e7       -- cm/s
 LBG_alpha = 1.3
 
-vdoppler = 5e5        -- cm/s
+vdoppler = 10e5        -- cm/s

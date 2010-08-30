@@ -38,6 +38,7 @@ public:
   double P_esc(double, int*);
 
   double Velocity(double);
+  double DvDr(double);
   double Covering(double);
   double v_doppler()    { return vdop; }
 

@@ -230,6 +230,8 @@ void Line_Scatter(PHOTON &p, double lam, double *uvec)
 
   p.xloc = (p.lloc/lam - 1)*C_LIGHT/model.v_doppler();
 
+  // Offset in radius (only proper along radial, but hopefully close enough)
+
   // get three velocity components of scatterer
   double temp = 0.5*M_PROTON*pow(model.v_doppler(),2)/K_BOLTZ;
   double apar = 4.7e-3*sqrt(1e4/temp);
@@ -296,6 +298,8 @@ double P_esc(double lloc, double *r, int l_scat)
   int n_lines = lines.n();
 
   TOT_ESC = 1.;
+
+  // See if we escape in this line (Doppler allows for multiple scatterings)
 
   // See if there is a transition to the red
   flg = 0;

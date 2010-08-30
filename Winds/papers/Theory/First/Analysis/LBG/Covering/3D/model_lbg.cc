@@ -39,6 +39,13 @@ double MODEL::Velocity(double r)
   return LBG_Aa * sqrt(1 - pow(r,1-LBG_alpha));  // Assumes r_inner=1kpc
 }
 
+double MODEL::DvDr(double r)  // cm/s per kpc
+{
+  if (r <= r_inner) return 0;
+  double dvdr = LBG_Aa * 0.5 / sqrt(1-pow(r,1-LBG_alpha)) * (LBG_alpha-1) * pow(r,-1*LBG_alpha);
+  return dvdr;
+}
+
 double MODEL::Covering(double r)
 {
   if (r <= r_inner) return 0.;

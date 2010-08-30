@@ -9,7 +9,7 @@
 #include "spectrum.hh"
 
 // monte carlo parameters
-double n_photons =  2e6;    // number of photons
+double n_photons =  1e7;    // number of photons
 double stepsize  = 0.0001;   // maximum size of photon step  (kpc)
 
 // output spectrum parameters
@@ -51,7 +51,8 @@ double f_lu[]       = {0.6123,     0.3054};
 double abun       = 3.4e-6;
 double metallicity       = 0.5;                 // 1 = Solar
  // lines doppler velocity in cm/s
-double v_doppler    =   5*1e5;              
+double v_interact    =  1*1e5;              // Condition to scatter
+double v_doppler    =   10*1e5;           // 10 km/s (internal)
 
 // parameters describing voigt profile
 double voigt_a   = 0.1;
@@ -139,6 +140,19 @@ double Get_Velocity(double *x, double r)
   return LBG_Aa * sqrt(1 - pow(r,1-LBG_alpha));  // Assumes r_inner=1kpc
 }
 
+//--------------------------------------------
+// Function returns dv/dr at a given a radius (in cm/s per kpc)
+//     This is only valid along the radial direction
+//--------------------------------------------
+double Get_DvDr(double r)
+{
+  //  return v_max*pow(r/r_outer,v_law);
+  // return v_min + (r-r_inner)/(r_outer-r_inner) * (v_max-v_min);
+  if (r <= r_inner) return 0;
+  double dvdr = LBG_Aa * 0.5 / sqrt(1-pow(r,1-LBG_alpha)) * (LBG_alpha-1) * pow(r,-1*LBG_alpha);
+  return dvdr;
+}
+
 
 //--------------------------------------------
 // Function returns the density proxy given a radius (in kpc)
@@ -169,7 +183,7 @@ void Run_Monte_Carlo(char *outfile)
   double vd_inc, vd_out, l_step, d_step;
   double u0,u1,u2, R10, R11, rad, vel;
   double uvec[3];
-  double nu_d, cross_sec, dens_H, cover;
+  double nu_d, cross_sec, dens_H, cover, dvdr;
 
   // functions to call
   void MPI_Average_Array(double *, int);
@@ -177,6 +191,7 @@ void Run_Monte_Carlo(char *outfile)
   double Get_Velocity(double*, double);
 //  double Get_Density(double*, double);
   double Get_Cover(double);
+  double Get_DvDr(double);
 
   // set the start timer 
   time_t start_tp,end_tp;
@@ -230,13 +245,13 @@ void Run_Monte_Carlo(char *outfile)
 	  {
 	    
 	    // x parameter for this line
-	    xloc = (lam_loc/lambda_0[l] - 1)*C_LIGHT/v_doppler;
+	    xloc = (lam_loc/lambda_0[l] - 1)*C_LIGHT/v_interact;
 	    // In resonance
 	    if ((xloc*xloc) <  1 && flg_resonance[l] == 0) {
 	      cover = Get_Cover(rad);
 	      //	      printf("Radius %e  lam %e wave %e\n",rad, lam_loc, lambda_0[l]);
 	      flg_resonance[l] = 1;
-	      if (gsl_rng_uniform(rangen) < cover) {step=1e-4; scatter=l;}
+	      if (gsl_rng_uniform(rangen) < cover) {step=1e-6; scatter=l;}
 	    }
 	  }
       }
@@ -261,12 +276,23 @@ void Run_Monte_Carlo(char *outfile)
       // see if we've gone under inner boundary
       // if (r_sq < r_emit*r_emit) {count_it = 0; break; }
 
+      ////////////////////////////////////////////////////////////////////////////////////
       // if we line scattered, do it
       if (scatter >= 0)
       {
 	flg_scatter = 1;
-	// for (j=0;j<50;j++) flg_resonance[j] = 0;
-	xloc = (lam_loc/lambda_0[scatter] - 1)*C_LIGHT/v_doppler;
+	for (j=0;j<50;j++) flg_resonance[j] = 0;  // Allow for the chance to scatter twice
+	xloc = (lam_loc/lambda_0[scatter] - 1)*C_LIGHT/v_interact;
+
+	// Modify the position according to dv/dr
+	dvdr = Get_DvDr(rad);
+	step = (gsl_rng_uniform(rangen)-0.5) * v_doppler / dvdr;  // kpc
+	//	printf("rad %e dvdr %e  step %e\n",rad, dvdr, step);
+
+	r[0] += D[0]*step;
+	r[1] += D[1]*step;
+	r[2] += D[2]*step;
+	
 
 	// Get three velocity components of scatterer
  	u0 = voigt.Scatter_Velocity(xloc);
@@ -305,7 +331,7 @@ void Run_Monte_Carlo(char *outfile)
  	xloc = xloc - vd_inc + vd_out; 
 
 	// go back to wavelength
-	lam_loc = lambda_0[scatter]*(1 + xloc*v_doppler/C_LIGHT);
+	lam_loc = lambda_0[scatter]*(1 + xloc*v_interact/C_LIGHT);
 
 	// now get change in observer frame wavelength
 	rad = sqrt(r[0]*r[0] + r[1]*r[1] + r[2]*r[2]);

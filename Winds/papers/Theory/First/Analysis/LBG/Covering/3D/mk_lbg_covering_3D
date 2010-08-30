@@ -1,0 +1,8 @@
+#source grab_source
+make all
+# MgII (S10 model)
+mpirun -np 4 lbg_covering_3D param_lbg_mgii.lua
+#mv spec.dat Output/spec_MgII_lbg_covering.dat
+# FeII
+#mpirun -np 12 outflow_lbg_covering_feii
+#mv spec.dat Output/spec_FeII_lbg_covering.dat

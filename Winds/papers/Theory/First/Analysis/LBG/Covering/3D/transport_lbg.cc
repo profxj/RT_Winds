@@ -64,9 +64,12 @@ void Run_Monte_Carlo(double n_photons)
 
     // add in straight light
     Pe   = P_esc(p.lloc,p.r, -1);  // This one need not be unity
+    // printf(" \n", i);
     lobs = p.lloc*(1 - Get_vdotD(model.r_emit, p.r,D_obs)/C_LIGHT);
     Get_Rotated_Coords(p.r,r_rot);
     spectrum.Count(1,lobs,abs(r_rot[0]),abs(r_rot[1]),p.E_p*Pe);
+
+    // if ((i % 5000) == 0)  printf("i = %d \n", i);
 
     // Did we escape right out?
     if (Pe > 0.99999) continue;
@@ -102,7 +105,7 @@ void Run_Monte_Carlo(double n_photons)
       	//int l_scat = 0;
 	for (int j=0;j<lines.n();j++)
 	  {
-	    p.xloc = (p.lloc/lines.lambda(j) - 1)*C_LIGHT/model.v_doppler();
+	    p.xloc = (p.lloc/lines.lambda(j) - 1)*C_LIGHT/model.v_interact();
 	    // In resonance
 	    if ((p.xloc*p.xloc) <  1 && flg_resonance[j] == 0) {
 	      cover = model.Covering(rad);
@@ -133,6 +136,7 @@ void Run_Monte_Carlo(double n_photons)
 	// count scattered light
 	lobs = p.lloc*(1 - Get_vdotD(rad, p.r,D_obs)/C_LIGHT);
 	Pe   = P_esc(p.lloc,p.r,l_scat)*lines.P_scat(l_scat);  // Check to come into resonance with redder lines
+
 	Get_Rotated_Coords(p.r,r_rot);
 	spectrum.Count(1,lobs,abs(r_rot[0]),abs(r_rot[1]),p.E_p*Pe); 
 
@@ -228,9 +232,17 @@ void Line_Scatter(PHOTON &p, double lam, double *uvec)
 {
   double u0,u1,u2, R10, R11;
 
-  p.xloc = (p.lloc/lam - 1)*C_LIGHT/model.v_doppler();
+  p.xloc = (p.lloc/lam - 1)*C_LIGHT/model.v_interact();
 
   // Offset in radius (only proper along radial, but hopefully close enough)
+  double rad = sqrt(p.r[0]*p.r[0] + p.r[1]*p.r[1] + p.r[2]*p.r[2]);
+  double dvdr = model.DvDr(rad);
+  double step = (gsl_rng_uniform(rangen)-0.5) * model.v_doppler() / dvdr;  // kpc
+  if (dvdr > 0) {
+    p.r[0] += p.D[0]*step;
+    p.r[1] += p.D[1]*step;
+    p.r[2] += p.D[2]*step;
+  }
 
   // get three velocity components of scatterer
   double temp = 0.5*M_PROTON*pow(model.v_doppler(),2)/K_BOLTZ;
@@ -271,10 +283,10 @@ void Line_Scatter(PHOTON &p, double lam, double *uvec)
   p.xloc = p.xloc - vd_inc + vd_out; 
   
   // go back to wavelength
-  p.lloc = lam*(1 + p.xloc*model.v_doppler()/C_LIGHT);
+  p.lloc = lam*(1 + p.xloc*model.v_interact()/C_LIGHT);
 
   // now get change in observer frame wavelength
-  double rad = sqrt(p.r[0]*p.r[0] + p.r[1]*p.r[1] + p.r[2]*p.r[2]);
+  rad = sqrt(p.r[0]*p.r[0] + p.r[1]*p.r[1] + p.r[2]*p.r[2]);
   double vdotD = Get_vdotD(rad, p.r, p.D);
   p.lam  = p.lloc*(1 - vdotD/C_LIGHT);
   
@@ -284,7 +296,7 @@ void Line_Scatter(PHOTON &p, double lam, double *uvec)
   uvec[2] *= model.v_doppler();
   
   // check for weirdness
-  if (isnan(p.lam)) printf("Snan %e %e %e %e\n",p.lloc,p.xloc,u2,R11);
+  if (isnan(p.lam)) printf("Snan %e %e %e %e %e\n",p.lloc,p.xloc,u2,R11,rad);
 
 }
 
@@ -302,13 +314,14 @@ double P_esc(double lloc, double *r, int l_scat)
   // See if we escape in this line (Doppler allows for multiple scatterings)
 
   // See if there is a transition to the red
-  flg = 0;
-  if(l_scat >= 0) {
-    for (j=0; j<n_lines;j++) {
-      if (lines.lambda(j) > lines.lambda(l_scat) && j != l_scat) {flg=1;} // Yes there is
-    }
-    if (flg == 0) return TOT_ESC;  // No there isn't
-  }
+  //  This code was only proper when there was no Doppler velocity to consider
+  /// flg = 0;
+  /// if(l_scat >= 0) {
+  ///   for (j=0; j<n_lines;j++) {
+  ///     if (lines.lambda(j) > lines.lambda(l_scat) && j != l_scat) {flg=1;} // Yes there is
+  ///   }
+  ///   if (flg == 0) return TOT_ESC;  // No there isn't
+  /// }
   // printf("# Got here\n");
   
   double xr[3];
@@ -344,11 +357,12 @@ double P_esc(double lloc, double *r, int l_scat)
       	//int l_scat = 0;
 	for (j=0;j<lines.n();j++)
 	  {
-	    xloc = (lloc/lines.lambda(j) - 1)*C_LIGHT/model.v_doppler();
+	    xloc = (lloc/lines.lambda(j) - 1)*C_LIGHT/model.v_interact();
 	    // In resonance, 
 	    if ((xloc*xloc) <  1 && flg_resonance[j] == 0) {
 	      TOT_ESC *= (1-model.Covering(rad));
 	      flg_resonance[j] = 1;
+	      if(j == l_scat) printf("# Got here P\n");
 	    }
 	  }
       }

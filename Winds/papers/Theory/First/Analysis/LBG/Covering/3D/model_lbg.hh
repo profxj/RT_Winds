@@ -12,7 +12,7 @@ private:
 
 public:
 
-  float vdop;
+  float vdop, vinteract;
   CDF emis;
 
   double l_start, l_stop;
@@ -41,6 +41,7 @@ public:
   double DvDr(double);
   double Covering(double);
   double v_doppler()    { return vdop; }
+  double v_interact()    { return vinteract; }
 
   void Wipe_J_UV();
   void Reduce_J_UV();

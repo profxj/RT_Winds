@@ -5,8 +5,8 @@ line_file = "mg2.line"
 n_photons = 2e5
 
 -- parameters of output spectrum/image
-l_start = 2770  -- start wavelength
-l_stop  = 2830  -- stop wavelength
+l_start = 2780  -- start wavelength
+l_stop  = 2820  -- stop wavelength
 l_delta = 0.25  -- wavelength bin size
 l_nx    = 100   -- spatial pixels per dimension
 l_xmax  = 100.0  -- spatial extent of the image (kpc)

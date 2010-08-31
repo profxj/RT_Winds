@@ -14,20 +14,19 @@ pro fig_fiducial_1d, RREAL=rreal
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Read in MgII Data
-  mgII_data = xmrdfits(grid_file, 2, /silent)
-  mgII_wave = xmrdfits(grid_file, 3, /silent)
-  dwv_mgII = abs(mgii_wave[1]-mgii_wave[0])
-  mgII_data = float(mgII_data)
-  sz_mgii = size(mgII_data,/dimen)
+  Mg_fil = '../Analysis/Fiducial/Output/spec_MgII_fiducial.dat'
+  readcol, Mg_fil, wv, fx, /silen
+  nrm = median(fx[where(wv GT 2815)])
 
-  spec_mgii = total(total(mgii_data,1),1)
+  spec_mgii = fx/nrm
+  mgii_wave = wv
 
   ;;; BEGIN PLOTS
   x_psopen, psfile, /maxs
   clr = getcolor(/load)
 
   ;; Plot MgII
-  yrng=[0., 2.5]
+  yrng=[0., 2.7]
   xrng=[2786., 2812]
   pos=[0.08, 0.6, 0.48, 0.95]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
@@ -48,13 +47,18 @@ pro fig_fiducial_1d, RREAL=rreal
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Read in FeII Data
-  feII_data = xmrdfits(grid_file, 0, /silent)
-  feII_wave = xmrdfits(grid_file, 1, /silent)
-  dwv_feII = abs(feii_wave[1]-feii_wave[0])
-  feII_data = float(feII_data)
-  sz_feii = size(feII_data,/dimen)
+  Fe_fil = '../Analysis/Fiducial/Output/spec_FeII_fiducial.dat'
+  readcol, Fe_fil, wv, fx, /silen
+  nrm = median(fx[where(wv GT 2634)])
+;  feII_data = xmrdfits(grid_file, 0, /silent)
+;  feII_wave = xmrdfits(grid_file, 1, /silent)
+;  dwv_feII = abs(feii_wave[1]-feii_wave[0])
+;  feII_data = float(feII_data)
+;  sz_feii = size(feII_data,/dimen)
 
-  spec_feII = total(total(feii_data,1),1)
+;  spec_feII = total(total(feii_data,1),1)
+  spec_feII = fx/nrm
+  feII_wave = wv
 
   ;; Plot FeII
   yrng=[0., 1.8]
@@ -93,11 +97,11 @@ pro fig_fiducial_1d, RREAL=rreal
      if trans[qq] LT 2700. then begin
         wave = feii_wave
         spec = spec_feii
-        if trans[qq] GT 2605 then yrng=[0.91, 1.24] else yrng=[0., 1.8]
+        if trans[qq] GT 2605 then yrng=[0.91, 1.29] else yrng=[0., 1.8]
      endif else begin
         wave = mgii_wave
         spec = spec_mgii
-        yrng=[0., 2.4]
+        yrng=[0., 2.7]
      endelse
 
      if qq EQ (ntrans-1) then delvarx, xspaces $ 

@@ -23,8 +23,10 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title,
   flg_anly = 0
   if not keyword_set(ALL_STRCT) then begin
      for qq=0L,nmodels-1 do begin
+        flg_int = 0
         ;; Read name
         readf, 1, model_nm
+        print, qq, model_nm
         ;; Read in data
         readf, 1, flg_anly
         case flg_anly of
@@ -101,6 +103,12 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title,
                            noscatt_spec: replicate(2., n_elements(spec_feii)), $
                            wave: feII_wave $
                            }
+              ;; Intrinsic
+              case flg_anly of 
+                 0: flg_int = 0 
+                 180: flg_int = 1
+                 else: stop
+              endcase
            end
         endcase
 
@@ -108,7 +116,7 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title,
         ;; Analyze
         cd, '../Analysis/pro/', curr=curr
         RESOLVE_ROUTINE, 'calc_all_values'
-        calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans
+        calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans;, DEBUG=(qq EQ 2)
         cd, curr
         if qq EQ 0 then begin
            tmp = { $
@@ -118,6 +126,9 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title,
                  }
            all_strct = replicate(tmp, nmodels)
         endif else begin
+           ;; Asymmetry kludge
+           if flg_int EQ 1 then strct.W_int = all_strct[0].anly_strct.W_int
+           ;; Save
            all_strct[qq].name = model_nm
            all_strct[qq].data_fil = data_fil
            all_strct[qq].anly_strct = strct
@@ -169,49 +180,61 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title,
 
         ;; Absorption?
         if all_strct[qq].anly_strct[kk].flg_trans EQ 0 then begin 
-           ;; v interval
-           lin = lin+'[$'
-           lin = lin+strtrim(round(all_strct[qq].anly_strct[kk].vmnx_abs[0]),2)
-           lin = lin+','
-           lin = lin+strtrim(round(all_strct[qq].anly_strct[kk].vmnx_abs[1]),2)
-           lin = lin+'$]'
-           lin = lin+'&'
-           ;; Intrinsic EW
-           if all_strct[qq].anly_strct[kk].W_int GT 0. then $
-              lin = lin+string(all_strct[qq].anly_strct[kk].W_int,format='(f5.2)') $
-           else lin = lin + '$\dots$'
-           lin = lin+'&'
-           ;; EW
-           lin = lin+string(all_strct[qq].anly_strct[kk].W_abs,format='(f5.2)')
-           lin = lin+'&'
-           ;; tau
-           lin = lin+string(all_strct[qq].anly_strct[kk].tau_peak,format='(f4.2)')
-           lin = lin+'&$'
-           lin = lin+string(round(all_strct[qq].anly_strct[kk].tau_vel),format='(i5)')
-           lin = lin+'$&$'
-           lin = lin+string(round(all_strct[qq].anly_strct[kk].vel_tau),format='(i5)')
-           lin = lin+'$&'
+           if all_strct[qq].anly_strct[kk].W_int LE 0. then begin
+              for ii=0L,5 do begin
+                 lin = lin + '$\dots$'
+                 lin = lin+'&'
+              endfor
+           endif else begin
+              ;; v interval
+              lin = lin+'[$'
+              lin = lin+strtrim(round(all_strct[qq].anly_strct[kk].vmnx_abs[0]),2)
+              lin = lin+','
+              lin = lin+strtrim(round(all_strct[qq].anly_strct[kk].vmnx_abs[1]),2)
+              lin = lin+'$]'
+              lin = lin+'&'
+              ;; Intrinsic EW
+              lin = lin+string(all_strct[qq].anly_strct[kk].W_int,format='(f5.2)') 
+              lin = lin+'&'
+              ;; EW
+              lin = lin+string(all_strct[qq].anly_strct[kk].W_abs,format='(f5.2)')
+              lin = lin+'&'
+              ;; tau
+              lin = lin+string(all_strct[qq].anly_strct[kk].tau_peak,format='(f4.2)')
+              lin = lin+'&$'
+              lin = lin+string(round(all_strct[qq].anly_strct[kk].tau_vel),format='(i5)')
+              lin = lin+'$&$'
+              lin = lin+string(round(all_strct[qq].anly_strct[kk].vel_tau),format='(i5)')
+              lin = lin+'$&'
+           endelse
         endif else lin = lin+'&&&&&&'
 
         ;; Emission
-        ;; v interval
-        lin = lin+'[$'
-        lin = lin+strtrim(round(all_strct[qq].anly_strct[kk].vmnx_em[0]),2)
-        lin = lin+','
-        lin = lin+strtrim(round(all_strct[qq].anly_strct[kk].vmnx_em[1]),2)
-        lin = lin+'$]'
-        lin = lin+'&'
-        ;; EW
-        lin = lin+'$'
-        lin = lin+string(all_strct[qq].anly_strct[kk].W_em,format='(f5.2)')
-        lin = lin+'$&'
-        ;; Flux
-        lin = lin+string(all_strct[qq].anly_strct[kk].flux_peak,format='(f5.2)')
-        lin = lin+'&$'
-        lin = lin+string(round(all_strct[qq].anly_strct[kk].flux_vel),format='(i5)')
-        lin = lin+'$&$'
-        lin = lin+string(round(all_strct[qq].anly_strct[kk].vel_flux),format='(i5)')
-        lin = lin+'$&'
+        if all_strct[qq].anly_strct[kk].W_int LE 0. then begin
+           for ii=0L,5 do begin
+              lin = lin + '$\dots$'
+              if ii NE 5 then lin = lin+'&'
+           endfor
+        endif else begin
+           ;; v interval
+           lin = lin+'[$'
+           lin = lin+strtrim(round(all_strct[qq].anly_strct[kk].vmnx_em[0]),2)
+           lin = lin+','
+           lin = lin+strtrim(round(all_strct[qq].anly_strct[kk].vmnx_em[1]),2)
+           lin = lin+'$]'
+           lin = lin+'&'
+           ;; EW
+           lin = lin+'$'
+           lin = lin+string(all_strct[qq].anly_strct[kk].W_em,format='(f5.2)')
+           lin = lin+'$&'
+           ;; Flux
+           lin = lin+string(all_strct[qq].anly_strct[kk].flux_peak,format='(f5.2)')
+           lin = lin+'&$'
+           lin = lin+string(round(all_strct[qq].anly_strct[kk].flux_vel),format='(i5)')
+           lin = lin+'$&$'
+           lin = lin+string(round(all_strct[qq].anly_strct[kk].vel_flux),format='(i5)')
+           lin = lin+'$'
+        endelse
 
         ;; PRINT
         lin = lin+'\\'

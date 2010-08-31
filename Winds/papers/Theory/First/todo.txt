@@ -9,7 +9,7 @@ Xavier
 	7. Rerun all models with sufficient photons (e.g. ISM)
 	8. Fix the bug in the FeII emission for the ISM model
 9. Add dust to all the power-law models
-10. Do a SiII 1526 calculation for the LBG model?
+	10. Do a SiII 1526 calculation for the LBG model?
 11. Do an INFALL model (LBG too)
 	12. Put dust in the ISM model
 	13. Modify the optical depths of the fiducial model

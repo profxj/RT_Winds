@@ -34,7 +34,7 @@ pro fig_lbg_aclump, RREAL=rreal, STRCT=strct
   dvdr[0] = 2*dvdr[1] ; Kludge
 
   ;; Delta r
-  delta_r = Dv / dvdr
+  delta_r = Dv / dvdr ; kpc
 
 
   ;; Sum up to 100kpc from 2kpc

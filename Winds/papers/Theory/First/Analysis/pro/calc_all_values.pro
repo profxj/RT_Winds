@@ -1,5 +1,5 @@
 ;; calc_ew_values, 'Outputs/fiducial_grid.fits', strct
-pro calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans
+pro calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans, DEBUG=debug
 
   if not keyword_set(MINI) then MINI = 0.05
   if not keyword_set(TRANS) then $
@@ -13,6 +13,8 @@ pro calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans
   intr_mgII = mgII_strct.noscatt_spec
   mgII_wave = mgII_strct.wave
   dwv_mgII = abs(mgii_wave[1]-mgii_wave[0])
+
+  if dwv_mgII LT 0.2 then kdg_pix = 50 else kdg_pix = 20
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Read in FeII Data
@@ -40,6 +42,7 @@ pro calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans
         vel_tau: 0., $   ;; Tau-weighted velocity centroid for absorption
         flux_peak: 0., $   ;; Peak flux of the line
         flux_vel: 0., $   ;; Velocity of maximum flux
+        flux_dv: 0., $   ;; Width (90%) of flux
         vel_flux: 0. $   ;; Flux-weighted velocity centroid
         }
   strct = replicate(tmp, ntrans)
@@ -109,13 +112,19 @@ pro calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans
            a = where(spec[0:imn] LT 0.95, na)
            if na EQ 0 then a1 = imn-1 else a1 = a[na-1]
            ;; Find peak absorption
-           kdg_pix = 50
            mn = min(spec[a1-kdg_pix:a1],imn2)
            isrch = a1-kdg_pix+imn2
            ;; First pixel of absorption
            a = where(spec[0:isrch] GT 0.95, na)  ;; The '5' is a kludge
            if na EQ 0 then a0 = a1-1 else a0 = a[na-1]
         endelse
+        
+        ;; Restrict maximum velocity for 2796 (blend with 2803)
+        if fix(trans[qq]) EQ 2796 then begin
+           mx = min(abs(vel-150.), amax)
+           a1 = a1 < amax
+           a0 = a0 < (amax-1)
+        endif
         ;; Sum it up
         strct[qq].W_abs = dwv*total( (1.-spec[a0:a1]) )
         strct[qq].vmnx_abs = [vel[a0],vel[a1]]
@@ -129,6 +138,7 @@ pro calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans
         endif 
 
         ;; Intrinsic EW
+        if keyword_set(DEBUG) and fix(trans[qq]) EQ 2796 then stop
         if fix(trans[qq]) NE 2803 then pix = where(vel GT -1000 and vel LT 200) $
         else pix = where(vel GT -789 and vel LT 200) 
         strct[qq].W_int = dwv*total( (1.-intr_spec[pix]) )
@@ -172,6 +182,19 @@ pro calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans
            else:
         endcase
      endelse
+     ;; Restrict maximum velocity for 2796 (blend with 2803)
+     if fix(trans[qq]) EQ 2796 then begin
+        mx = min(abs(vel-600.), emax)
+        e1 = e1 < emax
+        e0 = e0 < (emax-1)
+     endif
+     ;; Restrict minimum velocity for 2803 (blend with 2796)
+     if fix(trans[qq]) EQ 2803 then begin
+        mx = min(abs(vel+80.), emin)
+        e0 = e0 > emin
+        e1 = e1 > (emin+1)
+     endif
+
      ;; Sum it up
      strct[qq].W_em = dwv*total( (1.-spec[e0:e1]) )
      strct[qq].vmnx_em = [vel[e0],vel[e1]]

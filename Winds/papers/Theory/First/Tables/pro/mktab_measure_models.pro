@@ -159,9 +159,10 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title,
   printf, 91,  '& \colhead{$v_{\bar \tau}$}'
   printf, 91,  '& \colhead{$v_{\rm int}^b$} & ' + $
     '\colhead{$W_{\rm e}$} & \colhead{$f_{\rm pk}$} & \colhead{$v_f$} '
-  printf, 91,  '& \colhead{$v_{\bar f}$}'
+  printf, 91,  '& \colhead{$v_{\bar f}$} & \colhead{$\Delta v_{\rm e}$}'
   printf, 91,  '\\'
-  printf, 91,  '&& (\kms) & (\AA) & (\AA) && (\kms) & (\kms) & (\kms) & (\AA) & & (\kms) & (\kms)}'
+  printf, 91,  '&& (\kms) & (\AA) & (\AA) && (\kms) & (\kms) & (\kms) & (\AA) & & (\kms) ' + $
+          '& (\kms) & (\kms)}'
   printf, 91, '\startdata'
 
   ;; LOOP
@@ -210,7 +211,7 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title,
         endif else lin = lin+'&&&&&&'
 
         ;; Emission
-        if all_strct[qq].anly_strct[kk].W_int LE 0. then begin
+        if all_strct[qq].anly_strct[kk].W_em GE 0. then begin
            for ii=0L,5 do begin
               lin = lin + '$\dots$'
               if ii NE 5 then lin = lin+'&'
@@ -233,7 +234,8 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title,
            lin = lin+string(round(all_strct[qq].anly_strct[kk].flux_vel),format='(i5)')
            lin = lin+'$&$'
            lin = lin+string(round(all_strct[qq].anly_strct[kk].vel_flux),format='(i5)')
-           lin = lin+'$'
+           lin = lin+'$&'
+           lin = lin+string(round(all_strct[qq].anly_strct[kk].flux_dv),format='(i4)')
         endelse
 
         ;; PRINT
@@ -250,7 +252,7 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title,
   printf, 91, '\tablecomments{{L}isted are the equivalent widths (intrinsic, absorption, and emission), the peak optical depth for the absorption'
   printf, 91, '$\tau_{\rm pk} \equiv -\ln(I_{\rm min})$, the velocity where the optical depth peaks $v_\tau$, the optical depth-weighted velocity centroid '
   printf, 91, '$v_{\bar \tau} \equiv \int dv \, v \ln[I(v)] / \int dv \ln[I(v)]$, the peak flux $f_{\rm pk}$ in emission, the velocity where the flux peaks '
-  printf, 91, '$v_f$, and the flux-weighted velocity centroid of the emission line $v_{\bar f}$.}'
+  printf, 91, '$v_f$, the flux-weighted velocity centroid of the emission line $v_{\bar f}$, and the $90\%$ width $\Delta v_{\rm e}$.}'
   printf, 91, '\end{deluxetable}' 
 
   close, /all

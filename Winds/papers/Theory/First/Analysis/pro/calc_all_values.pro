@@ -125,6 +125,13 @@ pro calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans, DEBUG=debug
            a1 = a1 < amax
            a0 = a0 < (amax-1)
         endif
+        ;; Restrict minimum velocity for 2803 (blend with 2796)
+        if fix(trans[qq]) EQ 2803 then begin
+           mx = min(abs(vel+550.), amax)
+           a1 = a1 > (amax+1)
+           a0 = a0 > (amax)
+        endif
+
         ;; Sum it up
         strct[qq].W_abs = dwv*total( (1.-spec[a0:a1]) )
         strct[qq].vmnx_abs = [vel[a0],vel[a1]]
@@ -182,22 +189,58 @@ pro calc_all_values, mgII_strct, feII_strct, strct, TRANS=trans, DEBUG=debug
            else:
         endcase
      endelse
-     ;; Restrict maximum velocity for 2796 (blend with 2803)
-     if fix(trans[qq]) EQ 2796 then begin
-        mx = min(abs(vel-600.), emax)
-        e1 = e1 < emax
-        e0 = e0 < (emax-1)
-     endif
-     ;; Restrict minimum velocity for 2803 (blend with 2796)
-     if fix(trans[qq]) EQ 2803 then begin
-        mx = min(abs(vel+80.), emin)
-        e0 = e0 > emin
-        e1 = e1 > (emin+1)
-     endif
+     ;; Restrict velocities ranges 
+     case fix(trans[qq]) of 
+        2796: begin  ; Blend with 2803
+           mx = min(abs(vel-600.), emax)
+           e1 = e1 < emax
+           e0 = e0 < (emax-1)
+        end
+        2803: begin ; Blend with 2796
+           mx = min(abs(vel+80.), emin)
+           e0 = e0 > emin
+           e1 = e1 > (emin+1)
+        end
+        2586: begin ; Sometimes not detected
+           mx = min(abs(vel-600.), emax)
+           e1 = e1 < emax
+           e0 = e0 < (emax-1)
+        end
+        2600: begin ; Blend with 2612
+           mx = min(abs(vel-1000.), emax)
+           e1 = e1 < emax
+           e0 = e0 < (emax-1)
+        end
+        2612: begin ; Blends with both
+           mx = min(abs(vel-600.), emax)
+           e1 = e1 < emax
+           e0 = e0 < (emax-1)
+           ;;
+           mx = min(abs(vel+400.), emin)
+           e0 = e0 > emin
+           e1 = e1 > (emin+1)
+        end
+        2626: begin ; Blends with 2612
+           mx = min(abs(vel+890.), emin)
+           e0 = e0 > emin
+           e1 = e1 > (emin+1)
+        end
+        else: 
+     endcase
+
+     ;; Velocity range
+     strct[qq].vmnx_em = [vel[e0],vel[e1]]
 
      ;; Sum it up
-     strct[qq].W_em = dwv*total( (1.-spec[e0:e1]) )
-     strct[qq].vmnx_em = [vel[e0],vel[e1]]
+     strct[qq].W_em = dwv*total( (1.-(spec[e0:e1]>1.)) )
+
+     ;; Dv
+     if strct[qq].W_em LT 0. then begin
+        cum_f = dwv*total( (1.-(spec[e0:e1]>1.)), /cumul) / strct[qq].W_em
+        mn = min(abs(cum_f-0.05),imn1)
+        mn = min(abs(cum_f-0.95),imn2)
+        strct[qq].flux_dv = vel[imn2]-vel[imn1]
+     endif
 
      ;; Peak flux
      strct[qq].flux_peak = max(spec[e0:e1],imx)

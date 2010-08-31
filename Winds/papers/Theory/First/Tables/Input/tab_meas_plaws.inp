@@ -3,6 +3,18 @@ Fiducial
 2
 ../Analysis/Fiducial/Output/spec_MgII_fiducial.dat
 ../Analysis/Fiducial/Output/spec_FeII_fiducial.dat
+LBG Sobolev
+2
+../Analysis/LBG/Sobolev/Output/spec_MgII_lbg_sobolev.dat
+../Analysis/LBG/Sobolev/Output/spec_FeII_lbg_sobolev.dat
+LBG Covering
+2
+../Analysis/LBG/Covering/Output/spec_MgII_lbg_covering.dat
+../Analysis/LBG/Covering/Output/spec_FeII_lbg_covering.dat
+Radiation
+2
+../Analysis/Radiation/Output/spec_rad_MgII.dat
+../Analysis/Radiation/Output/spec_rad_FeII.dat
 A
 2
 ../Analysis/PowLaws/Output/spec_plaw_MgII_A.dat
@@ -39,15 +51,3 @@ I
 2
 ../Analysis/PowLaws/Output/spec_plaw_MgII_I.dat
 ../Analysis/PowLaws/Output/spec_plaw_FeII_I.dat
-Radiation
-2
-../Analysis/Radiation/Output/spec_rad_MgII.dat
-../Analysis/Radiation/Output/spec_rad_FeII.dat
-LBG Sobolev
-2
-../Analysis/LBG/Sobolev/Output/spec_MgII_lbg_sobolev.dat
-../Analysis/LBG/Sobolev/Output/spec_FeII_lbg_sobolev.dat
-LBG Covering
-2
-../Analysis/LBG/Covering/Output/spec_MgII_lbg_covering.dat
-../Analysis/LBG/Covering/Output/spec_FeII_lbg_covering.dat

@@ -2,7 +2,7 @@ model_file = "Models/param_lbg_s10.mod"
 line_file = "mg2.line"
 
 -- number of photons to use
-n_photons = 2e5
+n_photons = 2e7
 
 -- parameters of output spectrum/image
 l_start = 2780  -- start wavelength

@@ -63,7 +63,7 @@ pro view_output, spec_fil, show_wave
   nrm2 = median(fx[where(wv GT 2815)])
 
   spec = total(total(data,1),1)
-  pix = where(wave LT 2780.)
+  pix = where(wave GT 2815.)
   nrm = median(spec[pix])
   sz_data = size(data,/dimen)
   x_splot, wave, spec/nrm, xtwo=wv, ytwo=fx, /blo

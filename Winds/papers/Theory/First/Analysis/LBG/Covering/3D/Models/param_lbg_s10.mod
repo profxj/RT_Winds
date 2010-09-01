@@ -1,4 +1,3 @@
-line_file = "mg2.line"
 -- LBG wind parameters (see Steidel et al. 2010)
 r_inner   =  1.0      -- inner boundary radius, in kpc 
 r_outer   = 100.0     -- outer boundary radius, in kpc

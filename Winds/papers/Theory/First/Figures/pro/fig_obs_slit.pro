@@ -28,6 +28,102 @@ pro fig_obs_slit
         yrange=yrng, thick=4, $
         xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata
 
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; LBG
+  if not keyword_set(fcmax) then fcmax = 0.6 ; Covering fraction
+  if not keyword_set(r_min) then r_min = 1.0 ; kpc
+  if not keyword_set(r_max) then r_max = 100. ; kpc
+  if not keyword_set(gamma) then gamma = 0.5 ; Covering fraction
+  if not keyword_set(NPTS1) then npts1 = 10000L                  ; Log steps
+  if not keyword_set(NPTS2) then npts2 = 10000L                   ; Log steps
+
+  rcut = 1.2
+  rval_lo = r_min * 10.^(alog10(rcut) * findgen(npts1) / npts1) ; kpc
+  rval_hi = (r_min*rcut) * 10.^(alog10(r_max/r_min/rcut) * findgen(npts2) / (npts2-1)) ; kpc
+  rval = [rval_lo, rval_hi]
+
+  fc_lbg = fcmax * (rval/r_min)^(-1*gamma)
+  I_lbg = 1 - fc_lbg
+  tau_r = -1*alog(I_lbg)
+
+  mn = min(abs(tau_r - tau_rad), imn)
+  fiducial_rtau = rval[imn] ;; kpc
+  print, 'LBG: rtau = ', fiducial_rtau
+
+  grid_file='../Analysis/LBG/Covering/3D/Models/lbg_s10_grid_mgii.fits'
+  idx=[0,1] ;; MgII
+  raw_data = xmrdfits(grid_file, idx[0], /silent)
+  sz = size(raw_data,/dimen)
+  ngrid = sz[0]
+  raw_wave = xmrdfits(grid_file, idx[1], /silent)
+  raw_data = float(raw_data)
+  spec = total(total(raw_data,1),1)
+  dwv = abs(raw_wave[1]-raw_wave[0])
+  dl = 100. / ngrid ;; kpc
+  yval = dl*findgen(ngrid) ;; kpc 
+
+
+;  for qq=0L,2 do begin
+  for qq=0L,1 do begin
+     case qq of 
+        0: begin
+           wrest = 2796.35
+           vmnx = [-750., -65., 180]
+           lsty = 0
+        end
+        1: begin
+           wrest = 2803.531
+           vmnx = [-570., -70., 680]
+           lsty = 1
+        end
+        2: begin
+           wrest = 2600.1729
+           vmnx = [-1037, -66, 714, 2491, 3363]
+           lsty = 2
+           idx=[0,1]
+           raw_data = xmrdfits(grid_file, idx[0], /silent)
+           raw_wave = xmrdfits(grid_file, idx[1], /silent)
+           raw_data = float(raw_data)
+           spec = total(total(raw_data,1),1)
+           dwv = abs(raw_wave[1]-raw_wave[0])
+           stop
+        end
+        else: stop
+     endcase
+        
+     vel = (raw_wave-wrest)/wrest * c.c / 1e5 ; km/s
+;     if qq EQ 2 then stop
+     abs_pix = where(vel GT vmnx[0] and vel LT vmnx[1]) ;; Determined by hand!
+     W_abs = total(dwv*(1.-spec[abs_pix])) ;; Ang
+
+     em_pix = where(vel GT vmnx[1] and vel LT vmnx[2], n_em)
+     if qq GT 1 then begin
+        em_pix = [em_pix, where(vel GT vmnx[3] and vel LT vmnx[4], n_em2)]
+        n_em = n_em + n_em2
+     endif
+     W_em  = total(dwv*(1.-spec[em_pix]))
+
+     print, wrest, W_abs, W_em
+
+     mgii_em = total(total(raw_data[*,*,em_pix],3),1)
+     w_ratio = fltarr(npt)
+     for jj=0L,npt-1 do begin
+        ;; Good cells
+        gd = where(abs(yval) LE slit_ratio[jj]*fiducial_rtau, ngd) 
+        if ngd GT 0 then begin
+           w_ratio[jj] = (dwv*(total(mgii_em[gd])-n_em)) / W_abs
+;        print, slit_ratio[jj], w_ratio[jj]*w_abs, w_ratio[jj], ngd
+        endif
+     endfor
+
+     oplot, slit_ratio, w_ratio, color=clr.red, psym=10, linesty=lsty
+  endfor
+
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Fiducial
   fig_nvtau_vs_r, strct=fiducial_strct 

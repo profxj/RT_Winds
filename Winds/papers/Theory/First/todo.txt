@@ -22,19 +22,19 @@ Xavier
 	20. Use 1D fiducial model for all but the IFU plots
 	21. Move Sobolev discussion up to fiducial model
 	22. Consider a Martin+Bouche model with high dust
-23. Add to Intro:  
-  What has (not) been done previously
-     -- Scattered light
-     -- Flourescence
-     -- Funny treatment of Sobolev
-     -- Spatial extent
-  Discuss NaI emission
+	23. Add to Intro:  
+	  What has (not) been done previously
+	     -- Scattered light
+	     -- Flourescence
+	     -- Funny treatment of Sobolev
+	     -- Spatial extent
+	  Discuss NaI emission
 24. Produce a bi-conical model
 	25. Note the source cannot absorb photons
 	26. Put FeII* 'calculation' in the Methodology section
 	27. "Observe" the fiducial model through LRIS
 	28. Re-measure W_a when varying the slit width (fig_obs_slit)
-29. Correct all the Table 4, 6 values (e.g. Weak FeII 2586 emission)
+	29. Correct all the Table 4, 6 values (e.g. Weak FeII 2586 emission)
 30. Check ISM+dust results.  Seems too effective at extincting?
 
 ---------------------

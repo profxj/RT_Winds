@@ -39,6 +39,7 @@ pro mkall_fig
 
   ;; Asymmetry
   fig_asymm_spec
+  fig_bicon_spec
 
   ;; Dust
   fig_doppler_spec
@@ -71,6 +72,7 @@ pro mkall_fig
   fig_lbg_sobolev
   fig_lbg_spec
   fig_lbg_cumul
+  fig_lbg_ifu
 
   ;; Clump
   fig_lbg_clump_mass

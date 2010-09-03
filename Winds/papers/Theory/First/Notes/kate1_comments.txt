@@ -1,0 +1,76 @@
+Kate's comments, 9/3/10
+
+In editing the text, I concentrated mostly on the Intro, section 2.2, and the
+Radiation Pressure section (which has an outstanding issue, as you
+will read below).  Other changes were mostly just adding
+references and fixing minor typos.  Here are some general comments:
+
+-- In editing the Intro, I didn't include comments on the "funny
+   Sobolev" stuff as Dan suggested, since I didn't know what that meant
+   (just a warning)
+
+-- Section 2.2, "The Source": regarding MgII emission from HII
+   regions, I think you're right that the spectra in Kinney et
+   al. 1993 which are supposed to be showing MgII emission from
+   starbursts aren't very convincing.  At the end of that paper, the
+   spectra are presented again more clearly, and there are only maybe
+   1 or 2 that look like star-forming spectra and have MgII emission.  So I
+   think maybe we should say HII regions are observed to emit weakly
+   in MgII.  In listing MgII as a prominent HII region line, Kinney refers to an
+   article by Dufour et al. (1987), in the book "Exploring the
+   Universe with the IUE Satellite".  I haven't been able to find this
+   article online anywhere, but it's possible it could be more
+   convincing than Kinney.  But anyway, I think I've been until now 
+   making more of a big deal out of MgII emission from star forming regions 
+   than is really appropriate/justified by Kinney.  The MgII in the
+   simple HII region model from Cloudy comes out 0.02 - 0.04 times
+   weaker than Hbeta.
+
+-- Section 3, paragraph 7 (I think): I find the discussion of the
+   false conclusions that are drawn from ignoring emission effects
+   confusing.  I completely agree that one falsely concludes that the
+   wind partially covers the source, since the profiles have similar
+   depth but lie well above zero as you say.  But for me this doesn't fully
+   jive with the idea that one will falsely *underestimate* the true
+   optical depth.  If you assume partial covering, couldn't you still come
+   up with pretty high optical depth?  And looking at the FeII lines
+   and ignoring emission effects, I'd say that I'd *overestimate* the optical
+   depth, since the EW ratio of the observed absorption lines is closer to 1
+   than the EW ratio of the intrinsic absorption lines.  Does this
+   make sense, or am I hopelessly (and embarrassingly) confused?  (This
+   comes up again at the end in your discussion of Figure 20.)
+
+-- Section 4.1 -- would it be useful at all to see the biconical
+   outflow results in 2D, as in Figure 5?  I don't know if it really
+   would; just a thought.
+
+-- Section 4.3, last paragraph: How does the filling-in of the absorption
+   line at high negative velocities compare to the dust-free model?
+
+-- Section 5.2:  Here you have assigned R_g = 1 kpc and R_0 = 20 kpc.
+   I think R_g has to actually be larger than R_0.  Here, R_0 is
+   the launch radius for the wind.  R_g is defined to be 
+
+   R_g = (L / L_Edd) R_0.
+
+   If L is not larger than L_Edd, than the wind won't be launched.
+   I've added a little bit on this to my original document, which is
+   attached (starting at the bottom of p. 1).  I really should have clarified 
+   all of this in the first place--
+   my apologies!  It might make sense to try R_0 = 1 kpc and R_g ~ 4
+   kpc.  Then the wind will accelerate until it reaches R_g, and then
+   decelerate until it stops at about 50 kpc.
+
+-- Section 6: when I was talking to Tremonti about her Letter, she did
+   say that a few of the profiles showed signs of P Cygni-- I
+   don't think this is in her paper, just thought I'd mention it
+
+-- Readers might be interested in knowing f*lambda for each transition
+   -- maybe this could go in Table 1.
+
+-- Figure 17:  Would it improve clarity to group the profiles so that there are 3
+   colors per plot (e.g., ABC, DEF, etc.)?  
+
+-- Figure 20:  Why are there v_tau ~ 0 cases with high tau_pk?
+
+-- I like the new FeII* width plot!

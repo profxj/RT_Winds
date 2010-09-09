@@ -1,12 +1,14 @@
 ; mk_spec_fits, 'Outputs/fiducial_feII.spec', 'Outputs/fiducial_mgII.spec', 'Outputs/fiducial_grid.fits'
-pro mk_bicon_grids
+pro mk_bicon_grids, IDX=idx
 
  mg_fils = findfile('Asymmetric/wind_grid_biconic*_mg*',count=nmg_fil)
  fe_fils = findfile('Asymmetric/wind_grid_biconic*_fe*',count=nfe_fil)
  file_out = 'Asymmetric/biconic_mgII_grids.fits'
  file2_out = 'Asymmetric/biconic_feII_grids.fits'
 
-  for ss=0,1 do begin
+ if not keyword_set(IDX) then idx = [0,1]
+
+  for ss=idx[0],idx[1] do begin
       case ss of 
          0: begin
             nfil = nmg_fil

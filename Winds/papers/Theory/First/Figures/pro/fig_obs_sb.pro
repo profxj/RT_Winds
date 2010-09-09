@@ -80,13 +80,13 @@ pro fig_obs_sb, wrest, grid_file, psfile, YMNX=ymnx, XRNG=xrng, YRNG=yrng
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, xtitle='Radius (kpc)', $
         ytitle='Normalized !9m!X!d2803!N (flux per kpc!u2!N)', yrange=yrng, thick=4, $
-        xrange=xrng, ystyle=1, xstyle=9, psym=1, /nodata, /noerase, /ylog
+        xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /noerase, /ylog
 
   oplot,  avg_r, avg_mu_kpc, color=clr.black, psym=10
 
 ;  axis, yaxis=1, charsiz=csz, ysty=1, yrang=yrng*(kpc_arcsec^2), $
 ;        ytitle='Normalized !9m!X!d2803!N (flux per square arcsecond)'
-  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng/kpc_arcsec, xtitl='Radius (arcseconds)'
+;  axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng/kpc_arcsec, xtitl='Radius (arcseconds)'
 
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]

@@ -1,4 +1,4 @@
-pro mkall_fig
+pro mkall_fig, SKIP=skip
 
   if keyword_set(ALL) then  begin
      ifu = 1
@@ -39,7 +39,7 @@ pro mkall_fig
 
   ;; Asymmetry
   fig_asymm_spec
-  fig_bicon_spec
+  if not keyword_set(SKIP) then fig_bicon_spec
 
   ;; Dust
   fig_doppler_spec
@@ -75,8 +75,10 @@ pro mkall_fig
   fig_lbg_ifu
 
   ;; Clump
-  fig_lbg_clump_mass
-  fig_lbg_clump_eandp
+  if not keyword_set(SKIP) then begin
+     fig_lbg_clump_mass
+     fig_lbg_clump_eandp
+  endif
 
 ;;;;;;;;;;;;;;;;
 ;; Observations

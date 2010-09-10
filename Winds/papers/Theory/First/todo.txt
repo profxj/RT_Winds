@@ -36,7 +36,8 @@ Xavier
 	28. Re-measure W_a when varying the slit width (fig_obs_slit)
 	29. Correct all the Table 4, 6 values (e.g. Weak FeII 2586 emission)
 30. Check ISM+dust results.  Seems too effective at extincting?
-31. Fix radiative
+	31. Modify discussion of misestimate of optical depth (i.e. Kate's points)
+32. Fix radiative
 
 ---------------------
 Dan

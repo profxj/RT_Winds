@@ -8,27 +8,29 @@ pro fig_radiation_nvt, RREAL=rreal, STRCT=strct
   if not keyword_set(dv) then dv = 1.
   if not keyword_set(NPTS) then npts = 1000L  ; Log steps
   if not keyword_set(v_0) then v_0 = 250.  ; Normalization (km/s)
-  if not keyword_set(v_1) then v_1 = 1.  ; Scaling in velocity law
   if not keyword_set(n_0) then n_0 = 0.1  ; Normalization cm^-3
   if not keyword_set(b_val) then b_val = 15. ; km/s
   if not keyword_set(DUST) then dust = 0.1  ; Depletion
   if not keyword_set(METAL) then metal = -0.3  ; [M/H]
 
+  xrng=[1, 50.]
+
   c = x_constants()
   ;; Radius
-  r0 = 1.  ; kpc
-  r1 = 20. ; kpc
-  rval = r0 * exp( alog(r1/r0) * findgen(npts)/float(npts-1) )
+  R0 = 1. ; kpc
+  Rg = 4.  ; kpc
+  rval = xrng[0] * exp( alog(xrng[1]/xrng[0]) * findgen(npts)/float(npts-1) )
   dr = rval - shift(rval,1)  ; kpc
   dr[0] = dr[1] 
 
   ;; Velocity
-  v_r = v_0 * sqrt( v_1 * (1./r1 - 1./rval) + alog(r1/rval) )
+  v_r = v_0 * sqrt( Rg * (1./R0 - 1./rval) + alog(R0/rval) )
   print, 'sigma = ', v_0 / 2, 'km/s'
-  print, 'R_g = ', v_1, ' kpc'
+  print, 'R_g = ', Rg, ' kpc'
 
   ;; Density
   n_r = n_0 * v_0 / rval^2 / v_r
+  n_r[0] = n_r[1]
   n_r[npts-1] = n_r[npts-2]
   print, 'dM/dt = ', n_0*v_0 * (c.kpc^2 * 1e5) * c.mp / c.msun * c.yr, 'Msun/yr'
 
@@ -46,6 +48,7 @@ pro fig_radiation_nvt, RREAL=rreal, STRCT=strct
   dvel = median(vel-shift(vel,1))  ; Should be 1 km/s
 
   fx = x_voigt(wav, lines, /nosmooth, TAU=tau)
+  stop
 
   if arg_present(STRCT) then begin
      strct = { $
@@ -67,7 +70,6 @@ pro fig_radiation_nvt, RREAL=rreal, STRCT=strct
   xmrg = [9,1]
   ymrg = [4.0,1]
   yrng=[0.01, 50.]
-  xrng=[r0, r1]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, $
         ytitle='n!dH!u!N [x10!u2!N, cm!u-3!N];   v!dr!N [x10!u-1!N km s!u-1!N];  ' + $

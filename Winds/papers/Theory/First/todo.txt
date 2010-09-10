@@ -36,6 +36,7 @@ Xavier
 	28. Re-measure W_a when varying the slit width (fig_obs_slit)
 	29. Correct all the Table 4, 6 values (e.g. Weak FeII 2586 emission)
 30. Check ISM+dust results.  Seems too effective at extincting?
+31. Fix radiative
 
 ---------------------
 Dan
@@ -45,16 +46,15 @@ Dan
 103. Suggest other variants + models
 104. Correct any/all of my radiation lingo (e.g. resonance vs resonant; scattering vs. re-emission [flourescence])
 105. Check for a bug in the asymmetric emission maps?
-106. Help X get a 2D map of the LBG emission
-107. How many FeII lines are there 'recorded' and what is a 
-  proper reference?
+	106. Help X get a 2D map of the LBG emission
+	107. How many FeII lines are there 'recorded' and what is a proper reference?
 
 
 ---------------------
 Kate
 ---------------------
-1001. Improve Intro
-1002. Suggest other references
+	1001. Improve Intro
+	1002. Suggest other references
 1003. Consider other ways to compare to observations
 	1004. Suggest other variants + models
 
@@ -67,11 +67,11 @@ Models to run (or rerun)
 	Fiducial with tau varying (MgII, FeII) 
 	ISM
 	ISM with dust
-Dust models enough times to 'fit' flux vs tau_d
+	Dust models enough times to 'fit' flux vs tau_d
 	LBG
 LBG with dust [tau ~ distance]
-LBG in '3D'
+	LBG in '3D'
 	Doppler
 Power-laws (some) with dust
 Bi-conical models
-
+Infall

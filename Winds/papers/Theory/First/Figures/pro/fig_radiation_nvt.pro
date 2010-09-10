@@ -8,14 +8,16 @@ pro fig_radiation_nvt, RREAL=rreal, STRCT=strct
   if not keyword_set(dv) then dv = 1.
   if not keyword_set(NPTS) then npts = 1000L  ; Log steps
   if not keyword_set(v_0) then v_0 = 250.  ; Normalization (km/s)
-  if not keyword_set(n_0) then n_0 = 0.1  ; Normalization cm^-3
+  if not keyword_set(n_0) then n_0 = 0.03  ; Normalization cm^-3
   if not keyword_set(b_val) then b_val = 15. ; km/s
   if not keyword_set(DUST) then dust = 0.1  ; Depletion
   if not keyword_set(METAL) then metal = -0.3  ; [M/H]
 
   xrng=[1, 50.]
-
   c = x_constants()
+  wrest = 2796.352d
+  DVDR_MIN = 0.1
+
   ;; Radius
   R0 = 1. ; kpc
   Rg = 4.  ; kpc
@@ -28,14 +30,25 @@ pro fig_radiation_nvt, RREAL=rreal, STRCT=strct
   print, 'sigma = ', v_0 / 2, 'km/s'
   print, 'R_g = ', Rg, ' kpc'
 
+  ;; dv/dr
+  dvdr = (v_0/2.) *abs(Rg/rval^2 - 1./rval) /  $
+         sqrt( Rg * (1./R0 - 1./rval) + alog(R0/rval) )
+
   ;; Density
   n_r = n_0 * v_0 / rval^2 / v_r
   n_r[0] = n_r[1]
   n_r[npts-1] = n_r[npts-2]
   print, 'dM/dt = ', n_0*v_0 * (c.kpc^2 * 1e5) * c.mp / c.msun * c.yr, 'Msun/yr'
 
+  ;; Sobolev
+  ;; v turns over at rval = Rg, so this doesnt make much sense
+  getfnam, wrest, fval, nam
+  kappa_l = !pi*c.e^2/c.me/c.c * fval
+  n_Mg = n_r * 10.^(7.53-12.+METAL) * DUST
+  tau_r = n_Mg*kappa_l / ((dvdr>DVDR_MIN)*1e5/c.kpc) * (wrest*1e-8) 
+  if keyword_set(SHOW) then x_splot, rval, tau_r, /blo
+
   ;; Optical depth
-  wrest = 2796.352d
   mgii = x_setline(wrest)
   lines = replicate(mgii, npts)
   lines.b = b_val
@@ -48,7 +61,7 @@ pro fig_radiation_nvt, RREAL=rreal, STRCT=strct
   dvel = median(vel-shift(vel,1))  ; Should be 1 km/s
 
   fx = x_voigt(wav, lines, /nosmooth, TAU=tau)
-  stop
+  if keyword_set(SHOW) then x_splot, vel, tau, /blo
 
   if arg_present(STRCT) then begin
      strct = { $

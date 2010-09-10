@@ -22,12 +22,12 @@ int    n_phi     =    1;      // number of phi bins
 
 // grid parameters
 double r_inner   =  1.0;      // inner boundary radius, in kpc
-double r_outer   = 20.0;      // outer boundary radius, in kpc
+double r_outer   = 50.0;      // outer boundary radius, in kpc
 double r_emit    =  0.2;      // boundary to emit from
-double n_0       =  1e-1;     // number density at inner boundary (cm^-3)
-double v_parm    =  1.0;      // power law of velocity profile
+double n_0       =  3e-2;     // number density at inner boundary (cm^-3)
+double r_g    =  4.0;      // Wind parameter (kpc)
 double v_norm    =  250.*1e5;    // velocity at outer boundary (cm/s)
-double v_rval    = r_outer;
+double r_0    = 1.;      // Launch radius (kpc)
 
 double dust_cs     = 3.33e-24;    // dust cross-section
 double dust_tau   = 0.;          // Optical depth of dust through the wind (r=0 to Infinity)
@@ -125,7 +125,7 @@ double Get_Velocity(double r)
   //  return v_max*pow(r/r_outer,v_law);
   // return v_min + (r-r_inner)/(r_outer-r_inner) * (v_max-v_min);
   if(r < r_inner) return 0.;
-  return v_norm * sqrt( v_parm * (1./v_rval - 1./r) + log(v_rval/r) );
+  return v_norm * sqrt( r_g * (1./r_0 - 1./r) + log(r_0/r) );
 }
 
 

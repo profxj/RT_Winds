@@ -463,9 +463,24 @@ emitted photons.
 \subsection{Monte Carlo Algorithm}
 \label{sec:monte}
 
-[Describe 1D and 3D algorithms]
 
-[Put tests in an Appendix?]
+We calculated spectra using a 3D Monte Carlo radiation transport code originally designed for supernova outflows  \cite{Kasen_2006} but  modified to treat resonant line transport  on a galactic scale \cite{Kasen_lyman}.  Our methods are similar to those used in several other codes \citep[e.g.,][]{Zheng_2002,Dijkstra_2006,Verhame_2006,Laursen_2009}, except that here we include the effects of multiple line scattering and fluorescence.
+
+For our 3-dimensional calculations, the  wind properties (density, temperature and velocity) were descritized on a $300^3$ Cartesian grid (for certain 1-D calculations, the wind properties were simply computed on the fly from analytic formulae).   
+The radiation field was represented by $N$ photon packets (typically $N \sim 10^7$) which were initially emitted isotropically and uniformly throughout the source region ($r < r_{\rm source}$).  The wavelengths of the packets were sampled from a flat spectral energy distribution. 
+
+Photon packets were tracked through randomized scattering and absorption events until they escaped the computational domain.  The distance to the next packet interaction event was determined by Doppler shifting packets to the comoving frame and sampling the mean free path to each resonance line, as well to dust.  The resonant line opacity followed a Voigt profile which was determined using the analytic fits of  \cite{Tomi_2006}.      Non-resonant lines were assumed to be completely optically thin, and the dust opacity was assumed to be wavelength independent and completely absorbing (right X?).   Because of the relatively low optical depths encountered in these models, no ``core-skipping'' scheme was applied to accelerate the resonant line transport,  and recoil effects were ignored.
+
+In a resonant line interaction, a photon excites an atom from the ground state to an excited level.  The end result is either scattering (i.e., de-excitation back to the ground state) or fluorescence (de-excitation to another excited  level).  The probability that the atom de-excites to lower level $x$ is  $p_{x} = A_{ux} / \sum_i A_{ui}$, where the $A_{ui}$ are the Einstein spontaneous emission coefficients and the sum runs over all levels accessible from the upper state $u$.  
+For each interaction event, a random number was drawn to sample the final state from this probability distribution.    If the result was a scattering, the process was assumed to be coherent in the comoving frame.  If the result was fluorescence, the packet was  reemitted at the line center wavelength of the new transition.  Natural line broadening in fluorescence was ignored given the high velocity gradients in our models.  In all cases, the angular redistribution was  assumed to be isotropic.
+
+%Spatially averaged spectra of the models were constructed by collecting all packets which escaped in a given (observer-frame) wavelength bin.   
+To generate multi-dimensional images and spectra of the system, an escape probability method was used.  At the initiation of a packet, and at every subsequent interaction event, we calculated the probability $P_x = e^{-\tau_{ux}} p_{ux}$,  that the packet de-excited into state $x$ and escaped the domain in some pre-specified direction. Here
+$\tau_{ux}$ is the optical depth to infinity, which was  constructed  by integration along the path to escape, taking into account the relevant Doppler shifts and possible absorption by lines or dust.  The contribution of the packet to the final spectrum was than added in for every possible final state, each shifted to the proper observer-frame wavelength and weighted by the probability $P_x$.
+
+To validate the monte carlo code, we calculated a series of test problems consisting of a point source embedded in a spherical, homogenous medium of varying resonant line optical depth.  The resulting resonant line profiles  \citep[see][]{kasen_lyman} were
+found to be in good agreement with the standard analytic solutions \citep{Harrington_1973,Neufeld_1990,Dijkstra_2006}.  As a further test, we calculated line profiles for the case of an extended spherical source embedded in a homologously expanding wind with large velocity gradient.  These model spectra (Figure~\ref{fig:oneline_test}) are in good agreement with ones determined by direct numerical integration of the radiation transport equation under the Sobolev approximation [e.g.,][]\citep{Jeffery_Branch}.
+
 
 \subsection{Dust}
 \label{sec:dust_method}
@@ -646,7 +661,7 @@ values differ by a factor of two.  In standard absorption line
 analysis, this is 
 the tell-tale signature of a `cloud' that has a high optical depth (i.e.\
 saturated) which only partially covers the emitting source
-\citep[e.g.][]{rvs05a,hammann+10}.  Our fiducial wind model, however, 
+\citep[e.g.][]{rvs05a,hkp+10}.  Our fiducial wind model, however, 
 {\it entirely covers the source}; the apparent partial covering must
 be related to a different effect.
 Figure~\ref{fig:noemiss} further emphasizes this point by comparing the 
@@ -1870,6 +1885,17 @@ galactic-scale outflows and are not considered in our analysis.
 }
 \label{fig:energy}
 \end{figure}
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{../Figures/oneline_test.eps}
+\caption{
+Line profiles of a test problem calculated using the monte carlo code (solid) and by direct numerical integration of the transport equation under the Sobolev approximation (dashed lines).  The configuration was  spherical and consisted of a homologously expanding wind  with density profile $n \propto r^{-2}$  lying above an opaque emitting surface at velocity coordinate 100~km~s$^{-1}$.  
+The wind extended to 2,000 km~s$^{-1}$ and the Sobolev optical depth had values of  $\tau = 1$ (black lines), $\tau = 10$ (red lines), and $\tau = 100$ (blue lines).    Discrepancies in the $\tau = 100$ case are likely due to the breakdown of the Sobolev approximation at high optical depth. 
+}
+\label{fig:oneline_test}
+\end{figure}
+
 
 \begin{figure}
 \epsscale{0.8}

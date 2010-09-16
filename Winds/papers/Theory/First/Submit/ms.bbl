@@ -1,4 +1,4 @@
-\begin{thebibliography}{53}
+\begin{thebibliography}{70}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{{Aguirre} {et~al.}(2001){Aguirre}, {Hernquist}, {Schaye}, {Weinberg},
@@ -20,10 +20,27 @@
 \bibitem[{{Chevalier} \& {Clegg}(1985)}]{cc85}
 {Chevalier}, R.~A., \& {Clegg}, A.~W. 1985, \nat, 317, 44
 
+\bibitem[{{Dijkstra} {et~al.}(2006){Dijkstra}, {Haiman}, \&
+  {Spaans}}]{Dijkstra_2006}
+{Dijkstra}, M., {Haiman}, Z., \& {Spaans}, M. 2006, \apj, 649, 14
+
 \bibitem[{{Fujita} {et~al.}(2009){Fujita}, {Martin}, {Mac Low}, {New}, \&
   {Weaver}}]{fmm+09}
 {Fujita}, A., {Martin}, C.~L., {Mac Low}, M., {New}, K.~C.~B., \& {Weaver}, R.
   2009, \apj, 698, 693
+
+\bibitem[{{Hamann} {et~al.}(2010){Hamann}, {Kanekar}, {Prochaska}, {Murphy},
+  {Ellison}, {Malec}, {Milutinovic}, \& {Ubachs}}]{hkp+10}
+{Hamann}, F., {Kanekar}, N., {Prochaska}, J.~X., {Murphy}, M.~T., {Ellison},
+  S., {Malec}, A.~L., {Milutinovic}, N., \& {Ubachs}, W. 2010, ArXiv e-prints
+
+\bibitem[{{Harrington}(1973)}]{Harrington_1973}
+{Harrington}, J.~P. 1973, \mnras, 162, 43
+
+\bibitem[{{Hartigan} {et~al.}(1999){Hartigan}, {Morse}, {Tumlinson}, {Raymond},
+  \& {Heathcote}}]{hmt+99}
+{Hartigan}, P., {Morse}, J.~A., {Tumlinson}, J., {Raymond}, J., \& {Heathcote},
+  S. 1999, \apj, 512, 901
 
 \bibitem[{{Heckman} {et~al.}(1990){Heckman}, {Armus}, \& {Miley}}]{ham90}
 {Heckman}, T.~M., {Armus}, L., \& {Miley}, G.~K. 1990, \apjs, 74, 833
@@ -31,11 +48,22 @@
 \bibitem[{{Hughes} {et~al.}(1990){Hughes}, {Robson}, \& {Gear}}]{hrg90}
 {Hughes}, D.~H., {Robson}, E.~I., \& {Gear}, W.~K. 1990, \mnras, 244, 759
 
+\bibitem[{{Jeffery} \& {Branch}(1990)}]{Jeffery_Branch}
+{Jeffery}, D.~J., \& {Branch}, D. 1990, in Supernovae, Jerusalem Winter School
+  for Theoretical Physics, ed. {J.~C.~Wheeler, T.~Piran, \& S.~Weinberg},
+  149--+
+
+\bibitem[{{Kasen} {et~al.}(2006){Kasen}, {Thomas}, \& {Nugent}}]{Kasen_2006}
+{Kasen}, D., {Thomas}, R.~C., \& {Nugent}, P. 2006, \apj, 651, 366
+
 \bibitem[{{Kasen} \& {Woosley}(2007)}]{kw07}
 {Kasen}, D., \& {Woosley}, S.~E. 2007, \apj, 656, 661
 
 \bibitem[{{Kasen} \& {Woosley}(2009)}]{kw09}
 ---. 2009, \apj, 703, 2205
+
+\bibitem[{{Kasen} {et~al.}(2010)}]{Kasen_lyman}
+{Kasen}, D., {et~al.} 2010, ApJ in preparation
 
 \bibitem[{{Kere{\v s}} {et~al.}(2009){Kere{\v s}}, {Katz}, {Dav{\'e}},
   {Fardal}, \& {Weinberg}}]{kkd+09}
@@ -50,6 +78,10 @@
 \bibitem[{{Kobulnicky} \& {Martin}(2010)}]{km10}
 {Kobulnicky}, H.~A., \& {Martin}, C.~L. 2010, \apj, 718, 724
 
+\bibitem[{{Laursen} {et~al.}(2009){Laursen}, {Razoumov}, \&
+  {Sommer-Larsen}}]{Laursen_2009}
+{Laursen}, P., {Razoumov}, A.~O., \& {Sommer-Larsen}, J. 2009, \apj, 696, 853
+
 \bibitem[{{Lehnert} {et~al.}(1999){Lehnert}, {Heckman}, \& {Weaver}}]{lhw99}
 {Lehnert}, M.~D., {Heckman}, T.~M., \& {Weaver}, K.~A. 1999, \apj, 523, 575
 
@@ -63,16 +95,30 @@
 \bibitem[{{Martin}(2005)}]{martin05}
 ---. 2005, \apj, 621, 227
 
+\bibitem[{{Martin} \& {Bouch{\'e}}(2009)}]{mb09}
+{Martin}, C.~L., \& {Bouch{\'e}}, N. 2009, \apj, 703, 1394
+
 \bibitem[{{M{\'e}nard} {et~al.}(2008){M{\'e}nard}, {Nestor}, {Turnshek},
   {Quider}, {Richards}, {Chelouche}, \& {Rao}}]{mnt+08}
 {M{\'e}nard}, B., {Nestor}, D., {Turnshek}, D., {Quider}, A., {Richards}, G.,
   {Chelouche}, D., \& {Rao}, S. 2008, \mnras, 385, 1053
+
+\bibitem[{{M{\'e}nard} {et~al.}(2010){M{\'e}nard}, {Scranton}, {Fukugita}, \&
+  {Richards}}]{msf+10}
+{M{\'e}nard}, B., {Scranton}, R., {Fukugita}, M., \& {Richards}, G. 2010,
+  \mnras, 405, 1025
+
+\bibitem[{{Morton}(2003)}]{morton03}
+{Morton}, D.~C. 2003, \apjs, 149, 205
 
 \bibitem[{{Murray} {et~al.}(2010){Murray}, {M{\'e}nard}, \& {Thompson}}]{mmt10}
 {Murray}, N., {M{\'e}nard}, B., \& {Thompson}, T.~A. 2010, ArXiv e-prints
 
 \bibitem[{{Murray} {et~al.}(2005){Murray}, {Quataert}, \& {Thompson}}]{mqt05}
 {Murray}, N., {Quataert}, E., \& {Thompson}, T.~A. 2005, \apj, 618, 569
+
+\bibitem[{{Neufeld}(1990)}]{Neufeld_1990}
+{Neufeld}, D.~A. 1990, \apj, 350, 216
 
 \bibitem[{{Nulsen} {et~al.}(1998){Nulsen}, {Barcons}, \& {Fabian}}]{nbf98}
 {Nulsen}, P.~E.~J., {Barcons}, X., \& {Fabian}, A.~C. 1998, \mnras, 301, 168
@@ -83,12 +129,17 @@
 \bibitem[{{Pettini} {et~al.}(1998){Pettini}, {Kellogg}, {Steidel}, {Dickinson},
   {Adelberger}, \& {Giavalisco}}]{pks+98}
 {Pettini}, M., {Kellogg}, M., {Steidel}, C.~C., {Dickinson}, M., {Adelberger},
-  K.~L., \& {Giavalisco}, M. 1998, 508, 539
+  K.~L., \& {Giavalisco}, M. 1998, \apj, 508, 539
 
 \bibitem[{{Pettini} {et~al.}(2002){Pettini}, {Rix}, {Steidel}, {Adelberger},
   {Hunt}, \& {Shapley}}]{prs+02}
 {Pettini}, M., {Rix}, S.~A., {Steidel}, C.~C., {Adelberger}, K.~L., {Hunt},
   M.~P., \& {Shapley}, A.~E. 2002, \apj, 569, 742
+
+\bibitem[{{Pettini} {et~al.}(2000){Pettini}, {Steidel}, {Adelberger},
+  {Dickinson}, \& {Giavalisco}}]{psa+00}
+{Pettini}, M., {Steidel}, C.~C., {Adelberger}, K.~L., {Dickinson}, M., \&
+  {Giavalisco}, M. 2000, \apj, 528, 96
 
 \bibitem[{{Phillips}(1993)}]{phillips93}
 {Phillips}, A.~C. 1993, \aj, 105, 486
@@ -160,6 +211,9 @@
 {Snow}, T.~P., {Lamers}, H.~J.~G.~L.~M., {Lindholm}, D.~M., \& {Odell}, A.~P.
   1994, \apjs, 95, 163
 
+\bibitem[{{Sobolev}(1960)}]{sobolev60}
+{Sobolev}, V.~V. 1960, {Moving envelopes of stars}
+
 \bibitem[{{Socrates} {et~al.}(2008){Socrates}, {Davis}, \&
   {Ramirez-Ruiz}}]{sdr08}
 {Socrates}, A., {Davis}, S.~W., \& {Ramirez-Ruiz}, E. 2008, \apj, 687, 202
@@ -186,6 +240,9 @@
   {Chapman}, {Blain}, {Ivison}, {Howat}, {Keel}, \& {Bunker}}]{ssb+05}
 {Swinbank}, A.~M., {et~al.} 2005, \mnras, 359, 401
 
+\bibitem[{{Tasitsiomi}(2006)}]{Tomi_2006}
+{Tasitsiomi}, A. 2006, \apj, 645, 792
+
 \bibitem[{{Tremonti} {et~al.}(2007){Tremonti}, {Moustakas}, \&
   {Diamond-Stanic}}]{tmd07}
 {Tremonti}, C.~A., {Moustakas}, J., \& {Diamond-Stanic}, A.~M. 2007, \apjl,
@@ -195,6 +252,10 @@
   {Bland-Hawthorn}, \& {Cecil}}]{vsr+03}
 {Veilleux}, S., {Shopbell}, P.~L., {Rupke}, D.~S., {Bland-Hawthorn}, J., \&
   {Cecil}, G. 2003, \aj, 126, 2185
+
+\bibitem[{{Verhamme} {et~al.}(2006){Verhamme}, {Schaerer}, \&
+  {Maselli}}]{Verhame_2006}
+{Verhamme}, A., {Schaerer}, D., \& {Maselli}, A. 2006, \aap, 460, 397
 
 \bibitem[{{Walter} {et~al.}(2002){Walter}, {Weiss}, \& {Scoville}}]{wws02}
 {Walter}, F., {Weiss}, A., \& {Scoville}, N. 2002, \apjl, 580, L21
@@ -215,5 +276,8 @@
   {Jenkins}, {Menard}, {Rao}, {Tumlinson}, {Turnshek}, {Yip}, \&
   {Brinkmann}}]{ykv+06}
 {York}, D.~G., {et~al.} 2006, \mnras, 367, 945
+
+\bibitem[{{Zheng} \& {Miralda-Escud{\'e}}(2002)}]{Zheng_2002}
+{Zheng}, Z., \& {Miralda-Escud{\'e}}, J. 2002, \apj, 578, 33
 
 \end{thebibliography}

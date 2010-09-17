@@ -38,6 +38,7 @@ Xavier
 30. Check ISM+dust results.  Seems too effective at extincting?
 	31. Modify discussion of misestimate of optical depth (i.e. Kate's points)
 	32. Fix radiative
+33. Cite K. France paper
 
 ---------------------
 Dan

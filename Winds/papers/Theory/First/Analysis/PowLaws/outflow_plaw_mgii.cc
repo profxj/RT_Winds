@@ -83,8 +83,9 @@ int main(int argc, char **argv)
   // Dust
   if(argc > 6) {
     dust_tau = atof(argv[1]);
+    double omnl = 1-n_law;
+    double nH_colm   =  n_0 * pow(r_inner,n_law)  * ( pow(r_outer,omnl)-pow(r_inner,omnl) ) / omnl;
     dust_norm   =  dust_tau / dust_cs /  nH_colm / KPARSEC ;
-    return 0;  // Need to deal with nH_colm properly
   }
 
   void Run_Monte_Carlo(char*);

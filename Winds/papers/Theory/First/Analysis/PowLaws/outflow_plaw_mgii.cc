@@ -32,8 +32,6 @@ double v_rval = r_inner;
 
 double dust_cs     = 3.33e-24;    // dust cross-section
 double dust_tau   = 0.;          // Optical depth of dust through the wind (r=0 to Infinity)
-//double omnl = 1-n_law;
-//double nH_colm   =  n_0 * pow(r_inner,n_law)  * ( pow(r_outer,omnl)-pow(r_inner,omnl) ) / omnl;
 double dust_norm   =  0.;   // Normalization to give dust_tau
 double dust_albedo = 0.0;         // ratio of scattering to absorption
 

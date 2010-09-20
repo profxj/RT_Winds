@@ -35,8 +35,6 @@ double v_rval = r_inner;
 
 double dust_cs     = 3.33e-24;    // dust cross-section
 double dust_tau   = 0.;          // Optical depth of dust through the wind (r=0 to Infinity)
-double omnl = 1-n_law;
-double nH_colm   =  n_0 * pow(r_inner,n_law)  * ( pow(r_outer,omnl)-pow(r_inner,omnl) ) / omnl;
 double dust_norm   =  0.;   // Normalization to give dust_tau
 double dust_albedo = 0.0;         // ratio of scattering to absorption
 
@@ -86,8 +84,9 @@ int main(int argc, char **argv)
   // Dust
   if(argc > 6) {
     dust_tau = atof(argv[1]);
+    double omnl = 1-n_law;
+    double nH_colm   =  n_0 * pow(r_inner,n_law)  * ( pow(r_outer,omnl)-pow(r_inner,omnl) ) / omnl;
     dust_norm   =  dust_tau / dust_cs /  nH_colm / KPARSEC ;
-    return 0;  // Need to deal with nH_colm properly
   }
 
   // Lines 

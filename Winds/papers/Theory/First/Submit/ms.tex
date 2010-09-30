@@ -87,12 +87,12 @@
 
 \author{
 J. Xavier Prochaska\altaffilmark{1}, 
-Daniel Kasen\altaffilmark{1,2,3}, 
+Daniel Kasen\altaffilmark{2,3}, 
 Kate Rubin\altaffilmark{1} 
 }
 \altaffiltext{1}{Department of Astronomy and Astrophysics, UCO/Lick Observatory, University of California, 1156 High Street, Santa Cruz, CA 95064}
-\altaffiltext{2}{UCB?}
-\altaffiltext{3}{Hubble Fellow}
+\altaffiltext{2}{Departments of Physics and Astronomy, University of California, Berkeley, 366 LeConte Hall, Berkeley CA, 94720}
+\altaffiltext{3}{Nuclear Science Division, Lawrence Berkeley National Laboratory, 1 Cyclotron Rd, Berkeley, CA, 94720}
 
 \begin{abstract}
 \begin{itemize}
@@ -359,8 +359,8 @@ commonly observed, the separation is large and the transitions
 must be treated separately.  
 
 Iron exhibits the most complex set of energy levels for elements
-frequently studied in astrophysics.  The Fe$^+$ ion alone has over
-10,000 energy levels recorded \citep{iron}, and even this is an
+frequently studied in astrophysics.  The Fe$^+$ ion alone has 
+millions of energy levels recorded \citep{kurucz_cd1}, and even this is an
 incomplete list.  
 One reason for iron's complexity is
 that the majority of its configurations exhibit fine-structure splitting.
@@ -534,29 +534,38 @@ infinity.  The ambient ISM of a star-forming galaxy may be expected to exhibit
 
 \subsection{The Sobolev Approximation}
 
-For a wind with a steep velocity law (i.e.\ a large gradient $dv/dr$)
-and/or a narrow intrinsic profile (i.e.\ a small Doppler parameter),
-\citet{sobolev60} introduced a formalism that defines the opacity of
-the wind at a given radius $\tau(r)$ in terms of the density and
-velocity gradient of the flow at that radius;
-
+A photon propagating through a differentially expanding medium
+interacts with a line only when
+it's comoving frame wavelength is Doppler shifted into near resonance with the line center rest wavelength. 
+For a wind with a steep velocity law  (i.e.\ a large gradient $dv/dr$)
+and/or a narrow intrinsic profile (i.e.\ a small Doppler parameter), the 
+spatial extent of the region of resonance
+may by much smaller than the length scale of the
+wind itself.  The interaction can then 
+be considered to occur at  a point.
+In this case, \citet{sobolev60} introduced a formalism that gives the line optical depth $\tau(r)$ at  
+a given point in terms of the density and
+velocity gradient of the flow at that radius.  For a wind in homologous expansion,
+this optical depth is independent of the direction of propagation and given by
 \begin{equation}
-\tau^S(r) = \kappa^\ell \rho(r) \, \lambda^\ell \ltp \frac{dv}{dr} 
-\rtp^{-1}  \cmma
+\tau^S(r) = K^\ell   \lambda_0^\ell | dv/dr |^{-1} \cmma
 \label{eqn:Sobolev}
 \end{equation}
-where $\kappa^\ell$ is the opacity of transition $\ell$.  This opacity
-applies to a photon with wavelength $\lambda^S
-\equiv \lambda^\ell (1-v(r)/c)$.
-This is, of course, not the true opacity;
-a photon with wavelength $\lambda^S$ that travels through the wind 
-experiences a total opacity 
-$\tau_\nu^\ell = \intl_0^\infty \rho(r) \kappa_\nu^\ell dr$.  The Sobolev
-approximation is valid when the opacity the photon experiences is
-dominated by gas in a localized portion of the flow.
-We find that it applies to nearly all of the
-models presented in this paper and therefore provides a convenient
-approach to estimating $\tau^\ell_\nu$.
+where 
+\begin{equation}
+K^\ell = \frac{\pi e^2}{m_e c} f^\ell n^\ell(r)
+\end{equation}
+is the integrated line opacity, $\lambda_0^\ell$ the rest center wavelength,
+$f^\ell$ the oscillator strength and
+$n^\ell$ the density in the lower level of the transition.   We have
+neglected corrections for stimulated emission.   This optical
+depth applies to a photon with wavelength $\lambda^S
+\equiv \lambda^\ell (1- v(r)~\hat{r}  \cdot \hat{d} /c)$ where $\hat{d}$ is the 
+direction of propagation.  The probability that such a photon
+is scattered/absorbed at the point of resonance is simply $1 - \exp[-\tau^S(r)]$.
+We find that the Sobolev approximation applies for nearly all of the
+models presented in this paper, and therefore provides a convenient
+approach to estimating the optical depth.
 
 
 
@@ -578,23 +587,25 @@ radius $r_{\rm inner}$ to an outer wind radius $r_{\rm outer}$.
 It follows a (mass-flux conserving) density law,
 
 \begin{equation}
-n_{\rm H} (r) = \frac{n^0_{\rm H}}{r^2} \;\;\; , 
+n_{\rm H} (r) = n^0_{\rm H} \biggl( \frac{r_{\rm inner}}{r}  \biggr)^2\;\;\; , 
 \label{eqn:density}
 \end{equation}
 and a velocity law with a purely radial flow
 
 \begin{equation}
-\vec v = v_r (r) \hat r = v_0 r \hat r  \perd
+\vec v = v_r (r) \hat r = \frac{v_0 r}{r_{\rm outer}} \hat r  \perd
 \label{eqn:vel}
 \end{equation}
-Turbulent motions are
+For the fiducial case,  the hydrogen density at
+the inner radius is $n_{\rm H}^0 = 0.1~{\rm cm}^{-3}$ and the
+velocity at the outer radius is $v_0 = 1,000$~\kms. Turbulent motions are
 characterized by a Doppler parameter\footnote{
   The adopted Doppler parameter
-  ($\mbturb = 15 \mkms$) has a minor impact on the results.
+ has a minor impact on the results.
   The absorption profiles are insensitive to its value and varying \bturb\
   only tends to modify the widths and modestly
   shift the centroids of emission lines.} 
-, $b_{\rm turb}$.  
+$b_{\rm turb} = 15 \mkms$.  
 We convert the hydrogen density $n_{\rm H}$ to the number densities of
 Mg$^+$ and Fe$^+$ ions by assuming solar relative abundances with an
 absolute metallicity of 1/2 solar and depletion factors of 1/10 and
@@ -602,6 +613,7 @@ absolute metallicity of 1/2 solar and depletion factors of 1/10 and
 and \nfe=\nmg/2. At the center of the wind is a homogeneous source of
 continuum photons with size $r_{\rm source}$. The parameters for the
 fiducial wind model are summarized in Table~\ref{tab:fiducial}.   
+
 
 In Figure~\ref{fig:fiducial_nvt} we plot the density and velocity
 laws against radius;  
@@ -625,10 +637,11 @@ r_{\rm inner}$.  The optical depth profile for the \mgiib\ transition
 the optical depth profiles for the \feiid\ transitions are
 scaled down by $f \lambda$ and the \nfe/\nmg\ ratio.  
 
-Because the results are dictated by frequency dependence of the
-$\tau_{2796}$ profile, 
-the actual dimensions and density of the wind are
-essentially unimportant provided they scale together to give nearly the same
+%Because the results are dictated by frequency dependence of the
+% $\tau_{2796}$ profile
+%  I don't understand this sentence so I commented it out -- ? -- Dan 
+For the spatial integrated (i.e., 1D) spectra, the actual dimensions and density of the wind are
+unimportant provided they scale together to give nearly the same
 optical depth. Therefore, one may consider the choices for
 $r_{\rm inner}, r_{\rm outer}, n_{\rm H}^0$ as arbitrary.
 Nevertheless, we adopted values for this fiducial model with
@@ -841,13 +854,13 @@ it is frequently assumed in studies of galactic-scale outflows
 \citep[e.g.][]{steidel+10}.   There are several reasons, however, to
 consider anisotropic winds.  Firstly, galaxies are not spherically
 symmetric;  the sources driving the
-wind (e.g.\ supernovae, AGN) are very unlikely to be isotropically distributed
+wind (e.g.\ supernovae, AGN) are very unlikely to be spherically distributed
 within the galaxy.  
 Secondly, the galactic ISM frequently has a disk-like morphology
 which will suppress the wind preferentially at low galactic latitudes,
 perhaps yielding a bi-conic morphology \citep[e.g.][]{ham90,wws02}.
 Lastly, the galaxy could be surrounded by an
-anisotropic gaseous halo whose interaction would produce an irregular 
+aspherical gaseous halo whose interaction would produce an irregular 
 outflow.
 
 With these considerations in mind, we reanalyzed the fiducial model
@@ -1019,7 +1032,7 @@ into \feiis\ photons.  This is especially notable for the
 \feiib\ transition whose coupled \feiis\ transition shows an equivalent width nearly
 $10\times$ stronger than for the fiducial model.  The relative
 strengths of the \feiib\ and \feiie\ lines provide a direct
-diagnostic on the degree to which the resonance lines are trapped.
+diagnostic on the degree to which the resonance line photons are trapped.
 [Comment:  this is a product of $\tau_{2600}$ and the velocity
 gradient]
 
@@ -1151,17 +1164,17 @@ is displayed in Figure~\ref{fig:LBG_Sobolev}b.
 
 In the following, we consider two methods to analyze the LBG wind.
 Both approaches assume an isotropic wind and adopt the velocity law given by
-Equation~\ref{eqn:LBG_vlaw}.  In one model, we treat the cool gas as a
+Equation~\ref{eqn:LBG_vlaw}.  In the first model, we treat the cool gas as a
 diffuse medium with unit covering fraction and a radial density
 profile determined from the Sobolev approximation.  We then apply 
 the Monte Carlo methodology used for the other wind models to predict
-\ion{Mg}{2} and \ion{Fe}{2} line profiles.  In the other LBG model,
+\ion{Mg}{2} and \ion{Fe}{2} line profiles.  In the second LBG model,
 we modify our algorithms to more precisely mimic the concept of an
 ensemble of optically thick clouds with a partial covering fraction on
 galactic scales.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Sobolev approximation}
+\subsubsection{Sobolev Inversion}
 \label{sec:Sobolev}
 
 As demonstrated in Figure~\ref{fig:LBG_Sobolev}, the wind velocity for
@@ -1169,23 +1182,30 @@ the LBG model rises very steeply with increasing radius before
 flattening at large radii.  Under these conditions, the Sobolev
 approximation provides an accurate description of the optical depth
 for the flowing medium. 
-In our case, the optical depth profile is actually provided by 
-Equation~\ref{eqn:LBG_I}, 
-
+The Sobolev line optical depth profile can be derived from
+the absorption profile (Equation~\ref{eqn:LBG_I}), 
 \begin{equation}
 \tau_{\rm LBG}(v) = -\ln \ltk I_{\rm LBG}(v) \rtk \perd
 \label{eqn:tauLBG}
 \end{equation}
-Therefore, we may invert the Sobolev approximation (Equation~\ref{eqn:Sobolev})
-to derive the radial density profile,
-
+This simple expression assumes that the source size is small compared the wind dimensions
+and neglects the effects of light scattered in the wind (for more general inversion
+formulae that do not make these assumptions, see \citet{Kasen_2002}).
+The Sobolev approximation (Equation~\ref{eqn:Sobolev}) provides a simple expression for the optical
+depth at each radius in terms of the local density and velocity gradient.  In general, the velocity 
+ gradient must be taken along the direction of propagation of a photon, however
+in this model the central source is of relatively small  and the radiation
+field is therefore primarily radially directed.  In this 
+case the velocity gradient in the radial direction, $d\mvr/dr$, is the relevant quantity, and 
+we may use Equation~\ref{eqn:Sobolev}  to invert
+the optical depth and determine the density profile,
 \begin{equation}
-n_{\rm LBG}(r) = \frac{\tau_{\rm LBG}(r) \; d\mvr/dr}{\kappa^\ell
-  \lambda^\ell} \cmma
+n_{\rm LBG}(r) =  \tau_{\rm LBG}(r)  \frac{ |d\mvr/dr |}{f^\ell  \lambda_0^\ell}
+\biggl( \frac{ m_e c}{\pi e^2} \biggl)
+ \cmma
 \label{eqn:nSobolev}
 \end{equation}
-with $\lambda^\ell$ the rest wavelength and $\kappa^\ell \equiv f^\ell
-\pi^2 e^2/m_e c$.  
+
 
 The solid curve in Figure~\ref{fig:LBG_Sobolev}a shows the
 resultant density profile for Mg$^+$ assuming that the \mgiia\ line
@@ -1270,7 +1290,7 @@ produce a wind with such extreme properties.
 \subsubsection{Partial Covering Fraction}
 \label{sec:Covering}
 
-In the previous sub-section, we described a Sobolev solution that
+In the previous sub-section, we described a Sobolev inversion that
 reproduces the average absorption profile of LBGs in cool gas
 transitions when scattered photons are ignored.  A proper analysis
 that includes scattered photons,
@@ -1279,7 +1299,7 @@ different from the observations because scattered photons fill-in
 absorption and generate significant line-emission (similar to the
 fiducial wind model; $\S$~\ref{sec:fiducial}).
 We also argued that the implied mass, energy, and momentum
-distributions of this wind (Figure~\ref{fig:LBG_cumul} were too
+distributions of this wind (Figure~\ref{fig:LBG_cumul}) were too
 extreme. 
 This LBG-Sobolev model, however, is not precisely
 the one proposed by S10;  those authors proposed an ensemble of optically

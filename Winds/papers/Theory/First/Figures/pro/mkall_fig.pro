@@ -76,7 +76,7 @@ pro mkall_fig, SKIP=skip
 
   ;; Clump
   if not keyword_set(SKIP) then begin
-     fig_lbg_clump_mass
+     ;fig_lbg_clump_mass
      fig_lbg_clump_eandp
   endif
 

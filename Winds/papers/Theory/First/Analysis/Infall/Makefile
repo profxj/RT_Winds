@@ -3,7 +3,7 @@
 #- ------------------
 #- Created : Mon Feb 11 17:33:35 2008
 #- 
-#- $Header: /home/jonathan/xavier/X_CVS/radtrans/Winds/papers/Theory/First/Analysis/Infall/Makefile,v 1.1 2010-09-03 16:00:48 xavier Exp $
+#- $Header: /home/jonathan/xavier/X_CVS/radtrans/Winds/papers/Theory/First/Analysis/Infall/Makefile,v 1.2 2010-10-11 18:14:35 xavier Exp $
 #- 
 
 # For Dan's Mac
@@ -13,14 +13,14 @@
 
 
 
-TARGET = outflow_rad_mgii
-TARGET2 = outflow_rad_feii
+TARGET = outin_rad_mgii
+TARGET2 = outin_rad_feii
 
-OBJECTS = outflow_rad_mgii.o voigt.o locate_array.o cdf.o spectrum.o 
-OBJECTS2 = outflow_rad_feii.o voigt.o locate_array.o cdf.o spectrum.o 
+OBJECTS = outin_rad_mgii.o voigt.o locate_array.o cdf.o spectrum.o 
+OBJECTS2 = outin_rad_feii.o voigt.o locate_array.o cdf.o spectrum.o 
 
 
-all: mgii feii
+all: outin_rad_mgii
 
 .cc.o: 
 	$(CXX) $(CCOPT) -c -o $@ $<

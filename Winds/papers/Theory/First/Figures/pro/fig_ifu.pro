@@ -56,7 +56,7 @@ pro fig_ifu, wrest, dv, grid_file, psfile, YMNX=ymnx, XRNG=xrng, YRNG=yrng
   ;; IFU shots next
 
   devicefactor=2540.  ;; cm to inch
-  imsize = 2.6  ;; inch
+  imsize = 2.6  ;; inches
   x0 = 1.2
   y0 = 0.7
 ;  stretch_lo = 0.01

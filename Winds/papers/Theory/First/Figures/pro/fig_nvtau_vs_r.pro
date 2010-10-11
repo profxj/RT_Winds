@@ -75,7 +75,7 @@ pro fig_nvtau_vs_r, STRCT=strct
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, $
         ytitle='n!dH!u!N [x10!u2!N, cm!u-3!N];   v!dr!N [x10!u-2!N km s!u-1!N];  ' + $
-        '!9t!X!S!d2796!R!N!uS!N', $
+        '!9t!X!S!u2796!R!N!dS!N', $
         xtitle='Radius (kpc)', yrange=yrng, thick=4, $
         xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /ylog, /xlog
 
@@ -99,7 +99,7 @@ pro fig_nvtau_vs_r, STRCT=strct
   ;; Label
   xlbl = 12.
   xyouts, xlbl, 12., 'v!dr!N (x10!u-2!N)', color=clr.blue, charsiz=lsz
-  xyouts, xlbl, 0.7, '!9t!X!S!d2796!R!N!uS!N', color=clr.black, charsiz=lsz
+  xyouts, xlbl, 0.7, '!9t!X!S!u2796!R!N!dS!N', color=clr.black, charsiz=lsz
   xyouts, xlbl, 0.1, 'n!dH!N (x10!u2!N)', color=clr.red, charsiz=lsz
 
   if keyword_set( PSFILE ) then x_psclose

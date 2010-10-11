@@ -24,7 +24,7 @@ pro fig_obs_edelv
   ;; MgII Spectrum 
   xmrg = [8,1]
   ymrg = [4.0,1]
-  yrng=[0, 900]
+  yrng=[0, 1000]
   xrng=[-900, 0]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, $
@@ -45,7 +45,7 @@ pro fig_obs_edelv
   dv_2612 = (strct[s_idx].anly_strct.flux_dv)[feiis]
 
   ;; Density
-  oplot, vt_2586, dv_2612, color=clr.black, psym=1, symsiz=1.4
+  oplot, vt_2586, dv_2612, color=clr.black, psym=4, symsiz=1.4
 
   ;; Label
   xlbl = 11.

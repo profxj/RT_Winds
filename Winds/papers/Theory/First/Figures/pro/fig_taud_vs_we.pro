@@ -61,7 +61,7 @@ pro fig_taud_vs_we, RREAL=rreal
   ymrg = [4.0,1]
 
   ;; Plot FeII
-  yrng=[0., 2.5]
+  yrng=[0., -2.5]
   xrng=[0., 10.]
 
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
@@ -69,8 +69,8 @@ pro fig_taud_vs_we, RREAL=rreal
         xtitle='!9t!X!dd!N', yrange=yrng, thick=4, $
         xrange=xrng, ystyle=ysty, xstyle=1, psym=1, /nodata, /noerase
 
-  oplot, taud, abs(W_e), color=clr.black, thick=5
-  oplot, taud, max(abs(W_e))/(1+taud), color=clr.red, thick=3, linest=1
+  oplot, taud, W_e, color=clr.black, thick=5
+  oplot, taud, min(W_e)/(1+taud), color=clr.red, thick=3, linest=1
 
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]

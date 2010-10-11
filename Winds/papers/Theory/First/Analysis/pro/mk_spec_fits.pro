@@ -66,7 +66,7 @@ for qq=0,1 do begin
    print,'L_tot = ',L_tot
    print,'nrm = ', nrm
    
-   plot,wave,flux
+   x_splot,wave,flux, /bloc
 ;print,'integrated spectrum, press return to continue'
 ;junk =''
 ;read,junk

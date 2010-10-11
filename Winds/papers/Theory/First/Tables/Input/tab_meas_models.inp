@@ -1,4 +1,4 @@
-7
+9
 Fiducial
 2
 ../Analysis/Fiducial/Output/spec_MgII_fiducial.dat
@@ -11,6 +11,14 @@ $\phi=180^\circ$
 180
 ../Analysis/Asymmetric/mgII_grids.fits
 ../Analysis/Asymmetric/feII_grids.fits
+$\theta=10^\circ$
+-10
+../Analysis/Asymmetric/biconic_mgII_grids.fits
+../Analysis/Asymmetric/biconic_feII_grids.fits
+$\theta=45^\circ$
+-45
+../Analysis/Asymmetric/biconic_mgII_grids.fits
+../Analysis/Asymmetric/biconic_feII_grids.fits
 \taud=1
 2
 ../Analysis/Dust/Output/spec_MgII_tau1.0.dat
@@ -27,11 +35,3 @@ ISM+dust
 2
 ../Analysis/ISM/Output/spec_ISM_MgII_dust.dat
 ../Analysis/ISM/Output/spec_ISM_FeII_dust.dat
-LBG Sobolev
-2
-../Analysis/LBG/Sobolev/Output/spec_MgII_lbg_sobolev.dat
-../Analysis/LBG/Sobolev/Output/spec_FeII_lbg_sobolev.dat
-LBG Covering
-2
-../Analysis/LBG/Covering/Output/spec_MgII_lbg_covering.dat
-../Analysis/LBG/Covering/Output/spec_FeII_lbg_covering.dat

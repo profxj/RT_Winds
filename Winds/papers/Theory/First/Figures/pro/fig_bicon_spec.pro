@@ -51,7 +51,7 @@ pro fig_bicon_spec, RREAL=rreal
            wvmnx = [xrng[0], xcut-off]
         end
         1: begin
-              yrng=[0.95,1.25]
+              yrng=[0.95,1.35]
               ysty = 5
               wvmnx = [xcut+off,xrng[1]]
            end

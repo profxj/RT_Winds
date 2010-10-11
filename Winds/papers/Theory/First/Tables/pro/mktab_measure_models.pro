@@ -6,6 +6,7 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title,
   if not keyword_set( OUTFIL ) then outfil = 'tab_meas_models.tex'
   if not keyword_set( SAV_FIL ) then sav_fil = 'measures.idl'
   if not keyword_set(ALL_ANG) then all_ang = [0, 120, 150, 180, 30, 60, 90]
+  if not keyword_set(ALL_THETA) then all_theta = [10, 45, 60]
   if not keyword_set(TRANS) then $
      trans = [2796.352,2803.531, 2586.650d, 2600.1729, 2612.6542d, $
               2626.4511, 2632.1081]
@@ -78,10 +79,11 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title,
                            wave: wv $
                            }
            end
-           else: begin ; Asymmetry data cube
+           else: begin ; Asymmetry data cube (includes biconical)
               ;; MgII
               readf, 1, data_fil
-              jj = where(flg_anly EQ all_ang)
+              if flg_anly GE 0 then jj = where(flg_anly EQ all_ang) $
+              else jj = where(abs(flg_anly) EQ all_theta)
               mgII_wave = xmrdfits(data_fil, 0, /silent)
               mgII_data = xmrdfits(data_fil, jj[0]+1, /silent)
               mgII_data = float(mgII_data)
@@ -93,7 +95,6 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title,
                            }
               ;; FeII
               readf, 1, data_fil
-              jj = where(flg_anly EQ all_ang)
               feII_wave = xmrdfits(data_fil, 0, /silent)
               feII_data = xmrdfits(data_fil, jj[0]+1, /silent)
               feII_data = float(feII_data)
@@ -104,10 +105,10 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title,
                            wave: feII_wave $
                            }
               ;; Intrinsic
-              case flg_anly of 
+              case abs(flg_anly) of 
                  0: flg_int = 0 
                  180: flg_int = 1
-                 else: stop
+                 else: flg_int = 1  ;; Biconical
               endcase
            end
         endcase

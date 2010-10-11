@@ -29,7 +29,7 @@ Xavier
 	     -- Funny treatment of Sobolev
 	     -- Spatial extent
 	  Discuss NaI emission
-24. Produce a bi-conical model
+	24. Produce a bi-conical model
 	25. Note the source cannot absorb photons
 	26. Put FeII* 'calculation' in the Methodology section
 	27. "Observe" the fiducial model through LRIS
@@ -38,8 +38,9 @@ Xavier
 30. Check ISM+dust results.  Seems too effective at extincting?
 	31. Modify discussion of misestimate of optical depth (i.e. Kate's points)
 	32. Fix radiative
-33. Cite K. France paper
+	33. Cite K. France paper
 34. Run the power-law models with a fixed mass flow rate at r_inner
+35. Update Fig 19
 
 ---------------------
 Dan
@@ -76,5 +77,5 @@ LBG with dust [tau ~ distance]
 	LBG in '3D'
 	Doppler
 Power-laws (some) with dust
-Bi-conical models
+	Bi-conical models
 Infall

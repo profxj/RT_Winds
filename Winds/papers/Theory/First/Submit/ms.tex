@@ -99,42 +99,47 @@ Kate Rubin\altaffilmark{1}
 We analyze the absorption and emission-line profiles produced by a set
 of simple, cool gas wind models motivated by galactic-scale outflow
 observations.  
-We examine outflows with a range of power-law density and velocity
-profiles and a radiative-driven wind model.  
+We implement monte carlo radiative
+transfer techniques that track the propogation of scattered and
+flourescent photons to generate 1D spectra and 2D spectral images.
+{\bf [Should we make the codes publically available?  Upon request?]}
+%We examine outflows with a range of power-law density and velocity
+%profiles and a radiative-driven wind model.  
 We focus on the \mgiid\ doublet and \ion{Fe}{2} UV1
 multiplet at $\lambda \approx 2600$\AA, but the results are applicable
 to other transitions that trace outflows (e.g.\ \ion{Na}{1},
-\ion{H}{1} \lya, \ion{Si}{2}).   We implement monte carlo radiative
-transfer techniques that track the propogation of scattered and
-flourescent photons to generate 1D spectra and 2D spectral images.
-[Should we make the codes publically available?  Upon request?]
-[Mention fiducial model here?]
-As expected, the \ion{Mg}{2} doublet exhibits strong, blue-shifted
-absorption but one also predicts strong line-emission at roughly
-the systemic velocity.  This line-emission `fills-in' the absorption, 
-significantly reducing the effective
-opacity near systemic. Analysis of cool gas outflows that entirely ignores this
+\ion{H}{1} \lya, \ion{Si}{2}).   
+By design, the resonance transitions show lue-shifted
+absorption but one also predicts strong resonance and fine-structure line-emission at roughly
+the systemic velocity.  This line-emission `fills-in' the absorption
+reducing the equivalent width by up to $50\%$, shifting the centroid
+by tens of \kms, and severely
+reducing the effective
+opacity near systemic.  Analysis of cool gas outflows that ignores this
 line-emission may incorrectly infer that the gas is partially
 covered, measure a significantly lower peak optical depth, and/or
 conclude that gas at systemic velocity is absent   
-(e.g.\ an ISM or slowly infalling component). 
-The \ion{Fe}{2} resonance lines show similar behaviour, however 
-these lines are connected to optically thin transitions to
-fine-structure levels. As such, the \ion{Fe}{2} 
-absorption lines more faithfully reproduce the intrinsic opacity
+(e.g.\ an interstellar or slowly infalling component). 
+Because the \ion{Fe}{2} lines
+are connected by optically-thin transitions to
+fine-structure levels, their profiles
+more closely reproduce the intrinsic opacity
 of the wind.   Together these results naturally explain the
 absorption and emission-line characteristics observed for star-forming
-galaies at $z<1$.
+galaxies at $z<1$.
 We also study a scenario purported to describe the outflows
 of $z \sim 3$ Lyman break galaxies and argue this model fails to
-reproduce the observations when (previously ignored) scattered photons
-are properly considered.   
+reproduce the observations when radiative transfer of scattered photons
+is properly considered.   
 %Strong line-emission from metal-line
 %transitions is a generic prediction of wind models, even in the
 %presence of dust and anisotropic configurations.  
-The surface brightness profiles of emission from metal-line
-transitions offers a unique means of assessing the morphology and size
-of galactic-scale winds motivating deep,
+Although line-emission complicates the analysis of absorption-line
+profiles, the 
+surface brightness profiles 
+offers a unique means of assessing the morphology and size
+of galactic-scale winds.  Furthermore, the kinematics and line-ratios
+offer powerful diagnostics of outflows,  motivating deep,
 spatially-extended spectroscopic observations.
 
 \end{abstract}
@@ -1659,13 +1664,14 @@ dust does reduce the line flux relative to the continuum, but
 it generally has only a modest effect on the predicted \ion{Mg}{2}
 emission and a relatively minor effect on \feiis\ emission.
 
-Another factor that may reduce line-emission is a
-non-isotropic wind model. The flux is lower, for example, if one
+Another factor that may reduce line-emission is an
+anisotropic wind model. The flux is lower, for example, if one
 eliminates the backside to the wind (e.g.\ the source itself could
 shadow a significant fraction of the backside).  
-For our fiducial model, many of the photons scattered into our
-sightline arise nearly normal to the sightline such that a biconicial
-wind has significantly lower line-emission
+Similarly, 
+many of the scattered photons of the fiducial 
+model arise nearly normal to the sightline such that a biconicial
+wind can have significantly lower line-emission
 ($\S$~\ref{sec:anisotropic}). 
 For the anisotropic winds explored in this paper,
 the line-emission scales 
@@ -1684,10 +1690,9 @@ To reduce the emission, the brightest regions
 of the galaxy would need to be oriented toward Earth.  Although this
 would not be a
 generic orientation, most spectroscopic samples are magnitude-limited
-and biased towards detecting galaxies when observed from their
-brightest viewpoint.  In principle, this might imply a further
+and biased towards detecting galaxies when observed at their
+brightest.  In principle, this might imply a further
 reduction of order unity.
-{\bf [Put comments on biconical here]}
 
 Together, dust and anisotropic models may reduce the line-emission
 of \ion{Mg}{2} and \ion{Fe}{2}
@@ -1914,8 +1919,7 @@ $\Delta v_e$ increases with $v_\tau$ such that a large width for
 \feiis\ emission requires a wind profile with large optical depths at
 $\mdv < -200 \mkms$.  The broadening of \feiis\ emission occurs
 because this emission is dominated by single scatterings 
-which trace all components of the wind.  {\bf [Also the optical depth profile of
-  FeII]}  
+which trace all components of the wind.  
 
 Lastly, the line flux ratios of pairs of transitions 
 are sensitive to characteristics of the wind.
@@ -1938,8 +1942,8 @@ resonantly trapped.
 In this paper, we have explored the predicted absorption and
 emission-line profiles of a set of simple galactic-scale outflow
 models.  Our analysis focused on the \mgiid\ and \ion{Fe}{2} UV1
-multiple of rest-frame UV transitions, but the results translate to
-most other transitions used to probe cool gas.  Our primary
+multiple of rest-frame UV transitions, but the results transfer to
+most other lines used to probe cool gas.  Our primary
 findings are summarized as follows:
 
 \begin{enumerate}
@@ -1947,15 +1951,16 @@ findings are summarized as follows:
 \item Isotropic, dust-free wind models conserve photon flux.
   Therefore, the blue-shifted absorption-line profiles commonly
   observed in star-forming galaxies are predicted to be accompanied by
-  emission-lines with similar equivalent width.  This is even true for
-  anisotropic and dust-extincted scenarios.
+  emission-lines with similar equivalent width.  This even holds for
+  non-extreme anisotropic and dust-extincted scenarios.
 
 \item The line-emission occurs preferentially at the systemic velocity
   of the galaxy and `fills-in' the absorption profiles at velocity
   offsets $|\mdv| < 200 \mkms$ from systemic.  For transitions that
   are only coupled to the ground-state (e.g.\ \ion{Mg}{2}, \lya,
-  \ion{Na}{1}). The observed absorption profiles may be significantly
-  different from the intrinsic optical depth profile.
+  \ion{Na}{1}),  this implies much lower equivalent widths (up to
+  $50\%$) and also velocity profiles that are significantly offset
+  from the intrinsic optical depth profile.
 
 \item Analysis of cool gas outflows that entirely ignores this
 line-emission may incorrectly conclude that the gas is partially
@@ -1965,13 +1970,15 @@ an infalling component) is absent.
 
 
 \item Resonance transitions that are strongly coupled to
-non-resonant lines (e.g.\ \ion{Fe}{2}, \ion{Si}{2}) offer the best
-characterization of the opacity of the wind and also material 
-with velocities near systemic.  The emission will generally be dominated by the
-optically-thin, fine-structure transitions.
+non-resonant lines (e.g.\ \ion{Fe}{2}, \ion{Si}{2}) 
+produce emission dominated by the
+optically-thin, fine-structure transitions.  As such, the resonance
+absorption lines offer the best
+characterization of the opacity of the wind and also of material 
+with velocities near systemic.  
 
-\item  Dust extinction has only modest effects 
-  in models which predict only a few scatterings.  Models
+\item  Dust extinction modestly affects 
+  models where resonance photons are trapped for only a few scatterings.  Models
   with high opacity at small radii and at systemic velocity (e.g.\ an
   optically thick, ISM component)  can effectively extinguish
   resonantly trapped emission (\ion{Mg}{2}) but have more modest
@@ -1980,8 +1987,8 @@ optically-thin, fine-structure transitions.
 \item We examined two scenarios designed to mimic the wind model
   proposed by S10 for $z \sim 3$ Lyman break galaxies.  These models
   predict substantial line-emission from scattered photons that
-  greatly modify the predicted line-profiles.  
-  These models do not reproduce the observed line-profiles.
+  greatly modify the predicted line-profiles so that  
+  these models do not reproduce the observed line-profiles.
 
 
 %\item In fact, the
@@ -1992,20 +1999,20 @@ optically-thin, fine-structure transitions.
 %non-resonant, electric dipole transitions offer the best
 %diagnosis of ISM absorption.
 
-\item The kinematics and flux ratios of the emission lines 
-  constrain the wind speed, opacity, dust extinction, and XXX of the
-  wind.
-
-\item Biconical?
-
 \item Significant line-emission is a generic prediction of simple wind
   models, even in the presence of dust, anisotropic flows, and when
   viewed through finite apertures.  We have explored the 2D emission
-  maps (Figure~\ref{fig:fiducial_ifu_mgii}) and surface brightness profiles (Figure~\ref{fig:obs_sb}) of
+  maps (Figure~\ref{fig:fiducial_ifu_mgii}) and surface brightness 
+  profiles (Figure~\ref{fig:obs_sb}) of
   the winds.  Sensitive, spatially-extended observations will map the
   morphology and radial extent of the outflows.  These data afford the
   best opportunity to estimate the energetics and mass-flux of
   galactic-scale outflows.
+
+\item The kinematics and flux ratios of the emission lines 
+  constrain the wind speed, opacity, dust extinction, and morphology of the
+  wind.
+
 
 
 \end{enumerate}

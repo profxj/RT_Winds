@@ -6,7 +6,7 @@ pro fig_radiative_ifu, wrest, dv, grid_file, psfile, YMNX=ymnx, XRNG=xrng, YRNG=
   if not keyword_set(CSZ3) then csz3 = 0.9
   if not keyword_set(lSZ) then lsz = 1.3
   if not keyword_set(XNCOLORS) then xncolors=200L
-  if not keyword_set(YMNX) then ymnx = [-50,0]  ; kpc (size of box)
+  if not keyword_set(YMNX) then ymnx = [-50,50]  ; kpc (size of box)
   if not keyword_set(XRNG) then xrng=[-600., 1200]
   if not keyword_set(YRNG) then yrng=[0., 2.5]
   if not keyword_set(PSFILE) then psfile = 'fig_radiative_ifu.ps'

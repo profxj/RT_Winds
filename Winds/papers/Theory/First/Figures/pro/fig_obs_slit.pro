@@ -1,4 +1,4 @@
-pro fig_obs_slit
+pro fig_obs_slit, NO_RADIA=no_radia
 
   if not keyword_set( PSFILE ) then psfile = 'fig_obs_slit.ps'
   if not keyword_set(CSZ) then csz = 2.0
@@ -11,7 +11,7 @@ pro fig_obs_slit
   c = x_constants()
 
   npt = 100
-  slit_ratio = 2 * findgen(npt)/npt
+  slit_ratio = 1.5 * findgen(npt)/npt
 
   ;; Plot
   x_psopen, psfile, /maxs
@@ -32,7 +32,7 @@ pro fig_obs_slit
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Radiative
-  if keyword_set(RADIA) then begin
+  if not keyword_set(NO_RADIA) then begin
      fiducial_rtau = 40. ;; kpc  [By hand!]
      
      grid_file='../Analysis/Radiation/Output/radiative_grid.fits'
@@ -44,21 +44,21 @@ pro fig_obs_slit
      raw_data = float(raw_data)
      spec = total(total(raw_data,1),1)
      dwv = abs(raw_wave[1]-raw_wave[0])
-     dl = 50. / ngrid      ;; kpc
-     yval = dl*findgen(ngrid) ;; kpc 
-     stop
-     
+     dl = 100. / ngrid      ;; kpc
+;     yval = dl*findgen(ngrid) ;; kpc 
+     yval = findgen(ngrid) - ngrid/2 + 0.5 ;; Dimensionless
+     yval = yval*dl
      
      for qq=0L,2 do begin
         case qq of 
            0: begin
               wrest = 2796.35
-              vmnx = [-1060., -50.4, 295]
+              vmnx = [-423., -112.4, 348]
               lsty = 0
            end
            1: begin
               wrest = 2803.531
-              vmnx = [-470., -43.6, 905]
+              vmnx = [-388.6, -142.4, 350]
               lsty = 1
            end
            2: begin

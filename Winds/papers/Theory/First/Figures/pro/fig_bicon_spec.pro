@@ -153,7 +153,7 @@ pro fig_bicon_spec, RREAL=rreal
      oplot, mgII_wave, spec_mgii, color=clrs[kk+1], psym=10, thick=3
      ;;
      xyouts, xrng[0]+xlbl2*(xrng[1]-xrng[0]), yrng[1]-(kk+2)*ystp*(yrng[1]-yrng[0]), $
-             '!9q!X='+strtrim(angles[kk],2), color=clrs[kk+1], charsiz=lsz
+             '!9q!X!db!N='+strtrim(angles[kk],2), color=clrs[kk+1], charsiz=lsz
   endfor
   
   xrng2 = (xrng/2796.352 - 1)*3e5

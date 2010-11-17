@@ -11,11 +11,11 @@ $\phi=180^\circ$
 180
 ../Analysis/Asymmetric/mgII_grids.fits
 ../Analysis/Asymmetric/feII_grids.fits
-$\theta=10^\circ$
+$\theta_b=10^\circ$
 -10
 ../Analysis/Asymmetric/biconic_mgII_grids.fits
 ../Analysis/Asymmetric/biconic_feII_grids.fits
-$\theta=45^\circ$
+$\theta_b=45^\circ$
 -45
 ../Analysis/Asymmetric/biconic_mgII_grids.fits
 ../Analysis/Asymmetric/biconic_feII_grids.fits

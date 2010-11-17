@@ -158,7 +158,7 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title,
           '\colhead{$W_{\rm i}$} & ' + $
           '\colhead{$W_{\rm a}$} & \colhead{$\tau_{\rm pk}$} & \colhead{$v_\tau$} '
   printf, 91,  '& \colhead{$v_{\bar \tau}$}'
-  printf, 91,  '& \colhead{$v_{\rm int}^b$} & ' + $
+  printf, 91,  '& \colhead{$v_{\rm int}^e$} & ' + $
     '\colhead{$W_{\rm e}$} & \colhead{$f_{\rm pk}$} & \colhead{$v_f$} '
   printf, 91,  '& \colhead{$v_{\bar f}$} & \colhead{$\Delta v_{\rm e}$}'
   printf, 91,  '\\'
@@ -253,7 +253,8 @@ pro mktab_measure_models, outfil, all_strct=all_strct, INFIL=infil, TITLE=title,
   printf, 91, '\tablecomments{{L}isted are the equivalent widths (intrinsic, absorption, and emission), the peak optical depth for the absorption'
   printf, 91, '$\tau_{\rm pk} \equiv -\ln(I_{\rm min})$, the velocity where the optical depth peaks $v_\tau$, the optical depth-weighted velocity centroid '
   printf, 91, '$v_{\bar \tau} \equiv \int dv \, v \ln[I(v)] / \int dv \ln[I(v)]$, the peak flux $f_{\rm pk}$ in emission, the velocity where the flux peaks '
-  printf, 91, '$v_f$, the flux-weighted velocity centroid of the emission line $v_{\bar f}$, and the $90\%$ width $\Delta v_{\rm e}$.}'
+  printf, 91, '$v_f$, the flux-weighted velocity centroid of the emission line $v_{\bar f}$ (occasionally affected by blends with neighboring emission lines), and the $90\%$ width $\Delta v_{\rm e}$.' 
+  printf, 91, 'The $v^a_{\rm int}$ and $v^e_{\rm int}$ columns give the velocity range used to calculate the absorption and emission characteristics, respecitvely.  These were defined by the velcoities where the profile crossed 0.95 in the normalized flux.}'
   printf, 91, '\end{deluxetable}' 
 
   close, /all

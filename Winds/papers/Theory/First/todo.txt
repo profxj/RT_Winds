@@ -40,7 +40,7 @@ Xavier
 	32. Fix radiative
 	33. Cite K. France paper
 34. Run the power-law models with a fixed mass flow rate at r_inner
-35. Update Fig 19
+	35. Update Fig 19
 
 ---------------------
 Dan
@@ -79,3 +79,13 @@ LBG with dust [tau ~ distance]
 Power-laws (some) with dust
 	Bi-conical models
 Infall
+
+=====================================================
+=====================================================
+=====================================================
+SUBMITTED
+=====================================================
+=====================================================
+
+36. Add 'hemisphere' to asymmetry description [C. Martin]
+37. Add MB09 as another example of MgII emission.

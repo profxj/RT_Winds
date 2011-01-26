@@ -1,0 +1,41 @@
+January 26, 2011   
+
+Prof. Jason Xavier Prochaska
+University of California - Santa Cruz
+Lick Observatory
+1156 High Street
+Santa Cruz, CA 95064
+
+
+Title: Simple Models of Metal-Line Absorption and Emission from Cool Gas Outflows
+
+Dear Prof. Prochaska,
+
+We have received the referee's report on your above submission to The Astrophysical Journal, and append it below. As you will see, the referee thinks highly of your work and has only a few suggestions for relatively minor changes.
+
+When you resubmit the manuscript, please include a cover letter in which you outline in detail the specific changes you have made in response to each of the referee's comments.
+
+Click the link below to upload your revised manuscript, which will work one time. 
+<http://apj.msubmit.net/cgi-bin/main.plex?el=A6Ew6CNx7A4DFl5F4A9JtvuVawXxAh8Y1KFF0TvgZ>
+
+
+Alternatively, can also log into your account at the EJ Press web site, http://apj.msubmit.net.  Please use your user's login name: jprochaska.  You can then ask for a new password via the Unknown/Forgotten Password link if you have forgotten your password. 
+
+The Astrophysical Journal has adopted a new policy that manuscript files become inactive, and are considered to have been withdrawn, six months after the most recent referee's report goes to the authors, provided a revised version has not been received by that time.
+
+If you have any questions, feel free to contact me.
+
+Sincerely,
+Prof. Christopher J. Conselice
+ApJ Scientific Editor
+University of Nottingham
+apjcc@nottingham.ac.uk
+
+----------------------------------------------------------------------       
+Referee Report
+Reviewer's Comments:
+"Simple Models of Metal-Line Absorption and Emission from Cool Gas Outflows"Jason Prochaska, Daniel Kasen, and Kate H. R. RubinThis paper presents a significant step forward in modeling the detailedline profiles of galactic-scale winds using physically-motivatedanalytic models. The paper is clearly presented, has a nice balanceof didactic review and interesting results with accompanying figures.The main results are nicely summarized in the final section, and theyconvincingly argue for some alternative interpretations of observationscompared to that in the literature. The main (minor) weakness is in itsdiscussion of the Steidel et al. (2010) model; I offer comments below.Hence I am accepting the paper for publication, subject to minor revisionat the authors' discretion, and I do not need to see a revised manuscript.Fig 11: Would be nice to see the canonical exp(-tau_d) curve forcomparison.sec 5.1: It is claimed that the S10 model does not match S10's data whena proper treatmen
+t of
+re-emission is done. It would be useful to havesome representation of the S10 data on Figure 15 to allow a more directcomparison by the reader (since I for one am not intimately familiar withthe data). In particular, what observed features are not reproduced bythis model?For this model, the authors quote a mass in the wind of 10^10 Mo.Fig 16 shows a wind mass of ~few x 10^8 at 100 kpc. Is the majority ofthe wind's mass beyond this? Also, while a mass of 10^10 Mo in a windsounds like a surprising number, the mass loss rates likely are comparableto or exceed the SFR, which means that if the wind is operating over10^8 or maybe even 10^7 yrs, then 10^10 Mo is not at all implausible.These timescales are plausible for a wind to travel ~100 kpc.
+
+

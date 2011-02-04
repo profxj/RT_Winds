@@ -71,6 +71,7 @@ pro fig_taud_vs_we, RREAL=rreal
 
   oplot, taud, W_e, color=clr.black, thick=5
   oplot, taud, min(W_e)/(1+taud), color=clr.red, thick=3, linest=1
+  oplot, taud, min(W_e)*exp(-1.*taud), color=clr.green, thick=3, linest=2
 
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]

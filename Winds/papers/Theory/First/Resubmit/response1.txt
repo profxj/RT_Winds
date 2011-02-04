@@ -1,0 +1,47 @@
+Editor Conselice,
+
+We have read carefully the (brief) report on our paper titled
+"Simple Models of Metal-Line Absorption and Emission from Cool Gas Outflows"
+that we submitted to the Astrophysical Journal.  The referee has offered
+a few suggestions on how to revise the paper which we have implemented.
+These are detailed below.  Hopefully the paper now meets the standards
+of ApJ.
+
+Sincerely,
+
+X
+
+
+----------------------------------------------------------------------       
+Referee Report
+
+<<Fig 11: Would be nice to see the canonical exp(-tau_d) curve forcomparison.
+ 
+We have added such a curve to the figure and have modified the figure caption accordingly. 
+
+<<sec 5.1: It is claimed that the S10 model does not match S10's data whena proper treatment of
+<<re-emission is done. It would be useful to havesome representation of the S10 data on Figure 15 
+<<to allow a more directcomparison by the reader (since I for one am not intimately familiar withthe data). 
+<<In particular, what observed features are not reproduced by this model?
+
+We prefer not to include data on this Figure, in part because we have avoided direct 
+comparisons to data (including our own) throughout the manuscript, in part because 
+the figure is already a little cluttered, and because we don't even have the spectrum to show.  
+Instead, we have included additional text to the manuscript detailing the features that are 
+not reproduced by this model (e.g. strong emission).
+
+<<For this model, the authors quote a mass in the wind of 10^10 Mo.Fig 16 shows a wind mass of ~few x 10^8 at 100 kpc. 
+<<Is the majority ofthe wind's mass beyond this? Also, while a mass of 10^10 Mo in a windsounds like a surprising number, 
+<<the mass loss rates likely are comparableto or exceed the SFR, which means that if the wind is operating over 
+<<10^8 or maybe even 10^7 yrs, then 10^10 Mo is not at all implausible.
+<<These timescales are plausible for a wind to travel ~100 kpc.
+
+This was (and may still be) a bit confusing.  There were two calculations done.
+One is for the LBG-Sobolev model and is shown in Fig 16.  The other is for the
+clump model and we only report a mass estimate in the text.  For the clumps,
+one gets a significantly higher mass.  We have made this point more clear now.
+Also, we have struck the line "We question whether this is a plausible result
+form star-formation driven feedback." which addresses the other points
+raised by the referee.
+
+

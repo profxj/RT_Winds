@@ -1,0 +1,28 @@
+cp ../Figures/energy_levels.ps f1.eps
+cp ../Figures/oneline_test.eps f2.eps
+cp ../Figures/fig_nvtau_vs_r.ps f3.eps
+cp ../Figures/fig_fiducial_1d.ps f4.eps
+cp ../Figures/fig_noemiss.ps f5.eps
+cp ../Figures/fig_fiducial_ifu_mgii.ps f6.eps
+#cp ../Figures/fig_feii_ifu.ps f7.eps
+cp ../Figures/fig_asymm_spec.ps f8.eps
+cp ../Figures/fig_bicon_spec.ps f9.eps
+cp ../Figures/fig_dust_spec.ps f10.eps
+#
+cp ../Figures/fig_taud_vs_we.ps f11.eps
+cp ../Figures/fig_ism_spec.ps f12.eps
+cp ../Figures/fig_norm_spec.ps f13.eps
+cp ../Figures/fig_lbg_sobolev.ps f14.eps
+cp ../Figures/fig_lbg_spec.ps f15.eps
+cp ../Figures/fig_lbg_cumul.ps f16.eps
+cp ../Figures/fig_rad_spec.ps f17.eps
+cp ../Figures/fig_vary_profiles.ps f18.eps
+cp ../Figures/fig_plaw_spec.ps f19.eps
+cp ../Figures/fig_obs_slit.ps f20.eps
+#
+cp ../Figures/fig_obs_ew.ps f21.eps
+cp ../Figures/fig_obs_peaktau.ps f22.eps
+cp ../Figures/fig_obs_vtau.ps f23.eps
+cp ../Figures/fig_obs_lris.ps f24.eps
+cp ../Figures/fig_obs_sb.ps f25.eps
+cp ../Figures/fig_obs_edelv.ps f26.eps

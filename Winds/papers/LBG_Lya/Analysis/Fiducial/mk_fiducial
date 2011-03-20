@@ -1,0 +1,9 @@
+# Compile
+source grab_source
+make all
+# MgII
+mpirun -np 8 outflow_fiducial_mgii
+mv spec.dat Output/spec_MgII_fiducial.dat
+# FeII
+mpirun -np 8 outflow_fiducial_feii
+mv spec.dat Output/spec_FeII_fiducial.dat

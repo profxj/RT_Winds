@@ -10,7 +10,7 @@
 
 // monte carlo parameters
 double n_photons =  1e4;    // number of photons
-double stepsize  = 0.01;   // maximum size of photon step 
+double stepsize  = 0.0001;   // maximum size of photon step  (kpc)
 
 // output spectrum parameters
 double l_start   =  1205;     // beginning wavelength (Angstroms)
@@ -20,19 +20,22 @@ double F_cont    =    1;      // continuum flux level
 int    n_mu      =    1;      // number of theta bins
 int    n_phi     =    1;      // number of phi bins
 
-// grid parameters
-double r_inner   =  1.0;      // inner boundary radius, in kpc
+// LBG wind parameters
+double r_inner   =  1.0;      // inner boundary radius, in kpc [Should always be 1 !!]
 double r_outer   = 100.0;      // outer boundary radius, in kpc
-double r_emit    =  0.2;      // boundary to emit from
-double n_0       =  1e-1;     // number density at inner boundary
-double n_law     =    2.;      // -1*power law exponent of density law
-double v_max     =  4.0e7;    // velocity at outer boundary (cm/s)
-double v_min     =  50.*1e5;    // velocity at inner boundary (cm/s)
-double v_law     =    1.0;      // power law of velocity profile
+double r_emit    =  0.5;      // boundary to emit from
 double bipolar   =    0;      // degree of bipolarity
 
+double LBG_gamma = 0.5;  // Covering fraction parameter
+double LBG_fc = 0.6;          // Maximum covering fraction (for MgII 2796)
+double LBG_vmax =  800*1e5;  // cm/s
+double LBG_alpha = 1.3;     // Velocity field parameter
+double LBG_A =  LBG_vmax*LBG_vmax * (1.-LBG_alpha);  // Wind parameter
+double LBG_Aa =  sqrt(LBG_A/(1-LBG_alpha));
+
 double dust_cs     = 3.33e-24;    // dust cross-section
-double dust_dens   = 0.;          // density of NH/dust, 1 gives tau=1
+double dust_tau   = 0.;          // Optical depth of dust through the wind (r=0 to Infinity)
+double dust_norm   =  0.;   // Normalization to give dust_tau
 double dust_albedo = 0.0;         // ratio of scattering to absorption
 
 
@@ -43,12 +46,13 @@ int    n_lines      = 1;
 // line center wavelengths
 double lambda_0[]   = {1215.6701};
 // line oscillator strengths
-double f_lu[]       = {0.4164};
+double f_lu[]       = {0.4164}; 
 // abundances of element of line
-double abun[]       = {1.};  // Solar metallicity and 1/10 down for dust
-double metallicity       = 1.0;                 // 1 = Solar
+double abun       = 1.0;
+double metallicity       = 0.5;                 // 1 = Solar
  // lines doppler velocity in cm/s
-double v_doppler    =   20*1e5;              
+double v_doppler    =   20*1e5;           // 20 km/s (internal)
+double v_interact    =  1*1e5;              // Condition to scatter
 
 // parameters describing voigt profile
 double Dnu   = v_doppler * 2.466e15 / 2.9979e10 ;   
@@ -56,7 +60,6 @@ double voigt_a   = 6.265e8 / (4 * 3.14159 * Dnu);   // gamma/(4 pi Dnu)
 int    nvoigt    = 2000;
 double voigt_x   =  200;  // Allows for over 2000 km/s
 VOIGT voigt;
-
 
 // globals
 gsl_rng      *rangen;    // random number generator
@@ -67,6 +70,17 @@ int verbose;             // output parameter
 //--------------------------------------------
 int main(int argc, char **argv)
 {
+
+  // Dust info
+  // printf("# NH_COLM %.3e, dust_norm %.3e\n", nH_colm,dust_norm);
+  //   if(argc < 2) return 0;
+    //  dust_tau = atof(argv[1]);
+    //  dust_norm   =  dust_tau / dust_cs /  nH_colm / KPARSEC ;  // Normalization to give dust_tau
+  // printf("# argc %e \n",float(10)/3.-10/3);
+
+    // Photons
+    //  if(argc > 2) n_photons = atof(argv[2]);
+
   void Run_Monte_Carlo(char*);
 
   // initialize MPI for parallelism
@@ -86,14 +100,13 @@ int main(int argc, char **argv)
   // initialize the Voigt profile
   printf("# Voigt a =  %.3e \n", voigt_a);
   voigt.New(nvoigt,voigt_x,voigt_a);
-  // printf("# Finished Voigt!");
-
 
   // get photons per processor
   n_photons = n_photons/n_procs;
   if (verbose)
     printf("# Sending %.3e photons on %d procs (%.3e total photons)\n",
 	   n_photons,n_procs,n_photons*n_procs);
+
 
 
   // Do the monte carlo calculation
@@ -106,29 +119,55 @@ int main(int argc, char **argv)
 
 }
 
+//--------------------------------------------
+// Function returns the covering fraction as a function of radius
+//--------------------------------------------
+double Get_Cover(double r)
+{
+  //  return v_max*pow(r/r_outer,v_law);
+  // return v_min + (r-r_inner)/(r_outer-r_inner) * (v_max-v_min);
+  if (r <= r_inner) return 0.;
+  return LBG_fc * pow(r/r_inner, -1*LBG_gamma);
+}
+
 
 //--------------------------------------------
-// Function returns the velocity given a radius
+// Function returns the velocity given a radius (in kpc)
 //--------------------------------------------
 double Get_Velocity(double *x, double r)
 {
   //  return v_max*pow(r/r_outer,v_law);
   // return v_min + (r-r_inner)/(r_outer-r_inner) * (v_max-v_min);
-  return v_min * pow(r/r_inner, v_law);
+  if (r <= r_inner) return 0;
+  return LBG_Aa * sqrt(1 - pow(r,1-LBG_alpha));  // Assumes r_inner=1kpc
 }
 
-
 //--------------------------------------------
-// Function returns the density given a radius
+// Function returns dv/dr at a given a radius (in cm/s per kpc)
+//     This is only valid along the radial direction
 //--------------------------------------------
-double Get_Density(double *x, double r)
+double Get_DvDr(double r)
 {
-  if (r == 0) return 0;
-  if (r < r_inner) return 0;
-  //  if (r > r_outer) return 0;
-  double mu = x[2]/r;
-  return n_0*pow(r_inner/r,n_law)*pow(mu*mu,2*bipolar);
+  //  return v_max*pow(r/r_outer,v_law);
+  // return v_min + (r-r_inner)/(r_outer-r_inner) * (v_max-v_min);
+  if (r <= r_inner) return 0;
+  double dvdr = LBG_Aa * 0.5 / sqrt(1-pow(r,1-LBG_alpha)) * (LBG_alpha-1) * pow(r,-1*LBG_alpha);
+  return dvdr;
 }
+
+
+//--------------------------------------------
+// Function returns the density proxy given a radius (in kpc)
+//--------------------------------------------
+//double Get_Density(double *x, double r)
+//{
+//  if (r == 0) return 0;
+//  if (r <= r_inner) return 0;  // Avoids divergence of dv/dr (and tau_r)
+//  //  if (r > r_outer) return 0;
+//  double dvdr = LBG_Aa * 0.5 * (LBG_alpha-1) * pow(r,-1*LBG_alpha)  / sqrt(1-pow(r,1-LBG_alpha));
+//  double tau_r = (-1.) * log( 1. - LBG_fc * pow(r,-1*LBG_gamma));
+//  return tau_r * dvdr;  // Kappa_l term ignored as it was multiplied out anyhow
+//}
 
 
 //--------------------------------------------
@@ -138,6 +177,7 @@ void Run_Monte_Carlo(char *outfile)
 {
   // local variables
   int i, l, ind, scatter, dust_scatter, count_it, flg_scatter;
+  int j, flg_resonance[50];
   double x, lam_loc, xloc,lam, lam_emit;
   double r[3], D[3];
   double mu,phi,sin_theta;
@@ -145,13 +185,15 @@ void Run_Monte_Carlo(char *outfile)
   double vd_inc, vd_out, l_step, d_step;
   double u0,u1,u2, R10, R11, rad, vel;
   double uvec[3];
-  double nu_d, cross_sec;
+  double nu_d, cross_sec, dens_H, cover, dvdr;
 
   // functions to call
   void MPI_Average_Array(double *, int);
   void Emit(double *r, double *D, double r_inner);
   double Get_Velocity(double*, double);
-  double Get_Density(double*, double);
+//  double Get_Density(double*, double);
+  double Get_Cover(double);
+  double Get_DvDr(double);
 
   // set the start timer 
   time_t start_tp,end_tp;
@@ -173,15 +215,17 @@ void Run_Monte_Carlo(char *outfile)
   // send the photons
   for (i=0;i<n_photons;i++)
   {
+    //    if ( (float(i)/1000 - i/1000) < 1e-5)  printf("photon %d \n",i);
     // Get initial positions and direction
     Emit(r,D,r_emit);
-
-    // initial wavelength (Uniform continuum)
+    // initial wavelength
     lam = l_start + (l_stop-l_start)*gsl_rng_uniform(rangen);
     lam_emit = lam;
     flg_scatter = 0;
 
     printf("#  Photon %d, lambda = %.4e \n", i, lam);
+
+    for (j=0;j<50;j++) flg_resonance[j] = 0;
 
     // propogate until escaped
     while (1)
@@ -190,36 +234,41 @@ void Run_Monte_Carlo(char *outfile)
       rad = sqrt(r[0]*r[0] + r[1]*r[1] + r[2]*r[2]);
       vel = Get_Velocity(r,rad)/C_LIGHT;
       lam_loc = lam*(1 + vel*(r[0]*D[0] + r[1]*D[1] + r[2]*D[2])/rad);
-
-      // printf("#  rad = %.4e, lambda = %.4e \n", rad, lam_loc);
       if (rad == 0) lam_loc = lam;
 
-      // default step size
-      step = stepsize;
+      // Variable step size
+      if (rad < 2.0) step = 1e-4;  
+      else {
+	if (rad > 10.0) step = 0.1; else step = 0.01;
+      }
+      // step = stepsize;
 
       // calculate random step size to each possible line scatter
       scatter = -1;
-      for (l=0;l<n_lines;l++)
-      {
-	// x parameter for this line
-	xloc = (lam_loc/lambda_0[l] - 1)*C_LIGHT/v_doppler;
-	// random optical depth to travel
-	tau_r     =  -1.0*log(1 - gsl_rng_uniform(rangen));
-	nu_d = (C_LIGHT/lambda_0[l]/ANGS_TO_CM)*(v_doppler/C_LIGHT);
-	cross_sec = CLASSICAL_CS*f_lu[l]*voigt.Profile(xloc)/nu_d;
-	tau_x     = KPARSEC*Get_Density(r,rad)*abun[l]*metallicity*cross_sec;
-	l_step = tau_r/tau_x;
-	if (tau_x == 0) l_step = VERY_LARGE_NUMBER;
-	if (l_step < step) {step = l_step; scatter = l; }
+      if (rad > r_inner) { 
+	for (l=0;l<n_lines;l++)
+	  {
+	    
+	    // x parameter for this line
+	    xloc = (lam_loc/lambda_0[l] - 1)*C_LIGHT/v_interact;
+	    // In resonance
+	    if ((xloc*xloc) <  1 && flg_resonance[l] == 0) {
+	      cover = Get_Cover(rad);
+	      //	      printf("Radius %e  lam %e wave %e\n",rad, lam_loc, lambda_0[l]);
+	      flg_resonance[l] = 1;
+	      if (gsl_rng_uniform(rangen) < cover) {step=1e-6; scatter=l;}
+	    }
+	  }
       }
-
+	
       // get distance to dust scatter/absorption
-      tau_r = -1.0*log(1 - gsl_rng_uniform(rangen));
-      tau_x = KPARSEC*dust_dens*dust_cs;
-      d_step = tau_r/tau_x;
-      if (tau_x == 0) d_step = VERY_LARGE_NUMBER;
-      if (d_step < step) {step = d_step; scatter = -1; dust_scatter = 1; }
-      else  dust_scatter = 0;
+      //tau_r = -1.0*log(1 - gsl_rng_uniform(rangen));
+      //tau_x = dens_H*dust_norm*dust_cs;
+      //d_step = tau_r/tau_x;
+      //if (tau_x == 0) d_step = VERY_LARGE_NUMBER;
+      //if (d_step < step) {step = d_step; scatter = -1; dust_scatter = 1; }
+      //else  dust_scatter = 0;
+      dust_scatter = 0;
       
       // take the step
       r[0] += D[0]*step;
@@ -228,16 +277,27 @@ void Run_Monte_Carlo(char *outfile)
     
       // see if we've exited (faster without sqrt)
       r_sq = r[0]*r[0] + r[1]*r[1] + r[2]*r[2];
-
       if (r_sq > r_outer*r_outer) {count_it = 1; break;}
       // see if we've gone under inner boundary
       // if (r_sq < r_emit*r_emit) {count_it = 0; break; }
 
+      ////////////////////////////////////////////////////////////////////////////////////
       // if we line scattered, do it
       if (scatter >= 0)
       {
 	flg_scatter = 1;
-	xloc = (lam_loc/lambda_0[scatter] - 1)*C_LIGHT/v_doppler;
+	for (j=0;j<50;j++) flg_resonance[j] = 0;  // Allow for the chance to scatter twice
+	xloc = (lam_loc/lambda_0[scatter] - 1)*C_LIGHT/v_interact;
+
+	// Modify the position according to dv/dr
+	dvdr = Get_DvDr(rad);
+	step = (gsl_rng_uniform(rangen)-0.5) * v_doppler / dvdr;  // kpc
+	//	printf("rad %e dvdr %e  step %e\n",rad, dvdr, step);
+
+	r[0] += D[0]*step;
+	r[1] += D[1]*step;
+	r[2] += D[2]*step;
+	
 
 	// Get three velocity components of scatterer
  	u0 = voigt.Scatter_Velocity(xloc);
@@ -276,7 +336,7 @@ void Run_Monte_Carlo(char *outfile)
  	xloc = xloc - vd_inc + vd_out; 
 
 	// go back to wavelength
-	lam_loc = lambda_0[scatter]*(1 + xloc*v_doppler/C_LIGHT);
+	lam_loc = lambda_0[scatter]*(1 + xloc*v_interact/C_LIGHT);
 
 	// now get change in observer frame wavelength
 	rad = sqrt(r[0]*r[0] + r[1]*r[1] + r[2]*r[2]);

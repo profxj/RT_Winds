@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
-#include "jxp_voigt.hh"
+#include "voigt.hh"
 
 
 void VOIGT::New(int n, double xmax, double a)

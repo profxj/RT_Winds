@@ -2,5 +2,5 @@
 #source grab_source
 make all
 # Lya
-mpirun -np 4 outflow_fiducial_lya
+mpirun -np 1 outflow_fiducial_lya
 #mv spec.dat Output/spec_Lya_fiducial.dat

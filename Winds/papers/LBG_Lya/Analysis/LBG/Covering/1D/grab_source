@@ -1,0 +1,10 @@
+##
+cp ../../../Shared_Codes/voigt.cc .
+cp ../../../Shared_Codes/voigt.hh .
+cp ../../../Shared_Codes/locate_array.cc .
+cp ../../../Shared_Codes/locate_array.hh .
+cp ../../../Shared_Codes/cdf.cc .
+cp ../../../Shared_Codes/cdf.hh .
+cp ../../../Shared_Codes/spectrum.cc .
+cp ../../../Shared_Codes/spectrum.hh .
+cp ../../../Shared_Codes/physical_constants.hh .

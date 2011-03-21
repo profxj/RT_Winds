@@ -16,8 +16,8 @@ pro emit_lya_line, STRCT=strct
   A0 = EW / sigma_A / sqrt(!pi*2)
 
   ;; Evaluate
-  lmin = 1205. ; Ang
-  lmax = 1225. ; Ang
+  lmin = 1200. ; Ang
+  lmax = 1230. ; Ang
   npt = 10000L
   lval = lmin + (lmax-lmin)*dindgen(npt)/(npt-1)
   dl = lval[1]-lval[0]
@@ -33,13 +33,13 @@ pro emit_lya_line, STRCT=strct
   ;; Profiles
   xmrg = [9,1]
   ymrg = [4.0,1]
-  yrng=[0., 50]
+  yrng=[1., 1e5]
   xrng=[lmin, lmax]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, $
         ytitle='f_lam', $
         xtitle='!9l!X (Ang)', yrange=yrng, thick=4, $
-        xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata
+        xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /ylog
 
   ;; x
   nran = 100000L

@@ -23,7 +23,7 @@ void VOIGT::Compute_Profile()
 {
   int i;
   double y,v,e,expy,expv;
-  double xsq, c, q, pic;
+  double xsq, c, q, pic,SQRT_PI;
   
   double ymax = 10*x.Max();
   double dy   = a_param*0.01;
@@ -48,6 +48,7 @@ void VOIGT::Compute_Profile()
 
 
   // Numerical Approx
+  SQRT_PI = sqrt(PI);
   for (i=0;i<n_x;i++)
     {
       v = x.Center(i);
@@ -62,7 +63,7 @@ void VOIGT::Compute_Profile()
 	}
       
       profile[i] = q*SQRT_PI + exp(-xsq);
-      printf("# x, H(a,x) =  %.3e %.3e \n",v,profile[i] );
+      // printf("# x, H(a,x) =  %.3e %.3e \n",v,profile[i]);
     }
   
   // renormalize

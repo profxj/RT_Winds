@@ -9,7 +9,7 @@
 #include "spectrum.hh"
 
 // monte carlo parameters
-double n_photons =  1e6;    // number of photons
+double n_photons =  1e4;    // number of photons
 double stepsize  = 0.01;   // maximum size of photon step 
 
 // output spectrum parameters
@@ -53,8 +53,8 @@ double v_doppler    =   20*1e5;
 // parameters describing voigt profile
 double Dnu   = v_doppler * 2.466e15 / 2.9979e10 ;   
 double voigt_a   = 6.265e8 / (4 * 3.14159 * Dnu);   // gamma/(4 pi Dnu)
-int    nvoigt    = 1000;
-double voigt_x   =  100;  // Allows for over 1000 km/s
+int    nvoigt    = 2000;
+double voigt_x   =  200;  // Allows for over 2000 km/s
 VOIGT voigt;
 
 
@@ -86,7 +86,7 @@ int main(int argc, char **argv)
   // initialize the Voigt profile
   printf("# Voigt a =  %.3e \n", voigt_a);
   voigt.New(nvoigt,voigt_x,voigt_a);
-  printf("# Finished Voigt!");
+  // printf("# Finished Voigt!");
 
 
   // get photons per processor
@@ -99,7 +99,7 @@ int main(int argc, char **argv)
   // Do the monte carlo calculation
   char outfile[1000];
   sprintf(outfile,"spec.dat");
-  //  Run_Monte_Carlo(outfile);
+  Run_Monte_Carlo(outfile);
 
   // finish up mpi
   MPI_Finalize();
@@ -175,7 +175,8 @@ void Run_Monte_Carlo(char *outfile)
   {
     // Get initial positions and direction
     Emit(r,D,r_emit);
-    // initial wavelength
+
+    // initial wavelength (Uniform continuum)
     lam = l_start + (l_stop-l_start)*gsl_rng_uniform(rangen);
     lam_emit = lam;
     flg_scatter = 0;

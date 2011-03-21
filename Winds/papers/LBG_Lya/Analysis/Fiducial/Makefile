@@ -13,14 +13,14 @@
 
 
 
-TARGET = outflow_fiducial_mgii
-TARGET2 = outflow_fiducial_feii
+TARGET = outflow_fiducial_lya
+#TARGET2 = outflow_fiducial_feii
 
-OBJECTS = outflow_fiducial_mgii.o voigt.o locate_array.o cdf.o spectrum.o 
-OBJECTS2 = outflow_fiducial_feii.o voigt.o locate_array.o cdf.o spectrum.o 
+OBJECTS = outflow_fiducial_lya.o jxp_voigt.o locate_array.o cdf.o spectrum.o 
+#OBJECTS2 = outflow_fiducial_feii.o voigt.o locate_array.o cdf.o spectrum.o 
 
 
-all: mgii feii
+all: lya
 
 .cc.o: 
 	$(CXX) $(CCOPT) -c -o $@ $<
@@ -37,9 +37,6 @@ logclean:
 realclean: clean
 	rm -f core $(TARGET)
 
-mgii: $(OBJECTS) 
+lya: $(OBJECTS) 
 	$(CXX) -o $(TARGET) $(OBJECTS) $(CLOPT)
-
-feii: $(OBJECTS2) 
-	$(CXX) -o $(TARGET2) $(OBJECTS2) $(CLOPT)
 

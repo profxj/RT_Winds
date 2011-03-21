@@ -22,7 +22,7 @@ int    n_phi     =    1;      // number of phi bins
 
 // grid parameters
 double r_inner   =  1.0;      // inner boundary radius, in kpc
-double r_outer   = 20.0;      // outer boundary radius, in kpc
+double r_outer   = 100.0;      // outer boundary radius, in kpc
 double r_emit    =  0.2;      // boundary to emit from
 double n_0       =  1e-1;     // number density at inner boundary
 double n_law     =    2.;      // -1*power law exponent of density law
@@ -51,11 +51,12 @@ double metallicity       = 1.0;                 // 1 = Solar
 double v_doppler    =   20*1e5;              
 
 // parameters describing voigt profile
-double Dnu   = v_doppler * 2.466d15 / 2.9979d10 ;   
-double voigt_a   = 6.265d8 / (4 * 3.14159 * Dnu);   // gamma/(4 pi Dnu)
+double Dnu   = v_doppler * 2.466e15 / 2.9979e10 ;   
+double voigt_a   = 6.265e8 / (4 * 3.14159 * Dnu);   // gamma/(4 pi Dnu)
 int    nvoigt    = 1000;
 double voigt_x   =  100;  // Allows for over 1000 km/s
 VOIGT voigt;
+
 
 // globals
 gsl_rng      *rangen;    // random number generator
@@ -83,7 +84,10 @@ int main(int argc, char **argv)
   rangen = gsl_rng_alloc (TypeR);
   
   // initialize the Voigt profile
+  printf("# Voigt a =  %.3e \n", voigt_a);
   voigt.New(nvoigt,voigt_x,voigt_a);
+  printf("# Finished Voigt!");
+
 
   // get photons per processor
   n_photons = n_photons/n_procs;
@@ -95,7 +99,7 @@ int main(int argc, char **argv)
   // Do the monte carlo calculation
   char outfile[1000];
   sprintf(outfile,"spec.dat");
-  Run_Monte_Carlo(outfile);
+  //  Run_Monte_Carlo(outfile);
 
   // finish up mpi
   MPI_Finalize();

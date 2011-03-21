@@ -24,4 +24,3 @@ absorption-line profiles, the surface brightness profiles offer a unique means
 of assessing the morphology and size of galactic-scale winds.  Furthermore, the 
 kinematics and line-ratios offer powerful diagnostics of outflows, motivating 
 deep, spatially-extended spectroscopic observations.
-

@@ -1,4 +1,6 @@
 ##
+cp ../../../Shared_Codes/emit_line.cc .
+cp ../../../Shared_Codes/emit_line.hh .
 cp ../../../Shared_Codes/voigt.cc .
 cp ../../../Shared_Codes/voigt.hh .
 cp ../../../Shared_Codes/locate_array.cc .

@@ -4,17 +4,16 @@
 
 class EMIT_LINE
 {
-  double *cumul;
+  double *wave;
   double EW_x,sigma_x;
-  LOCATE_ARRAY wave;
+  LOCATE_ARRAY cumul;
   int n_x;
 
 public:
   
-  void New(int n, double,  double);
+  void New(int n, double,  double, double, double);
   void Compute_Cumul();
   //  void Print();
-  double Profile(double);
-  double Scatter_Velocity(double);
+  double Get_Wave(double);
 
 };

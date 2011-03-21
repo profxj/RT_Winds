@@ -6,10 +6,11 @@
 #include <gsl/gsl_rng.h>
 #include "locate_array.hh"
 #include "voigt.hh"
+#include "emit_line.hh"
 #include "spectrum.hh"
 
 // monte carlo parameters
-double n_photons =  1e4;    // number of photons
+double n_photons =  1e7;    // number of photons
 double stepsize  = 0.0001;   // maximum size of photon step  (kpc)
 
 // output spectrum parameters
@@ -38,6 +39,11 @@ double dust_tau   = 0.;          // Optical depth of dust through the wind (r=0 
 double dust_norm   =  0.;   // Normalization to give dust_tau
 double dust_albedo = 0.0;         // ratio of scattering to absorption
 
+// Emisison line parameters
+int flg_emit_line = 0;
+int emit_n = 1000;
+double EW_in, sigma_line;
+EMIT_LINE emit_line;
 
 // line parameters
 // --------------------------
@@ -83,6 +89,20 @@ int main(int argc, char **argv)
 
   void Run_Monte_Carlo(char*);
 
+  // COMMAND LINE INPUTS 
+
+  // Photons
+  if(argc > 1) n_photons = atof(argv[1]);
+
+  // Emission line parameters
+  if(argc > 2) {
+    EW_in = atof(argv[2]);  // Input as Ang
+    sigma_line = atof(argv[3]) * 1e5;  // Input as km/s
+    // Initialize
+    flg_emit_line = 1;
+    emit_line.New(emit_n,EW_in,sigma_line, l_start, l_stop);
+  }
+
   // initialize MPI for parallelism
   int my_rank, n_procs;
   MPI_Init( &argc, &argv );
@@ -98,7 +118,7 @@ int main(int argc, char **argv)
   rangen = gsl_rng_alloc (TypeR);
   
   // initialize the Voigt profile
-  printf("# Voigt a =  %.3e \n", voigt_a);
+  // printf("# Voigt a =  %.3e \n", voigt_a);
   voigt.New(nvoigt,voigt_x,voigt_a);
 
   // get photons per processor
@@ -219,11 +239,16 @@ void Run_Monte_Carlo(char *outfile)
     // Get initial positions and direction
     Emit(r,D,r_emit);
     // initial wavelength
-    lam = l_start + (l_stop-l_start)*gsl_rng_uniform(rangen);
+    if (flg_emit_line==0) {
+	lam = l_start + (l_stop-l_start)*gsl_rng_uniform(rangen); } 
+    else {
+      // Emission line
+      lam = emit_line.Get_Wave(gsl_rng_uniform(rangen));
+    }
     lam_emit = lam;
     flg_scatter = 0;
 
-    printf("#  Photon %d, lambda = %.4e \n", i, lam);
+    // printf("#  Photon %d, lambda = %.4e \n", i, lam);
 
     for (j=0;j<50;j++) flg_resonance[j] = 0;
 
@@ -235,6 +260,10 @@ void Run_Monte_Carlo(char *outfile)
       vel = Get_Velocity(r,rad)/C_LIGHT;
       lam_loc = lam*(1 + vel*(r[0]*D[0] + r[1]*D[1] + r[2]*D[2])/rad);
       if (rad == 0) lam_loc = lam;
+
+      // Immediate escape (for generating the "intrinsic" data)  Comment out!
+      count_it = 1; 
+      break;
 
       // Variable step size
       if (rad < 2.0) step = 1e-4;  

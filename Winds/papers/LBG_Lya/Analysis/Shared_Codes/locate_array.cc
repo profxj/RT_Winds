@@ -96,7 +96,7 @@ void LOCATE_ARRAY::New(int n, double *bounds)
   {
     low[i]    = bounds[i];
     high[i]   = bounds[i+1];
-    if (high[i] <= low[i]) printf("Warning, Locate Array is non-monotonic\n");
+    if (high[i] <= low[i]) printf("Warning, Locate Array is non-monotonic %d \n", i);
   }
 }
 

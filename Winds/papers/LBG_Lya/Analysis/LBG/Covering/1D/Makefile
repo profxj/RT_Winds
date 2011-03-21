@@ -16,7 +16,7 @@
 TARGET = outflow_lbg_covering_lya
 #TARGET2 = outflow_lbg_covering_feii
 
-OBJECTS = outflow_lbg_covering_lya.o voigt.o locate_array.o cdf.o spectrum.o 
+OBJECTS = outflow_lbg_covering_lya.o voigt.o locate_array.o cdf.o spectrum.o emit_line.o 
 #OBJECTS2 = outflow_lbg_covering_feii.o voigt.o locate_array.o cdf.o spectrum.o 
 
 

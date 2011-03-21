@@ -8,16 +8,16 @@ pro emit_lya_line, STRCT=strct
 
   ;; Gaussian
   wrest = 1215.6701d
-  sigma = 50. ; km/s
+  sigma = 20. ; km/s
   EW = 100. ; Ang
-  sigma_A = 50. * wrest / 3e5 ; Ang
+  sigma_A = sigma * wrest / 3e5 ; Ang
 
   nrm = 1.
   A0 = EW / sigma_A / sqrt(!pi*2)
 
   ;; Evaluate
-  lmin = 1200. ; Ang
-  lmax = 1230. ; Ang
+  lmin = 1205. ; Ang
+  lmax = 1225. ; Ang
   npt = 10000L
   lval = lmin + (lmax-lmin)*dindgen(npt)/(npt-1)
   dl = lval[1]-lval[0]
@@ -59,6 +59,7 @@ pro emit_lya_line, STRCT=strct
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]
 
+  stop
   return
 
 end

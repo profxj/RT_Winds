@@ -4,21 +4,21 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
-#include "voigt.hh"
+#include "emit_line.hh"
 
 
-void VOIGT::New(int n, double xmax, double a)
+void EMIT_LINE::New(int n, double EW, double sigma, double wave_start, double wave_end)
 {
   n_x = n;
-  a_param = a;
-  x.Uniform_New(-1*xmax,2*xmax/n_x,n_x);
-  profile = new double[n_x];
-  emit = new CDF[n_x];
-  for (int i=0;i<n_x;i++) emit[i].New(n_x);
-  Compute_Profile();
+  EW_x = EW;
+  sigma_x = sigma;
+  double dwv = (wave_end-wave_start)/float(n);
+  wave.Uniform_New(wave_start, dwv, n_x); 
+  cumul = new double[n_x];
+  Compute_Cumul();
 }
 
-void VOIGT::Compute_Profile()
+void EMIT_LINE::Compute_Cumul()
 {
   int i;
   double y,v,e,expy,expv;
@@ -84,16 +84,7 @@ void VOIGT::Compute_Profile()
 }
 
 
-double VOIGT::Scatter_Velocity(double thisx)
-{  
-  int i = x.Locate(thisx);
-  if (i < 0) return 0;
-  int z = emit[i].Sample();
-  return x.Sample(z);
-}
-
- 
-double VOIGT::Profile(double y)
+double EMIT_LINE::Profile(double y)
 {
   int i = x.Locate(y);
   if (i < 0) return 0;
@@ -105,8 +96,3 @@ double VOIGT::Profile(double y)
   return val;
 }
 
-void VOIGT::Print()
-{
-  for (int i=0;i<n_x;i++)
-    printf("%12.5e %12.5e\n",x.Center(i),profile[i]);
-}

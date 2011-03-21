@@ -70,20 +70,20 @@ pro fig_fiducial_nvt, STRCT=strct
   ;; MgII Spectrum 
   xmrg = [9,1]
   ymrg = [4.0,1]
-  yrng=[0.01, 1e3]
+  yrng=[1, 1e7]
   xrng=[r0, r1]
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, $
-        ytitle='n!dH!u!N [x10!u2!N, cm!u-3!N];   v!dr!N [x10!u-2!N km s!u-1!N];  ' + $
+        ytitle='n!dH!u!N [x10!u6!N, cm!u-3!N];   v!dr!N;  ' + $
         '!9t!X!S!uLy!9a!X!R!N!dS!N', $
         xtitle='Radius (kpc)', yrange=yrng, thick=4, $
         xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /ylog, /xlog
 
   ;; Density
-  oplot, rval, n_r*100, color=clr.red, linest=2
+  oplot, rval, n_r*1e6, color=clr.red, linest=2
 
   ;; Velocity
-  oplot, rval, v_r/100., color=clr.blue, linesty=1
+  oplot, rval, v_r, color=clr.blue, linesty=1
 
   ;; Tau
   r_tau = fltarr(npix)
@@ -98,9 +98,9 @@ pro fig_fiducial_nvt, STRCT=strct
 
   ;; Label
   xlbl = 12.
-  xyouts, xlbl, 12., 'v!dr!N (x10!u-2!N)', color=clr.blue, charsiz=lsz
-  xyouts, xlbl, 0.7, '!9t!X!S!uLy!9a!X!R!N!dS!N', color=clr.black, charsiz=lsz
-  xyouts, xlbl, 0.1, 'n!dH!N (x10!u2!N)', color=clr.red, charsiz=lsz
+  xyouts, xlbl, 1e2, 'v!dr!N', color=clr.blue, charsiz=lsz
+  xyouts, xlbl, 1e6, '!9t!X!S!uLy!9a!X!R!N!dS!N', color=clr.black, charsiz=lsz
+  xyouts, xlbl, 1e4, 'n!dH!N (x10!u6!N)', color=clr.red, charsiz=lsz
 
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]

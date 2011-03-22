@@ -23,15 +23,18 @@ int    n_phi     =    1;      // number of phi bins
 
 // LBG wind parameters
 double r_inner   =  1.0;      // inner boundary radius, in kpc [Should always be 1 !!]
-double r_outer   = 100.0;      // outer boundary radius, in kpc
+double r_outer   = 300.0;      // outer boundary radius, in kpc
 double r_emit    =  0.5;      // boundary to emit from
 double bipolar   =    0;      // degree of bipolarity
 
-double LBG_gamma = 0.5;  // Covering fraction parameter
-double LBG_fc = 0.6;          // Maximum covering fraction (for MgII 2796)
-double LBG_vmax =  800*1e5;  // cm/s
+// These are for Lya
+double LBG_gamma = 0.37;  // Covering fraction parameter
+double LBG_fc = 0.8;          // Maximum covering fraction (for MgII 2796)
+double LBG_vmax =  820*1e5;  // cm/s
 double LBG_alpha = 1.3;     // Velocity field parameter
-double LBG_A =  LBG_vmax*LBG_vmax * (1.-LBG_alpha);  // Wind parameter
+double LBG_Reff = 250;     // kpc
+double LBG_A =  LBG_vmax*LBG_vmax * (1.-LBG_alpha) / 
+  ( pow(1.,1-LBG_alpha) - pow(LBG_Reff, 1-LBG_alpha));  // Wind parameter
 double LBG_Aa =  sqrt(LBG_A/(1-LBG_alpha));
 
 double dust_cs     = 3.33e-24;    // dust cross-section

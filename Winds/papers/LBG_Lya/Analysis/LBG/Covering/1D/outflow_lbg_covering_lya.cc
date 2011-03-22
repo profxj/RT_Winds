@@ -16,7 +16,7 @@ double stepsize  = 0.0001;   // maximum size of photon step  (kpc)
 // output spectrum parameters
 double l_start   =  1205;     // beginning wavelength (Angstroms)
 double l_stop    =  1225;     // ending wavelength (Angstroms)
-double l_delta   =   0.1;     // wavelength resolution (Angstroms)
+double l_delta   =   0.01;     // wavelength resolution (Angstroms)
 double F_cont    =    1;      // continuum flux level
 int    n_mu      =    1;      // number of theta bins
 int    n_phi     =    1;      // number of phi bins
@@ -239,7 +239,7 @@ void Run_Monte_Carlo(char *outfile)
     // Get initial positions and direction
     Emit(r,D,r_emit);
     // initial wavelength
-    if (flg_emit_line==0) {
+    if (flg_emit_line == 0) {
 	lam = l_start + (l_stop-l_start)*gsl_rng_uniform(rangen); } 
     else {
       // Emission line

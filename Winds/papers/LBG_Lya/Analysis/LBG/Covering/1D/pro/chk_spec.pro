@@ -9,7 +9,7 @@ pro chk_spec
   ;; Read
   file = 'spec.dat'
   print, 'Reading ', file
-  readcol, file, wv, fx, fx_noscat
+  readcol, file, wv, fx, fx_noscat, format='D,F,F'
   conti_no = median(fx_noscat)
 
   ;; Plot

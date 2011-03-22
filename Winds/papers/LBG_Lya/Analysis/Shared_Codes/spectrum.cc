@@ -145,7 +145,7 @@ void SPECTRUM::Print_Spectrum()
 	  if (n_times > 1) fprintf(out,"%15.5e ",time_grid.Center(i));
 	  if (n_mu > 1) fprintf(out,"%15.5e ",mu_grid.Center(m));
 	  if (n_phi > 1) fprintf(out,"%15.5e ",phi_grid.Center(p));
-	  fprintf(out,"%15.5e %15.5e %15.5e %15.5e\n",
+	  fprintf(out,"%15.7e %15.5e %15.5e %15.5e\n",
 		  lambda_grid.Center(j),count[id],scatt_count[id],click[id]);
 	}
   

@@ -4,5 +4,5 @@ make all
 #mpirun -np 10 outflow_lbg_covering_lya
 #mv spec.dat Output/spec_Lya_lbg_covering_continuum.dat
 # Lya Emission
-mpirun -np 10 outflow_lbg_covering_lya 1e4 100. 20.
-mv spec.dat Output/spec_Lya_lbg_covering_emiss_100A_20kms.dat
+mpirun -np 10 outflow_lbg_covering_lya 1e7 100. 20.
+#mv spec.dat Output/spec_Lya_lbg_covering_emiss_100A_20kms.dat

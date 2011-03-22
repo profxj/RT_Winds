@@ -262,8 +262,8 @@ void Run_Monte_Carlo(char *outfile)
       if (rad == 0) lam_loc = lam;
 
       // Immediate escape (for generating the "intrinsic" data)  Comment out!
-      count_it = 1; 
-      break;
+      // count_it = 1; 
+      // break;
 
       // Variable step size
       if (rad < 2.0) step = 1e-4;  

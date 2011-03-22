@@ -21,11 +21,14 @@ void MODEL::Init(const char* fname)
   LBG_fc = lua.scalar<double>("LBG_fc");
   LBG_vmax = lua.scalar<double>("LBG_vmax");
   LBG_alpha = lua.scalar<double>("LBG_alpha");
+  LBG_Reff = lua.scalar<double>("LBG_Reff");
   vdop = lua.scalar<double>("vdoppler");
   vinteract = lua.scalar<double>("vinteract");
 
   // Calcualte a few
-  LBG_A =  LBG_vmax*LBG_vmax * (1.-LBG_alpha);  // Wind parameter
+  // LBG_A =  LBG_vmax*LBG_vmax * (1.-LBG_alpha);  // Wind parameter
+  LBG_A =  LBG_vmax*LBG_vmax * (1.-LBG_alpha) / 
+    ( pow(1.,1-LBG_alpha) - pow(LBG_Reff, 1-LBG_alpha));  // Wind parameter
   LBG_Aa =  sqrt(LBG_A/(1-LBG_alpha));
 
   // Normalize

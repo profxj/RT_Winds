@@ -7,6 +7,7 @@ LBG_gamma = 0.37       -- Covering fraction parameter
 LBG_fc = 0.8          -- Maximum covering fraction (for MgII 2796)
 LBG_vmax =  8.2e7       -- cm/s
 LBG_alpha = 1.3
+LBG_Reff = 250.  -- kpc
 
 vdoppler  = 20e5        -- cm/s
 vinteract = 1e5        -- cm/s

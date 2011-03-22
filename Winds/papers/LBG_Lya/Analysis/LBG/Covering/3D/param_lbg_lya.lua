@@ -1,4 +1,4 @@
-model_file = "Models/param_lbg_s10.mod"
+model_file = "Models/param_lbg_s10_lya.mod"
 line_file = "lya.line"
 
 -- number of photons to use

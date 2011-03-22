@@ -1,2 +1,5 @@
 1.  Make sure the Voigt profile is "right"
   In Grid models too (there it is a simple approx)
+2.  Make sure the velocity dispersion in the clump 
+  model has an effect
+3. Extend 1D LBG covering models to 300kpc

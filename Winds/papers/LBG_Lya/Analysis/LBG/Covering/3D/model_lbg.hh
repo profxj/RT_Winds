@@ -27,6 +27,7 @@ public:
   double LBG_fc;             // Maximum covering fraction (for MgII 2796)
   double LBG_vmax;           // cm/s
   double LBG_alpha;          // Velocity field parameter
+  double LBG_Reff;          // Effective radius
   double LBG_A;              // Wind parameter
   double LBG_Aa;
 

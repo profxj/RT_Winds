@@ -2,7 +2,7 @@ model_file = "Models/param_lbg_s10.mod"
 line_file = "lya.line"
 
 -- number of photons to use
-n_photons = 1e5
+n_photons = 1e8
 
 -- parameters of output spectrum/image
 l_start = 1205  -- start wavelength

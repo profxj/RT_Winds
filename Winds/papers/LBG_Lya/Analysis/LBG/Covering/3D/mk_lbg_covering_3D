@@ -3,3 +3,6 @@ make
 # Lya (S10 model)
 mpirun -np 12 lbg_covering_3D param_lbg_lya.lua
 mv spec.dat Output/spec_Lya3D_lbg_covering.dat
+# SiII (S10 model)
+mpirun -np 12 lbg_covering_3D param_lbg_si2.lua
+mv spec.dat Output/spec_Lya3D_lbg_covering.dat

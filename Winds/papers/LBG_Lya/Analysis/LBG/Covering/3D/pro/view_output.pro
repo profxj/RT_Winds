@@ -1,5 +1,5 @@
 ; mk_spec_fits, 'Outputs/fiducial_feII.spec', 'Outputs/fiducial_mgII.spec', 'Outputs/fiducial_grid.fits'
-pro view_output, spec_fil, show_wave 
+pro view_output, spec_fil, SHOW_WAVE=show_wave 
 
   if not keyword_set(SPEC_FIL) then spec_fil = 'spec.dat'
   if not keyword_set(SHOW_WAVE) then show_wave = 1215.6701

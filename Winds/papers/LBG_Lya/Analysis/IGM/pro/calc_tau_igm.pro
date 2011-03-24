@@ -1,4 +1,4 @@
-pro calc_tau_igm, tau=tau, z=z, RVIR=rvir
+pro calc_tau_igm, relvel, z=z, RVIR=rvir, TAU_IGM=tau_v
 
   c = x_constants()
   wrest = 1215.6701d
@@ -7,7 +7,7 @@ pro calc_tau_igm, tau=tau, z=z, RVIR=rvir
   ;; Cosmology
   if not keyword_set(z) then z = 3.
   h = 0.72
-  Hubb = cosm_hubble(z, /w05map)
+  Hubb = cosm_hubble(z, /w05map, /silen)
   nH_bar = 0.04 * (c.rhoc * h^2) * (1+z)^3 / c.mp ;; Should correct for He
 
   ;;
@@ -24,7 +24,7 @@ pro calc_tau_igm, tau=tau, z=z, RVIR=rvir
 
   ;;;;;;;;;;;;;;;;;
   ;; Model density
-  readcol, RFIL, B_r_rv, B_rho_rhob, format='F,F'
+  readcol, RFIL, B_r_rv, B_rho_rhob, format='F,F', /silen
   rho_rhob = interpol(B_rho_rhob, B_r_rv, r/rvir)
 ;  x_splot, alog10(r/rvir), rho_rhob, /block
 
@@ -33,14 +33,20 @@ pro calc_tau_igm, tau=tau, z=z, RVIR=rvir
   ;;;;;;;;;;;;;;;;;
   ;; Velocity  (Following Fig 3 of Santos)
   ;; This includes Hubble flow and is *wrong* for z=3!!!
-  readcol, VFIL, B_r_rv, B_velp_vc, format='F,F'
+  readcol, VFIL, B_r_rv, B_velp_vc, format='F,F', /silen
   velp_vc = interpol(B_velp_vc, B_r_rv, r/rvir)
-  velr = velp_vc * vc - Hubb*r*(1+z)
+  velr = abs(velp_vc * vc) - Hubb*(r/1e3)  ; km/s
+;  x_splot, r/rvir, velr, /block, xlog=1
 
-  x_splot, alog10(r/rvir), velr, /block
-  stop
+  ;; dv/dr
+  dr = r - shift(r,1)  
+  dr[0] = dr[1]
+  dv = velr - shift(velr,1)
+  dv[0] = dv[1]
+  dvdr = dv/dr  ; km/s/kpc
 
-;  dvdr = abs(v_1rvir / r)  ; km/s/kpc
+;  x_splot, r/rvir, dvdr, /block, xlog=1
+;  stop
 
   ;;;;;;;;;;;;;;;;;
   ;; Ionization
@@ -58,13 +64,20 @@ pro calc_tau_igm, tau=tau, z=z, RVIR=rvir
 
   ;;;;;;;;;;;;;;;;;
   ;; Sobolev
-  dr = r
-
   getfnam, wrest, fval, nam
   Kappa_l = !pi*c.e^2/c.me/c.c * fval
 
-  tau_r = nHI_r*Kappa_l / (dvdr*1e5/c.kpc) * (wrest*1e-8) 
-  stop
+  tau_r = nHI_r*Kappa_l / (abs(dvdr)*1e5/c.kpc) * (wrest*1e-8) 
+  ;x_splot, velr, tau_r, /block
+
+  ;;;;;;;;;;;;
+  ;; Interpolate
+  npix = n_elements(relvel)
+  tau_v = fltarr(npix)
+  mn = min(velr, max=mx)
+  gd = where(relvel GE MN and relvel LE mx, ngd)
+  if ngd GT 0 then tau_v[gd] = interpol(tau_r, velr, relvel[gd])
 
   return
+
 end

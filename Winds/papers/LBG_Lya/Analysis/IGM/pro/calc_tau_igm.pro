@@ -1,4 +1,4 @@
-pro calc_tau_igm, tau=tau, z=z
+pro calc_tau_igm, tau=tau, z=z, RVIR=rvir
 
   c = x_constants()
   wrest = 1215.6701d
@@ -15,7 +15,7 @@ pro calc_tau_igm, tau=tau, z=z
 
   ;;;;;;;;;;;;;;;;;
   ;; Model the Halo
-  rvir = 200.  ; pMpc [Should be redshift dependent!]
+  if not keyword_set(RVIR) then rvir = 50.  ; pMpc [Should be redshift dependent!]
   r = rvir + 9*rvir*findgen(nval)/(nval-1)
 
   ;;;;;;;;;;;;;;;;;
@@ -25,14 +25,15 @@ pro calc_tau_igm, tau=tau, z=z
 
   ;;;;;;;;;;;;;;;;;
   ;; Velocity  (Following Fig 3 of Santos)
-  ;; This includes Hubble flow!!!
+  ;; This includes Hubble flow and is *wrong* for z=3!!!
   v_1rvir = -150. ; km/s
   v_r = v_1rvir * (1-alog10(r/rvir))   
+  dvdr = abs(v_1rvir / r)  ; km/s/kpc
 
   ;;;;;;;;;;;;;;;;;
   ;; Ionization
   Gamma =  0.5d-12 ; s^-1  [Check!]
-  T = 1e4 ; K
+  T = 1e4 ; K -- Might be too cold
   beta = c.Ryd / (c.k * T)
   L = c.mp / (2*c.k*T)
   A = 2.1e-22 ; cm^-2
@@ -45,8 +46,6 @@ pro calc_tau_igm, tau=tau, z=z
 
   ;;;;;;;;;;;;;;;;;
   ;; Sobolev
-  dr = r
-  dvdr = 
 
   getfnam, wrest, fval, nam
   Kappa_l = !pi*c.e^2/c.me/c.c * fval

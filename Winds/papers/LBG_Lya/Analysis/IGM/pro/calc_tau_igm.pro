@@ -18,8 +18,9 @@ pro calc_tau_igm, relvel, z=z, RVIR=rvir, TAU_IGM=tau_v
   if not keyword_set(RFIL) then rfil = getenv('LYAP')+'/Analysis/IGM/Barkana/rho_12_z3.dat'
   if not keyword_set(VFIL) then vfil = getenv('LYAP')+'/Analysis/IGM/Barkana/vel_12_z3.dat'
 
-  if not keyword_set(RVIR) then rvir = 50.  ; pMpc [Should be redshift dependent!]
-  if not keyword_set(VC) then vc = 200. ; km/s
+  ;; From Michele
+  if not keyword_set(RVIR) then rvir = 80.  ; pMpc [Should be redshift dependent!]
+  if not keyword_set(VC) then vc = 230. ; km/s [This is virial velocity, not v_c]
   r = rvir + 100*rvir*findgen(nval)/(nval-1)
 
   ;;;;;;;;;;;;;;;;;

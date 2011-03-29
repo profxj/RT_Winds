@@ -3,3 +3,6 @@
 2.  Make sure the velocity dispersion in the clump 
   model has an effect
 3. Extend 1D LBG covering models to 300kpc
+4. You can only scatter as much as you absorb!
+  -- Intrinsically, not as "observed"
+5. Do I need to integrate the SB in annuli (probably not)

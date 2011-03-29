@@ -22,7 +22,6 @@ pro fig_lbg_cover_1d, wv, fx, YRNG=yrng
 ;  xrng=[1205., 1225] ; Ang
   xrng=[-1500., 1500]
 ;  yrng=[0., 2.7]
-  xlbl = 300.
 
   for qq=0,1 do begin
 
@@ -40,13 +39,15 @@ pro fig_lbg_cover_1d, wv, fx, YRNG=yrng
      npix = n_elements(fx)
 
      for ss=0,3 do begin
+        xlbl = -1400.
         xtit = ''
         ylog = 0
         xspcs = replicate(' ', 30)
         yrng=[0.0, 2.0]
         yconti = conti
         yval = fx
-        ylbl = 0.2
+        ylbl = 0.15
+        xval = vel
         case ss of
            0: begin
               ylog=1
@@ -60,7 +61,6 @@ pro fig_lbg_cover_1d, wv, fx, YRNG=yrng
                  yconti = 1.
               endelse
               lbl = 'Intrinsic'
-              ylbl = 0.2
            end
            1: begin
               lbl = 'Wind'
@@ -72,8 +72,36 @@ pro fig_lbg_cover_1d, wv, fx, YRNG=yrng
               lbl = 'Wind+IGM'
            end
            3: begin
+              if qq EQ 0 then begin
+                 yrng=[0.0, 7.] 
+                 ylbl = 1.5
+              endif else begin
+                 yrng=[0.0, 34.]
+                 ylbl = 7.
+              endelse
               xtit = 'Relative Velocity (km/s)' 
               xspcs = ''
+              lbl = 'Data'
+
+              ;; Wind + IGM
+              calc_tau_IGM, vel, tau_IGM=tau_IGM 
+              boost = 2.
+              yval = fx * exp(-1.*tau_IGM*boost)
+              ;; LRIS
+
+              ;; Smooth
+              dwv = wv[1] - wv[0]
+              fwhm_pix = 1.0 / dwv ;; Corresponds to 250 km/s FWHM
+              nsmooth = fwhm_pix/(2.*sqrt(2*alog(2)))
+              kernel = gauss_kernel(nsmooth)
+              smth = convol(yval, kernel,/edge_wrap)
+              
+              ;; Rebin
+              nlow = npix/20
+              low_fx = congrid(smth, nlow)
+              xval = congrid(vel, nlow)
+              yval = low_fx
+              print, 'dv = ', xval[1]-xval[0]
            end
            else: 
         endcase
@@ -86,18 +114,22 @@ pro fig_lbg_cover_1d, wv, fx, YRNG=yrng
         oplot, replicate(0,2), yrng, color=clr.gray, lines=2
 
         ;; Continuum model
-        oplot, vel, yval/yconti, psym=10, color=clr.black, thick=3
+        oplot, xval, yval/yconti, psym=10, color=clr.black, thick=3
 
         ;; Labels
         xyouts, xlbl, ylbl, lbl, color=clr.black, charsi=lsz, align=0.
+
+        ;; Data
+        if ss EQ 3 then begin
+           readcol, '../Data/lbg_stack_2003.dat', wv, fx, format='D,F', /silent
+           conti = 2.04d-30
+           vel = (wv-wrest) * 3e5 / wrest
+           oplot, vel, fx/conti, psym=10, color=clr.blue, thick=3, linest=1
+        endif
+
      endfor
   endfor
 
-  ;; Data
-  readcol, '../Data/lbg_stack_2003.dat', wv, fx, format='D,F'
-  conti = 2.04d-30
-  vel = (wv-wrest) * 3e5 / wrest
-;  oplot, vel, fx/conti, psym=10, color=clr.blue, thick=3, linest=1
 
   ;; EW
 ;  print, 'EW = ', total(1-fx)*(wv[1]-wv[0]), ' Ang'

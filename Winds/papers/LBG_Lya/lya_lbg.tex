@@ -4,6 +4,7 @@
 \special{papersize=8.5in,11in}
 \begin{document}
 
+\newcommand{\mmc}{m_{\rm c}}
 \newcommand{\tpk}{$\tau_{\rm pk}$}
 \newcommand{\mtpk}{\tau_{\rm pk}}
 \newcommand{\mdv}{\delta v}
@@ -340,7 +341,67 @@ also the property of the IGM on larger scales ($r \sim 1-10$\,Mpc).
 It is possible, therefore, that the observed \lya\ emission is
 dominated by components other than a galactic-scale wind, indirectly
 observed as blue-shifted absorption.  In this respect, the LBG clump
-model cannot be ruled out.
+model cannot be ruled out by its discordance with the \lya\
+observations.
+
+In PKR11, we provided estimates for the energy and mass flux of the
+LBG wind model, as approximated by a Sobolev solution.  We now
+examine the same quantities for the clump model.  Consider a shell of
+thickness $\Delta r$ at radius $r$ from an LBG galaxy.  We may relate
+the number density of clumps $n(r)$ in this shell to the covering
+fraction of the clumps $f_\rm{c}(r)$:
+
+\begin{equation}
+n(r) = \frac{f_{\rm c}(r)}{\sigma} \frac{1}{\Delta r}
+\lable{eqn:density}
+\end{equation}
+with $\sigma$ the cross-section of the clump.  If each clump has a
+mass $m_{\rm c}$ then the mass within the shell is
+
+\begin{equation}
+M_{\Delta r}(r) = 4\pi r^2 f_{\rm c}(r) \, \frac{m_{\rm c}}{\sigma}
+\perd
+\label{eqn:mshell}
+\end{equation}
+Following Sobolev formalism, we set the shell thickness with radius to
+the velocity gradient of the flow
+
+\begin{equation}
+\Delta r = \Delta v_{\rm c} \ltp \frac{dv}{dr} \rtp^{-1}
+\end{equation}
+where $\Delta v_{\rm c}$ characterizes the velocity dispersion of the
+clumps, from any combination of internal or external motions within
+the shell.  In the following we adopt $\Delta v_{\rm c} = 10 \mkms$.
+
+Lastly, we constrain the surface density of the clumps $m_{\rm
+  c}/\sigma$ by demanding each clump be optically thick to the
+metal-line transitions observed by S+10, e.g.\ \ion{Si}{2}~1526.  
+This implies a minimum column density of Si$^+$ ions; we adopt
+$\N{Si^+} > 10^{14} \cm{-2}$.  In turn, this implies a lower limit to
+$m_{\rm c}/\sigma$.  For a solar abundance $n_{\rm H} = 10^{-4.5}
+n_{\rm Si}$ and assuming no ionization correction, we find $N_{\rm H}
+\ge 10^{18.5} \cm{-2}$ and therefore $m_{\rm c} / \sigma \ge 3.3
+\sci{-2} \msun \, \rm pc^{-2}$ when one accounts for helium.
+
+Adopting the minimum value for $\mmc/\sigma$,  we derive the mass,
+mass flux, energy, and power profiles shown in
+Figure~\ref{fig:mass_energy}.
+[Note that the clump flux ($nvr^2$) is nearly constant (increases by a
+factor of 2 somehow!) at $10^{-2}$ clumps/yr].
+Regarding mass, we find the clump model has $M_{\rm TOT} \approx
+10^{10} \msun$ [check] with nearly all of this matter existing at
+radii $r>20$\,kpc.  Ironically, this material accounts for very little
+of the down-the-barrel absorption\footnote{The only indisputable
+  outflow component.} in the model: XX\%\ of the mass in the flow
+corresponds to XX\%\ of the absorption.  
+[Can momentum driven winds get this much energy/mass flux?]
+We conclude that in their attempt to reconcile the absorption
+transverse to LBGs with that along LBG sightlines that S+10 were
+driven to this highly unrealistic scenario.
+
+Both the energy and power of this outflow are predicted to achieve
+very large quantities and, again, most of this occurs at large radii.
+[Discuss \lya\ emission here]
 
 \acknowledgments
 

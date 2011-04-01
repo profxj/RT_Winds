@@ -4,7 +4,17 @@
 \special{papersize=8.5in,11in}
 \begin{document}
 
+\newcommand{\tmax}{$\tau_v^{\rm max}$}
+\def\N#1{{N({\rm #1})}}
+\newcommand{\mtmax}{\tau_v^{\rm max}}
+\newcommand{\mtauv}{\tau_v}
+\newcommand{\tauv}{$\tau_v$}
 \newcommand{\mmc}{m_{\rm c}}
+\def\mrvir{r_{\rm vir}}
+\def\rvir{$r_{\rm vir}$}
+\def \msun {M_\odot}
+\def\wlya{$W^{\rm Ly\alpha}$}
+\def\mwlya{W^{\rm Ly\alpha}}
 \newcommand{\tpk}{$\tau_{\rm pk}$}
 \newcommand{\mtpk}{\tau_{\rm pk}}
 \newcommand{\mdv}{\delta v}
@@ -309,7 +319,7 @@ vs.\ projected radius for the flat-continuum intrinsic model and with
 no IGM attenuation.  The signal is integrated from velocities $v =
 [-100,400]\mkms$. Overplotted on the model, at an arbirtrary
 normalization, is the fitted profile of S+11 to their observations,
-$\mu(\rho) \propt \exp(-\rho/b)$ with $b=20$\,kpc.  In constrast to
+$\mu(\rho) \propto \exp(-\rho/b)$ with $b=20$\,kpc.  In constrast to
 the observations, the clump model predicts that 95\%\ of the
 integrated flux is emitted at $\rho < 10$\,kpc and the model assumes
 an exponential-like profile only at very large radii.  In short, a
@@ -349,11 +359,11 @@ LBG wind model, as approximated by a Sobolev solution.  We now
 examine the same quantities for the clump model.  Consider a shell of
 thickness $\Delta r$ at radius $r$ from an LBG galaxy.  We may relate
 the number density of clumps $n(r)$ in this shell to the covering
-fraction of the clumps $f_\rm{c}(r)$:
+fraction of the clumps $f_{\rm c}(r)$:
 
 \begin{equation}
 n(r) = \frac{f_{\rm c}(r)}{\sigma} \frac{1}{\Delta r}
-\lable{eqn:density}
+\label{eqn:density}
 \end{equation}
 with $\sigma$ the cross-section of the clump.  If each clump has a
 mass $m_{\rm c}$ then the mass within the shell is
@@ -376,7 +386,12 @@ the shell.  In the following we adopt $\Delta v_{\rm c} = 10 \mkms$.
 Lastly, we constrain the surface density of the clumps $m_{\rm
   c}/\sigma$ by demanding each clump be optically thick to the
 metal-line transitions observed by S+10, e.g.\ \ion{Si}{2}~1526.  
-This implies a minimum column density of Si$^+$ ions; we adopt
+This implies a minimum column density of Si$^+$ ions;\footnote{For this
+  calculation we adopt the LBG clump model parameters from S+10 that
+  apply to Si$^+$.  In this respect, the estimates may be a lower
+  limit given that the Hydrogen gas is predicted to extend to larger
+  radii.} 
+we adopt
 $\N{Si^+} > 10^{14} \cm{-2}$.  In turn, this implies a lower limit to
 $m_{\rm c}/\sigma$.  For a solar abundance $n_{\rm H} = 10^{-4.5}
 n_{\rm Si}$ and assuming no ionization correction, we find $N_{\rm H}

@@ -10,17 +10,18 @@ pro fig_lbg_mass_etc, RREAL=rreal, STRCT=strct
 
   ;; LBG stuff
   if not keyword_set(r_min) then r_min = 1.0 ; kpc
-  if not keyword_set(r_max) then r_max = 100. ; kpc
+  if not keyword_set(r_max) then r_max = 80. ; kpc
   if not keyword_set(gamma) then gamma = 0.5 ; Covering fraction
   if not keyword_set(fcmax) then fcmax = 0.6 ; 
   if not keyword_set(alpha) then alpha = 1.3 ;
-  if not keyword_set(vmax) then vmax = 800. ; 
-  if not keyword_set(WREST) then wrest = 2796.352d
+  if not keyword_set(vmax) then vmax = 800. ; km/s 
+  if not keyword_set(WREST) then wrest = 1215.6701
 
 
   ;; Begin
   c = x_constants()
-  rval = r_min + findgen(10000L)/100
+  npt = 10000L
+  rval = r_min + (r_max-r_min)*dindgen(npt)/(npt-1)
 
   ;;;;;;;;;;;;;;;;
   ;; LBG
@@ -32,14 +33,14 @@ pro fig_lbg_mass_etc, RREAL=rreal, STRCT=strct
 
   dvdr = sqrt(A_lbg/(1-alpha)) * 0.5 / sqrt(1-rval^(1-alpha)) * (alpha-1) * rval^(-1*alpha)
   dvdr[0] = 2*dvdr[1] ; Kludge
-  x_splot, rval, dvdr, /blo, /ylog, yrang=[1e-5, 1e4]
-  stop
+;  x_splot, rval, dvdr, /blo, /ylog, yrang=[1e-5, 1e4]
+;  stop
 
   ;; Delta r
   delta_r = Dv / dvdr ; kpc
 
 
-  ;; Sum up to 100kpc from 2kpc
+  ;; Sum up to 80kpc from 2kpc
   xval = fltarr(10000L)
   drval = fltarr(10000L)
   mval = fltarr(10000L)
@@ -49,7 +50,7 @@ pro fig_lbg_mass_etc, RREAL=rreal, STRCT=strct
   cnt = 0
   sigma = 0.01 ; kpc^2
   mc = 250. ; Msun
-  while(xval[cnt] LT 100.) do begin
+  while(xval[cnt] LT r_max) do begin
      ;; Dr
      mn = min(abs(rval-xval[cnt]),imn)
      drval[cnt] = delta_r[imn]

@@ -1,0 +1,17 @@
+For WMAP7 I find
+
+M_COSM_VIRIALREL: Expansion factor  0.250000
+M_COSM_VIRIALREL: Virial overdensity  174.315
+M_COSM_VIRIALREL: H(z)  300.328
+M_COSM_VIRIALREL: Omega_m(z)  0.960053
+M_COSM_VIRIALREL: Critical mass density (g/cm^3)  1.6957064e-28
+M_COSM_VIRIALREL: Virial radius (kpc)  81.770667
+M_COSM_VIRIALREL: Virial velocity (km/s)  229.34114
+
+Attached a code that should work for any mass in a reasonable z interval.
+
+-----------
+
+I'm computing the virial radius as the critical density above rho_crit (Bryant & Norman 98). For the virial velocity, I simply used
+V^2=GM/R
+

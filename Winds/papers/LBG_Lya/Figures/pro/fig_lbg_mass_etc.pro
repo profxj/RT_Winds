@@ -25,7 +25,7 @@ pro fig_lbg_mass_etc, RREAL=rreal, STRCT=strct
 
   ;;;;;;;;;;;;;;;;
   ;; LBG
-  A_lbg = vmax^2 * (1-alpha)
+  A_lbg = vmax^2 * (1-alpha) / (r_min^(1-alpha) - r_max^(1-alpha))
   v_lbg = -1. * sqrt(A_lbg/(1-alpha)) * sqrt(r_min^(1-alpha) - rval^(1-alpha)) ; km/s
   fc_lbg = fcmax * (rval/r_min)^(-1*gamma)
   I_lbg = 1 - fc_lbg
@@ -69,6 +69,9 @@ pro fig_lbg_mass_etc, RREAL=rreal, STRCT=strct
   nval = nval[0:cnt-1]
   fval = fval[0:cnt-1]
 
+  ;; Velocity
+  vval = sqrt(A_lbg/(1-alpha)) * (r_min^(1-alpha) - xval^(1-alpha))
+
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Plot
   x_psopen, psfile, /maxs
@@ -76,21 +79,21 @@ pro fig_lbg_mass_etc, RREAL=rreal, STRCT=strct
   clr = getcolor(/load)
 
   ymrg = [3.7,0.5]
+  xmrg = [10,2]
 
   ;;;;;;;;;;;;;;;;;;;;;;;
   ;; Delta r
-  xmrg = [10,2]
-  xrng=[1e0, 100]
-  yrng=[1e-3, 10]
-  plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
-        xmargin=xmrg, ymargin=ymrg, $
-        ytitle='!9D!X r (kpc)', $
-        xtitle='Radius (kpc)', yrange=yrng, thick=4, $
-        xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /xlog, /ylog
-
-  ;; Delta r
-  oplot, rval, delta_r, color=clr.black
-
+;  xrng=[1e0, 100]
+;  yrng=[1e-3, 10]
+;  plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
+;        xmargin=xmrg, ymargin=ymrg, $
+;        ytitle='!9D!X r (kpc)', $
+;        xtitle='Radius (kpc)', yrange=yrng, thick=4, $
+;        xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /xlog, /ylog
+;
+;  ;; Delta r
+;  oplot, rval, delta_r, color=clr.black
+;
   ;;;;;;;;;;;;;;;;;;;;;;;
   ;; Mass (cumulative)
   xrng=[1e0, 100]
@@ -102,7 +105,46 @@ pro fig_lbg_mass_etc, RREAL=rreal, STRCT=strct
         xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /xlog, /ylog
 
   ;; Density
-  oplot, xval, total(mval,/cumul), color=clr.black
+  oplot, xval, total(mval,/cumul), color=clr.black, psym=10
+
+  ;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Kinetic Energy (cumulative)
+  xrng=[1e0, 100]
+  yrng=[1d53, 1d59]
+  plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
+        xmargin=xmrg, ymargin=ymrg, $
+        ytitle='Cumulative Kinetic Energy (ergs)', $
+        xtitle='Radius (kpc)', yrange=yrng, thick=4, $
+        xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /xlog, /ylog
+
+  ;; Kinetic Energy
+  oplot, xval, total(0.5*mval*c.msun*(vval*1e5)^2,/cumul), color=clr.black, psym=10
+
+  ;; Mass Flux (through a shell)
+  xrng=[1e0, 100]
+  yrng=[1e1, 1d4]
+  plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
+        xmargin=xmrg, ymargin=ymrg, $
+        ytitle='Mass Flux (Msun yr!u-1!N)', $
+        xtitle='Radius (kpc)', yrange=yrng, thick=4, $
+        xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /xlog, /ylog
+
+  ;; Mass Flux
+  oplot, xval, mval*(vval*1e5)/(delta_r*c.kpc)*c.yr, color=clr.black, psym=10
+
+  ;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Cumulative Power
+  xrng=[1e0, 100]
+  yrng=[1d42, 1d47]
+  plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
+        xmargin=xmrg, ymargin=ymrg, $
+        ytitle='Cumulative Power (ergs s!u-1!N)', $
+        xtitle='Radius (kpc)', yrange=yrng, thick=4, $
+        xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, /xlog, /ylog
+
+  ;; Power
+  oplot, xval, total(0.5* (mval*c.msun*(vval*1e5)/(delta_r*c.kpc)) * (vval*1e5)^2, /cumul), $
+         color=clr.black, psym=10
 
 
   if keyword_set( PSFILE ) then x_psclose

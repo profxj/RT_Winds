@@ -1,0 +1,7 @@
+# Compile
+source grab_source
+make all
+####
+# Static test
+mpirun -np 4 test_static
+#mv spec.dat Output/spec_Lya_fiducial.dat

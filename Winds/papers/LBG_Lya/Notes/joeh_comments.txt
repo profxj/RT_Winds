@@ -1,0 +1,121 @@
+
+Am making progress on writing up a few things related
+to the LBG wind of Steidel et al.  Will send along the crude
+draft shortly, maybe end of today.
+
+Good, I'm hoping to make some progress on thinking about this this week 
+as well and then we can talk more about it in SD. 
+
+In the meantime, here is a Figure of interest.  It shows
+the Cumulative Mass, Cumulative K.E., Mass Flux, and
+Cumulative Power in the wind.
+
+I'm using the clump approach that I did before, and am
+reasonably happy with that methodology.
+
+Am not sure, however, about how to calculate the Mass Flux
+and Cumulative Power.  What I've done here is to:
+
+a.  Calculate mass flux in each "shell" to be   Mdot = M * v / Dr where
+Dr is the width of the shell and M is the mass in the shell.
+That obviously makes sense dimensionally, but am not sure
+about physically.
+
+
+This approach seems reasonable to me.  I was thinking 
+of computing the kinetic energy of a wind and dividing by the 
+dynamical time, but integrating it up shell by shell is obviously more accurate. 
+
+I think you mean M*Dr/v here. I presume dM = 4*pi*r^2*Dr*rho. How do you 
+calculate Dr? I think you have an additional constraint on Dr(r) from the velocity
+but I never really understood that argument.  
+
+So if I understand this correctly, the mass M(r) depends only on the covering factor f_C(r)
+and the column density of the clouds, and you are obtaining a lower limit
+on the column density of the clouds by assuming they are solar metallicity and 
+that SiII is saturated, right?
+
+I don't understand how the mass flux can increase with redshift like this? 
+That is not physical, i.e. your wind is gaining nearly a factor of 100 in mass
+flux between 10 kpc and 100 kpc? That would mean you are creating cold
+gas mass somehow. There is of course no way to do that in a ballistic model, 
+i.e. there you would have to conserve mass and obey a continuity equation. 
+
+You could create mass flux like this if material is cooling and condensing into your cold 
+phase as the wind propagates out, but that seems bizarre to me, because 
+
+a) a  hot phase traveling with the wind would be lowering its density as ~ r^-2 (assuming
+you are not gaining hot material) and so cooling is less effective at large radii. 
+
+b) if you are sweeping up mass from the halo and converting that to cold gas (who knows
+how you would do this in practice as it seems hard to get it to cool fast enough), you are going to 
+have a tough time picking up this much mass in such a short time. 
+
+For example, assume the ambient medium has n = 0.01 cm^-3. A R = 100 kpc 
+halo then only has 10^12 Solar masses of material and the dynamical time is 2e8 years
+for v = 500 km/s. So if all the mass magically cooled to 10^4 K and flew out in a dynamical time that would 
+still only be 5000 Msun/year??
+
+
+b.  From there, the power is simply  1/2 Mdot v^2, but again this
+hinges on the Mdot definition.
+
+Yikes that is a pretty energetic wind:) This will only get more fun for Tremonti's winds
+since the power scales as v^3, i.e. if you assumed 500 km/s for Steidel her winds
+will have ~ 8 times more power. 
+
+Anyhow, could use some of your brain cells on this one.
+
+Perhaps it makes sense to chat via skype. I'm trying to schedule a meeting
+with Klessen to see what he thinks about this stuff. Namely I need some guidance on figuring
+on what fraction of this power we can use as heat. If we get to use ~ 10%, that is a lot of cooling
+radiation. 
+
+Amazing that it takes plumbers like us to realize that this doesn't make physical sense. Where
+are the theorists? In their defense Norm Murray would probably say there is no evidence for 
+a hot-phase in the halos of normal galaxies. But I don't think I believe that -- there have to be
+baryons somewhere in the halo. 
+
+
+
+
+Cheers,
+
+X
+
+<fig_lbg_mass_etc.ps>
+
+----------------------------------------------
+Jason X. Prochaska
+UCO/Lick Observatory
+UC Santa Cruz
+Santa Cruz, CA 95064
+
+xavier@ucolick.org
+http://www.ucolick.org/~xavier/
+831-459-2135 (Direct)
+831-459-2991 (UCO/Lick Main)
+831-459-5244 (Fax)
+
+
+------------------------------------------------
+Joseph F. Hennawi
+Research Group Leader
+Max-Planck-Institut für Astronomie
+Königstuhl 17
+69117 Heidelberg
+Germany
+Phone: +49-6221-528-263
+Mobile: +49-171-175-4096
+E-mail: joe@mpia.de
+------------------------------------------------
+
+!DSPAM:826,4d99dce6145011422511209!
+
+
+There is also a problem with just simple energetics, i.e. a good rule of thumb is that you can only get a mass flux out of a starburst wind that is comparable to a star-formation rate. This arises from the amount of energy you can extract per SNe explosion. So for LBGs, mass outflow rates should be more like ~ 30-100 Msun per year, not ~ 5000 Msun/year. Similar considerations apply for momentum (I think) driven winds.  
+
+So if I understand correctly, this seeming contradiction arises because you see a large covering factor of saturated meta line absorption at large distances from galaxies ~ 50 kpc (implying a significant cold gas mass) and you are wrongly attributing this to a large scale wind which has extreme kinematics deduced from galaxy self-absorption spectra. This problem goes away if the self-absorption kinematics are dominated by material very close to the galaxy ~ 1 kpc, and have only a small contribution from the material at ~ 50 kpc. 
+
+Joe
+

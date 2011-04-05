@@ -32,6 +32,8 @@ pro fig_lbg_aclump, RREAL=rreal, STRCT=strct
 
   dvdr = sqrt(A_lbg/(1-alpha)) * 0.5 / sqrt(1-rval^(1-alpha)) * (alpha-1) * rval^(-1*alpha)
   dvdr[0] = 2*dvdr[1] ; Kludge
+  x_splot, rval, dvdr, /blo, /ylog, yrang=[1e-5, 1e4]
+  stop
 
   ;; Delta r
   delta_r = Dv / dvdr ; kpc

@@ -20,7 +20,7 @@ OBJECTS = outin_rad_mgii.o voigt.o locate_array.o cdf.o spectrum.o
 OBJECTS2 = outin_rad_feii.o voigt.o locate_array.o cdf.o spectrum.o 
 
 
-all: outin_rad_mgii
+all: mgii
 
 .cc.o: 
 	$(CXX) $(CCOPT) -c -o $@ $<

@@ -9,7 +9,7 @@
 #include "spectrum.hh"
 
 // monte carlo parameters
-double n_photons =  1e3;    // number of photons
+double n_photons =  1e5;    // number of photons
 double stepsize  = 0.01;   // maximum size of photon step 
 
 // output spectrum parameters
@@ -184,7 +184,7 @@ void Run_Monte_Carlo(char *outfile)
     lam_emit = lam;
     flg_scatter = 0;
 
-    printf("#  Photon %d, lambda = %.4e \n", i, lam);
+    // printf("#  Photon %d, lambda = %.4e \n", i, lam);
 
     // propogate until escaped
     while (1)
@@ -257,7 +257,7 @@ void Run_Monte_Carlo(char *outfile)
 	if (atau > 60)     xcr = 0.02*exp(1.4*pow(log(atau),0.6));
 	else if (atau >1) xcr = 0.02*exp(0.6*pow(log(atau),1.2));
 	else xcr = 0;
-	printf("#  xcr %.4e, NHI = %.4e \n", xcr, log10(NHI));
+	//printf("#  xcr %.4e, NHI = %.4e \n", xcr, log10(NHI));
 	u1  = sqrt(xcr*xcr-1.0*log(1.0-R11))*cos(2*PI*R10);
 	u2  = sqrt(xcr*xcr-1.0*log(1.0-R11))*sin(2*PI*R10);
 	

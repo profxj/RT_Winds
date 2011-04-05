@@ -22,14 +22,14 @@ int    n_phi     =    1;      // number of phi bins
 
 // grid parameters
 double r_inner   =  0.0;      // inner boundary radius, in kpc
-double r_outer   = 10.0;      // outer boundary radius, in kpc
+double r_outer   = 1.0;      // outer boundary radius, in kpc
 double r_emit    =  0.0;      // boundary to emit from
-double n_0       =  1e0;     // number density at inner boundary
-double n_law     =    2.;      // -1*power law exponent of density law
-double v_max     =  4.0e7;    // velocity at outer boundary (cm/s)
-double v_min     =  50.*1e5;    // velocity at inner boundary (cm/s)
-double v_law     =    1.0;      // power law of velocity profile
-double bipolar   =    0;      // degree of bipolarity
+double n_0       =  3.0934e-6;     // number density at inner boundary
+//double n_law     =    2.;      // -1*power law exponent of density law
+//double v_max     =  4.0e7;    // velocity at outer boundary (cm/s)
+//double v_min     =  50.*1e5;    // velocity at inner boundary (cm/s)
+//double v_law     =    1.0;      // power law of velocity profile
+//double bipolar   =    0;      // degree of bipolarity
 
 double dust_cs     = 3.33e-24;    // dust cross-section
 double dust_dens   = 0.;          // density of NH/dust, 1 gives tau=1
@@ -123,9 +123,9 @@ double Get_Velocity(double *x, double r)
 //--------------------------------------------
 double Get_Density(double *x, double r)
 {
-  if (r == 0) return 0;
-  if (r < r_inner) return 0;
-  //  if (r > r_outer) return 0;
+  //if (r == 0) return 0;
+  //if (r < r_inner) return 0;
+  if (r > r_outer) return 0;
   // double mu = x[2]/r;
   return n_0;
 }

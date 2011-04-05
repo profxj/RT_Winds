@@ -3,5 +3,5 @@ source grab_source
 make all
 ####
 # Static test
-mpirun -np 4 test_static
+mpirun -np 4 test_static_sphere
 #mv spec.dat Output/spec_Lya_fiducial.dat

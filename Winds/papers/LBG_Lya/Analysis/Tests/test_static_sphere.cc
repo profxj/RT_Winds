@@ -9,20 +9,20 @@
 #include "spectrum.hh"
 
 // monte carlo parameters
-double n_photons =  1e5;    // number of photons
+double n_photons =  1e3;    // number of photons
 double stepsize  = 0.01;   // maximum size of photon step 
 
 // output spectrum parameters
-double l_start   =  1205;     // beginning wavelength (Angstroms)
-double l_stop    =  1225;     // ending wavelength (Angstroms)
-double l_delta   =   0.1;     // wavelength resolution (Angstroms)
+double l_start   =  1215.5;     // beginning wavelength (Angstroms)
+double l_stop    =  1216;     // ending wavelength (Angstroms)
+double l_delta   =   0.002;     // wavelength resolution (Angstroms)
 double F_cont    =    1;      // continuum flux level
 int    n_mu      =    1;      // number of theta bins
 int    n_phi     =    1;      // number of phi bins
 
 // grid parameters
 double r_inner   =  0.0;      // inner boundary radius, in kpc
-double r_outer   = 1.0;      // outer boundary radius, in kpc
+double r_outer   = 10.0;      // outer boundary radius, in kpc
 double r_emit    =  0.0;      // boundary to emit from
 double n_0       =  3.0934e-6;     // number density at inner boundary
 //double n_law     =    2.;      // -1*power law exponent of density law
@@ -48,7 +48,7 @@ double f_lu[]       = {0.4164};
 double abun[]       = {1.};  // Solar metallicity and 1/10 down for dust
 double metallicity       = 1.0;                 // 1 = Solar
  // lines doppler velocity in cm/s
-double v_doppler    =   40631.;  // T=10K
+double v_doppler    =   40631.;  // cm/s :: T=10K
 
 // parameters describing voigt profile
 double Dnu   = v_doppler * 2.466e15 / 2.9979e10 ;   
@@ -84,7 +84,7 @@ int main(int argc, char **argv)
   rangen = gsl_rng_alloc (TypeR);
   
   // initialize the Voigt profile
-  // printf("# Voigt a =  %.3e \n", voigt_a);
+  printf("# Voigt a =  %.3e \n", voigt_a);
   voigt.New(nvoigt,voigt_x,voigt_a);
   // printf("# Finished Voigt!");
 
@@ -184,7 +184,7 @@ void Run_Monte_Carlo(char *outfile)
     lam_emit = lam;
     flg_scatter = 0;
 
-    // printf("#  Photon %d, lambda = %.4e \n", i, lam);
+     printf("#  Photon %d, lambda = %.4e \n", i, lam);
 
     // propogate until escaped
     while (1)
@@ -258,7 +258,6 @@ void Run_Monte_Carlo(char *outfile)
 	if (atau > 60)     xcr = 0.02*exp(1.4*pow(log(atau),0.6));
 	else if (atau >1) xcr = 0.02*exp(0.6*pow(log(atau),1.2));
 	else xcr = 0;
-	//printf("#  xcr %.4e, NHI = %.4e \n", xcr, log10(NHI));
 	u1  = sqrt(xcr*xcr-1.0*log(1.0-R11))*cos(2*PI*R10);
 	u2  = sqrt(xcr*xcr-1.0*log(1.0-R11))*sin(2*PI*R10);
 	
@@ -298,8 +297,8 @@ void Run_Monte_Carlo(char *outfile)
 	rad = sqrt(r[0]*r[0] + r[1]*r[1] + r[2]*r[2]);
 	// vel = Get_Velocity(r,rad)/C_LIGHT;
 	vel = 0;
-	if (rad > 0)
-	  lam = lam_loc/(1 + vel*(r[0]*D[0] + r[1]*D[1] + r[2]*D[2])/rad);
+	lam = lam_loc/(1 + vel*(r[0]*D[0] + r[1]*D[1] + r[2]*D[2])/rad);
+	// printf("#  xcr %.4e, atau = %.4e, NHI = %.4e, lam = %.8e \n", xcr, atau, log10(NHI), lam);
       }
 
       if (dust_scatter)

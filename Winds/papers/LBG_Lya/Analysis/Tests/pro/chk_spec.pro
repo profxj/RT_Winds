@@ -1,4 +1,4 @@
-pro chk_spec
+pro chk_spec, wv, fx, YRNG=yrng
 
   
   if not keyword_set( PSFILE ) then psfile = 'chk_spec.ps'
@@ -9,8 +9,8 @@ pro chk_spec
   ;; Read
   file = 'spec.dat'
   print, 'Reading ', file
-  readcol, file, wv, fx, fx_noscat
-  conti_no = median(fx_noscat[0:100])
+  readcol, file, wv, fx, fx_noscat, format='D,F,F'
+  conti_no = median(fx_noscat)
 
   ;; Plot
   x_psopen, psfile, /maxs
@@ -20,7 +20,8 @@ pro chk_spec
   xmrg = [8,2]
   ymrg = [4.0,0.5]
   xrng=[min(wv,max=mwv),mwv]
-  yrng=[0., max(fx)*1.05]
+  if not keyword_set( YRNG ) then yrng=[0., max(fx)*1.05]
+
   plot, [0], [0], color=clr.black, background=clr.white, charsize=csz,$
         xmargin=xmrg, ymargin=ymrg, xtitle='Rest Wavelength (Ang)', $
         ytitle='Relative Flux', $ 
@@ -28,26 +29,17 @@ pro chk_spec
 
   ;; New spec 
   oplot, wv, fx, psym=10, color=clr.black, thick=3
-  oplot, wv, fx_noscat/conti_no, psym=10, color=clr.gray, thick=3, linest=1
+  oplot, wv, fx_noscat/conti_no, psym=10, color=clr.red, thick=3, linest=1
 
   ;; EW
   print, 'EW = ', total(1-fx)*(wv[1]-wv[0]), ' Ang'
 
-  ;; Fiducial
-  file = '../Fiducial/Output/spec_MgII_fiducial.dat'
-  readcol, file, wv, fx, /silent
-
-  oplot, wv, fx, psym=10, color=clr.red, thick=3
-
-  ;; EW
-  print, 'EW(fiducial) = ', total(1-fx)*(wv[1]-wv[0]), ' Ang'
-
   ;; Labels
-  lins = [2796.352, 2803.531]
+  lins = [1215.6701]
   for nn=0L,n_elements(lins)-1 do begin
       oplot, replicate(lins[nn],2), yrng, color=clr.gray, lines=1
-      loff = lins[nn] - 200/3e5*lins[nn]
-      oplot, replicate(loff,2), yrng, color=clr.blue, lines=2
+;      loff = lins[nn] - 200/3e5*lins[nn]
+;      oplot, replicate(loff,2), yrng, color=clr.blue, lines=2
   endfor
 
 
@@ -55,6 +47,7 @@ pro chk_spec
   !p.multi=[0,1,1]
 
   print, 'chk_spec:  All done!'
+;  stop
        
   return
 end

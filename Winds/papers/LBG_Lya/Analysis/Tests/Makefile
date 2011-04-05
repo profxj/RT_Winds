@@ -13,14 +13,14 @@
 
 
 
-TARGET = test_static
+TARGET = test_static_sphere
 #TARGET2 = outflow_fiducial_feii
 
-OBJECTS = test_static.o voigt.o locate_array.o cdf.o spectrum.o 
+OBJECTS = test_static_sphere.o voigt.o locate_array.o cdf.o spectrum.o 
 #OBJECTS2 = outflow_fiducial_feii.o voigt.o locate_array.o cdf.o spectrum.o 
 
 
-all: test_static
+all: test_static_sphere
 
 .cc.o: 
 	$(CXX) $(CCOPT) -c -o $@ $<
@@ -37,6 +37,6 @@ logclean:
 realclean: clean
 	rm -f core $(TARGET)
 
-test_static: $(OBJECTS) 
+test_static_sphere: $(OBJECTS) 
 	$(CXX) -o $(TARGET) $(OBJECTS) $(CLOPT)
 

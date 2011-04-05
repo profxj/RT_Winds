@@ -48,7 +48,7 @@ double f_lu[]       = {0.4164};
 double abun[]       = {1.};  // Solar metallicity and 1/10 down for dust
 double metallicity       = 1.0;                 // 1 = Solar
  // lines doppler velocity in cm/s
-double v_doppler    =   20*1e5;              
+double v_doppler    =   40631.;  // T=10K
 
 // parameters describing voigt profile
 double Dnu   = v_doppler * 2.466e15 / 2.9979e10 ;   
@@ -179,8 +179,8 @@ void Run_Monte_Carlo(char *outfile)
     // Get initial positions and direction
     Emit(r,D,r_emit);
 
-    // initial wavelength (Uniform continuum)
-    lam = l_start + (l_stop-l_start)*gsl_rng_uniform(rangen);
+    // initial wavelength (Monochromatic at line center)
+    lam = lambda_0[0];
     lam_emit = lam;
     flg_scatter = 0;
 
@@ -191,7 +191,8 @@ void Run_Monte_Carlo(char *outfile)
     {
       // photon wavelength in local frame
       rad = sqrt(r[0]*r[0] + r[1]*r[1] + r[2]*r[2]);
-      vel = Get_Velocity(r,rad)/C_LIGHT;
+      // vel = Get_Velocity(r,rad)/C_LIGHT;
+      vel = 0;
       lam_loc = lam*(1 + vel*(r[0]*D[0] + r[1]*D[1] + r[2]*D[2])/rad);
 
       // printf("#  rad = %.4e, lambda = %.4e \n", rad, lam_loc);
@@ -295,7 +296,8 @@ void Run_Monte_Carlo(char *outfile)
 
 	// now get change in observer frame wavelength
 	rad = sqrt(r[0]*r[0] + r[1]*r[1] + r[2]*r[2]);
-	vel = Get_Velocity(r,rad)/C_LIGHT;
+	// vel = Get_Velocity(r,rad)/C_LIGHT;
+	vel = 0;
 	if (rad > 0)
 	  lam = lam_loc/(1 + vel*(r[0]*D[0] + r[1]*D[1] + r[2]*D[2])/rad);
       }

@@ -85,6 +85,7 @@ int main(int argc, char **argv)
   
   // initialize the Voigt profile
   printf("# Voigt a =  %.3e \n", voigt_a);
+  printf("# tau_0  =  %.3e \n", 3.31e-14*(12.85*1e5/v_doppler)*n_0*r_outer*KPARSEC);
   voigt.New(nvoigt,voigt_x,voigt_a);
   // printf("# Finished Voigt!");
 
@@ -184,7 +185,7 @@ void Run_Monte_Carlo(char *outfile)
     lam_emit = lam;
     flg_scatter = 0;
 
-     printf("#  Photon %d, lambda = %.4e \n", i, lam);
+    // printf("#  Photon %d, lambda = %.4e \n", i, lam);
 
     // propogate until escaped
     while (1)

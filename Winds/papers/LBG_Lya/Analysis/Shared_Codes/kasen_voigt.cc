@@ -4,10 +4,8 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
-#include <gsl/gsl_cdf.h>
 #include "voigt.hh"
 
-// Now using an algorithm from Michele (Zaghloul et al. 2007)
 
 void VOIGT::New(int n, double xmax, double a)
 {
@@ -25,53 +23,47 @@ void VOIGT::Compute_Profile()
   int i;
   double y,v,e,expy,expv;
   double xsq, c, q, pic,SQRT_PI;
-  double Hau,error,ffactor;
   
   double ymax = 10*x.Max();
   double dy   = a_param*0.01;
   double ap   = a_param*a_param;
 
-  //initilize integral
-  gsl_integration_workspace * w=gsl_integration_workspace_alloc (1000);
-       
-  //intialize function
-  gsl_function F;
-  F.function = &VOIGT::Integrand;
-
   // zero out
   for (i=0;i<n_x;i++) profile[i] = 0;
 
+  // // do integral over yfrom -infinity to +infinity
+  // for (y = -1*ymax;y<ymax;y+=dy)
+  // {
+  //   expy = exp(-1*y*y);
+  //   for (i=0;i<n_x;i++)
+  //   {
+  //     v = x.Center(i);
+  //     profile[i] += expy/((v-y)*(v-y) + ap)*dy;
+  //   }
+  // }
+
+  // // renormalize
+  // for (i=0;i<n_x;i++) profile[i] = a_param/PI*profile[i]/sqrt(PI);
+
+
   // Numerical Approx
+  SQRT_PI = sqrt(PI);
   for (i=0;i<n_x;i++)
     {
-      voigt_u = x.Center(i);
-      
-      if(a_param < 200){
-	//compute the inegral term for H(a,u)
-	// F.params=&p;
-	//gsl_integration_qags(&F,0.,voigt_u,0,1e-8,1000,w,&Hau,&error); 
-      gsl_integration_qag(&F,0.,voigt_u,0,1e-8,1000,6,w,&Hau,&error); 
-      //compute the factor in the front (2 cases)
-      if(a_param < 26.6){
-	//use full function
-	ffactor=exp(-voigt_u*voigt_u)*cos(2*a_param*voigt_u)*exp(a_param*a_param)*erfc(a_param);
-	Hau=ffactor+1.12837917*Hau;
-      } else {
-	//use series expansion
-	ffactor=exp(-voigt_u*voigt_u)*cos(2*a_param*voigt_u)/(1.7724538*a_param)*
-	  (1.-(0.5/pow(a_param,2.))+(0.75/pow(a_param,4.))-(1.875/pow(a_param,6.))+
-	   (6.5625/pow(a_param,8.))-(29.53125/pow(a_param,10.))+(162.421875/pow(a_param,12.)));
-	Hau=ffactor+1.12837917*Hau;
-	  }
-    } else {
-      //for large a, use approximate equation
-      Hau=a_param/(a_param*a_param+voigt_u*voigt_u)/1.7724538;
-    }
-      profile[i] = Hau;
-      // printf("# x, H(a,x) =  %.3e %.3e \n",v,profile[i]);
-    }
+      v = x.Center(i);
+      xsq = v*v;
+      c   = (xsq - 0.855)/(xsq + 3.42);
 
+      if (c < 0) q = 0;
+      else 
+	{
+	  pic = 5.674*c*c*c*c -9.207*c*c*c + 4.421*c*c + 0.1117*c;
+	  q = (1 + 21/xsq)*a_param/PI/(xsq + 1)*pic; 
+	}
+      
+      profile[i] = q*SQRT_PI + exp(-xsq);
       // printf("# x, H(a,x) =  %.3e %.3e \n",v,profile[i]);
+    }
   
   // renormalize
   for (i=0;i<n_x;i++) profile[i] = profile[i]/sqrt(PI);
@@ -117,10 +109,4 @@ void VOIGT::Print()
 {
   for (int i=0;i<n_x;i++)
     printf("%12.5e %12.5e\n",x.Center(i),profile[i]);
-}
-
-double VOIGT:Integrand(double y)
-{
-  double f =exp(-(voigt_u*voigt_u-y*y))*sin(2*a_param*(voigt_u-y));
-  return f;
 }

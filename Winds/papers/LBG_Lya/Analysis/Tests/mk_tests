@@ -6,5 +6,5 @@ make all
 mpirun -np 1 test_static_sphere
 mv spec.dat Output/spec_test_static_sphere.dat
 # Static test with T=20,000K and N_HI = 2x10^20 cm^-2
-mpirun -np 1 test_static_sphere2
-mv spec.dat Output/spec_test_static_sphere2.dat
+#mpirun -np 1 test_static_sphere2
+#mv spec.dat Output/spec_test_static_sphere2.dat

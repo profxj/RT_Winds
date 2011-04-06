@@ -17,11 +17,11 @@ TARGET = test_static_sphere
 TARGET2 = test_static_sphere2
 #TARGET2 = outflow_fiducial_feii
 
-OBJECTS = test_static_sphere.o voigt.o locate_array.o cdf.o spectrum.o 
-OBJECTS2 = test_static_sphere2.o voigt.o locate_array.o cdf.o spectrum.o 
+OBJECTS = test_static_sphere.o miki_voigt.o locate_array.o cdf.o spectrum.o 
+OBJECTS2 = test_static_sphere2.o miki_voigt.o locate_array.o cdf.o spectrum.o 
 
 
-all: test_static_sphere test_static_sphere2
+all: test_static_sphere
 
 .cc.o: 
 	$(CXX) $(CCOPT) -c -o $@ $<

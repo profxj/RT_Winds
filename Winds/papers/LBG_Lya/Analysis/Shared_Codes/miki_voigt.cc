@@ -56,6 +56,7 @@ void VOIGT::Compute_Profile()
 	//F.params=&p;
 	//gsl_integration_qags(&F,0.,voigt_u,0,1e-8,1000,w,&Hau,&error); 
 	gsl_integration_qag(&F,0.,voigt_u,0,1e-8,1000,6,w,&Hau,&error); 
+	exit(1);
 	//compute the factor in the front (2 cases)
 	if(a_param < 26.6){
 	  //use full function
@@ -125,10 +126,10 @@ void VOIGT::Print()
 }
 
 
-static double VOIGT::CallIntegrand(double y,void * v)
+double VOIGT::CallIntegrand(double y,void * v)
 {
   CCallbackHolder * h = static_cast<CCallbackHolder*>(v);
-  return h->cls->Integrand(h->data);
+  return h->cls->Integrand(y,h->data);
 }
 
 double VOIGT::Integrand(double y,void * params)

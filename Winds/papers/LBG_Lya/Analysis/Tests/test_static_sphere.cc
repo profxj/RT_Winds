@@ -5,7 +5,7 @@
 #include <time.h>
 #include <gsl/gsl_rng.h>
 #include "locate_array.hh"
-#include "voigt.hh"
+#include "miki_voigt.hh"
 #include "spectrum.hh"
 
 // monte carlo parameters

@@ -5,9 +5,10 @@
 #include <math.h>
 #include <string.h>
 #include <gsl/gsl_cdf.h>
-#include "voigt.hh"
+#include "miki_voigt.hh"
 
 // Now using an algorithm from Michele (Zaghloul et al. 2007)
+
 
 void VOIGT::New(int n, double xmax, double a)
 {
@@ -40,8 +41,7 @@ void VOIGT::Compute_Profile()
   //passing double (VOIGT::*)(double, void*) to double (*)(double, void*)
   //This is a problem with C/C++ interaction.
   //Here http://www.cplusplus.com/forum/general/10435/ there is a way to fix it.
-  F.function = &VOIGT::Integrand;
-  
+  F.function = &VOIGT::CallIntegrand;
 
   // zero out
   for (i=0;i<n_x;i++) profile[i] = 0;
@@ -125,7 +125,7 @@ void VOIGT::Print()
 }
 
 
-static double VOIGT::CallIntegrand(double y,void * params)
+static double VOIGT::CallIntegrand(double y,void * v)
 {
   CCallbackHolder * h = static_cast<CCallbackHolder*>(v);
   return h->cls->Integrand(h->data);

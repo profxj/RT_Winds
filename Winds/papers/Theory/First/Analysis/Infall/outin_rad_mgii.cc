@@ -31,7 +31,7 @@ double r_0    = 1.;      // Launch radius (kpc)
 
 // Infall parameters
 double r_infall = 50.;  // Radius to begin infall  (kpc)
-double n_infall = 1e-2;  // Density at r_infall  (cm^-3)
+double n_infall = 1e-4;  // Density at r_infall  (cm^-3)
 double v_infall = -1*100*1e5;  // Radial velocity at r_infall (cm/s)
 
 double dust_cs     = 3.33e-24;    // dust cross-section
@@ -140,12 +140,12 @@ double Get_Velocity(double r)
 //--------------------------------------------
 double Get_Density(double v, double r)
 {
-  if (v <= 0) return 0;
   if (r == 0) return 0;
   if (r < r_inner) return 0;
-  if (r >= r_infall) return n_infall * pow(r/r_infall, -2);
+  if (r >= r_infall) return n_infall; //* pow(r/r_infall, -2);
   if (r >= r_outer) return 0;
   // double mu = x[2]/r;
+  if (v <= 0) return 0;
   return n_0*v_norm / (r*r) / v;
 }
 

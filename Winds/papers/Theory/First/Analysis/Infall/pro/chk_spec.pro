@@ -45,9 +45,9 @@ pro chk_spec
   ;; Labels
   lins = [2796.352, 2803.531]
   for nn=0L,n_elements(lins)-1 do begin
-      oplot, replicate(lins[nn],2), yrng, color=clr.gray, lines=1
-      loff = lins[nn] - 200/3e5*lins[nn]
-      oplot, replicate(loff,2), yrng, color=clr.blue, lines=2
+      oplot, replicate(lins[nn],2), yrng, color=clr.blue, lines=1
+;      loff = lins[nn] - 200/3e5*lins[nn]
+;      oplot, replicate(loff,2), yrng, color=clr.blue, lines=2
   endfor
 
 

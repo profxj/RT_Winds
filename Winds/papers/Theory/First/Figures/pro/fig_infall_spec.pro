@@ -45,10 +45,16 @@ pro fig_infall_spec, RREAL=rreal
   Mg_fil = '../Analysis/Radiation/Output/spec_rad_MgII.dat'
   readcol, Mg_fil, wv, fx, noscatt_fx, /silen
   nrm = median(fx[where(wv GT 2815)])
+  oplot, wv, fx/nrm, color=clr.blue, psym=10, thick=3
+
+  ;; Radiation
+  Mg_fil = '../Analysis/Infall/Output/spec_infall_MgII.dat'
+  readcol, Mg_fil, wv, fx, noscatt_fx, /silen
+  nrm = median(fx[where(wv GT 2815)])
   oplot, wv, fx/nrm, color=clr.red, psym=10, thick=3
 
   nrm = median(noscatt_fx[where(wv GT 2815)])
-  oplot, wv, noscatt_fx/nrm, color=clr.black, psym=10, thick=3, linesty=1
+  oplot, wv, noscatt_fx/nrm, color=clr.red, psym=10, thick=3, linesty=1
 
   xrng2 = (xrng/2796.352 - 1)*3e5
   axis, xaxis=1, charsiz=csz, xsty=1, xrang=xrng2, xtitl='Velocity (km/s) Relative to MgII 2796'

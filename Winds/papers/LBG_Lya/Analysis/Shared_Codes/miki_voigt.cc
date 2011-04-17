@@ -32,6 +32,9 @@ void VOIGT::Compute_Profile()
   double dy   = a_param*0.01;
   double ap   = a_param*a_param;
 
+  struct voig_params p;
+  p.a=a_param;
+
   //initilize integral
   gsl_integration_workspace * w=gsl_integration_workspace_alloc (1000);
        
@@ -49,7 +52,9 @@ void VOIGT::Compute_Profile()
   // Numerical Approx
   for (i=0;i<n_x;i++)
     {
-      voigt_u = x.Center(i);
+      p.u=x.Center(i);
+      voigt_u=p.u;
+      F.params=&p;
       
       if(a_param < 200){
 	//compute the inegral term for H(a,u)
@@ -134,6 +139,7 @@ double VOIGT::CallIntegrand(double y,void * v)
 
 double VOIGT::Integrand(double y,void * params)
 {
-  double f=exp(-(voigt_u*voigt_u-y*y))*sin(2*a_param*(voigt_u-y));
+  struct voig_params * p = (struct voig_params *)params;
+  double f =exp(-(p->u*p->u-y*y))*sin(2*p->a*(p->u-y));
   return f;
 }

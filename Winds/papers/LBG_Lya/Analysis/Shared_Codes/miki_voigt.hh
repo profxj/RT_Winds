@@ -30,3 +30,7 @@ struct CCallbackHolder
   void* data;
 };
 
+struct voig_params{ 
+  double a; 
+  double u;
+};

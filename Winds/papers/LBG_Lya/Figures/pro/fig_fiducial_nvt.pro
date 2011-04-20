@@ -105,6 +105,13 @@ pro fig_fiducial_nvt, STRCT=strct
   if keyword_set( PSFILE ) then x_psclose
   !p.multi = [0,1,1]
 
+  ;; Compare tau
+  mn = min(abs(rval-60.), imn)
+  print, 'tau_S [1kpc] = ', tau_r[0]
+  print, 'tau_S [60kpc] = ', tau_r[imn]
+  print, 'Ratio  ', tau_r[imn]/tau_r[0]
+  
+
 ;  x_splot, vel, tau, /bloc
 ;  stop
 

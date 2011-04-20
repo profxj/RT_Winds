@@ -7,3 +7,6 @@
   -- Intrinsically, not as "observed"
 5. Do I need to integrate the SB in annuli (probably not)
 6. Discuss Tremonti
+7. Emphasize clumps don't emit much at >+150km/s
+8. Think about why individual galaxies show Lya vs nebular offset
+9. Emphasize that photons don't diffuse much in frequency with clumps

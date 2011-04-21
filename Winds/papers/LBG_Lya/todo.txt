@@ -10,3 +10,4 @@
 7. Emphasize clumps don't emit much at >+150km/s
 8. Think about why individual galaxies show Lya vs nebular offset
 9. Emphasize that photons don't diffuse much in frequency with clumps
+10. Lyb comes out as Lya (knock against clumps)

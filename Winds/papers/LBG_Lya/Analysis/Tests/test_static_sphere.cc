@@ -185,7 +185,7 @@ void Run_Monte_Carlo(char *outfile)
     lam_emit = lam;
     flg_scatter = 0;
 
-    // printf("#  Photon %d, lambda = %.4e \n", i, lam);
+    printf("#  Photon %d, lambda = %.4e \n", i, lam);
 
     // propogate until escaped
     while (1)
@@ -249,9 +249,6 @@ void Run_Monte_Carlo(char *outfile)
  	R10 =  gsl_rng_uniform(rangen);
  	R11 =  gsl_rng_uniform(rangen);
 
-	// Original code
- 	// u1 = sqrt(-1.0*log(R11))*cos(2*PI*R10);  
- 	// u2 = sqrt(-1.0*log(R11))*sin(2*PI*R10); 
 
 	// Calculate a*tau [take N_HI = integrated value from the current position]
 	NHI = (r_outer - sqrt(r_sq)) * KPARSEC * n_0;
@@ -259,6 +256,11 @@ void Run_Monte_Carlo(char *outfile)
 	if (atau > 60)     xcr = 0.02*exp(1.4*pow(log(atau),0.6));
 	else if (atau >1) xcr = 0.02*exp(0.6*pow(log(atau),1.2));
 	else xcr = 0;
+	xcr = fmax(xcr, 1.0); // JXP kludge
+
+	// Original code
+ 	// u1 = sqrt(-1.0*log(R11))*cos(2*PI*R10);  
+ 	// u2 = sqrt(-1.0*log(R11))*sin(2*PI*R10); 
 	u1  = sqrt(xcr*xcr-1.0*log(1.0-R11))*cos(2*PI*R10);
 	u2  = sqrt(xcr*xcr-1.0*log(1.0-R11))*sin(2*PI*R10);
 	

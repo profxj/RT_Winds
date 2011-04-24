@@ -21,7 +21,7 @@ OBJECTS = test_static_sphere.o miki_voigt.o locate_array.o cdf.o spectrum.o
 OBJECTS2 = test_static_sphere2.o miki_voigt.o locate_array.o cdf.o spectrum.o 
 
 
-all: test_static_sphere
+all: test_static_sphere test_static_sphere2
 
 .cc.o: 
 	$(CXX) $(CCOPT) -c -o $@ $<

@@ -24,13 +24,11 @@ public:
 
 };
 
-struct CCallbackHolder
-{
-  VOIGT* cls;
-  void* data;
-};
-
-struct voig_params{ 
+// Miki stuff
+struct voigt_params{ 
   double a; 
   double u;
 };
+
+//Integral part of the Voig function in the approximation by zaghloul et al. 2007
+double miki_voigt (double , void *); 

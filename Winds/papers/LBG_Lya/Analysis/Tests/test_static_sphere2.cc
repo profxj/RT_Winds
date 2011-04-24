@@ -1,3 +1,5 @@
+//  Monochromatic, constant density sphere  
+//  Static test with T=20,000K and N_HI = 2x10^20 cm^-2
 #include <mpi.h>
 #include <math.h>
 #include <stdlib.h>
@@ -5,11 +7,11 @@
 #include <time.h>
 #include <gsl/gsl_rng.h>
 #include "locate_array.hh"
-#include "voigt.hh"
+#include "miki_voigt.hh"
 #include "spectrum.hh"
 
 // monte carlo parameters
-double n_photons =  1e3;    // number of photons
+double n_photons =  1e4;    // number of photons
 double stepsize  = 0.01;   // maximum size of photon step 
 
 // output spectrum parameters
@@ -85,8 +87,10 @@ int main(int argc, char **argv)
   
   // initialize the Voigt profile
   printf("# Voigt a =  %.3e \n", voigt_a);
+  printf("# tau_0  =  %.3e \n", 3.31e-14*(12.85*1e5/v_doppler)*n_0*r_outer*KPARSEC);
   voigt.New(nvoigt,voigt_x,voigt_a);
-  // printf("# Finished Voigt!");
+  printf("# Finished Voigt!");
+  // exit(1);
 
 
   // get photons per processor
@@ -184,7 +188,7 @@ void Run_Monte_Carlo(char *outfile)
     lam_emit = lam;
     flg_scatter = 0;
 
-     printf("#  Photon %d, lambda = %.4e \n", i, lam);
+    // printf("#  Photon %d, lambda = %.4e \n", i, lam);
 
     // propogate until escaped
     while (1)

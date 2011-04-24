@@ -32,19 +32,17 @@ void VOIGT::Compute_Profile()
   double dy   = a_param*0.01;
   double ap   = a_param*a_param;
 
-  struct voig_params p;
-  p.a=a_param;
 
   //initilize integral
   gsl_integration_workspace * w=gsl_integration_workspace_alloc (1000);
        
   //intialize function
   gsl_function F;
-  //>>>MF: This line won't work since you are
-  //passing double (VOIGT::*)(double, void*) to double (*)(double, void*)
-  //This is a problem with C/C++ interaction.
-  //Here http://www.cplusplus.com/forum/general/10435/ there is a way to fix it.
-  F.function = &VOIGT::CallIntegrand;
+  F.function = &miki_voigt; 
+
+  // And the parameters
+  struct voigt_params p;
+  p.a=a_param;
 
   // zero out
   for (i=0;i<n_x;i++) profile[i] = 0;
@@ -56,30 +54,31 @@ void VOIGT::Compute_Profile()
       voigt_u=p.u;
       F.params=&p;
       
-      if(a_param < 200){
+      if(p.a < 200){
 	//compute the inegral term for H(a,u)
 	//F.params=&p;
 	//gsl_integration_qags(&F,0.,voigt_u,0,1e-8,1000,w,&Hau,&error); 
-	gsl_integration_qag(&F,0.,voigt_u,0,1e-8,1000,6,w,&Hau,&error); 
-	exit(1);
+	gsl_integration_qag(&F,0.,p.u,0,1e-8,1000,6,w,&Hau,&error); 
+	//	exit(1);
 	//compute the factor in the front (2 cases)
-	if(a_param < 26.6){
+	if(p.a < 26.6){
 	  //use full function
-	  ffactor=exp(-voigt_u*voigt_u)*cos(2*a_param*voigt_u)*exp(a_param*a_param)*erfc(a_param);
+	  ffactor=exp(-p.u*p.u)*cos(2*p.a*p.u)*exp(p.a*p.a)*erfc(p.a);
 	  Hau=ffactor+1.12837917*Hau;
 	} else {
 	  //use series expansion
-	  ffactor=exp(-voigt_u*voigt_u)*cos(2*a_param*voigt_u)/(1.7724538*a_param)*
-	    (1.-(0.5/pow(a_param,2.))+(0.75/pow(a_param,4.))-(1.875/pow(a_param,6.))+
-	     (6.5625/pow(a_param,8.))-(29.53125/pow(a_param,10.))+(162.421875/pow(a_param,12.)));
+	  ffactor=exp(-p.u*p.u)*cos(2*p.a*p.u)/(1.7724538*p.a)*
+	    (1.-(0.5/pow(p.a,2.))+(0.75/pow(p.a,4.))-(1.875/pow(p.a,6.))+
+	     (6.5625/pow(p.a,8.))-(29.53125/pow(p.a,10.))+(162.421875/pow(p.a,12.)));
 	  Hau=ffactor+1.12837917*Hau;
 	}
       } else {
 	//for large a, use approximate equation
-	Hau=a_param/(a_param*a_param+voigt_u*voigt_u)/1.7724538;
+	Hau=p.a/(p.a*p.a+p.u*p.u)/1.7724538;
       }
       profile[i] = Hau;
-      // printf("# x, H(a,x) =  %.3e %.3e \n",v,profile[i]);
+      //      printf("# x, H(a,x) =  %.3e %.3e \n",p.u,profile[i]);
+      // printf("%.3e %.3e \n",p.u,profile[i]);
     }
   
   // printf("# x, H(a,x) =  %.3e %.3e \n",v,profile[i]);
@@ -131,15 +130,9 @@ void VOIGT::Print()
 }
 
 
-double VOIGT::CallIntegrand(double y,void * v)
-{
-  CCallbackHolder * h = static_cast<CCallbackHolder*>(v);
-  return h->cls->Integrand(y,h->data);
-}
-
-double VOIGT::Integrand(double y,void * params)
-{
-  struct voig_params * p = (struct voig_params *)params;
-  double f =exp(-(p->u*p->u-y*y))*sin(2*p->a*(p->u-y));
+//Integral part of the Voig function in the approximation by zaghloul et al. 2007
+double miki_voigt (double x, void * params) {
+  struct voigt_params * p = (struct voigt_params *)params;
+  double f =exp(-(p->u*p->u-x*x))*sin(2*p->a*(p->u-x));
   return f;
 }

@@ -15,13 +15,15 @@
 
 TARGET = test_static_sphere
 TARGET2 = test_static_sphere2
+TARGET3 = test_static_sphere3
 #TARGET2 = outflow_fiducial_feii
 
 OBJECTS = test_static_sphere.o miki_voigt.o locate_array.o cdf.o spectrum.o 
 OBJECTS2 = test_static_sphere2.o miki_voigt.o locate_array.o cdf.o spectrum.o 
+OBJECTS3 = test_static_sphere3.o miki_voigt.o locate_array.o cdf.o spectrum.o 
 
 
-all: test_static_sphere test_static_sphere2
+all: test_static_sphere test_static_sphere2 test_static_sphere3
 
 .cc.o: 
 	$(CXX) $(CCOPT) -c -o $@ $<
@@ -43,4 +45,7 @@ test_static_sphere: $(OBJECTS)
 
 test_static_sphere2: $(OBJECTS2) 
 	$(CXX) -o $(TARGET2) $(OBJECTS2) $(CLOPT)
+
+test_static_sphere3: $(OBJECTS3) 
+	$(CXX) -o $(TARGET3) $(OBJECTS3) $(CLOPT)
 

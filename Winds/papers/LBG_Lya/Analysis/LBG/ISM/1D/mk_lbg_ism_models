@@ -1,0 +1,8 @@
+source grab_source
+make all
+# Standard
+mpirun -np 12 outflow_lbg_covering_lya
+mv spec.dat Output/spec_Lya_lbg_covering_continuum.dat
+# Lya Emission
+mpirun -np 12 outflow_lbg_covering_lya 1e7 100. 50.
+mv spec.dat Output/spec_Lya_lbg_covering_emiss_100A_50kms.dat

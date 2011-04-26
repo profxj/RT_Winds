@@ -5,11 +5,12 @@
 #include <time.h>
 #include <gsl/gsl_rng.h>
 #include "locate_array.hh"
-#include "miki_voigt.hh"
+// #include "miki_voigt.hh"
 #include "spectrum.hh"
+#include "anvoigt.hh"
 
 // monte carlo parameters
-double n_photons =  1e3;    // number of photons
+double n_photons =  1e5;    // number of photons
 double stepsize  = 0.01;   // maximum size of photon step 
 
 // output spectrum parameters
@@ -55,7 +56,8 @@ double Dnu   = v_doppler * 2.466e15 / 2.9979e10 ;
 double voigt_a   = 6.265e8 / (4 * 3.14159 * Dnu);   // gamma/(4 pi Dnu)
 int    nvoigt    = 2000;
 double voigt_x   =  200;  // Allows for over 2000 km/s
-VOIGT voigt;
+// VOIGT voigt;
+ANVOIGT voigt;
 
 
 // globals
@@ -85,8 +87,8 @@ int main(int argc, char **argv)
   
   // initialize the Voigt profile
   printf("# Voigt a =  %.3e \n", voigt_a);
-  printf("# tau_0  =  %.3e \n", 3.31e-14*(12.85*1e5/v_doppler)*n_0*r_outer*KPARSEC);
-  voigt.New(nvoigt,voigt_x,voigt_a);
+  printf("# tau_0  =  %.3e \n", sqrt(3.14159)*3.31e-14*(12.85*1e5/v_doppler)*n_0*r_outer*KPARSEC);
+  // voigt.New(nvoigt,voigt_x,voigt_a);
   // printf("# Finished Voigt!");
 
 
@@ -211,7 +213,7 @@ void Run_Monte_Carlo(char *outfile)
 	// random optical depth to travel
 	tau_r     =  -1.0*log(1 - gsl_rng_uniform(rangen));
 	nu_d = (C_LIGHT/lambda_0[l]/ANGS_TO_CM)*(v_doppler/C_LIGHT);
-	cross_sec = CLASSICAL_CS*f_lu[l]*voigt.Profile(xloc)/nu_d;
+	cross_sec = CLASSICAL_CS*f_lu[l]*voigt.Profile(xloc,voigt_a)/nu_d;
 	tau_x     = KPARSEC*Get_Density(r,rad)*abun[l]*metallicity*cross_sec;
 	l_step = tau_r/tau_x;
 	if (tau_x == 0) l_step = VERY_LARGE_NUMBER;
@@ -245,7 +247,8 @@ void Run_Monte_Carlo(char *outfile)
 	xloc = (lam_loc/lambda_0[scatter] - 1)*C_LIGHT/v_doppler;
 
 	// Get three velocity components of scatterer
- 	u0 = voigt.Scatter_Velocity(xloc);
+	// 	u0 = voigt.Scatter_Velocity(xloc, voigt_a);
+ 	u0 = voigt.Sample_U(xloc, voigt_a);
  	R10 =  gsl_rng_uniform(rangen);
  	R11 =  gsl_rng_uniform(rangen);
 

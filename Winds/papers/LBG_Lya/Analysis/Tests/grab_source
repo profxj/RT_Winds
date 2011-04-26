@@ -1,6 +1,8 @@
 ##
 #cp ../Shared_Codes/emit_line.cc .
 #cp ../Shared_Codes/emit_line.hh .
+cp ../Shared_Codes/anvoigt.cc .
+cp ../Shared_Codes/anvoigt.hh .
 cp ../Shared_Codes/miki_voigt.cc .
 cp ../Shared_Codes/miki_voigt.hh .
 cp ../Shared_Codes/locate_array.cc .

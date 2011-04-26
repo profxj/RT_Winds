@@ -18,7 +18,7 @@ TARGET2 = test_static_sphere2
 TARGET3 = test_static_sphere3
 #TARGET2 = outflow_fiducial_feii
 
-OBJECTS = test_static_sphere.o miki_voigt.o locate_array.o cdf.o spectrum.o 
+OBJECTS = test_static_sphere.o anvoigt.o locate_array.o cdf.o spectrum.o 
 OBJECTS2 = test_static_sphere2.o miki_voigt.o locate_array.o cdf.o spectrum.o 
 OBJECTS3 = test_static_sphere3.o miki_voigt.o locate_array.o cdf.o spectrum.o 
 

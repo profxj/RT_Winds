@@ -10,8 +10,8 @@
 #include "anvoigt.hh"
 
 // monte carlo parameters
-double n_photons =  1e5;    // number of photons
-double stepsize  = 0.01;   // maximum size of photon step 
+double n_photons =  1e3;    // number of photons
+double stepsize  = 100.00;   // maximum size of photon step 
 
 // output spectrum parameters
 double l_start   =  1215.5;     // beginning wavelength (Angstroms)
@@ -54,8 +54,8 @@ double v_doppler    =   40631.;  // cm/s :: T=10K
 // parameters describing voigt profile
 double Dnu   = v_doppler * 2.466e15 / 2.9979e10 ;   
 double voigt_a   = 6.265e8 / (4 * 3.14159 * Dnu);   // gamma/(4 pi Dnu)
-int    nvoigt    = 2000;
-double voigt_x   =  200;  // Allows for over 2000 km/s
+// int    nvoigt    = 2000;
+// double voigt_x   =  200;  // Allows for over 2000 km/s
 // VOIGT voigt;
 ANVOIGT voigt;
 
@@ -86,6 +86,7 @@ int main(int argc, char **argv)
   rangen = gsl_rng_alloc (TypeR);
   
   // initialize the Voigt profile
+  printf("# Doppler =  %.3e \n", v_doppler);
   printf("# Voigt a =  %.3e \n", voigt_a);
   printf("# tau_0  =  %.3e \n", sqrt(3.14159)*3.31e-14*(12.85*1e5/v_doppler)*n_0*r_outer*KPARSEC);
   // voigt.New(nvoigt,voigt_x,voigt_a);
@@ -149,9 +150,10 @@ void Run_Monte_Carlo(char *outfile)
   double u0,u1,u2, R10, R11, rad, vel;
   double uvec[3];
   double nu_d, cross_sec; 
-  double tau_const, atau, NHI, xcr;
+  double tau_const, atau, NHI, xcr, isqpi;
 
-  tau_const = 0.0062344885;   // Constants + f :: Needs N_HI and Dnu
+  // tau_const = 0.0062344885;   // Constants + f :: Needs N_HI and Dnu
+  isqpi = 1./sqrt(PI);
 
   // functions to call
   void MPI_Average_Array(double *, int);
@@ -175,6 +177,8 @@ void Run_Monte_Carlo(char *outfile)
   // Energy per photon
   int n_wave = (l_stop - l_start)/l_delta;
   double E_p = F_cont*n_wave*n_mu*n_phi/n_photons*l_delta;
+
+  dust_scatter = 0;
 
   // send the photons
   for (i=0;i<n_photons;i++)
@@ -214,19 +218,20 @@ void Run_Monte_Carlo(char *outfile)
 	tau_r     =  -1.0*log(1 - gsl_rng_uniform(rangen));
 	nu_d = (C_LIGHT/lambda_0[l]/ANGS_TO_CM)*(v_doppler/C_LIGHT);
 	cross_sec = CLASSICAL_CS*f_lu[l]*voigt.Profile(xloc,voigt_a)/nu_d;
-	tau_x     = KPARSEC*Get_Density(r,rad)*abun[l]*metallicity*cross_sec;
+	tau_x     = KPARSEC*Get_Density(r,rad)*abun[l]*metallicity*cross_sec*isqpi; 
 	l_step = tau_r/tau_x;
+	// printf("#  rad %.1e, xloc = %.2e, tau_x = %.4e, l_step = %.5e \n", rad, xloc, tau_x, l_step);
 	if (tau_x == 0) l_step = VERY_LARGE_NUMBER;
 	if (l_step < step) {step = l_step; scatter = l; }
       }
 
       // get distance to dust scatter/absorption
-      tau_r = -1.0*log(1 - gsl_rng_uniform(rangen));
-      tau_x = KPARSEC*dust_dens*dust_cs;
-      d_step = tau_r/tau_x;
-      if (tau_x == 0) d_step = VERY_LARGE_NUMBER;
-      if (d_step < step) {step = d_step; scatter = -1; dust_scatter = 1; }
-      else  dust_scatter = 0;
+      // tau_r = -1.0*log(1 - gsl_rng_uniform(rangen));
+      // tau_x = KPARSEC*dust_dens*dust_cs;
+      // d_step = tau_r/tau_x;
+      // if (tau_x == 0) d_step = VERY_LARGE_NUMBER;
+      // if (d_step < step) {step = d_step; scatter = -1; dust_scatter = 1; }
+      // else  dust_scatter = 0;
       
       // take the step
       r[0] += D[0]*step;
@@ -254,16 +259,19 @@ void Run_Monte_Carlo(char *outfile)
 
 
 	// Calculate a*tau [take N_HI = integrated value from the current position]
-	NHI = (r_outer - sqrt(r_sq)) * KPARSEC * n_0;
-	atau = voigt_a * tau_const * NHI / Dnu;
-	if (atau > 60)     xcr = 0.02*exp(1.4*pow(log(atau),0.6));
-	else if (atau >1) xcr = 0.02*exp(0.6*pow(log(atau),1.2));
-	else xcr = 0;
-	xcr = fmax(xcr, 1.0); // JXP kludge
+	// NHI = (r_outer - sqrt(r_sq)) * KPARSEC * n_0;
+	// atau = voigt_a * tau_const * NHI / Dnu;
+	// if (atau > 60)     xcr = 0.02*exp(1.4*pow(log(atau),0.6));
+	// else if (atau >1) xcr = 0.02*exp(0.6*pow(log(atau),1.2));
+	// else xcr = 0;
+	// xcr = fmax(xcr, 1.0); // JXP kludge
+	xcr = 3.;
 
 	// Original code
  	// u1 = sqrt(-1.0*log(R11))*cos(2*PI*R10);  
  	// u2 = sqrt(-1.0*log(R11))*sin(2*PI*R10); 
+
+	// Accelerator
 	u1  = sqrt(xcr*xcr-1.0*log(1.0-R11))*cos(2*PI*R10);
 	u2  = sqrt(xcr*xcr-1.0*log(1.0-R11))*sin(2*PI*R10);
 	

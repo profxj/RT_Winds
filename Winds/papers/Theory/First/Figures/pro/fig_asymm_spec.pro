@@ -94,7 +94,12 @@ pro fig_asymm_spec, RREAL=rreal
         if ss EQ 0 then $
            xyouts, xrng[0]+xlbl2*(xrng[1]-xrng[0]), yrng[1]-(kk+2)*ystp*(yrng[1]-yrng[0]), $
                    'Angle='+strtrim(fe_angles[kk],2), color=clrs[kk+1], charsiz=lsz
+
+        ;; Write to Disk
+        outfil = 'Output/assym_FeII_Phi'+strtrim(fe_angles[kk],2)+'.dat'
+        writecol, outfil, feII_wave[pix], spec_feii[pix]
      endfor
+     
      
   endfor
      

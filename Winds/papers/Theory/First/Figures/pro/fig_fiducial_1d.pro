@@ -36,6 +36,7 @@ pro fig_fiducial_1d, RREAL=rreal
         pos=pos
 
   oplot, mgii_wave, spec_mgii, color=clr.black, psym=10, thick=3
+  writecol, 'Output/fiducial_1d_MgII.dat', mgii_wave, spec_mgii
 
   oplot, replicate(2796.352,2), yrng, color=clr.gray, linesty=2
   oplot, replicate(2803.531,2), yrng, color=clr.gray, linesty=2
@@ -72,6 +73,7 @@ pro fig_fiducial_1d, RREAL=rreal
         pos=pos, /noeras
 
   oplot, feii_wave, spec_feII, color=clr.black, psym=10, thick=3
+  writecol, 'Output/fiducial_1d_FeII.dat', feii_wave, spec_feii
 
   oplot, replicate(2586.650,2), yrng, color=clr.gray, linesty=2
   oplot, replicate(2600.173,2), yrng, color=clr.gray, linesty=2

@@ -59,12 +59,19 @@ pro fig_lbg_spec
      pix = where(wv GT wvmnx[0] and wv LT wvmnx[1])
      oplot, wv[pix], fx[pix]/nrm, color=clr.red, psym=10, thick=3
 
+     ;; Write
+     if ss EQ 0 then writecol, 'Output/LBG_sobolev_FeII.dat', wv, fx/nrm
+
      ;; f_c method
      Fe_fil = '../Analysis/LBG/Covering/Output/spec_FeII_lbg_covering.dat'
      readcol, Fe_fil, wv, fx, noscatt_fx, /silen
      nrm = median(fx[where(wv GT 2605)])
      pix = where(wv GT wvmnx[0] and wv LT wvmnx[1])
      oplot, wv[pix], fx[pix]/nrm, color=clr.black, psym=10, thick=3
+
+     ;; Write
+     if ss EQ 0 then writecol, 'Output/LBG_fc_FeII.dat', wv, fx/nrm
+
      nrm = median(noscatt_fx[where(wv GT 2605)])
      if ss EQ 0 then $
         oplot, wv[pix], noscatt_fx[pix]/nrm, color=clr.black, psym=10, thick=3, linesty=1
@@ -97,12 +104,19 @@ pro fig_lbg_spec
   readcol, Mg_fil, wv, fx, /silen
   nrm = median(fx[where(wv GT 2815)])
   oplot, wv, fx/nrm, color=clr.red, psym=10, thick=3
+  ;; Write
+  writecol, 'Output/LBG_sobolev_MgII.dat', wv, fx/nrm
+
 
   ;; Covering
   Mg_fil = '../Analysis/LBG/Covering/Output/spec_MgII_lbg_covering.dat'
   readcol, Mg_fil, wv, fx, noscatt_fx, /silen
   nrm = median(fx[where(wv GT 2815)])
   oplot, wv, fx/nrm, color=clr.black, psym=10, thick=3
+
+  ;; Write
+  writecol, 'Output/LBG_fc_MgII.dat', wv, fx/nrm
+
 
   nrm = median(noscatt_fx[where(wv GT 2815)])
   oplot, wv, noscatt_fx/nrm, color=clr.black, psym=10, thick=3, linesty=1

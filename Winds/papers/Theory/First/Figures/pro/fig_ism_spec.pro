@@ -66,9 +66,15 @@ pro fig_ism_spec, RREAL=rreal, DUST=dust
      nrm = median(fx[where(wv GT 2634)])
      pix = where(wv GT wvmnx[0] and wv LT wvmnx[1])
      oplot, wv[pix], fx[pix]/nrm, color=clr.red, psym=10, thick=3
+
+     ;; Write
+     if ss EQ 0 then writecol, 'Output/ISM_FeII.dat', wv, fx/nrm
+
+     ;; No scatt
      nrm = median(noscatt_fx[where(wv GT 2634)])
      if ss EQ 0 then $
         oplot, wv[pix], noscatt_fx[pix]/nrm, color=clr.darkgray, psym=10, thick=3, linesty=1
+
 
      if keyword_set(DUST) then begin
         ;; ISM with dust
@@ -79,6 +85,7 @@ pro fig_ism_spec, RREAL=rreal, DUST=dust
         oplot, wv[pix], fx[pix]/nrm, color=clr.green, psym=10, thick=3
         nrm = median(noscatt_fx[where(wv GT 2634)])
      endif
+     
         
   endfor
 
@@ -117,6 +124,10 @@ pro fig_ism_spec, RREAL=rreal, DUST=dust
   nrm = median(fx[where(wv GT 2815)])
   oplot, wv, fx/nrm, color=clr.red, psym=10, thick=3
 
+  ;; Write
+  writecol, 'Output/ISM_MgII.dat', wv, fx/nrm
+
+  ;; No scatt
   nrm = median(noscatt_fx[where(wv GT 2815)])
   oplot, wv, noscatt_fx/nrm, color=clr.darkgray, psym=10, thick=3, linesty=1
 

@@ -81,6 +81,11 @@ pro fig_norm_spec, RREAL=rreal
                                  'n!S!dH!R!N!u0!N = '+string(norm,format='(f4.1)')+$
                                  'n!S!dH!R!N!u0,f!N', $
                                  color=clrs[kk], charsi=lsz
+        ;; Write
+        if ss EQ 0 and (kk NE 1) then begin
+           outfil = 'Output/norm_FeII_nH'+strtrim(string(norm,format='(f4.1)'),2)+'.dat'
+           writecol, outfil, wv, fx/nrm
+        endif
      endfor
   endfor
   xrng2 = (xrng/2600.173 - 1)*3e5
@@ -127,6 +132,12 @@ pro fig_norm_spec, RREAL=rreal
              'n!S!dH!R!N!u0!N = '+string(norm,format='(f4.1)')+$
              'n!S!dH!R!N!u0,f!N', $
              color=clrs[kk], charsi=lsz
+
+     ;; Write
+     if (kk NE 1) then begin
+        outfil = 'Output/norm_MgII_nH'+strtrim(string(norm,format='(f4.1)'),2)+'.dat'
+        writecol, outfil, wv, fx/nrm
+     endif
 
   endfor
 

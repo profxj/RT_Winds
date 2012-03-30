@@ -71,6 +71,11 @@ pro fig_plaw_spec, RREAL=rreal
            if ss EQ 0 then  xyouts, xrng[0] + xlbl2*(xrng[1]-xrng[0]), $
                                     yrng[1] - (0.1 + kk*ystp)*(yrng[1]-yrng[0]), $
                                     lbl[cnt], color=clrs[qq+1], charsi=lsz
+           ;; Write
+           if ss EQ 0 then begin
+              outfil = 'Output/PLaw_FeII_'+lbl[cnt]+'.dat'
+              writecol, outfil, wv, fx/nrm
+           endif
         endfor
      endfor
      oplot, replicate(2586.650,2), yrng, color=clr.gray, linesty=2, thick=1
@@ -107,6 +112,10 @@ pro fig_plaw_spec, RREAL=rreal
                 yrng[1] - (0.1 + kk*ystp)*(yrng[1]-yrng[0]), $
                 lbl[cnt], $
                 color=clrs[qq+1], charsi=lsz
+
+        ;; Write
+        outfil = 'Output/PLaw_MgII_'+lbl[cnt]+'.dat'
+        writecol, outfil, wv, fx/nrm
 
      endfor
      

@@ -41,7 +41,7 @@ pro mkall_fig, SKIP=skip
   fig_asymm_spec
   if not keyword_set(SKIP) then fig_bicon_spec
 
-  ;; Dust
+  ;; Doppler
   fig_doppler_spec
 
   ;; Dust

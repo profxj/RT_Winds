@@ -80,6 +80,11 @@ pro fig_dust_spec, RREAL=rreal
                                  yrng[1] - (0.1 + kk*ystp)*(yrng[1]-yrng[0]), $
                                  '!9t!X!ddust!N = '+string(tau,format='(f4.1)'), $
                                  color=clrs[kk], charsi=lsz
+        ;; Write
+        if ss EQ 0 and (kk GT 0) then begin
+           outfil = 'Output/dust_FeII_tau'+strtrim(string(tau,format='(f4.1)'),2)+'.dat'
+           writecol, outfil, wv, fx/nrm
+        endif
      endfor
   endfor
   xrng2 = (xrng/2600.173 - 1)*3e5
@@ -125,6 +130,12 @@ pro fig_dust_spec, RREAL=rreal
              yrng[1] - (0.1 + kk*ystp)*(yrng[1]-yrng[0]), $
              '!9t!X!ddust!N = '+string(tau,format='(f4.1)'), $
              color=clrs[kk], charsi=lsz
+
+     ;; Write
+     if kk GT 0 then begin
+        outfil = 'Output/dust_MgII_tau'+strtrim(string(tau,format='(f4.1)'),2)+'.dat'
+        writecol, outfil, wv, fx/nrm
+     endif
 
   endfor
 

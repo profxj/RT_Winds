@@ -65,6 +65,10 @@ pro fig_rad_spec, RREAL=rreal
      nrm = median(fx[where(wv LT 2577)])
      pix = where(wv GT wvmnx[0] and wv LT wvmnx[1])
      oplot, wv[pix], fx[pix]/nrm, color=clr.red, psym=10, thick=3
+
+     ;; Write
+     if ss EQ 0 then writecol, 'Output/Rad_FeII.dat', wv, fx/nrm
+
      nrm = median(noscatt_fx[where(wv LT 2577)])
      if ss EQ 0 then $
         oplot, wv[pix], noscatt_fx[pix]/nrm, color=clr.black, psym=10, thick=3, linesty=1
@@ -105,6 +109,9 @@ pro fig_rad_spec, RREAL=rreal
   readcol, Mg_fil, wv, fx, noscatt_fx, /silen
   nrm = median(fx[where(wv GT 2815)])
   oplot, wv, fx/nrm, color=clr.red, psym=10, thick=3
+
+  ;; Write
+  writecol, 'Output/Rad_MgII.dat', wv, fx/nrm
 
   nrm = median(noscatt_fx[where(wv GT 2815)])
   oplot, wv, noscatt_fx/nrm, color=clr.black, psym=10, thick=3, linesty=1

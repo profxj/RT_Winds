@@ -1,0 +1,2 @@
+cp index.html ~/Dropbox/Public/Winds
+cp ../Figures/Output/*.dat ~/Dropbox/Public/Winds

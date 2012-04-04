@@ -72,6 +72,7 @@ pro fig_fiducial_1d, RREAL=rreal
         xrange=xrng, ystyle=1, xstyle=1, psym=1, /nodata, $
         pos=pos, /noeras
 
+  ;; Write
   oplot, feii_wave, spec_feII, color=clr.black, psym=10, thick=3
   writecol, 'Output/fiducial_1d_FeII.dat', feii_wave, spec_feii
 

@@ -84,6 +84,7 @@ pro fig_ism_spec, RREAL=rreal, DUST=dust
         pix = where(wv GT wvmnx[0] and wv LT wvmnx[1])
         oplot, wv[pix], fx[pix]/nrm, color=clr.green, psym=10, thick=3
         nrm = median(noscatt_fx[where(wv GT 2634)])
+        if ss EQ 0 then writecol, 'Output/ISM_FeII.dat', wv[pix], fx[pix]/nrm
      endif
      
         
@@ -136,6 +137,7 @@ pro fig_ism_spec, RREAL=rreal, DUST=dust
      readcol, Mg_fil, wv, fx, noscatt_fx, /silen
      nrm = median(fx[where(wv GT 2815)])
      oplot, wv, fx/nrm, color=clr.green, psym=10, thick=3
+     writecol, 'Output/ISM_MgII_dust.dat', wv, fx/nrm
   endif
 
   xrng2 = (xrng/2796.352 - 1)*3e5

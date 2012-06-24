@@ -84,7 +84,7 @@ pro fig_ism_spec, RREAL=rreal, DUST=dust
         pix = where(wv GT wvmnx[0] and wv LT wvmnx[1])
         oplot, wv[pix], fx[pix]/nrm, color=clr.green, psym=10, thick=3
         nrm = median(noscatt_fx[where(wv GT 2634)])
-        if ss EQ 0 then writecol, 'Output/ISM_FeII.dat', wv[pix], fx[pix]/nrm
+        if ss EQ 0 then writecol, 'Output/ISM_FeII_dust.dat', wv[pix], fx[pix]/nrm
      endif
      
         

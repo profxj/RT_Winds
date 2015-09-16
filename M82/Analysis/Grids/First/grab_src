@@ -1,0 +1,3 @@
+cp ../../../../Winds/Grid/Transfer/* .
+cp ../../../../Winds/Grid/Monte/fe_uv1.lines .
+cp ../../../../Winds/Grid/Monte/mg2.line .

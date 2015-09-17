@@ -1,3 +1,4 @@
 cp ../../../../Winds/Grid/Transfer/* .
 cp ../../../../Winds/Grid/Monte/fe_uv1.lines .
 cp ../../../../Winds/Grid/Monte/mg2.line .
+cp m82_first_param.lua param.lua

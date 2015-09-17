@@ -1,0 +1,9 @@
+# Compile
+#source grab_src -- This grabs param.lua (not desired)
+make 
+# MgII
+mpirun -np 8 a.out
+#mv spec.dat Output/spec_MgII_fiducial.dat
+# FeII
+#mpirun -np 8 outflow_fiducial_feii
+#mv spec.dat Output/spec_FeII_fiducial.dat

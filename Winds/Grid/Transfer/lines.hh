@@ -78,7 +78,8 @@ public:
       // frequency of transition
       l[i].nu   = C_LIGHT/(l[i].lam*ANGS_TO_CM);
       // abundance
-      l[i].X    = 1.0; 
+      //l[i].X    = 1.0; 
+      l[i].X    = solar_abun[d1];
       l[i].fX   = l[i].X*CLASSICAL_CS*l[i].f_lu/l[i].nu;
       
       // read in branching lines

@@ -19,7 +19,7 @@ l_xmax  = 40.0  -- spatial extent of the image
 
 -- observer viewing angle
 O_phi   = 0.0 --  One the sky rotation (I think)
-O_theta = 90.0  -- Views biconical down the barrel (90=sideways)
+O_theta = 0.0  -- Views biconical down the barrel (90=sideways)
 
 -- uv background (ignore for now)
 n_uv =  0

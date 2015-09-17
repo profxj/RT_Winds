@@ -11,12 +11,12 @@ opac_factor = 0.05
 l_start = 2770  -- start wavelength
 l_stop  = 2830  -- stop wavelength
 l_delta = 0.25  -- wavelength bin size
-l_nx    = 100   -- spatial pixels per dimension
-l_xmax  = 40.0  -- spatial extent of the image
+l_nx    = 200   -- spatial pixels per dimension
+l_xmax  = 6.0  -- spatial extent of the image
 
 -- observer viewing angle
-O_theta = 0.0
 O_phi   = 0.0
+O_theta = 0.0
 
 -- uv background (ignore for now)
 n_uv =  0

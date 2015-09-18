@@ -5,7 +5,7 @@ line_file = "mg2.line"
 n_photons = 1e6
 
 --  factor to rescale opacity by (1/10 for dust, 1/2 for metallicity)
-opac_factor = 0.05
+opac_factor = 0.0005
 
 -- parameters of output spectrum/image
 l_start = 2770  -- start wavelength

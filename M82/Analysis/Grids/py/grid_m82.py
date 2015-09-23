@@ -96,7 +96,7 @@ def set_density(param, grid_stuff=None, flag=1):
         cell_center, r_center, r_corners = grid_stuff
 
     # Good portion of the wind (radial)
-    msk_corners = np.ones(r_corners.shape,dtype='int')
+    msk_corners = np.zeros(r_corners.shape,dtype='int')
     tst1 = r_corners >= param['rw_inner']
     tst2 = r_corners <= param['rw_outer']
     gd_corn = tst1 & tst2
@@ -267,7 +267,7 @@ def main(param, out_root=None):
     emiss = set_emiss(param,r_corners=r_corners)
 
     # Pack it all up 
-    out_arrays = [rho_grid] + [vgrid for vgrid in vxyz_grid] + [dopp] + [emiss]
+    out_arrays = [rho_grid] + [vgrid for vgrid in vxyz_grid] + [emiss] + [dopp]
 
     # Write files
     if out_root is not None:

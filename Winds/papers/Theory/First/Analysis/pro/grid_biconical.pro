@@ -12,7 +12,8 @@ pro grid_biconical,theta_min
 ;  if not keyword_set(DUST) then dust = 0.1  ; Depletion
 ;  if not keyword_set(METAL) then metal = -0.3  ; [M/H]
 
-  ngrid = 300L
+  ngrid = 100L
+;  ngrid = 300L
 ;  ngrid = 50L
   v_wind  = 50.           ; Wind speed (km/s) at Inner boundary
 ;  dv_wind = 200.           ; Velocity width of wind (km/s)
@@ -126,6 +127,7 @@ pro grid_biconical,theta_min
                   ngrid, ngrid, ngrid) * 180. / !pi
   zero = where(theta LT theta_min)
   rho_grid[zero] = 0.
+  stop
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Output

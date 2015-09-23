@@ -35,6 +35,8 @@ def monte_to_fits(spec_fil, fits_fil):
 
     # Generate farr for quick generation
     farr = np.array( [float(line[0:16]) for line in lines[2:]] )  
+    #carr = np.array( [float(line[20:].strip()) for line in lines[2:]] )   # "Clicks"
+    #xdb.set_trace()
 
     # Data
     data = np.zeros((nx,ny,nlam))
@@ -47,6 +49,7 @@ def monte_to_fits(spec_fil, fits_fil):
 
     # Normalize (not really following this..)
     L_tot = np.sum(data)
+    xdb.set_trace()
     nrm = 1.
     # dlambda
     if nlam > 1:

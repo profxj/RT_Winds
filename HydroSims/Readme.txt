@@ -1,1 +1,1 @@
-I will put files related Hydro simulations in this folder
+I will put files related to the Hydro simulations in this folder

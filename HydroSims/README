@@ -1,0 +1,14 @@
+I will put files related to the Hydro simulations in this folder
+
+
+# Compiling the code
+
+  0.  Generate a run director RUN_DIR
+  1.  Copy over the source files from Winds/Grid/Transfer
+     cp -rp ../Winds/Grid/Transfer/* RUN_DIR
+  2.  Copy in the Makefile from this folder
+     cp -rp Makefile RUN_DIR
+  3.  cd RUN_DIR
+  4. make
+      This requires that Lua was installed previously into /usr/local/lib
+

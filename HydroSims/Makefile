@@ -12,7 +12,6 @@ OBJECTS =  Lua.o main.o transport.o anvoigt.o locate_array.o cdf.o spectrum.o mo
 
 # additional stuff for pleiades
 #LUA_BASE  = /ibrixfs/kasen/ddmc/ddmc_sn/lua-5.1.3
-#LUA_BASE  = /u/xavier/local/lua-5.3.4
 #LUA_SRC   = $(LUA_BASE)/src
 LUA_BASE  = /usr/local/lib
 LUA_SRC   = $(LUA_BASE)

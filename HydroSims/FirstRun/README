@@ -3,3 +3,10 @@
 
 Attempting to run the MC code on a first output from Hassen
 Need a regular grid -- Hassen to provide
+
+26 Feb 2018
+
+Testing the old grid
+  gunzip the grid file
+  lowered to 10 photons
+  cp in mg2.line file

@@ -12,3 +12,8 @@ I will put files related to the Hydro simulations in this folder
   4. make
       This requires that Lua was installed previously into /usr/local/lib
 
+# Running
+
+0. edit param.lua file
+
+mpirun -np number_of_cpus ./a.out
